@@ -40,3 +40,10 @@ Music is a quiet bed (~−30 dB, ~15 dB under voices); couldn't be identified (c
 - `src/justinaugh/kit.tsx`: `WhiteFlash` (`cut` / `burst` / `reveal`), `Banner`, `OneWord`, `RedCircle` (tracked + arrow), `Footage` (crop a source through a timeline), `PipFrame`, `Reveal`, `MoneyRain`.
 - `src/justinaugh/clips.tsx`: demo `JaOhtani` (Ohtani superfractor auto 1/1, $80K; hook `holy_scream`; Alex lines 1 + 3 of `narr/ohtani_loud.mp3`; Funk Sigilo drop on the reveal) → `out/justinaugh_ohtani.mp4` (18.0 s).
 - New clip = copy `JaOhtani`: set hook file, stream segments, reveal ms, card still, price, banner, host track (`scripts/track.py`), narration ranges, music.
+
+## v2 (user, 2026-10-31): "reduce the flashing, add the fast zooming with the whoosh from the Trevor clips"
+- White flashes cut down to a **soft frame-0 flash** (max .55) and a **short soft reveal flash** (max .85, 7 frames). No more strobe burst or white on every cut.
+- Every cut is now a **zoom whip** (`zoomStyle` in kit): push 1 → 1.3 with blur over the last 150 ms, land 1.35 → 1 with blur over 220 ms, plus **`fast-whoosh`** with its peak on the cut (the Trevor-clip sound).
+- Quick **punch-ins** (1.15–1.2×, ~0.5 s) on key words ("ONE" pack, "one OF ONE", "OH MY GOD").
+- The banner, captions and red circle stay outside the zoom layer, so they don't shake.
+- Demo: `out/justinaugh_ohtani_v2.mp4`.

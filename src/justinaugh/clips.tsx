@@ -4,7 +4,7 @@ import {AbsoluteFill, Audio, Sequence, interpolate, staticFile, useCurrentFrame}
 import words from '../plans/data/b2_ohtani_1of1.words.json';
 import narr from '../../public/narr/ohtani.json';
 import {FPS, Music, SfxTrack, f, sfx, timeline} from '../e3/kit';
-import {Banner, Footage, JA, MoneyRain, OneWord, PipFrame, RedCircle, Reveal, WhiteFlash, type Flash, type Pt, type Word} from './kit';
+import {Banner, Footage, JA, MoneyRain, OneWord, PipFrame, RedCircle, Reveal, WhiteFlash, zoomStyle, type Flash, type Pt, type Word} from './kit';
 
 const HOOK = 3600; // hooks/holy_scream.mp4 0-3600 with the voiceover hook line on top
 const SRC = 'cards2/ohtani_1of1.mp4';
@@ -15,8 +15,9 @@ const REVEAL = out(15500);
 const BACK = REVEAL + 2440; // reveal card holds 2.44 s, then back to the stream for the reaction
 const CUTS = [HOOK + tl.segOut[1], HOOK + tl.segOut[2], HOOK + tl.segOut[3], HOOK + tl.segOut[4]];
 const NARR_HYPE = REVEAL + 250; // line 3 of the take (file 6880-12100)
-const FLASHES: Flash[] = [{at: 0, kind: 'cut'}, {at: HOOK - 200, kind: 'burst'}, ...CUTS.map((at) => ({at, kind: 'cut' as const})),
-  {at: REVEAL, kind: 'reveal'}, {at: BACK, kind: 'cut'}];
+const FLASHES: Flash[] = [{at: 0, kind: 'cut'}, {at: REVEAL, kind: 'reveal'}]; // v2: only frame 0 + a soft reveal flash
+const WHIPS = [HOOK, ...CUTS, REVEAL, BACK]; // every cut is a zoom whip + fast-whoosh
+const PUNCH: [number, number, number][] = [[1720 - 140, 450, 1.15], [2660 - 140, 600, 1.2], [out(15480), 500, 1.18], [out(18860), 450, 1.15]];
 
 const clean = (t: string) => t.trim().replace(/[.,!?]+$/g, '');
 const FIX: Record<string, string> = {Shohey: 'SHOHEI', Otani: 'OHTANI', $80: '$80,000', ',000': '', Fractor: 'FRACTOR', Super: 'SUPER'};
@@ -47,7 +48,9 @@ export const JaOhtani = () => {
   const o = (useCurrentFrame() / FPS) * 1000;
   const blur = o >= out(13800) && o < REVEAL ? 26 : 0; // card is never seen before the reveal
   const inReveal = o >= REVEAL && o < BACK;
+  const z = zoomStyle(o, WHIPS, PUNCH);
   return <AbsoluteFill style={{background: 'black'}}>
+    <AbsoluteFill style={z}>
     {/* hook clip (720x1280 → full frame), its burned caption blurred out */}
     <Sequence durationInFrames={f(HOOK)}>
       <Footage src="hooks/holy_scream.mp4" tl={timeline([[0, HOOK]])} crop={[0, 0, 720, 1280]} box={[0, 0, 1080, 1920]} />
@@ -59,7 +62,8 @@ export const JaOhtani = () => {
         style={{filter: inReveal ? 'blur(30px) brightness(0.75)' : blur ? `blur(${blur}px)` : undefined, transform: inReveal ? 'scale(1.12)' : undefined}} />
       {!inReveal && <PipFrame box={PIP}><Footage src={SRC} tl={tl} at={HOOK} crop={[0, 0, 1080, 520]} box={[0, 0, PIP[2], PIP[3]]} /></PipFrame>}
     </>}
-    <Reveal o={o} at={REVEAL} until={BACK} card="cards2/ohtani.png" price="80,000 USD" />
+    </AbsoluteFill>
+    <AbsoluteFill style={zoomStyle(o, [REVEAL])}><Reveal o={o} at={REVEAL} until={BACK} card="cards2/ohtani.png" price="80,000 USD" /></AbsoluteFill>
     <MoneyRain o={o} from={REVEAL} to={BACK} />
     {!inReveal && <RedCircle o={o} pts={TRACK} from={BACK} to={out(20900)} r={96} />}
     {!inReveal && <Banner top={100} lines={[[['THEY '], ['JUST ', JA.bGreen], ['PULLED AN']], [['$80,000 ', JA.bGreen], ['1/1', JA.bRed]]]} emoji={['1f92f', '1f633']} />}
@@ -75,11 +79,10 @@ export const JaOhtani = () => {
     <Music file="funk-sigilo.mp3" songFrom={36900 - REVEAL} level={musicLvl} />
     <SfxTrack list={[
       sfx('ja-ding', 0, 0.5),
-      ...[HOOK - 200, HOOK, HOOK + 200].map((t) => sfx('jorho-flash', t, 0.45)),
-      ...CUTS.map((t) => sfx('jorho-flash', t, 0.5)),
+      ...WHIPS.map((t) => sfx('fast-whoosh', t, 0.55)),
       sfx('cinematic-suspense-riser', REVEAL, 0.3),
       sfx('jorho-flash', REVEAL, 0.7), sfx('cha-ching', REVEAL + 150, 0.5),
-      sfx('ja-ding', BACK, 0.45), sfx('jorho-flash', BACK, 0.4),
+      sfx('ja-ding', BACK, 0.35),
     ]} />
   </AbsoluteFill>;
 };

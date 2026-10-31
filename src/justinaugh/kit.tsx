@@ -14,9 +14,9 @@ export const JA = {cyan: '#06FCF9', yellow: '#F2FA04', green: '#3DFF2E', white: 
 const fr = (o: number) => Math.round((o * FPS) / 1000);
 
 // ---- white flashes (opacity of a white layer on top of everything) ----------------------------------------------
-const CUT = [1, 0.8, 0.62, 0.45, 0.3, 0.17, 0.07];
+const CUT = [0.55, 0.35, 0.2, 0.08]; // v2: softer, frame 0 only
 const PULSE = [0.45, 0.75, 1, 0.75, 0.3];
-const REVEAL = [0.6, 1, 1, 1, 1, 0.85, 0.7, 0.55, 0.42, 0.3, 0.2, 0.12, 0.05];
+const REVEAL = [0.5, 0.85, 0.85, 0.6, 0.38, 0.2, 0.08]; // v2: shorter, never full white
 export type Flash = {at: number; kind: 'cut' | 'burst' | 'reveal'};
 export const flashLevel = (o: number, list: Flash[]) => Math.max(0, ...list.map(({at, kind}) => {
   const k = fr(o) - fr(at);
@@ -122,4 +122,19 @@ export const MoneyRain = ({o, from, to}: {o: number; from: number; to: number}) 
     const y = ((o - from + b.d) * 1.1) % 2200 - 200;
     return <Img key={i} src={staticFile(`emoji-ios/${b.e}.png`)} style={{position: 'absolute', left: b.x, top: y, width: b.s, transform: `rotate(${b.r + (o - from) / 6}deg)`, opacity: 0.9}} />;
   })}</AbsoluteFill>;
+};
+
+// ---- zoom whips (v2, user 2026-10-31: "reduce the flashing, add the fast zooming with the whoosh") ------------------
+// last 150 ms before a cut: push in 1 → 1.3 with blur; first 220 ms after: land from 1.35 → 1 with blur (fast-whoosh peak on the cut)
+// punches: [at, ms, scale] quick snap-ins on key words
+export const zoomStyle = (o: number, cuts: number[], punches: [number, number, number][] = []) => {
+  let s = 1, b = 0;
+  for (const c of cuts) {
+    if (o >= c - 150 && o < c) { const p = (o - c + 150) / 150; s *= 1 + 0.3 * p * p; b = Math.max(b, 16 * p); }
+    if (o >= c && o < c + 220) { const p = 1 - (1 - (o - c) / 220) ** 3; s *= 1.35 - 0.35 * p; b = Math.max(b, 18 * (1 - p)); }
+  }
+  for (const [a, d, k] of punches) {
+    if (o >= a && o < a + d) { const t = o - a; s *= 1 + (k - 1) * Math.min(1, t / 70) * Math.min(1, (a + d - o) / 160); }
+  }
+  return {transform: s !== 1 ? `scale(${s})` : undefined, filter: b > 0.5 ? `blur(${b}px)` : undefined};
 };

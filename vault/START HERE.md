@@ -36,7 +36,7 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 - **ElevenLabs retries: don't wait long.** If a call is rate-limited, retry after a couple of minutes, not 15–30. On 2026-10-25 an immediate retry worked and two back-to-back calls went through. (2026-10-25)
 - **Podcast clips:** use the Ref C layout (black bars, video box, plain top caption "Do you agree with this? 💀", cut-out photos of people mentioned) **on top of** our normal edit style. See [[Reference Shorts#Ref C: podcast layout (user: "for podcast style videos make it like this")]].
 
-- **New card-pull style "justinaugh"** (2026-10-31): see [[JustinAugh style]].
+- **New card-pull style "justinaugh"** (2026-10-31): see [[JustinAugh style]]. **Keep flashing low**: zoom whips + fast-whoosh on cuts instead of white flashes (2026-10-31).
 - **Card pulls (stream clips from the Backyard Breaks sheet):** follow [[Card pull playbook]] (white banner hook, whip transitions, tracked red circle + arrow, card title stack with price).
 
 ## Map
