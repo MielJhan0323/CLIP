@@ -11,4 +11,6 @@ Back to [[START HERE]]
 - **Fonts:** load from `public/` with `@remotion/fonts`. `@remotion/google-fonts` fails (cert error through the proxy).
 - **whisper.cpp model download** via `@remotion/install-whisper-cpp` writes a 0-byte file here; fetch the model with curl from huggingface instead (see `scripts/transcribe.mjs`). Preferred now: `scripts/transcribe_words.py` (faster-whisper large-v3, `pip install faster-whisper`).
 - **faster-whisper + PyAV mismatch**: the script decodes audio with ffmpeg itself to avoid it.
+- **YuNet face model** (`models/yunet.onnx`, gitignored, needed by `scripts/seat_track.py`) isn't in git. Fetch it with `curl -sSL -o models/yunet.onnx https://media.githubusercontent.com/media/opencv/opencv_zoo/main/models/face_detection_yunet/face_detection_yunet_2023mar.onnx` (232 KB). (2026-10-31)
+- **Render helpers** live outside the repo in a scratch folder (e.g. `~/scratch/stills.sh <Comp> out.jpg <ms…>` tiles 6x2, `~/scratch/render.sh <Comp> <name>` renders, runs the limiter and does the QC: duration, volumedetect, contact sheet). (2026-10-31)
 - First `git push` failed with 403 until GitHub was reconnected (claude.ai/connect-github).
