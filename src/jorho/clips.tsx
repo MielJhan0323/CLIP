@@ -9,6 +9,12 @@ import redeemWords from '../plans/data/u3_redemptions.words.json';
 import redeemTrack from '../plans/data/u3_redemptions.seats.json';
 import coenWords from '../plans/data/u6_coen_duo.words.json';
 import coenTrack from '../plans/data/u6_coen_duo.seats.json';
+import antWords from '../plans/data/t1_tiger_auto_pen.words.json';
+import antTrack from '../plans/data/t1_tiger_auto_pen.seats.json';
+import travWords from '../plans/data/t3_traveling_trevors.words.json';
+import travTrack from '../plans/data/t3_traveling_trevors.seats.json';
+import joshWords from '../plans/data/t5_ex_teammate.words.json';
+import joshTrack from '../plans/data/t5_ex_teammate.seats.json';
 import {Cam, FPS, Music, SfxTrack, SpeechTrack, sfx, timeline, type CamCfg, type Seat, type TL, type Track} from '../e3/kit';
 import {BOX_H, Cutout, Frame, GREEN, OneWord, RED, STROBE_CUT, Tints, strobe, wordsFrom, type Word} from './kit';
 
@@ -17,9 +23,10 @@ const inAny = (s: number, spans: [number, number][]) => spans.some(([a, b]) => s
 type Shot = [from: number, who: Seat]; // output time → framing (hard cuts only, like the refs)
 const shotAt = (shots: Shot[], o: number) => shots.reduce<Seat>((w, [t, s]) => (o >= t ? s : w), 'W');
 
+type Cut = {file: string; from: number; to: number; x: number; h: number};
 type Spec = {
   tl: TL; src: string; track: Track; top: string; words: Word[]; wordY: number; wideX: number; shots: Shot[];
-  strobes: number[]; beeps?: number[]; tints: [number, string][]; swish: number[]; cut?: {file: string; from: number; to: number; x: number; h: number};
+  strobes: number[]; beeps?: number[]; tints: [number, string][]; swish: number[]; cut?: Cut; cuts?: Cut[];
   music: {file: string; from: number; level: number};
 };
 const Jorho = ({s}: {s: Spec}) => {
@@ -42,7 +49,7 @@ const Jorho = ({s}: {s: Spec}) => {
     </>}>
     <AbsoluteFill style={{filter: strobe(o, s.strobes) || undefined}}>
       <Cam c={cam} o={o} />
-      {s.cut && <Cutout o={o} {...s.cut} />}
+      {[...(s.cut ? [s.cut] : []), ...(s.cuts ?? [])].map((c) => <Cutout key={c.file} o={o} {...c} />)}
     </AbsoluteFill>
     <Tints o={o} list={s.tints} />
   </Frame>;
@@ -115,3 +122,61 @@ const COEN: Spec = {
   music: {file: 'blue-yung-kai.mp3', from: 37240 - C.yeah, level: 0.33},
 };
 export const JorhoCoen = () => <Jorho s={COEN} />;
+
+// ---- t1 · "you have a goated pen … have you ever seen [beep] Anthony Richardson's? His auto looks like an ant" -------
+const aTl = timeline([[3400, 4980], [9340, 12020], [12160, 12750, 480], [12750, 25260], [25500, 27400]]);
+export const ANT_MS = aTl.total;
+const A = {goated: aTl.out(3960), anthony: aTl.segOut[3], haveNt: aTl.out(14700), auto: aTl.out(14980), ant: aTl.out(16160),
+  big: aTl.out(19020), mention: aTl.out(20640), consistent: aTl.out(21540), look: aTl.out(23860), goated2: aTl.out(26900)};
+const ANT: Spec = {
+  tl: aTl, src: 'pod/t1_tiger_auto_pen.mp4', track: antTrack as unknown as Track, top: 'Bro said his autograph looks like an ant', wordY: 1170, wideX: 760,
+  words: wordsFrom(antWords, aTl, {goaded: 'goated', "Richardson's": 'Richardson'}, {Anthony: '#21F5E6', Richardson: '#21F5E6', ant: '#F9FC35', goated: '#58EE28'}),
+  shots: [[0, 'W'], [aTl.segOut[1], 'M'], [A.anthony + STROBE_CUT, 'L'], [A.haveNt, 'M'], [A.auto, 'L'], [A.big + STROBE_CUT, 'W'], [A.mention, 'R'],
+    [A.look, 'M'], [aTl.segOut[4], 'W']],
+  strobes: [A.anthony, A.big],
+  beeps: [aTl.segOut[2] + 590],
+  tints: [[A.goated, GREEN], [A.anthony + STROBE_CUT, GREEN], [A.ant, RED], [A.consistent, GREEN], [A.goated2, GREEN]],
+  swish: [A.goated, A.anthony + STROBE_CUT, A.consistent, A.goated2],
+  cut: {file: 'richardson.png', from: A.anthony + STROBE_CUT, to: A.ant + 700, x: 610, h: 500},
+  music: {file: 'du-bist-full.mp3', from: 42051 - A.anthony, level: 0.32},
+};
+export const JorhoAnt = () => <Jorho s={ANT} />;
+
+// ---- t5 · "Josh Allen, true gold … that's not rookie Josh Allen, that is the real Josh Hines-Allen" ----------------
+const jTl = timeline([[1660, 4900], [10600, 12520, 480], [12520, 16800], [18100, 25640]]);
+export const JOSH_MS = jTl.total;
+const J = {gold: jTl.out(2580), josh: jTl.segOut[2], fire: jTl.out(16400), rookie: jTl.out(18500), not: jTl.out(19380), real: jTl.out(22040),
+  hines: jTl.out(22800), changed: jTl.out(24840)};
+const JOSH: Spec = {
+  tl: jTl, src: 'pod/t5_ex_teammate.mp4', track: joshTrack as unknown as Track, top: "Pulled Josh Allen but it's the wrong Josh Allen", wordY: 1170, wideX: 820,
+  words: wordsFrom(joshWords, jTl, {Heinz: 'Hines'}, {Josh: '#21F5E6', Allen: '#21F5E6', Hines: '#58EE28', gold: '#F9FC35'}),
+  shots: [[0, 'W'], [J.josh + STROBE_CUT, 'M'], [jTl.out(15120), 'W'], [jTl.segOut[3], 'M'], [J.real + STROBE_CUT, 'W'], [J.changed, 'M']],
+  strobes: [J.josh, J.real],
+  beeps: [jTl.segOut[1] + 1920],
+  tints: [[J.gold, GREEN], [J.josh + STROBE_CUT, GREEN], [J.fire, GREEN], [J.not, RED], [J.hines, GREEN]],
+  swish: [J.gold, J.josh + STROBE_CUT, J.fire, J.hines],
+  cuts: [{file: 'josh_allen.png', from: J.josh + STROBE_CUT, to: J.not + 300, x: 640, h: 520},
+    {file: 'hines_allen.png', from: J.hines, to: J.changed + 500, x: 560, h: 420}],
+  music: {file: 'du-bist-full.mp3', from: 83336 - J.josh, level: 0.32},
+};
+export const JorhoJosh = () => <Jorho s={JOSH} />;
+
+// ---- t3 · "everybody knows the Traveling Trevors… I was like these guys are [beep] whacked … we need more Jags fans" --
+const tTl = timeline([[59480, 63040], [64360, 66720], [77860, 83040, 480], [83040, 84200], [91560, 92900], [96990, 98440], [99990, 105440]]);
+export const TRAV_MS = tTl.total;
+const T = {trav: tTl.out(60340), videos: tTl.out(65080), dude: tTl.out(81480), whacked: tTl.segOut[3], second: tTl.segOut[4], funny: tTl.out(97920),
+  jags: tTl.out(100740), about: tTl.out(104100)};
+const TRAV: Spec = {
+  tl: tTl, src: 'pod/t3_traveling_trevors.mp4', track: travTrack as unknown as Track, top: "Trevor's first thoughts on the Traveling Trevors", wordY: 1170, wideX: 715,
+  words: wordsFrom(travWords, tTl, {uh: '', trevers: 'Trevors', traveling: 'Traveling', i: 'I', Jax: 'Jags', whacked: 'whacked'},
+    {Traveling: '#21F5E6', Trevors: '#21F5E6', whacked: '#F9FC35', funny: '#58EE28', Jags: '#58EE28'})
+    .filter((w) => !(w.at >= tTl.segOut[3] + 200 && w.at < tTl.segOut[4])), // no caption over the laugh
+  shots: [[0, 'W'], [tTl.out(59800), 'L'], [tTl.segOut[1], 'M'], [tTl.segOut[2], 'W'], [T.dude, 'M'], [T.whacked + STROBE_CUT, 'W'], [T.second, 'M'],
+    [T.jags + STROBE_CUT, 'W'], [T.about, 'M']],
+  strobes: [T.whacked, T.jags],
+  beeps: [tTl.segOut[2] + 5180],
+  tints: [[T.trav, GREEN], [T.videos, GREEN], [T.whacked + 420, RED], [T.funny, GREEN], [T.jags + STROBE_CUT, GREEN]],
+  swish: [T.trav, T.videos, T.funny, T.jags + STROBE_CUT],
+  music: {file: 'blue-yung-kai.mp3', from: 37245 - T.whacked, level: 0.33},
+};
+export const JorhoTrav = () => <Jorho s={TRAV} />;

@@ -68,6 +68,11 @@ Every number below comes from that, not from eyeballing. YouTube itself is not d
 - `src/jorho/clips.tsx`: a `Spec` per clip (timeline, shot list in output time, strobes, tints, swishes, cut-out, music) rendered by one `Jorho` component.
   - `JorhoPeyton`: u4, "Imagine having Peyton Manning on speed dial".
   - `JorhoGolf`: t2, "Trevor's dream golf foursome is undefeated".
+  - `JorhoRedeem` (u3) and `JorhoCoen` (u6).
+  - Batch 4 (2026-10-31): `JorhoAnt` (t1), `JorhoJosh` (t5), `JorhoTrav` (t3). See [[Batch 4 - Jorho Trevor clips]].
+- A spec can have `cuts: [...]` (several cut-outs), e.g. the wrong Josh Allen → the real Hines-Allen gag.
+- Cut-outs go on the **right side of the box** (x ≈ 560–640, h 420–520), so they don't cover the speaker or the caption.
+- Keep the top line to **2 lines with the 💀 on the last line**; a 3rd line holding only the 💀 looks broken.
 - Cut-outs are made from Wikimedia photos with rembg `u2net_human_seg` and stored in `public/img/jorho/`.
 - Wikimedia rate-limits hard: use a descriptive User-Agent and wait about 60 s between retries.
 - v1 (made from thumbnails only) is superseded.
