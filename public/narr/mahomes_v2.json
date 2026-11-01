@@ -1,0 +1,102 @@
+[
+ {
+  "file": [
+   40,
+   4070
+  ],
+  "words": [
+   {
+    "text": "They",
+    "at": 100
+   },
+   {
+    "text": "said",
+    "at": 240
+   },
+   {
+    "text": "record",
+    "at": 500
+   },
+   {
+    "text": "this,",
+    "at": 1000
+   },
+   {
+    "text": "and",
+    "at": 1700
+   },
+   {
+    "text": "they",
+    "at": 1800
+   },
+   {
+    "text": "were",
+    "at": 1940
+   },
+   {
+    "text": "not",
+    "at": 2100
+   },
+   {
+    "text": "joking.",
+    "at": 2480
+   }
+  ]
+ },
+ {
+  "file": [
+   4040,
+   10120
+  ],
+  "words": [
+   {
+    "text": "Patrick",
+    "at": 4100
+   },
+   {
+    "text": "Mahomes",
+    "at": 4360
+   },
+   {
+    "text": "Green",
+    "at": 4860
+   },
+   {
+    "text": "Kaboom",
+    "at": 5200
+   },
+   {
+    "text": "Auto,",
+    "at": 5760
+   },
+   {
+    "text": "one",
+    "at": 6580
+   },
+   {
+    "text": "of",
+    "at": 6780
+   },
+   {
+    "text": "one,",
+    "at": 6940
+   },
+   {
+    "text": "up",
+    "at": 7760
+   },
+   {
+    "text": "to",
+    "at": 7860
+   },
+   {
+    "text": "$100",
+    "at": 7980
+   },
+   {
+    "text": ",000.",
+    "at": 8760
+   }
+  ]
+ }
+]

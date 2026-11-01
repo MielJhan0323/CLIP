@@ -15,6 +15,8 @@ import flaggN from '../../public/narr/flagg2.json';
 import lebronN from '../../public/narr/lebron2.json';
 import swN from '../../public/narr/starwars.json';
 import dartN from '../../public/narr/dart.json';
+import mahomesN2 from '../../public/narr/mahomes_v2.json';
+import flaggN2 from '../../public/narr/flagg2_v2.json';
 
 type NLine = {file: number[]; words: {text: string; at: number}[]};
 type Box = [number, number, number, number];
@@ -31,8 +33,10 @@ const narrWords = (l: NLine, at0: number): Word[] => {
   const out: Word[] = [];
   l.words.forEach((w) => {
     const t = clean(w.text);
+    if (t.startsWith('-') && out.length) { out[out.length - 1].text += t; return; } // "life" "-changing"
     if (t.startsWith(',') && out.length) { out[out.length - 1].text += t.replace(/,$/, ''); return; } // "$100" ",000" → "$100,000"
-    out.push({text: t.replace(/,$/, ''), at: at0 + w.at - l.file[0]});
+    const bare = t.replace(/,$/, '');
+    out.push({text: ({flag: 'Flagg', Otani: 'Ohtani'} as Record<string, string>)[bare] ?? bare, at: at0 + w.at - l.file[0]});
   });
   return out.map((w) => ({...w, color: /^\$/.test(w.text) ? JA.green : /^(ONE|OF)$/i.test(w.text) ? JA.cyan : undefined}));
 };
@@ -116,7 +120,7 @@ export const JA_MAHOMES = makeJa({
   src: 'cards2/mahomes_kaboom.mp4', hosts: [0, 0, 1080, 500], card: [0, 530, 1080, 1390], cardCx: 560, still: 'cards2/mahomes.png', price: '100,000 USD',
   revealAt: 20400, segs: [[0, 2600], [16600, 19000], [19000, 20400], [20400, 26000], [33800, 36100]], blurFrom: 0,
   hook: {file: 'hooks/thats_the_goat.mp4', from: 0, to: 2900, cover: [20, 950, 680, 240]}, words: mahomesWords,
-  narr: {file: 'narr/mahomes_loud.mp3', lines: mahomesN, hook: 0, hype: 2},
+  narr: {file: 'narr/mahomes_v2_loud.mp3', lines: mahomesN2, hook: 0, hype: 1}, // v2 take: more enthusiastic (2026-11-01)
   banner: [[['THEY SAID '], ['RECORD THIS', G]], [['A ', undefined], ['$100,000 ', G], ['1/1', R]]],
   music: {file: 'montagem-uranium.mp3', drop: 37000, lufs: -3.2},
   track: [[24200, 844, 340], [24833, 888, 400], [25500, 880, 380], [25900, 870, 370]],
@@ -125,7 +129,7 @@ export const JA_FLAGG = makeJa({
   src: 'cards2/flagg_papa.mp4', hosts: [0, 0, 1080, 520], card: [0, 745, 1080, 1175], cardCx: 510, still: 'cards2/flagg.png', price: '100,000+ USD',
   revealAt: 48000, segs: [[29100, 36000], [46500, 48000], [48000, 56500], [101800, 104500]], blurFrom: 29100,
   hook: {file: 'hooks/rise_up_and_bring_the_earth_down.mp4', from: 0, to: 2600, cover: [20, 850, 690, 170]}, words: flaggWords,
-  narr: {file: 'narr/flagg2_loud.mp3', lines: flaggN, hook: 0, hype: 2},
+  narr: {file: 'narr/flagg2_v2_loud.mp3', lines: flaggN2, hook: 0, hype: 1}, // v2 take: more enthusiastic (2026-11-01)
   banner: [[['ONE PACK. '], ['ONE SHOT', G]], [['AT A ', undefined], ['$100,000 ', G], ['ROOKIE', R]]], emoji: ['1f62e', '1f525'],
   music: {file: 'funk-abnormal.mp3', drop: 43700, lufs: -6.1}, track: [],
 });
