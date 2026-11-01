@@ -37,6 +37,7 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 - **Podcast clips:** use the Ref C layout (black bars, video box, plain top caption "Do you agree with this? 💀", cut-out photos of people mentioned) **on top of** our normal edit style. See [[Reference Shorts#Ref C: podcast layout (user: "for podcast style videos make it like this")]].
 
 - **New card-pull style "justinaugh"** (2026-10-31): see [[JustinAugh style]]. **Keep flashing low**: zoom whips + fast-whoosh on cuts instead of white flashes (2026-10-31).
+- **Music must never distract from the content: keep it ~14 dB under the voice, SFX modest** (2026-11-01).
 - **Jorho music: rotate Du bist / Blue / the user's QKThr + lullaby tracks so songs don't repeat across a batch** (2026-11-01).
 - **"Trevor Wallace clips" = the Trevor Lawrence Clips tab** of the sheet (2026-11-01).
 - **Card pulls (stream clips from the Backyard Breaks sheet):** follow [[Card pull playbook]] (white banner hook, whip transitions, tracked red circle + arrow, card title stack with price).

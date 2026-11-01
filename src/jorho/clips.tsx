@@ -25,6 +25,11 @@ import {Cam, FPS, Music, SfxTrack, SpeechTrack, sfx, timeline, type CamCfg, type
 import {BOX_H, Cutout, Frame, GREEN, OneWord, RED, STROBE_CUT, Tints, strobe, wordsFrom, type Word} from './kit';
 
 const GRADE = 'contrast(1.06) saturate(1.05)';
+// Music sits a fixed 14 dB under the voice (voices measure ≈ −13.5 LUFS) so it never pulls focus (user, 2026-11-01).
+// Gain per file from its measured loudness; the spec's `level` is ignored.
+const MUSIC_LUFS: Record<string, number> = {'du-bist-full.mp3': -9.1, 'blue-yung-kai.mp3': -12.2, 'jorho-qkthr.mp3': -13.8, 'jorho-lullaby.mp3': -14.2};
+const MUSIC_TARGET = -27.5;
+const musicGain = (file: string) => Math.pow(10, (MUSIC_TARGET - (MUSIC_LUFS[file] ?? -12)) / 20);
 const inAny = (s: number, spans: [number, number][]) => spans.some(([a, b]) => s >= a && s < b);
 type Shot = [from: number, who: Seat]; // output time → framing (hard cuts only, like the refs)
 const shotAt = (shots: Shot[], o: number) => shots.reduce<Seat>((w, [t, s]) => (o >= t ? s : w), 'W');
@@ -45,12 +50,12 @@ const Jorho = ({s}: {s: Spec}) => {
     over={<>
       <OneWord o={o} words={s.words} y={s.wordY} />
       <SpeechTrack src={s.src} tl={s.tl} />
-      <Music file={s.music.file} songFrom={s.music.from} level={(t) => s.music.level * Math.min(1, (s.tl.total - t) / 400)} />
+      <Music file={s.music.file} songFrom={s.music.from} level={(t) => musicGain(s.music.file) * Math.min(1, (s.tl.total - t) / 400)} />
       <SfxTrack list={[
-        sfx('jorho-ting', 0, 0.55),
-        ...s.strobes.map((t) => sfx('jorho-flash', t, 0.7)),
-        ...s.swish.map((t) => sfx('jorho-swish', t, 0.45)),
-        ...(s.beeps ?? []).map((t) => sfx('jorho-beep', t, 0.35)),
+        sfx('jorho-ting', 0, 0.38),
+        ...s.strobes.map((t) => sfx('jorho-flash', t, 0.45)),
+        ...s.swish.map((t) => sfx('jorho-swish', t, 0.3)),
+        ...(s.beeps ?? []).map((t) => sfx('jorho-beep', t, 0.25)),
       ]} />
     </>}>
     <AbsoluteFill style={{filter: strobe(o, s.strobes) || undefined}}>

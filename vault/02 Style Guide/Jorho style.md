@@ -52,6 +52,8 @@ Every number below comes from that, not from eyeballing. YouTube itself is not d
 
 ## Sound mix
 - Voice on top.
+- **Music 14 dB under the voice, always** (user, 2026-11-01: "audio shouldn't distract from the content"). `musicGain()` in `clips.tsx` sets it per file from measured LUFS (voices ≈ −13.5 LUFS → music −27.5). Add new songs to `MUSIC_LUFS`.
+- SFX lowered too: ting 0.38, flash 0.45, swish 0.3, beep 0.25.
 - Background music **about 10 dB under the voice**, running the whole time. Two refs share one ~82 BPM track; the other two are ~123–129 BPM. The tracks are not in our library (chroma match failed), so we pick by tempo:
   - ~81 BPM → **Blue** (half-time);
   - ~125 BPM → **Du bist (full)**.
