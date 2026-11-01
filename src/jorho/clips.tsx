@@ -201,7 +201,7 @@ const LEFTY: Spec = {
   beeps: [lTl.segOut[4] + 2220],
   tints: [[L.kid, GREEN], [L.hated, RED], [L.left + STROBE_CUT, GREEN], [L.better, GREEN]],
   swish: [L.kid, L.left + STROBE_CUT, L.better],
-  music: {file: 'du-bist-full.mp3', from: 60488 - L.left, level: 0.32},
+  music: {file: 'jorho-qkthr.mp3', from: 28003 - L.left, level: 0.42}, // user track (2026-11-01)
 };
 export const JorhoLefty = () => <Jorho s={LEFTY} />;
 
@@ -218,7 +218,7 @@ const TICKET: Spec = {
   beeps: [kTl.segOut[3] + 2410],
   tints: [[K2.gift, GREEN], [K2.weird, RED], [K2.national + STROBE_CUT, GREEN], [K2.mvp, GREEN], [K2.thank, GREEN]],
   swish: [K2.gift, K2.national + STROBE_CUT, K2.mvp, K2.thank],
-  music: {file: 'blue-yung-kai.mp3', from: 89861 - K2.national, level: 0.33},
+  music: {file: 'jorho-lullaby.mp3', from: 59977 - K2.national, level: 0.42}, // user track (2026-11-01)
 };
 export const JorhoTicket = () => <Jorho s={TICKET} />;
 

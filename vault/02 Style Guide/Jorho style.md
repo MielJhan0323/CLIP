@@ -55,6 +55,8 @@ Every number below comes from that, not from eyeballing. YouTube itself is not d
 - Background music **about 10 dB under the voice**, running the whole time. Two refs share one ~82 BPM track; the other two are ~123–129 BPM. The tracks are not in our library (chroma match failed), so we pick by tempo:
   - ~81 BPM → **Blue** (half-time);
   - ~125 BPM → **Du bist (full)**.
+  - **User tracks (2026-11-01):** `jorho-qkthr.mp3` (user upload "QKThr", 87.5 s, ~63 BPM, slow; strong beat 28003) and `jorho-lullaby.mp3` (user upload, "Instant Sleep… 1Oneam Lullaby", first 180 s, ~83 BPM, calm; beat 59977). Both loudnormed to −14 LUFS → use level ≈ 0.42.
+  - **Rotate: don't reuse one song across a batch** (user, 2026-11-01). Spread Du bist / Blue / QKThr / lullaby, and use different sections when one repeats.
 - Edits snap to the beat: the main strobe lands on a beat (`songFrom = beat − strobeOut`).
 - Sound effects come from myinstants.com, never self-made (user rule): `jorho-ting` = "proper ding" (peaks at 2642 Hz, the same as the refs), `jorho-flash` = "camera flash flash" (centroid ~3.7 kHz), `jorho-swish` = "swoosh sound effects". All are in `public/sfx/`, with leading silence trimmed.
 

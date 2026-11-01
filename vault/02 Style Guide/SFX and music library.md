@@ -85,3 +85,10 @@ Drop times (s) from `scripts/find_drops.py`; the first one ≥ the run-up you ne
 | blue-yung-kai.mp3 | Yung Kai – Blue (official audio) | beat in at **23.5** (≈80 BPM, 0.74 s per 2 beats) | wholesome podcast / W Speed |
 
 **Rule (user, 2026-10-25): never use the same song for every video.** Rotate card phonk, and pick podcast music by mood.
+
+## User uploads (2026-11-01, for Jorho)
+| file | source | tempo / beats | use |
+|---|---|---|---|
+| jorho-qkthr.mp3 | user upload "QKThr_1.mp3" (87.5 s) | ~63 BPM, beat 28003 | Jorho storytelling / chill |
+| jorho-lullaby.mp3 | user upload "Instant Sleep Within 9 Minutes (1Oneam Lullaby)", first 180 s | ~83 BPM, beat 59977 | Jorho wholesome |
+Both loudnormed to −14 LUFS (Du bist −9.1, Blue −12.2).
