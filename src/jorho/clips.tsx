@@ -313,3 +313,34 @@ const FORMULA: Spec = {
   </>,
 };
 export const JorhoFormulaAnt = () => <Jorho s={FORMULA} />;
+
+// ---- NBA GOAT (Delly) · Jorho + top-performer formula (2026-11-01) ------------------------------------------------------
+// public/pod/nba_goat.mp4 (1920x1080, 18.8 s). Word times are the audio-verified phrase times from vault "NBA GOAT pick".
+const gTrack = {stepMs: 1000, fromMs: 0, L: Array(20).fill([440, 488]), M: Array(20).fill([980, 460]), R: Array(20).fill([1490, 505])} as unknown as Track;
+const ngTl = timeline([[0, 1800], [2250, 3600], [4350, 7450], [7450, 10200], [12950, 13980, 480], [13980, 15000], [15000, 17400], [17450, 18760]]);
+export const NBAGOAT_MS = ngTl.total;
+const NG_RAW: [string, number][] = [['Bring', 20], ['it', 200], ['up,', 330], ['but', 560], ['I', 700], ['want', 800], ['to', 950], ['ask', 1050], ['you', 1250],
+  ['the', 1350], ['question', 1450], ['before', 1650], ['Who', 2300], ['is', 2560], ['your', 2760], ['NBA', 2960], ['GOAT?', 3260], ['NBA', 4400], ['GOAT?', 4850],
+  ['Greatest', 5560], ['of', 6050], ['all', 6250], ['time', 6420], ['NBA', 6650], ['player', 7000], ['Gotta', 13480], ['be', 13800], ['Matthew', 14000],
+  ['Dellavedova', 14350], ['I', 17500], ['can', 17650], ['feel', 17800], ['the', 18050], ['tension', 18200]];
+const NG = {goat: ngTl.out(3260), goat2: ngTl.out(4850), quiet: ngTl.segOut[3], gotta: ngTl.segOut[4], name: ngTl.segOut[5], delly: ngTl.out(14350),
+  laugh: ngTl.out(15100), tension: ngTl.segOut[7]};
+const NBAGOAT: Spec = {
+  tl: ngTl, src: 'pod/nba_goat.mp4', track: gTrack, top: 'His NBA GOAT has never been an All-Star', wordY: 1290, wideX: 960, light: true,
+  words: wordsFrom(NG_RAW.map(([text, startMs]) => ({text, startMs})), ngTl, {}, {NBA: '#F9FC35', GOAT: '#58EE28', Matthew: '#21F5E6', Dellavedova: '#21F5E6',
+    tension: '#F9FC35'}),
+  shots: [[0, 'W'], [ngTl.segOut[1], 'L'], [ngTl.segOut[2], 'M'], [ngTl.out(5560), 'L'], [NG.quiet, 'M'], [NG.name + STROBE_CUT, 'M'], [NG.laugh, 'W'], [NG.tension, 'R']],
+  strobes: [NG.name],
+  beeps: [ngTl.segOut[4] + 1030],
+  tints: [[NG.goat, GREEN], [NG.laugh + 200, RED]],
+  swish: [NG.goat],
+  fah: [ngTl.out(14950)],
+  awkward: [{at: NG.quiet + 300, sfx: 'crickets'}],
+  music: {file: 'du-bist-full.mp3', from: 60488 - NG.name, level: 0},
+  overlay: (o) => <>
+    <MemePop o={o} at={NG.goat} to={NG.goat2 + 600} src="cutouts/lebron.png" x={330} y={1450} size={420} />
+    <MemePop o={o} at={NG.name + STROBE_CUT} to={NG.laugh + 600} src="cutouts/delly1.png" x={330} y={1450} size={420} />
+    <MemePop o={o} at={NG.laugh + 650} to={NG.tension} src="emoji-ios/1f480.png" x={390} y={1480} size={300} />
+  </>,
+};
+export const JorhoNbaGoat = () => <Jorho s={NBAGOAT} />;

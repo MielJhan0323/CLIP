@@ -62,3 +62,11 @@ Back to [[START HERE]]
 | 14.65 | 17.45 | Right guy: "I CAN FEEL" / "THE **TENSION**" (red) 😬. |
 
 Audio: dialogue at 0.85, music ducked under speech, SFX at their onsets, final `alimiter` pass (the source is mastered to 0 dBFS, so the mix clipped without it).
+
+## Jorho version (2026-11-01): `JorhoNbaGoat` → `out/jorho_nba_goat.mp4` (15.2 s)
+User: "edit the trevor's nba goat clip… using jorho style". Built with the top-performer formula:
+- light look, paradox top line "His NBA GOAT has never been an All-Star 💀" (Dellavedova was never an All-Star; doesn't spoil the name);
+- beep pause before the name (here it fits: a name reveal), Jorho strobe on "Matthew Dellavedova";
+- crickets on the thinking silence (awkward), **fahhh** after "Dellavedova" (crazy statement), red tint + 💀 on the laugh;
+- meme pops under the box: LeBron cut-out on "GOAT?" (the expected answer), Dellavedova cut-out on the reveal, 💀;
+- Du bist 14 dB under; footage `public/pod/nba_goat.mp4` (Drive `1mTForun8TLZYBuwQgihxF00SlT2Gub9E`); static seat track L(440,488) M(980,460) R(1490,505).
