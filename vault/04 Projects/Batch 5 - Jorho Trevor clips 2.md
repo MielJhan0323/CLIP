@@ -18,5 +18,6 @@ User ask (2026-11-01): "take trevor wallace clips unique ones from before and so
 - u5 is only 13.8 s long: the beep hold + an end freeze bring it to 15 s. Freeze on a frame ≥ 250 ms before the file ends, or the hold renders black.
 
 ## Feedback log
+4. User (2026-11-01, sent back the lefty clip as c4.mp4): add an intro **voiceover** "Trevor Lawrence explains…" and remove the beep pause → `JorhoLeftyVO` → `out/jorho_throws_left_v4.mp4` (23.8 s): Alex VO "Trevor Lawrence explains why he throws better… going LEFT" (`narr/lefty_intro_loud.mp3`) over a new 2.8 s opening shot of Trevor, speech ducked to 12 % under it (spec `vo`, `SpeechTrack duck`), VO captions; beep + freeze removed (no beep detected in the render).
 1. User (2026-11-01): add their two uploaded songs to the Jorho style and swap some videos' music so it doesn't repeat → JorhoLefty now uses `jorho-qkthr` (`jorho_throws_left_v2.mp4`), JorhoTicket uses `jorho-lullaby` (`jorho_natty_ticket_v2.mp4`). 3. User: "make sure audio doesn't distract the viewer with its loudness" → music fixed at 14 dB under the voice (was 5.5–8 dB), SFX ~⅓ quieter; all 5 re-rendered (`*_v3` / `*_v2`).
 2. User: put the Instant Sleep lullaby on the PSA 10 celly → `jorho_psa10_celly_v2.mp4` (lullaby from ~120 s, a different part than the ticket clip). Batch music was: QKThr, lullaby, Du bist, Blue, Du bist (different section).

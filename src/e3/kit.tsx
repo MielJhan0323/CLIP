@@ -183,9 +183,9 @@ export const SfxTrack = ({list}: {list: Sfx[]}) => <>{list.map((x, i) => {
     <Audio src={staticFile(`sfx/${x.file}.mp3`)} trimBefore={f(trim)} volume={(fr) => x.vol * (x.maxMs ? Math.min(1, (f(x.maxMs) - fr) / 4) : 1)} />
   </Sequence>;
 })}</>;
-export const SpeechTrack = ({src, tl, gain = 1.05}: {src: string; tl: TL; gain?: number}) => <>{tl.segs.map(([a, b], i) => (
+export const SpeechTrack = ({src, tl, gain = 1.05, duck}: {src: string; tl: TL; gain?: number; duck?: (o: number) => number}) => <>{tl.segs.map(([a, b], i) => (
   <Sequence key={i} from={f(tl.segOut[i])} durationInFrames={f(tl.segOut[i] + b - a) - f(tl.segOut[i])}>
-    <Audio src={staticFile(src)} trimBefore={f(a)} volume={(fr) => Math.min(1, (fr + 1) / 2, (f(b - a) - fr) / 2) * gain} />
+    <Audio src={staticFile(src)} trimBefore={f(a)} volume={(fr) => Math.min(1, (fr + 1) / 2, (f(b - a) - fr) / 2) * gain * (duck ? duck(tl.segOut[i] + (fr * 1000) / FPS) : 1)} />
   </Sequence>
 ))}</>;
 // music bed: songFrom = song ms playing at out 0; level(o) gives the volume

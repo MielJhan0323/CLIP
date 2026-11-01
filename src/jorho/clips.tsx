@@ -1,7 +1,7 @@
 // Jorho edits (v2 kit). Each clip: the ting on frame 0 under the intro reveal, a white strobe on the beat that
 // carries a shot change, green tints with a swish on the names, a red tint on the laugh, one cut-out photo.
 import type {ReactNode} from 'react';
-import {AbsoluteFill, useCurrentFrame} from 'remotion';
+import {AbsoluteFill, Audio, Sequence, staticFile, useCurrentFrame} from 'remotion';
 import peytonWords from '../plans/data/u4_peyton.words.json';
 import peytonTrack from '../plans/data/u4_peyton.seats.json';
 import golfWords from '../plans/data/t2_dream_golf_four.words.json';
@@ -39,6 +39,7 @@ type Cut = {file: string; from: number; to: number; x: number; h: number};
 export type Spec = {
   inBox?: (o: number) => ReactNode; extraSfx?: Sfx[]; capsOff?: [number, number][]; light?: boolean;
   awkward?: {at: number; sfx?: 'ja-ding' | 'crickets' | 'taco-bell-bong'}[]; // awkward pauses / cringe (user, 2026-11-01)
+  vo?: {file: string; from: number; to: number; words: Word[]}; // intro voiceover at out 0 (Alex), speech ducked under it
   fah?: number[]; // "fahhh" right after roasts / shots at people / crazy statements (user, 2026-11-01)
   overlay?: (o: number, face: (who: 'L' | 'M' | 'R') => {x: number; y: number}) => ReactNode; // face(): tracked face in FRAME px (stickers stay accurate) // full-frame layer (light look: meme pops go in the blurred area under the box) // Jorho v2: graphics inside the video box, extra sounds
   tl: TL; src: string; track: Track; top: string; words: Word[]; wordY: number; wideX: number; shots: Shot[];
@@ -59,7 +60,8 @@ export const Jorho = ({s}: {s: Spec}) => {
         return {x: (fa.x - r.x0) * r.k, y: top + (fa.y - r.y0) * r.k};
       })}
       {!inAny(o, s.capsOff ?? []) && <OneWord o={o} words={s.words} y={s.wordY} />}
-      <SpeechTrack src={s.src} tl={s.tl} />
+      <SpeechTrack src={s.src} tl={s.tl} duck={s.vo ? (t) => (t < s.vo!.to - s.vo!.from + 150 ? 0.12 : 1) : undefined} />
+      {s.vo && <Sequence durationInFrames={Math.round(((s.vo.to - s.vo.from) / 1000) * FPS)}><Audio src={staticFile(s.vo.file)} trimBefore={Math.round((s.vo.from / 1000) * FPS)} /></Sequence>}
       <Music file={s.music.file} songFrom={s.music.from} level={(t) => (s.music.until !== undefined && t >= s.music.until ? 0 : musicGain(s.music.file) * Math.min(1, (s.tl.total - t) / 400))} />
       <SfxTrack list={[
         sfx('jorho-ting', 0, 0.38),
@@ -374,3 +376,26 @@ const PLAYBOOK_DEMO: Spec = {
   </>,
 };
 export const JorhoPlaybookDemo = () => <Jorho s={PLAYBOOK_DEMO} />;
+
+// ---- Lefty v4 (user 2026-11-01): intro voiceover "Trevor Lawrence explains why he throws better… going left", NO beep pause ------
+import leftyVo from '../../public/narr/lefty_intro.json';
+const lvTl = timeline([[13400, 18900], [22400, 23760], [25700, 31260], [32050, 33300], [33820, 36040], [36040, 36520], [44780, 46300], [46700, 50600],
+  [50800, 52800]]);
+export const LEFTY_VO_MS = lvTl.total;
+const VO_LEN = 4120 - 20;
+const LV = {kid: lvTl.out(18080), hated: lvTl.out(32800), left: lvTl.segOut[5], better: lvTl.out(48840), best: lvTl.segOut[8]};
+const VO_WORDS: Word[] = leftyVo[0].words.map((w: {text: string; at: number}) => ({text: w.text.replace(/[.,]$/, ''), at: w.at - 20,
+  color: /Trevor|Lawrence/.test(w.text) ? '#21F5E6' : /left/i.test(w.text) ? '#58EE28' : undefined})) as Word[];
+const LEFTY_VO: Spec = {
+  ...LEFTY, tl: lvTl,
+  vo: {file: 'narr/lefty_intro_loud.mp3', from: 20, to: 4120, words: VO_WORDS},
+  words: [...VO_WORDS.map((w, i) => ({...w, color: w.color ?? ['#F9FC35', '#FFFFFF'][i % 2]})),
+    ...wordsFrom(travWords, lvTl, {}, {left: '#58EE28', right: '#F9FC35', hated: '#21F5E6', best: '#58EE28'}).filter((w) => w.at > VO_LEN + 150)],
+  shots: [[0, 'M'], [lvTl.segOut[2], 'W'], [lvTl.segOut[3], 'M'], [LV.left + STROBE_CUT, 'W'], [lvTl.segOut[6], 'M'], [LV.best + STROBE_CUT, 'L']],
+  strobes: [LV.left, LV.best],
+  beeps: [],
+  tints: [[LV.kid, GREEN], [LV.hated, RED], [LV.left + STROBE_CUT, GREEN], [LV.better, GREEN]],
+  swish: [LV.kid, LV.left + STROBE_CUT, LV.better],
+  music: {file: 'jorho-qkthr.mp3', from: 28003 - LV.left, level: 0.42},
+};
+export const JorhoLeftyVO = () => <Jorho s={LEFTY_VO} />;
