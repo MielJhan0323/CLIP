@@ -172,7 +172,7 @@ export const PEAK: Record<string, number> = {
   'fast-whoosh': 550, 'mg-whoosh': 780, 'mg-swoosh': 0, 'mg-swoosh2': 0, 'mg-click': 300, 'mg-boom': 290, '808-boom': 120,
   'ding-2': 200, 'ding': 100, 'mg-shimmer': 700, 'camera-shutter': 30, 'pen-scribble': 0, 'phone-buzz': 0, 'keyboard-typing': 0,
   'cha-ching': 100, 'crowd-cheer': 300, 'record-scratch': 50, 'anime-wow': 200, 'huh-cat': 100, 'error': 50, 'rizz-sound-effect': 100,
-  'whoosh': 300, 'taco-bell-bong': 50, 'crickets': 0, 'air-horn': 50, 'spongebob-boowomp': 50, 'cinematic-suspense-riser': 6390,
+  'whoosh': 300, 'taco-bell-bong': 50, 'crickets': 0, 'air-horn': 50, 'spongebob-boowomp': 50, 'cinematic-suspense-riser': 6390, 'fahhh': 190,
 };
 export type Sfx = {file: string; at: number; vol: number; maxMs?: number};
 export const sfx = (file: string, at: number, vol: number, maxMs?: number): Sfx => ({file, at, vol, maxMs});

@@ -38,6 +38,7 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 
 - **New card-pull style "justinaugh"** (2026-10-31): see [[JustinAugh style]]. **Keep flashing low**: zoom whips + fast-whoosh on cuts instead of white flashes (2026-10-31).
 - **Jorho top performer = "He really got gifted himself" (gift_ticket)** (2026-11-01): paradox top line, one complete arc ≤ 17 s, 2–3 literal meme pops on trigger words, light look (white band + blurred fill), very few effects. Use that formula (adapted, not cloned) for next Jorho videos. See [[Jorho style#⭐ Top performer]].
+- **"Fahhh" on roasts** (2026-11-01): put `fahhh.mp3` (myinstants) right after jokes made at someone, shots taken at other people, or crazy statements; ~1.5 s, under the voice (Jorho spec `fah: [ms]`). One per joke, not on every line.
 - **Beep pause only when it fits** (2026-11-01): a censor beep + freeze before a NAME or a real reveal word that builds suspense. Never by default, never in every video; it gets distracting and unfitting.
 - **Scroll test** (2026-11-01): before rendering, watch the first 1–2 s as a Shorts scroller: would I stay or scroll? Open on the strongest/payoff moment (cold open), not a slow intro or a blurred card. Judge every beat the same way: does it keep me watching?
 - **Emoji = real keyboard emoji only** (2026-11-01): iOS PNGs from `public/emoji-ios/` (Emojipedia Apple set) as images. Never type emoji into text (the browser font draws them and they look AI-generated/uncanny). Graphs, badges, notations are wanted; avoid assets that look uncanny.

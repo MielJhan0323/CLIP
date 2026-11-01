@@ -21,7 +21,7 @@ Meme SFX downloaded from myinstants.com (user-uploaded meme sounds; fine for mem
 | camera-shutter.mp3 | 0.5 s | 10 ms | freeze frame, flash |
 | error.mp3 | 0.8 s | 110 ms | "AURA -N", fail |
 | bruh.mp3 | 5.1 s | 200 ms | fail / disappointment |
-| fahhh.mp3 | 6.4 s | 190 ms | big fail |
+| fahhh.mp3 | 6.4 s | 190 ms | big fail; **user rule 2026-11-01: after roasts / shots at people / crazy statements** (trim ~1.5 s, vol ≈ 0.32) |
 | huh-cat.mp3 | 7.3 s | 1320 ms | confusion |
 | metal-pipe-clang.mp3 | 2.8 s | 170 ms | falls, impacts |
 | taco-bell-bong.mp3 | 2.0 s | 80 ms | awkward reveal |
