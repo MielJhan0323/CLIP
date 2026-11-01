@@ -79,6 +79,14 @@ export const Strike = ({o, a, b, text, y = 60}: {o: number; a: number; b: number
       <span style={{position: 'absolute', left: -12, top: '52%', height: 12, width: `calc(${line * 100}% + 24px)`, background: V2.red, borderRadius: 6}} /></span>
   </div>;
 };
+// typed action text: *Not a celly guy*, italic, glowing, typed letter by letter (pair with keyboard-typing SFX)
+export const TypedAction = ({o, a, b, text, y = 110, color = 'white', glow = 'rgba(255,255,255,0.55)'}: {o: number; a: number; b: number; text: string; y?: number; color?: string; glow?: string}) => {
+  if (!on(o, a, b)) return null;
+  const full = `*${text}*`;
+  const n = Math.min(full.length, Math.ceil((o - a) / 45));
+  return <div style={{position: 'absolute', top: y, width: BW, textAlign: 'center', opacity: 1 - ease(o, b - 140, 140), fontFamily: MONT, fontWeight: 800,
+    fontStyle: 'italic', fontSize: 66, color, textShadow: `0 0 16px ${glow}, 0 4px 10px rgba(0,0,0,0.75)`}}>{full.slice(0, n)}</div>;
+};
 // red hand-drawn ring around the caption word (caption sits at wordY on the full frame → box y = wordY - 417)
 export const WordRing = ({o, a, b, y, w = 220}: {o: number; a: number; b: number; y: number; w?: number}) => {
   if (!on(o, a, b)) return null;
@@ -121,8 +129,7 @@ const CELLY_V2: Spec = {
     <StatBadge o={o} a={Y.cTen} b={COLD - 60} big="10·10·10" label="THE CELLY" x={300} />
     <WordRing o={o} a={Y.cTen} b={Y.cTen3 + 300} y={WORD_Y - 417 + 6} w={120} />
     <QuestionCard o={o} a={COLD + 300} b={COLD + 2300} q="How did Trevor get a TD celly?" cam={CAM} />
-    <Sticker o={o} a={Y.maybe} b={COLD + sTl.segOut[2]} text="NOT A CELLY GUY" x={90} y={70} />
-    <StatBadge o={o} a={Y.point} b={Y.point + 1300} big="1 MOVE" label="JUST POINT" emoji="261d" />
+    <TypedAction o={o} a={Y.maybe} b={COLD + sTl.segOut[2] + 1300} text="Not a celly guy" />
     <GradeScale o={o} a={Y.psa + 300} b={Y.psa + 2700} title="PSA GRADE" label="GEM MINT" />
     <StatBadge o={o} a={Y.ten1 - 240 + STROBE_CUT} b={Y.its} big="10·10·10" label="THE CELLY" x={300} />
     <WordRing o={o} a={Y.ten1} b={Y.ten3 + 500} y={WORD_Y - 417 + 6} w={120} />
@@ -132,7 +139,7 @@ const CELLY_V2: Spec = {
     sfx('jv2-smash-bros-hit', Y.cTen, 0.16),
     sfx('keyboard-typing', COLD + 450, 0.16, 1300),
     sfx('jv2-sudden-suspense-boom', COLD + 2300, 0.12), sfx('fast-whoosh', COLD + 2300, 0.28),
-    sfx('jv2-pop-button', Y.maybe, 0.3), sfx('jv2-pop-button', Y.point, 0.28),
+    sfx('keyboard-typing', Y.maybe, 0.2, 800),
     ...Array.from({length: 10}, (_, i) => sfx('mg-click', Y.psa + 550 + i * 110, 0.2)),
     sfx('ding-2', Y.psa + 550 + 9 * 110, 0.22),
     sfx('jv2-smash-bros-hit', Y.ten1, 0.16), sfx('jv2-smash-bros-hit', Y.ten3, 0.18),

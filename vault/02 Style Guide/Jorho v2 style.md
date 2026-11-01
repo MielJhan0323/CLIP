@@ -29,3 +29,4 @@ Cuts: hard cuts (scdet 2–7 per clip), a Jorho strobe on 1–2 beats, a green t
 ## Feedback log
 1. User (2026-11-01): beep pause only when convenient (removed from the celly demo); edit like a scroller deciding to stay or scroll; "generated" emoji looked AI → use real keyboard (iOS PNG) emoji only.
    - v2.1 demo (`out/jorho_v2_psa10_celly_v2.mp4`, 20.1 s): **cold open** on the payoff ("point and go… 10, 10, 10" + ring + 10·10·10 badge), strobe into the story, question card after, no beep, ☝️ / ✅ as iOS PNGs via the `emoji` prop on `StatBadge` / `Sticker`.
+2. User (2026-11-01): remove the "1 MOVE / JUST POINT" badge; make "NOT A CELLY GUY" a typed `*Not a celly guy*` action text so it isn't AI-ish → `TypedAction` (italic Montserrat 800, glow, typed letter by letter + keyboard-typing). **Prefer typed action text over boxed stickers for reactions/labels.** v2.2 → `out/jorho_v2_psa10_celly_v3.mp4`.
