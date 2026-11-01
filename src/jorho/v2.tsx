@@ -58,6 +58,12 @@ export const YouTubeCard = ({o, a, b, title, cam, channel = 'Backyard Breaks', s
   const prog = t / dur;
   const playCam: CamCfg = {...cam, box: [PW, PH], baseH: 1080};
   const ui = Math.min(inP, 1 - outP);
+  // title wipes in left→right while sliding (starts as the player settles), then the rows below rise in one after another
+  const tw = ease(o, a + 220, 480, (v) => 1 - (1 - v) ** 3);
+  const rise = (i: number) => {
+    const p = ease(o, a + 520 + i * 110, 260);
+    return {opacity: p, transform: `translateY(${(1 - p) * 26}px)`};
+  };
   return <AbsoluteFill>
     <AbsoluteFill style={{background: '#FFFFFF', opacity: m}} />
     <div style={{position: 'absolute', left: rx, top: ry, width: rw, height: rh, borderRadius: lerp(0, 18), overflow: 'hidden', background: 'black'}}>
@@ -77,10 +83,11 @@ export const YouTubeCard = ({o, a, b, title, cam, channel = 'Backyard Breaks', s
     </div>
     {/* title + meta + channel row */}
     <div style={{position: 'absolute', left: PX + 4, top: PY + PH + 26, width: PW - 8, opacity: ui, fontFamily: SANS, color: '#0F0F0F',
-      transform: `translateY(${(1 - m) * 30}px)`}}>
-      <div style={{fontWeight: 700, fontSize: 44, lineHeight: '54px'}}>{title}</div>
-      <div style={{fontWeight: 500, fontSize: 26, color: '#606060', marginTop: 8}}>{views}</div>
-      <div style={{display: 'flex', alignItems: 'center', marginTop: 26, gap: 18}}>
+      }}>
+      <div style={{fontWeight: 700, fontSize: 44, lineHeight: '54px', clipPath: `inset(-10px ${(1 - tw) * 100}% -10px 0)`,
+        transform: `translateX(${(1 - tw) * -60}px)`}}>{title}</div>
+      <div style={{fontWeight: 500, fontSize: 26, color: '#606060', marginTop: 8, ...rise(1)}}>{views}</div>
+      <div style={{display: 'flex', alignItems: 'center', marginTop: 26, gap: 18, ...rise(2)}}>
         <div style={{width: 72, height: 72, borderRadius: 36, background: '#1C1C1C', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontWeight: 800, fontSize: 28}}>BB</div>
         <div style={{flex: 1}}>
@@ -89,7 +96,7 @@ export const YouTubeCard = ({o, a, b, title, cam, channel = 'Backyard Breaks', s
         </div>
         <div style={{background: '#0F0F0F', color: 'white', borderRadius: 40, padding: '16px 30px', fontWeight: 600, fontSize: 26}}>Subscribe</div>
       </div>
-      <div style={{display: 'flex', gap: 16, marginTop: 24}}>
+      <div style={{display: 'flex', gap: 16, marginTop: 24, ...rise(3)}}>
         <div style={{display: 'flex', alignItems: 'center', background: '#F2F2F2', borderRadius: 40, padding: '10px 22px', gap: 12, fontWeight: 600, fontSize: 24}}>
           <Ico d={I.like} size={28} fill="#0F0F0F" />{likes}<span style={{width: 2, height: 30, background: '#CCC', margin: '0 8px'}} /><Ico d={I.dislike} size={28} fill="#0F0F0F" /></div>
         <div style={{display: 'flex', alignItems: 'center', background: '#F2F2F2', borderRadius: 40, padding: '10px 22px', gap: 10, fontWeight: 600, fontSize: 24}}>
@@ -202,7 +209,7 @@ const CELLY_V2: Spec = {
   </Layer>,
   extraSfx: [
     sfx('jv2-smash-bros-hit', Y.cTen, 0.16),
-    sfx('mg-click', COLD + 200, 0.25),
+    sfx('mg-click', COLD + 200, 0.25), sfx('mg-swoosh', COLD + 420, 0.22),
     sfx('jv2-sudden-suspense-boom', COLD + 2500, 0.12), sfx('fast-whoosh', COLD + 2500, 0.28),
     sfx('keyboard-typing', Y.maybe, 0.2, 800),
     ...Array.from({length: 10}, (_, i) => sfx('mg-click', Y.psa + 550 + i * 110, 0.2)),
