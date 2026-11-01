@@ -107,8 +107,8 @@ export const Reveal = ({o, at, until, card, price}: {o: number; at: number; unti
       <span style={{color: 'white'}}>INSANE </span><span style={{color: JA.red, textShadow: '0 0 18px rgba(255,0,0,0.6), 6px 6px 0 rgba(0,0,0,0.5)'}}>PULL</span>
       <div style={{marginTop: -6}}>{emojiImg('1f525', 92)}{emojiImg('1f525', 92)}</div>
     </div>
-    <Img src={staticFile(card)} style={{position: 'absolute', left: (W - 620) / 2, top: 720, width: 620, transform: `scale(${s})`,
-      boxShadow: '0 20px 60px rgba(0,0,0,0.6)', borderRadius: 10}} />
+    <div style={{position: 'absolute', left: 0, top: 720, width: W, height: 680, display: 'flex', justifyContent: 'center', alignItems: 'center', transform: `scale(${s})`}}>
+      <Img src={staticFile(card)} style={{maxWidth: 680, maxHeight: 680, boxShadow: '0 20px 60px rgba(0,0,0,0.6)', borderRadius: 10}} /></div>
     <div style={{position: 'absolute', top: 1440, width: W, textAlign: 'center', fontFamily: MONT, fontWeight: 900, fontSize: 112, color: JA.price,
       WebkitTextStroke: '4px #0A6B0A', paintOrder: 'stroke fill', textShadow: `0 0 22px ${JA.price}, 0 0 44px ${JA.price}99`, opacity: k > 120 ? 1 : 0}}>{price}</div>
     {k > 200 && <Img src={staticFile('emoji-ios/1f631.png')} style={{position: 'absolute', left: (W - 230) / 2, top: 1590, width: 230,

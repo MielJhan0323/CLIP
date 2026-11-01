@@ -47,3 +47,6 @@ Music is a quiet bed (~−30 dB, ~15 dB under voices); couldn't be identified (c
 - Quick **punch-ins** (1.15–1.2×, ~0.5 s) on key words ("ONE" pack, "one OF ONE", "OH MY GOD").
 - The banner, captions and red circle stay outside the zoom layer, so they don't shake.
 - Demo: `out/justinaugh_ohtani_v2.mp4`.
+
+## Factory (2026-11-01)
+`makeJa(cfg)` in `src/justinaugh/batch.tsx`: one config per pull (stream src, hosts/card boxes, card still, price, reveal, segments, blur start, hook clip + cover box, narration file/lines, banner, music + LUFS, host track). See [[Batch 6 - JustinAugh 5 card pulls]].
