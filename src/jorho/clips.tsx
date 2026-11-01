@@ -1,5 +1,6 @@
 // Jorho edits (v2 kit). Each clip: the ting on frame 0 under the intro reveal, a white strobe on the beat that
 // carries a shot change, green tints with a swish on the names, a red tint on the laugh, one cut-out photo.
+import type {ReactNode} from 'react';
 import {AbsoluteFill, useCurrentFrame} from 'remotion';
 import peytonWords from '../plans/data/u4_peyton.words.json';
 import peytonTrack from '../plans/data/u4_peyton.seats.json';
@@ -21,13 +22,13 @@ import ticketWords from '../plans/data/t4_natty_ticket.words.json';
 import ticketTrack from '../plans/data/t4_natty_ticket.seats.json';
 import entersWords from '../plans/data/u5_trevor_enters.words.json';
 import entersTrack from '../plans/data/u5_trevor_enters.seats.json';
-import {Cam, FPS, Music, SfxTrack, SpeechTrack, sfx, timeline, type CamCfg, type Seat, type TL, type Track} from '../e3/kit';
+import {Cam, FPS, Music, SfxTrack, SpeechTrack, sfx, timeline, type CamCfg, type Seat, type Sfx, type TL, type Track} from '../e3/kit';
 import {BOX_H, Cutout, Frame, GREEN, OneWord, RED, STROBE_CUT, Tints, strobe, wordsFrom, type Word} from './kit';
 
 const GRADE = 'contrast(1.06) saturate(1.05)';
 // Music sits a fixed 14 dB under the voice (voices measure ≈ −13.5 LUFS) so it never pulls focus (user, 2026-11-01).
 // Gain per file from its measured loudness; the spec's `level` is ignored.
-const MUSIC_LUFS: Record<string, number> = {'du-bist-full.mp3': -9.1, 'blue-yung-kai.mp3': -12.2, 'jorho-qkthr.mp3': -13.8, 'jorho-lullaby.mp3': -14.2};
+const MUSIC_LUFS: Record<string, number> = {'eclipser.mp3': -3.1, 'du-bist-full.mp3': -9.1, 'blue-yung-kai.mp3': -12.2, 'jorho-qkthr.mp3': -13.8, 'jorho-lullaby.mp3': -14.2};
 const MUSIC_TARGET = -27.5;
 const musicGain = (file: string) => Math.pow(10, (MUSIC_TARGET - (MUSIC_LUFS[file] ?? -12)) / 20);
 const inAny = (s: number, spans: [number, number][]) => spans.some(([a, b]) => s >= a && s < b);
@@ -35,12 +36,13 @@ type Shot = [from: number, who: Seat]; // output time → framing (hard cuts onl
 const shotAt = (shots: Shot[], o: number) => shots.reduce<Seat>((w, [t, s]) => (o >= t ? s : w), 'W');
 
 type Cut = {file: string; from: number; to: number; x: number; h: number};
-type Spec = {
+export type Spec = {
+  inBox?: (o: number) => ReactNode; extraSfx?: Sfx[]; // Jorho v2: graphics inside the video box, extra sounds
   tl: TL; src: string; track: Track; top: string; words: Word[]; wordY: number; wideX: number; shots: Shot[];
   strobes: number[]; beeps?: number[]; tints: [number, string][]; swish: number[]; cut?: Cut; cuts?: Cut[];
   music: {file: string; from: number; level: number};
 };
-const Jorho = ({s}: {s: Spec}) => {
+export const Jorho = ({s}: {s: Spec}) => {
   const frame = useCurrentFrame();
   const o = (frame / FPS) * 1000;
   // the shot list is in output time; Cam asks by source time, so keep a reverse lookup on the output clock
@@ -56,12 +58,14 @@ const Jorho = ({s}: {s: Spec}) => {
         ...s.strobes.map((t) => sfx('jorho-flash', t, 0.45)),
         ...s.swish.map((t) => sfx('jorho-swish', t, 0.3)),
         ...(s.beeps ?? []).map((t) => sfx('jorho-beep', t, 0.25)),
+        ...(s.extraSfx ?? []),
       ]} />
     </>}>
     <AbsoluteFill style={{filter: strobe(o, s.strobes) || undefined}}>
       <Cam c={cam} o={o} />
       {[...(s.cut ? [s.cut] : []), ...(s.cuts ?? [])].map((c) => <Cutout key={c.file} o={o} {...c} />)}
     </AbsoluteFill>
+    {s.inBox?.(o)}
     <Tints o={o} list={s.tints} />
   </Frame>;
 };

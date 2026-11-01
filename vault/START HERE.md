@@ -37,6 +37,7 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 - **Podcast clips:** use the Ref C layout (black bars, video box, plain top caption "Do you agree with this? 💀", cut-out photos of people mentioned) **on top of** our normal edit style. See [[Reference Shorts#Ref C: podcast layout (user: "for podcast style videos make it like this")]].
 
 - **New card-pull style "justinaugh"** (2026-10-31): see [[JustinAugh style]]. **Keep flashing low**: zoom whips + fast-whoosh on cuts instead of white flashes (2026-10-31).
+- **Jorho v2** (2026-11-01): use the refs as a reference, but **don't make every edit look the same**; mix the graphics and sounds per clip, and source new generic edit SFX.
 - **Music must never distract from the content: keep it ~14 dB under the voice, SFX modest** (2026-11-01).
 - **Jorho music: rotate Du bist / Blue / the user's QKThr + lullaby tracks so songs don't repeat across a batch** (2026-11-01).
 - **"Trevor Wallace clips" = the Trevor Lawrence Clips tab** of the sheet (2026-11-01).
@@ -54,6 +55,7 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
   - [[SFX and music library]]: every sound/music file, when to use it, licensing
   - [[Card pull playbook]]: template for card-pull stream clips
   - [[Edit3 kinetic storytelling compositing]]: **Edit3** (`src/E3Ant.tsx`): kinetic type + story graphics + text/photos behind the speaker; lessons from the 38% STW flop (no ad look, cold-open hook, sound design checklist)
+  - [[Jorho v2 style]]: Jorho + explainer motion graphics (question card, stat badges, grade scale, stickers); a toolbox, vary it per clip
   - [[Jorho style]]: copied from 4 Backyard Breaks Shorts: black bars, 💀 top line, one-word colored captions, punch-ins, exposure flash, meme cutouts
   - [[JustinAugh style]]: card pulls copied from 4 refs: VO hook over a scream clip, white cut flashes, yellow PiP, INSANE PULL reveal (`src/justinaugh/`)
   - [[Motion graphics podcast style]]: **preset Edit2** (`src/Edit2.tsx` + `src/plans/edit2/`), the motion-graphics podcast edit, plus research on 6 viral refs
