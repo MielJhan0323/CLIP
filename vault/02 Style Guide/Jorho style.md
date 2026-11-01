@@ -187,3 +187,5 @@ Code: `Asterisk`, `CallOut` (new), `MemePop`, `Cutout`, `Tints`, `strobe` in `sr
 
 ## Playbook demo (2026-11-01): `JorhoPlaybookDemo` → `out/jorho_playbook_traveling_trevors.mp4`
 t3 "these guys are whacked", black look: title "Trevor thinks his biggest fans are whacked 💀"; `Asterisk` *the traveling trevors* on the wig guy at the start; question by 1.6 s; `CallOut` *TREVOR LAWRENCE* when he answers; payoff "…whacked" = strobe on a Joyful-Chess beat + red tint + big 💀 + fahhh; editor comment *fans in shambles*; ends "these guys are pretty funny… we need more Jags fans"; no beep; music 14 dB under.
+
+- **v2 (user: "looks good, just the accuracy of the stickers; keep everything in mind for the future")**: the *traveling trevors* label and the TREVOR LAWRENCE callout now follow the tracked faces (`overlay(o, face)`), so the arrow tip sits right on Trevor's head and the label rides above the wig guy. → `out/jorho_playbook_traveling_trevors_v2.mp4`. The user approved the playbook; use it (+ face-anchored stickers) for all future Jorho clips.

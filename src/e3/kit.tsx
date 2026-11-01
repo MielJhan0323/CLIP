@@ -78,7 +78,7 @@ export type CamCfg = {
   baseH?: number; wideX?: number | ((src: number) => number); zoom?: (o: number) => number; faceY?: number | ((o: number) => number);
   box?: [number, number]; // render size (default the full 1080x1920 frame; black-bar layouts use the video box)
 };
-const faceAt = (tr: Track, who: 'L' | 'M' | 'R', src: number) => {
+export const faceAt = (tr: Track, who: 'L' | 'M' | 'R', src: number) => {
   const arr = tr[who]!;
   const i = (src - tr.fromMs) / tr.stepMs;
   const a = arr[Math.max(0, Math.min(arr.length - 1, Math.floor(i)))];

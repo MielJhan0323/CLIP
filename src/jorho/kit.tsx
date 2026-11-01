@@ -152,9 +152,12 @@ export const MemePop = ({o, at, to, src, x = 340, y = 1480, size = 400}: {o: num
 
 // ---- asterisk narration label (refs 2026-11-01: *thinking*, *impressed*, *bros too rich to care*, *20,000$ card*) -------
 // editor's commentary / labels, lowercase in asterisks, bold + glow + dark outline; can sit over the speaker while one-word captions run
-export const Asterisk = ({o, a, b, text, y, x, color = '#FFFFFF', size = 54}: {o: number; a: number; b: number; text: string; y: number; x?: number; color?: string; size?: number}) => {
+export const Asterisk = ({o, a, b, text, y, x, cx, color = '#FFFFFF', size = 54}: {o: number; a: number; b: number; text: string; y: number; x?: number; cx?: number; color?: string; size?: number}) => {
   if (o < a || o >= b) return null;
   const s = interpolate(fr(o) - fr(a), [0, 3, 5], [0.6, 1.08, 1], clamp);
+  if (cx !== undefined) return <div style={{position: 'absolute', top: y, left: cx, transform: `translateX(-50%) scale(${s})`, whiteSpace: 'nowrap',
+    opacity: interpolate(o, [b - 120, b], [1, 0], clamp)}}><span style={{fontFamily: MONT, fontWeight: 800, fontSize: size, color, WebkitTextStroke: '4px #111',
+    paintOrder: 'stroke fill', textShadow: `0 0 16px ${color}88, 0 3px 8px rgba(0,0,0,0.7)`}}>*{text}*</span></div>; // centred on a tracked face
   return <div style={{position: 'absolute', top: y, left: x ?? 0, width: x === undefined ? W : undefined, textAlign: 'center', transform: `scale(${s})`,
     opacity: interpolate(o, [b - 120, b], [1, 0], clamp)}}>
     <span style={{fontFamily: MONT, fontWeight: 800, fontSize: size, color, WebkitTextStroke: '4px #111', paintOrder: 'stroke fill',

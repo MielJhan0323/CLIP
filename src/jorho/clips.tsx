@@ -22,8 +22,8 @@ import ticketWords from '../plans/data/t4_natty_ticket.words.json';
 import ticketTrack from '../plans/data/t4_natty_ticket.seats.json';
 import entersWords from '../plans/data/u5_trevor_enters.words.json';
 import entersTrack from '../plans/data/u5_trevor_enters.seats.json';
-import {Cam, FPS, Music, SfxTrack, SpeechTrack, sfx, timeline, type CamCfg, type Seat, type Sfx, type TL, type Track} from '../e3/kit';
-import {Asterisk, BOX_H, CallOut, Cutout, Frame, GREEN, MemePop, OneWord, RED, STROBE_CUT, Tints, strobe, wordsFrom, type Word} from './kit';
+import {Cam, FPS, Music, camRect, faceAt, SfxTrack, SpeechTrack, sfx, timeline, type CamCfg, type Seat, type Sfx, type TL, type Track} from '../e3/kit';
+import {Asterisk, BOX_H, BOX_TOP, LIGHT, CallOut, Cutout, Frame, GREEN, MemePop, OneWord, RED, STROBE_CUT, Tints, strobe, wordsFrom, type Word} from './kit';
 
 const GRADE = 'contrast(1.06) saturate(1.05)';
 // Music sits a fixed 14 dB under the voice (voices measure ≈ −13.5 LUFS) so it never pulls focus (user, 2026-11-01).
@@ -40,7 +40,7 @@ export type Spec = {
   inBox?: (o: number) => ReactNode; extraSfx?: Sfx[]; capsOff?: [number, number][]; light?: boolean;
   awkward?: {at: number; sfx?: 'ja-ding' | 'crickets' | 'taco-bell-bong'}[]; // awkward pauses / cringe (user, 2026-11-01)
   fah?: number[]; // "fahhh" right after roasts / shots at people / crazy statements (user, 2026-11-01)
-  overlay?: (o: number) => ReactNode; // full-frame layer (light look: meme pops go in the blurred area under the box) // Jorho v2: graphics inside the video box, extra sounds
+  overlay?: (o: number, face: (who: 'L' | 'M' | 'R') => {x: number; y: number}) => ReactNode; // face(): tracked face in FRAME px (stickers stay accurate) // full-frame layer (light look: meme pops go in the blurred area under the box) // Jorho v2: graphics inside the video box, extra sounds
   tl: TL; src: string; track: Track; top: string; words: Word[]; wordY: number; wideX: number; shots: Shot[];
   strobes: number[]; beeps?: number[]; tints: [number, string][]; swish: number[]; cut?: Cut; cuts?: Cut[];
   music: {file: string; from: number; level: number; until?: number}; // until = hard stop (e.g. right before a punchline)
@@ -53,7 +53,11 @@ export const Jorho = ({s}: {s: Spec}) => {
     who: () => shotAt(s.shots, o)};
   return <Frame o={o} top={s.top} light={s.light}
     over={<>
-      {s.overlay?.(o)}
+      {s.overlay?.(o, (who) => {
+        const r = camRect(cam, o); const fa = faceAt(s.track, who, r.src);
+        const top = s.light ? LIGHT.box[0] - (BOX_H - (LIGHT.box[1] - LIGHT.box[0])) / 2 : BOX_TOP;
+        return {x: (fa.x - r.x0) * r.k, y: top + (fa.y - r.y0) * r.k};
+      })}
       {!inAny(o, s.capsOff ?? []) && <OneWord o={o} words={s.words} y={s.wordY} />}
       <SpeechTrack src={s.src} tl={s.tl} />
       <Music file={s.music.file} songFrom={s.music.from} level={(t) => (s.music.until !== undefined && t >= s.music.until ? 0 : musicGain(s.music.file) * Math.min(1, (s.tl.total - t) / 400))} />
@@ -361,9 +365,10 @@ const PLAYBOOK_DEMO: Spec = {
   swish: [PB.trav],
   fah: [PB.whacked + 300],
   music: {file: 'joyful-chess-slowed.mp3', from: 20062 - PB.whacked, level: 0}, // user add 2026-11-01; strobe on a beat
-  overlay: (o) => <>
-    <Asterisk o={o} a={800} b={2400} text="the traveling trevors" y={480} color="#21F5E6" />
-    <CallOut o={o} a={PB.trevor + 150} b={PB.trevor + 2300} x={720} y={780} label="TREVOR LAWRENCE" flip />
+  overlay: (o, face) => <>
+    {/* anchored to the tracked faces: label just above the wig guy's head, arrow tip right next to Trevor's face */}
+    <Asterisk o={o} a={800} b={2400} text="the traveling trevors" cx={Math.min(800, Math.max(280, face('L').x))} y={face('L').y - 300} color="#21F5E6" />
+    <CallOut o={o} a={PB.trevor + 150} b={PB.trevor + 2300} x={face('M').x + 70} y={face('M').y - 90} label="TREVOR LAWRENCE" flip />
     <MemePop o={o} at={PB.whacked + STROBE_CUT} to={PB.whacked + 1500} src="emoji-ios/1f480.png" x={660} y={1000} size={300} />
     <Asterisk o={o} a={PB.whacked + 1300} b={pbTl.segOut[3]} text="fans in shambles" y={520} />
   </>,
