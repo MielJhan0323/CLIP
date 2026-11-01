@@ -23,12 +23,12 @@ import ticketTrack from '../plans/data/t4_natty_ticket.seats.json';
 import entersWords from '../plans/data/u5_trevor_enters.words.json';
 import entersTrack from '../plans/data/u5_trevor_enters.seats.json';
 import {Cam, FPS, Music, SfxTrack, SpeechTrack, sfx, timeline, type CamCfg, type Seat, type Sfx, type TL, type Track} from '../e3/kit';
-import {BOX_H, Cutout, Frame, GREEN, MemePop, OneWord, RED, STROBE_CUT, Tints, strobe, wordsFrom, type Word} from './kit';
+import {Asterisk, BOX_H, CallOut, Cutout, Frame, GREEN, MemePop, OneWord, RED, STROBE_CUT, Tints, strobe, wordsFrom, type Word} from './kit';
 
 const GRADE = 'contrast(1.06) saturate(1.05)';
 // Music sits a fixed 14 dB under the voice (voices measure ≈ −13.5 LUFS) so it never pulls focus (user, 2026-11-01).
 // Gain per file from its measured loudness; the spec's `level` is ignored.
-const MUSIC_LUFS: Record<string, number> = {'eclipser.mp3': -3.1, 'Jeopardy_Think.mp3': -18.9, 'Fluffing_a_Duck.mp3': -16.3, 'Monkeys_Spinning_Monkeys.mp3': -17.3, 'du-bist-full.mp3': -9.1, 'blue-yung-kai.mp3': -12.2, 'jorho-qkthr.mp3': -13.8, 'jorho-lullaby.mp3': -14.2};
+const MUSIC_LUFS: Record<string, number> = {'joyful-chess-slowed.mp3': -9.9, 'eclipser.mp3': -3.1, 'Jeopardy_Think.mp3': -18.9, 'Fluffing_a_Duck.mp3': -16.3, 'Monkeys_Spinning_Monkeys.mp3': -17.3, 'du-bist-full.mp3': -9.1, 'blue-yung-kai.mp3': -12.2, 'jorho-qkthr.mp3': -13.8, 'jorho-lullaby.mp3': -14.2};
 const MUSIC_TARGET = -27.5;
 const musicGain = (file: string) => Math.pow(10, (MUSIC_TARGET - (MUSIC_LUFS[file] ?? -12)) / 20);
 const inAny = (s: number, spans: [number, number][]) => spans.some(([a, b]) => s >= a && s < b);
@@ -346,3 +346,26 @@ const NBAGOAT: Spec = {
   </>,
 };
 export const JorhoNbaGoat = () => <Jorho s={NBAGOAT} />;
+
+// ---- PLAYBOOK DEMO (2026-11-01): t3 "these guys are whacked", black look, every playbook step -----------------------------
+const pbTl = timeline([[59480, 63040], [64360, 66720], [77860, 84200], [96990, 98440], [99990, 101720]]);
+export const PLAYBOOK_DEMO_MS = pbTl.total;
+const PB = {trav: pbTl.out(60340), trevor: pbTl.segOut[1], whacked: pbTl.out(83060), funny: pbTl.out(97920), jags: pbTl.out(100740)};
+const PLAYBOOK_DEMO: Spec = {
+  tl: pbTl, src: 'pod/t3_traveling_trevors.mp4', track: travTrack as unknown as Track, top: 'Trevor thinks his biggest fans are whacked', wordY: 1300, wideX: 715,
+  words: wordsFrom(travWords, pbTl, {uh: '', trevers: 'Trevors', traveling: 'Traveling', i: 'I', Jax: 'Jags'},
+    {Traveling: '#21F5E6', Trevors: '#21F5E6', whacked: '#F9FC35', funny: '#58EE28', Jags: '#58EE28'}),
+  shots: [[0, 'L'], [PB.trevor, 'M'], [PB.whacked + STROBE_CUT, 'W'], [pbTl.segOut[3], 'M']],
+  strobes: [PB.whacked],
+  tints: [[PB.trav, GREEN], [PB.whacked + 380, RED]],
+  swish: [PB.trav],
+  fah: [PB.whacked + 300],
+  music: {file: 'joyful-chess-slowed.mp3', from: 20062 - PB.whacked, level: 0}, // user add 2026-11-01; strobe on a beat
+  overlay: (o) => <>
+    <Asterisk o={o} a={800} b={2400} text="the traveling trevors" y={480} color="#21F5E6" />
+    <CallOut o={o} a={PB.trevor + 150} b={PB.trevor + 2300} x={720} y={780} label="TREVOR LAWRENCE" flip />
+    <MemePop o={o} at={PB.whacked + STROBE_CUT} to={PB.whacked + 1500} src="emoji-ios/1f480.png" x={660} y={1000} size={300} />
+    <Asterisk o={o} a={PB.whacked + 1300} b={pbTl.segOut[3]} text="fans in shambles" y={520} />
+  </>,
+};
+export const JorhoPlaybookDemo = () => <Jorho s={PLAYBOOK_DEMO} />;

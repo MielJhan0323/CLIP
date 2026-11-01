@@ -145,7 +145,7 @@ t1 ant-autograph roast, adapted (not cloned): paradox top line "His autograph is
 ## Music & beep usage (2026-11-01, user: "you're overusing the beep pause and Du bist")
 - Beep pause: off by default. Du bist: retired for now (it was in Ant, Wrong Josh Allen, Lefty v1, Celly v1, Enters, the formula demo, NBA GOAT v1).
 - Spec supports `music.until` (hard stop before a punchline) and meme stingers through `extraSfx` (e.g. `curb-credits`).
-- Mood picks: thinking/question → Jeopardy Think; awkward punchline → Curb credits stinger; goofy → Fluffing a Duck / Monkeys Spinning Monkeys; wholesome → Blue / lullaby / QKThr; hype → phonk. Gain comes from `MUSIC_LUFS` (add new files there).
+- Mood picks: roast/funny → **Joyful – Chess (slowed)** (user add) or Monkeys Spinning Monkeys; thinking/question → Jeopardy Think; awkward punchline → Curb credits stinger; goofy → Fluffing a Duck / Monkeys Spinning Monkeys; wholesome → Blue / lullaby / QKThr; hype → phonk. Gain comes from `MUSIC_LUFS` (add new files there).
 
 
 # ⭐ Refs #6–7 (user uploads, 2026-11-01): "Giving a 20,000$ card to a player worth 40M 💀" + "The one player thats better than LeBron 💀"
@@ -184,3 +184,6 @@ Audio: music 8.5–10 dB under the voice (we keep 14 dB, user rule), 3–6 hits 
 Before every render, watch the first 2 s as a scroller: would I stay? If not, fix the title or the first frame first.
 
 Code: `Asterisk`, `CallOut` (new), `MemePop`, `Cutout`, `Tints`, `strobe` in `src/jorho/kit.tsx`; spec fields `overlay`, `fah`, `awkward`, `music.until`, `light`.
+
+## Playbook demo (2026-11-01): `JorhoPlaybookDemo` → `out/jorho_playbook_traveling_trevors.mp4`
+t3 "these guys are whacked", black look: title "Trevor thinks his biggest fans are whacked 💀"; `Asterisk` *the traveling trevors* on the wig guy at the start; question by 1.6 s; `CallOut` *TREVOR LAWRENCE* when he answers; payoff "…whacked" = strobe on a Joyful-Chess beat + red tint + big 💀 + fahhh; editor comment *fans in shambles*; ends "these guys are pretty funny… we need more Jags fans"; no beep; music 14 dB under.

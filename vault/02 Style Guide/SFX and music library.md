@@ -92,3 +92,4 @@ Drop times (s) from `scripts/find_drops.py`; the first one ≥ the run-up you ne
 | jorho-qkthr.mp3 | user upload "QKThr_1.mp3" (87.5 s) | ~63 BPM, beat 28003 | Jorho storytelling / chill |
 | jorho-lullaby.mp3 | user upload "Instant Sleep Within 9 Minutes (1Oneam Lullaby)", first 180 s | ~83 BPM, beat 59977 | Jorho wholesome |
 Both loudnormed to −14 LUFS (Du bist −9.1, Blue −12.2).
+| joyful-chess-slowed.mp3 | user add (2026-11-01): "Joyful - Chess (slowed)", SoundCloud HijjeX.01 (the rat-dance meme song) | 107.7 BPM, steady energy, beat 20062, −9.9 LUFS | Jorho funny/roast bed |
