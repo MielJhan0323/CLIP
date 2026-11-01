@@ -29,7 +29,32 @@ export const introFilter = (o: number) => {
   const bright = interpolate(f, [0, 4, 10, 18], [1.9, 1.45, 1.15, 1], clamp);
   return `blur(${blur}px) brightness(${bright}) contrast(${2 - bright * 0.9 > 0.6 ? 2 - bright * 0.9 : 0.6})`;
 };
-export const Frame = ({o, top, children, over}: {o: number; top: string; children: ReactNode; over?: ReactNode}) => {
+// "light" look (from the top-performing gift_ticket edit, 2026-11-01): blurred copy of the video fills the frame, a white band
+// y 191-474 holds the top line (black Montserrat caps + emoji), the video box sits at y 475-1444; opens on a white flash (no box reveal).
+export const LIGHT = {band: [191, 474], box: [475, 1444]};
+const FlashIn = ({o}: {o: number}) => {
+  const k = [1, 0.85, 0.7, 0.55, 0.42, 0.3, 0.18, 0.08][fr(o)];
+  return k ? <AbsoluteFill style={{background: 'white', opacity: k}} /> : null;
+};
+export const Frame = ({o, top, children, over, light}: {o: number; top: string; children: ReactNode; over?: ReactNode; light?: boolean}) => {
+  if (light) {
+    const bh = LIGHT.box[1] - LIGHT.box[0];
+    return <AbsoluteFill style={{background: '#222'}}>
+      <div style={{position: 'absolute', left: -200, top: 0, width: W + 400, height: 1920, overflow: 'hidden', filter: 'blur(38px) brightness(0.92) saturate(1.1)'}}>
+        <div style={{position: 'absolute', left: 200, top: (1920 - BOX_H) / 2, width: W, height: BOX_H, transform: 'scale(1.8)', transformOrigin: '50% 50%'}}>{children}</div>
+      </div>
+      <div style={{position: 'absolute', left: 0, top: LIGHT.band[0], width: W, height: LIGHT.band[1] - LIGHT.band[0], background: 'white',
+        display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <div style={{fontFamily: MONT, fontWeight: 800, fontSize: 60, lineHeight: '70px', color: '#111', textAlign: 'center', maxWidth: 940, textTransform: 'uppercase'}}>
+          {top}<Img src={staticFile('emoji-ios/1f480.png')} style={{width: 56, height: 56, verticalAlign: '-8px', marginLeft: 6}} /></div>
+      </div>
+      <div style={{position: 'absolute', left: 0, top: LIGHT.box[0], width: W, height: bh, overflow: 'hidden'}}>
+        <div style={{position: 'absolute', left: 0, top: -(BOX_H - bh) / 2, width: W, height: BOX_H}}>{children}</div>
+      </div>
+      {over}
+      <FlashIn o={o} />
+    </AbsoluteFill>;
+  }
   const f = fr(o);
   const t = interpolate(f, INTRO_F, INTRO_TOP, clamp);
   const b = interpolate(f, INTRO_F, INTRO_BOT, clamp);
@@ -112,4 +137,15 @@ export const Cutout = ({o, file, from, to, x, h}: {o: number; file: string; from
     {p < 1 && <Img src={staticFile(`img/jorho/${file}`)} style={{position: 'absolute', left: 0, top: 0, height: '100%',
       filter: 'sepia(1) saturate(9) hue-rotate(8deg) brightness(1.5)', opacity: 1 - p}} />}
   </div>;
+};
+
+// ---- big meme pop (gift_ticket: 💀 on the absurd line, Santa on "gift") ---------------------------------------------
+// iOS emoji PNG or a cut-out image, popped onto ONE trigger word in the lower part of the frame (not over faces)
+export const MemePop = ({o, at, to, src, x = 340, y = 1480, size = 400}: {o: number; at: number; to: number; src: string; x?: number; y?: number; size?: number}) => {
+  if (o < at || o >= to) return null;
+  const k = fr(o) - fr(at);
+  const s = interpolate(k, [0, 3, 6], [0.3, 1.12, 1], clamp);
+  const out = interpolate(o, [to - 120, to], [1, 0], clamp);
+  return <Img src={staticFile(src)} style={{position: 'absolute', left: x, top: y, width: size, transform: `scale(${s})`, opacity: out,
+    filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.45))'}} />;
 };

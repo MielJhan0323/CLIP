@@ -98,3 +98,43 @@ Method:
 | red tint | none | | silent |
 
 The beep goes on a **480 ms freeze-pause** right before the name drops (a timeline hold); the strobe/cut-out lands after it.
+
+
+# ⭐ Top performer: "He really got gifted himself" (gift_ticket.mp4, user upload 2026-11-01)
+User: "this clip did better than all the others. Find what made it work and copy it, or adapt it, for the next videos." Contact sheet: `assets/references/jorho_top_gift_ticket_sheet.jpg`.
+Source: t4 natty ticket (same moment as our JorhoTicket). 16.9 s, 1080x1920.
+
+## What it does (measured)
+- **Layout ("light" look):** a blurred, zoomed copy of the video fills the whole frame. A **white band (y 191–474)** holds the top line in **black Montserrat caps**, "HE REALLY GOT GIFTED HIMSELF 😂🎟️". The video box sits at **y 475–1444**. No black bars.
+- **Opening:** starts on the **first word of the story** ("So look, I actually brought you a gift…") with a white flash (1 → 0 over ~8 frames) and a ting. No pre-roll, no box-opening animation.
+- **Captions:** one uppercase word at a time (yellow/green/cyan/white), at the lower part of the box.
+- **Meme pop-ups, each on ONE trigger word, in the lower blur area:** a real **Santa cut-out + red arrow** on "gift"; a big **iOS 💀** on "gifting you… with you" (the absurd line); **falling real money** on "national championship".
+- **Camera:** one punch-in to Trevor's face for his reaction ("two weeks ago"), one motion-blur whip on "but", two white cut flashes (9.8 s, 13.6 s). That's all.
+- **Ending:** cuts right after Trevor's genuine "this is awesome": a finished line and a real emotion.
+- **Audio:** soft ~83 BPM bed **15.7 dB under the voice**. Only 2 SFX (ting at 0, one hit on the money).
+
+## Why it beat the others (our read)
+1. **The top line is a paradox** ("got gifted HIMSELF"). The viewer can't resolve it without watching, and the clip resolves it in ~10 s.
+2. **One complete arc in < 17 s:** setup ("I brought you a gift") → absurd twist ("it's you… gifting you with you") → payoff (signed natty MVP ticket) → genuine reaction. No filler.
+3. **Wholesome + funny together:** a real emotional payoff, not just a joke.
+4. **Jokes you can read instantly:** each meme visual literally illustrates the word being said (gift → Santa, weird → 💀, championship → money). No explaining needed.
+5. **It looks native and clean:** the white band + blurred fill reads like a normal Short, not an "edit". Effects are rare, so each one lands.
+6. **Short and quiet:** high completion, it loops, and the music never competes.
+
+## Formula for the next Jorho videos (copy or paraphrase; don't clone)
+- **Top line = a paradox / irony / "imagine" that the clip resolves.** Patterns:
+  - "He really got ___ by himself"
+  - "Bro got roasted by his own ___"
+  - "Imagine ___ing yourself"
+  - "Only Trevor could ___ his own ___"
+  - "The one thing Trevor doesn't own is ___"
+  Keep it ≤ 2 lines, caps, + 1–2 iOS emoji that fit (😂🎟️).
+- **Cold start on the first word of the strongest story**; cut to a single arc of 15–18 s; end on the genuine reaction line.
+- **2–3 `MemePop`s**, each on one trigger word, below the faces: real cut-out + red arrow / big iOS emoji (💀 for the absurd line) / money for value. No sticker boxes.
+- **Restraint:** ≤ 1 punch-in (the reaction), ≤ 1 whip, ≤ 2 cut flashes, ≤ 3 SFX. Beep pause only if it truly fits.
+- **Look:** use `light: true` (white band + blurred fill) for wholesome or gift moments; keep the black-bar look for roasts and hype, so the feed isn't all one look.
+- **Music:** calm ~80–85 BPM bed (Blue / the lullaby / QKThr), 14–16 dB under the voice.
+
+## Code
+- `Frame` takes `light` (white band + blurred fill + white flash-in, measured above); set `light: true` on a Jorho `Spec`. Test comp `JorhoTicketLight` (layout check on the same source, not a deliverable).
+- `MemePop` in `src/jorho/kit.tsx`: iOS emoji PNG or cut-out popped on one word.

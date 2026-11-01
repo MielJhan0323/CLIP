@@ -37,7 +37,7 @@ const shotAt = (shots: Shot[], o: number) => shots.reduce<Seat>((w, [t, s]) => (
 
 type Cut = {file: string; from: number; to: number; x: number; h: number};
 export type Spec = {
-  inBox?: (o: number) => ReactNode; extraSfx?: Sfx[]; capsOff?: [number, number][]; // Jorho v2: graphics inside the video box, extra sounds
+  inBox?: (o: number) => ReactNode; extraSfx?: Sfx[]; capsOff?: [number, number][]; light?: boolean; // Jorho v2: graphics inside the video box, extra sounds
   tl: TL; src: string; track: Track; top: string; words: Word[]; wordY: number; wideX: number; shots: Shot[];
   strobes: number[]; beeps?: number[]; tints: [number, string][]; swish: number[]; cut?: Cut; cuts?: Cut[];
   music: {file: string; from: number; level: number};
@@ -48,7 +48,7 @@ export const Jorho = ({s}: {s: Spec}) => {
   // the shot list is in output time; Cam asks by source time, so keep a reverse lookup on the output clock
   const cam: CamCfg = {src: s.src, tl: s.tl, track: s.track, grade: GRADE, box: [1080, BOX_H], baseH: 640, faceY: 0.42, wideX: s.wideX,
     who: () => shotAt(s.shots, o)};
-  return <Frame o={o} top={s.top}
+  return <Frame o={o} top={s.top} light={s.light}
     over={<>
       {!inAny(o, s.capsOff ?? []) && <OneWord o={o} words={s.words} y={s.wordY} />}
       <SpeechTrack src={s.src} tl={s.tl} />
@@ -280,3 +280,6 @@ const ENTERS: Spec = {
   music: {file: 'du-bist-full.mp3', from: 90093 - EN.king2, level: 0.32},
 };
 export const JorhoEnters = () => <Jorho s={ENTERS} />;
+
+// test of the light look on the same source as the top performer (not a deliverable)
+export const JorhoTicketLight = () => <Jorho s={{...TICKET, light: true, wordY: 1290}} />;
