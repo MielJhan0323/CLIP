@@ -28,7 +28,7 @@ import {BOX_H, Cutout, Frame, GREEN, MemePop, OneWord, RED, STROBE_CUT, Tints, s
 const GRADE = 'contrast(1.06) saturate(1.05)';
 // Music sits a fixed 14 dB under the voice (voices measure ≈ −13.5 LUFS) so it never pulls focus (user, 2026-11-01).
 // Gain per file from its measured loudness; the spec's `level` is ignored.
-const MUSIC_LUFS: Record<string, number> = {'eclipser.mp3': -3.1, 'du-bist-full.mp3': -9.1, 'blue-yung-kai.mp3': -12.2, 'jorho-qkthr.mp3': -13.8, 'jorho-lullaby.mp3': -14.2};
+const MUSIC_LUFS: Record<string, number> = {'eclipser.mp3': -3.1, 'Jeopardy_Think.mp3': -18.9, 'Fluffing_a_Duck.mp3': -16.3, 'Monkeys_Spinning_Monkeys.mp3': -17.3, 'du-bist-full.mp3': -9.1, 'blue-yung-kai.mp3': -12.2, 'jorho-qkthr.mp3': -13.8, 'jorho-lullaby.mp3': -14.2};
 const MUSIC_TARGET = -27.5;
 const musicGain = (file: string) => Math.pow(10, (MUSIC_TARGET - (MUSIC_LUFS[file] ?? -12)) / 20);
 const inAny = (s: number, spans: [number, number][]) => spans.some(([a, b]) => s >= a && s < b);
@@ -43,7 +43,7 @@ export type Spec = {
   overlay?: (o: number) => ReactNode; // full-frame layer (light look: meme pops go in the blurred area under the box) // Jorho v2: graphics inside the video box, extra sounds
   tl: TL; src: string; track: Track; top: string; words: Word[]; wordY: number; wideX: number; shots: Shot[];
   strobes: number[]; beeps?: number[]; tints: [number, string][]; swish: number[]; cut?: Cut; cuts?: Cut[];
-  music: {file: string; from: number; level: number};
+  music: {file: string; from: number; level: number; until?: number}; // until = hard stop (e.g. right before a punchline)
 };
 export const Jorho = ({s}: {s: Spec}) => {
   const frame = useCurrentFrame();
@@ -56,7 +56,7 @@ export const Jorho = ({s}: {s: Spec}) => {
       {s.overlay?.(o)}
       {!inAny(o, s.capsOff ?? []) && <OneWord o={o} words={s.words} y={s.wordY} />}
       <SpeechTrack src={s.src} tl={s.tl} />
-      <Music file={s.music.file} songFrom={s.music.from} level={(t) => musicGain(s.music.file) * Math.min(1, (s.tl.total - t) / 400)} />
+      <Music file={s.music.file} songFrom={s.music.from} level={(t) => (s.music.until !== undefined && t >= s.music.until ? 0 : musicGain(s.music.file) * Math.min(1, (s.tl.total - t) / 400))} />
       <SfxTrack list={[
         sfx('jorho-ting', 0, 0.38),
         ...s.strobes.map((t) => sfx('jorho-flash', t, 0.45)),
@@ -317,7 +317,7 @@ export const JorhoFormulaAnt = () => <Jorho s={FORMULA} />;
 // ---- NBA GOAT (Delly) · Jorho + top-performer formula (2026-11-01) ------------------------------------------------------
 // public/pod/nba_goat.mp4 (1920x1080, 18.8 s). Word times are the audio-verified phrase times from vault "NBA GOAT pick".
 const gTrack = {stepMs: 1000, fromMs: 0, L: Array(20).fill([440, 488]), M: Array(20).fill([980, 460]), R: Array(20).fill([1490, 505])} as unknown as Track;
-const ngTl = timeline([[0, 1800], [2250, 3600], [4350, 7450], [7450, 10200], [12950, 13980, 480], [13980, 15000], [15000, 17400], [17450, 18760]]);
+const ngTl = timeline([[0, 1800], [2250, 3600], [4350, 7450], [7450, 10500], [12950, 13980], [13980, 15000], [15000, 17400], [17450, 18760]]); // v2: no beep hold
 export const NBAGOAT_MS = ngTl.total;
 const NG_RAW: [string, number][] = [['Bring', 20], ['it', 200], ['up,', 330], ['but', 560], ['I', 700], ['want', 800], ['to', 950], ['ask', 1050], ['you', 1250],
   ['the', 1350], ['question', 1450], ['before', 1650], ['Who', 2300], ['is', 2560], ['your', 2760], ['NBA', 2960], ['GOAT?', 3260], ['NBA', 4400], ['GOAT?', 4850],
@@ -331,12 +331,14 @@ const NBAGOAT: Spec = {
     tension: '#F9FC35'}),
   shots: [[0, 'W'], [ngTl.segOut[1], 'L'], [ngTl.segOut[2], 'M'], [ngTl.out(5560), 'L'], [NG.quiet, 'M'], [NG.name + STROBE_CUT, 'M'], [NG.laugh, 'W'], [NG.tension, 'R']],
   strobes: [NG.name],
-  beeps: [ngTl.segOut[4] + 1030],
   tints: [[NG.goat, GREEN], [NG.laugh + 200, RED]],
   swish: [NG.goat],
   fah: [ngTl.out(14950)],
   awkward: [{at: NG.quiet + 300, sfx: 'crickets'}],
-  music: {file: 'du-bist-full.mp3', from: 60488 - NG.name, level: 0},
+  // v2 (user: stop overusing the beep + Du bist): Jeopardy think music under the question/silence, hard stop before the answer;
+  // Curb Your Enthusiasm credits on the laugh after "Dellavedova"
+  music: {file: 'Jeopardy_Think.mp3', from: 150, level: 0, until: NG.gotta},
+  extraSfx: [sfx('curb-credits', NG.laugh + 250, 0.6)],
   overlay: (o) => <>
     <MemePop o={o} at={NG.goat} to={NG.goat2 + 600} src="cutouts/lebron.png" x={330} y={1450} size={420} />
     <MemePop o={o} at={NG.name + STROBE_CUT} to={NG.laugh + 600} src="cutouts/delly1.png" x={330} y={1450} size={420} />

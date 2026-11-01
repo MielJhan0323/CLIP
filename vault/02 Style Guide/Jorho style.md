@@ -141,3 +141,8 @@ Source: t4 natty ticket (same moment as our JorhoTicket). 16.9 s, 1080x1920.
 
 ## Demo of the formula (2026-11-01): `JorhoFormulaAnt` → `out/jorho_formula_ant_demo.mp4` (15.7 s)
 t1 ant-autograph roast, adapted (not cloned): paradox top line "His autograph is smaller than an ant 💀"; light look; one arc from "Some hobby players have no respect" → "his auto looks like an ant… this big" → "he's got a goated pen"; meme pops under the box (Richardson cut-out on his name, 🐜 on "ant", 💀 on "no respect") via the new full-frame `overlay` on the spec; 1 strobe (on "ant"), 1 green tint, no beep; Du bist 14 dB under.
+
+## Music & beep usage (2026-11-01, user: "you're overusing the beep pause and Du bist")
+- Beep pause: off by default. Du bist: retired for now (it was in Ant, Wrong Josh Allen, Lefty v1, Celly v1, Enters, the formula demo, NBA GOAT v1).
+- Spec supports `music.until` (hard stop before a punchline) and meme stingers through `extraSfx` (e.g. `curb-credits`).
+- Mood picks: thinking/question → Jeopardy Think; awkward punchline → Curb credits stinger; goofy → Fluffing a Duck / Monkeys Spinning Monkeys; wholesome → Blue / lullaby / QKThr; hype → phonk. Gain comes from `MUSIC_LUFS` (add new files there).

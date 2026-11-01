@@ -70,3 +70,4 @@ User: "edit the trevor's nba goat clip… using jorho style". Built with the top
 - crickets on the thinking silence (awkward), **fahhh** after "Dellavedova" (crazy statement), red tint + 💀 on the laugh;
 - meme pops under the box: LeBron cut-out on "GOAT?" (the expected answer), Dellavedova cut-out on the reveal, 💀;
 - Du bist 14 dB under; footage `public/pod/nba_goat.mp4` (Drive `1mTForun8TLZYBuwQgihxF00SlT2Gub9E`); static seat track L(440,488) M(980,460) R(1490,505).
+- **v2 (user: remove the beep, stop overusing beep + Du bist):** no beep/hold; **Jeopardy Think** under the question + thinking silence with a hard stop before "Gotta be" (`music.until`); **Curb Your Enthusiasm credits** (`sfx/curb-credits.mp3`, starts 600 ms in) on the laugh; fahhh + crickets kept. 15.1 s → `out/jorho_nba_goat_v2.mp4`.
