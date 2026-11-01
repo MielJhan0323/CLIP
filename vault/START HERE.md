@@ -58,7 +58,7 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
   - [[SFX and music library]]: every sound/music file, when to use it, licensing
   - [[Card pull playbook]]: template for card-pull stream clips
   - [[Edit3 kinetic storytelling compositing]]: **Edit3** (`src/E3Ant.tsx`): kinetic type + story graphics + text/photos behind the speaker; lessons from the 38% STW flop (no ad look, cold-open hook, sound design checklist)
-  - [[Jorho v2 style]]: Jorho + explainer motion graphics (question card, stat badges, grade scale, stickers); a toolbox, vary it per clip
+  - [[Jorho v2 style]]: Jorho + explainer motion graphics; a toolbox, vary it per clip. **Approved reference edit: the PSA 10 celly v5** (cold open → YouTube card → typed action text → PSA scale → payoff loop)
   - [[Jorho style]]: copied from 4 Backyard Breaks Shorts: black bars, 💀 top line, one-word colored captions, punch-ins, exposure flash, meme cutouts
   - [[JustinAugh style]]: card pulls copied from 4 refs: VO hook over a scream clip, white cut flashes, yellow PiP, INSANE PULL reveal (`src/justinaugh/`)
   - [[Motion graphics podcast style]]: **preset Edit2** (`src/Edit2.tsx` + `src/plans/edit2/`), the motion-graphics podcast edit, plus research on 6 viral refs

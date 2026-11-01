@@ -16,6 +16,29 @@ The refs are edits of OUR clips (u1 playbook ×2, t3 throws-left), so they show 
 
 Cuts: hard cuts (scdet 2–7 per clip), a Jorho strobe on 1–2 beats, a green tint on keywords. Graphic scenes take over the box for 1–3 s, then hand back to the cam.
 
+## Reference edit #4: our approved celly edit (user, 2026-11-01: "use that as another reference")
+`out/jorho_v2_psa10_celly_v5.mp4` (`JorhoV2Celly` in `src/jorho/v2.tsx`), contact sheet `assets/references/jorho_v2_celly_v5_sheet.jpg`. This is what a Jorho v2 edit is supposed to be. Use it as a reference **next to** the 3 Drive refs, for structure and polish. Don't copy its graphics one-to-one onto other clips.
+
+| out time | beat | why it works |
+|---|---|---|
+| 0–1.95 s | **cold open on the payoff**: "you point and go… 10, 10, 10" + red ring on the caption "10" + dark "10·10·10 / THE CELLY" badge, green tint, soft hit | a scroller sees the answer first and wants the setup |
+| 1.95 s | Jorho strobe on the beat, cut into the story | the hard reset after the hook |
+| 2.15–4.45 s | **YouTube watch-page card**: the cam shrinks into a 16:9 player (red progress bar, controls, running time); the title "How did Trevor Lawrence get a TD celly?" wipes + slides in; views → channel row + Subscribe → like/share rise in; captions and tints off; expands back out "fullscreen" | frames the question as "a video you're watching"; feels native, not like an ad |
+| ~6.1 s | `*Not a celly guy*` typed out in italic glowing text + keyboard SFX, red tint on "Maybe" | reaction label without a fake-looking sticker |
+| ~12.6–15 s | "PSA GRADE" scale: cam dims, dots 1→10 fill with clicks, 10 lights green "GEM MINT" + ding | explains the joke (why 10) with a real graphic |
+| ~16.6–18 s | "10·10·10 THE CELLY" badge again + ring on the caption + soft hits on each "10" | the payoff lands a second time and loops back to the cold open |
+| end | "EASY ✅" (iOS emoji PNG), "I like that. Yo!" | ends on a finished line |
+
+**Rules this edit set** (from the feedback rounds):
+1. Scroll test first: the first 1–2 s must be the strongest moment.
+2. No beep pause unless a name or reveal word really benefits from it.
+3. Only real keyboard emoji (iOS PNG images); never type emoji into text.
+4. Typed `*action text*` instead of boxed stickers for reactions.
+5. "Question" beats = the YouTube watch-page card, with a sliding title reveal.
+6. No top-right info badges that don't add anything (the "1 MOVE / JUST POINT" badge was cut).
+7. Music 14 dB under the voice; soft SFX only.
+8. 3–5 graphics per clip, each tied to a line. Leave plain cam stretches between them.
+
 ## Audio
 - Music in the refs is LOUD (only ~1.3–6 dB under the voice). **We keep our rule: music 14 dB under the voice** (user, 2026-11-01). The tracks couldn't be identified (chroma matching is not decisive); they are phonk/trap beds at 89–99 BPM.
 - SFX at the scene changes fingerprint to generic **soft booms/impacts** (best: myinstants "sudden suspense boom" 0.90, "smash bros hit", "vine boom slow"), plus UI-style pops and clicks on graphics. No exact match because the music masks them.
