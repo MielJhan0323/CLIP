@@ -7,7 +7,7 @@ import {AbsoluteFill, Img, interpolate, staticFile} from 'remotion';
 import cellyWords from '../plans/data/u2_psa10_celly.words.json';
 import cellyTrack from '../plans/data/u2_psa10_celly.seats.json';
 import {MONT} from '../e3/bars';
-import {Cam, clamp, ease, pop, sfx, timeline, type CamCfg, type TL, type Track} from '../e3/kit';
+import {Cam, SANS, clamp, ease, pop, sfx, timeline, type CamCfg, type TL, type Track} from '../e3/kit';
 import {BOX_H, GREEN, RED, STROBE_CUT, wordsFrom} from './kit';
 import {Jorho, type Spec} from './clips';
 
@@ -32,6 +32,70 @@ export const QuestionCard = ({o, a, b, q, cam}: {o: number; a: number; b: number
     {[[0, 0, 'Top', 'Left'], [1, 0, 'Top', 'Right'], [0, 1, 'Bottom', 'Left'], [1, 1, 'Bottom', 'Right']].map(([x, y, v, h], i) => (
       <div key={i} style={{position: 'absolute', width: 46, height: 46, borderColor: V2.green, borderStyle: 'solid', borderWidth: 0, left: (BW - W) / 2 - 14 + (x as number) * (W - 18), top: 186 + (y as number) * (Hh - 18),
         [`border${v}Width`]: 7, [`border${h}Width`]: 7, borderRadius: 8}} />))}
+  </AbsoluteFill>;
+};
+// YouTube-style watch page: the clip plays in a 16:9 player (red progress bar, scrubber, controls, time), the question is the video title,
+// channel row with Subscribe, like/share pills. The cam shrinks from the full box into the player on entry.
+const Ico = ({d, size = 34, fill = 'white'}: {d: string; size?: number; fill?: string}) => <svg width={size} height={size} viewBox="0 0 24 24"><path d={d} fill={fill} /></svg>;
+const I = {pause: 'M6 5h4v14H6zM14 5h4v14h-4z', next: 'M6 6l8.5 6L6 18zM16 6h2v12h-2z', vol: 'M4 9v6h4l5 4V5L8 9zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z',
+  cc: 'M19 5H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm-8 7H9.5v-.5h-2v3h2V14H11v1a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1zm7 0h-1.5v-.5h-2v3h2V14H18v1a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1z',
+  gear: 'M19.4 13a7.5 7.5 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7 7 0 0 0-1.7-1L15 3h-4l-.4 2.9a7 7 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.5 7.5 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7 7 0 0 0 1.7 1L11 21h4l.4-2.9a7 7 0 0 0 1.7-1l2.5 1 2-3.5zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z',
+  full: 'M5 5h5v2H7v3H5zm9 0h5v5h-2V7h-3zM5 14h2v3h3v2H5zm12 3h-3v2h5v-5h-2z',
+  like: 'M2 21h4V9H2zm20-11a2 2 0 0 0-2-2h-6.3l1-4.6v-.3a1.5 1.5 0 0 0-.4-1L13 1 6.6 7.6A2 2 0 0 0 6 9v10a2 2 0 0 0 2 2h9a2 2 0 0 0 1.8-1.2l3-7.1a2 2 0 0 0 .2-.7z',
+  dislike: 'M15 3H6a2 2 0 0 0-1.8 1.2l-3 7.1a2 2 0 0 0-.2.7v2a2 2 0 0 0 2 2h6.3l-1 4.6v.3a1.5 1.5 0 0 0 .4 1L10 23l6.6-6.6A2 2 0 0 0 17 15V5a2 2 0 0 0-2-2zm4 0v12h4V3z',
+  share: 'M14 9V5l7 7-7 7v-4.1c-5 0-8.5 1.6-11 5.1 1-5 4-10 11-11z'};
+const mmss = (ms: number) => `${Math.floor(ms / 60000)}:${String(Math.floor(ms / 1000) % 60).padStart(2, '0')}`;
+export const YouTubeCard = ({o, a, b, title, cam, channel = 'Backyard Breaks', subs = '1.2M subscribers', views = '48K views  2 hours ago', likes = '12K', dur = 20000, startAt = 6000}: {
+  o: number; a: number; b: number; title: string; cam: CamCfg; channel?: string; subs?: string; views?: string; likes?: string; dur?: number; startAt?: number}) => {
+  if (!on(o, a, b)) return null;
+  const inP = ease(o, a, 260), outP = ease(o, b - 200, 200);
+  const PX = 40, PY = 96, PW = 1000, PH = 562;
+  // player rect morphs from the full box to the 16:9 slot
+  const m = Math.min(inP, 1 - outP); // shrink into the player on entry, expand back to full box ("fullscreen") on exit
+  const lerp = (x: number, y: number) => x + (y - x) * m;
+  const rx = lerp(0, PX), ry = lerp(0, PY), rw = lerp(BW, PW), rh = lerp(BOX_H, PH);
+  const t = startAt + (o - a);
+  const prog = t / dur;
+  const playCam: CamCfg = {...cam, box: [PW, PH], baseH: 1080};
+  const ui = Math.min(inP, 1 - outP);
+  return <AbsoluteFill>
+    <AbsoluteFill style={{background: '#FFFFFF', opacity: m}} />
+    <div style={{position: 'absolute', left: rx, top: ry, width: rw, height: rh, borderRadius: lerp(0, 18), overflow: 'hidden', background: 'black'}}>
+      <div style={{position: 'absolute', inset: 0, transform: `scale(${rw / PW})`, transformOrigin: '0 0', width: PW, height: PH}}><Cam c={playCam} o={o} /></div>
+      {/* controls overlay */}
+      <div style={{position: 'absolute', left: 0, bottom: 0, width: '100%', height: 120, background: 'linear-gradient(transparent, rgba(0,0,0,0.65))', opacity: ui}} />
+      <div style={{position: 'absolute', left: 22, right: 22, bottom: 74, height: 6, background: 'rgba(255,255,255,0.3)', opacity: ui}}>
+        <div style={{position: 'absolute', left: 0, top: 0, height: 6, width: `${Math.min(1, prog * 1.25) * 100}%`, background: 'rgba(255,255,255,0.45)'}} />
+        <div style={{position: 'absolute', left: 0, top: 0, height: 6, width: `${prog * 100}%`, background: '#FF0000'}} />
+        <div style={{position: 'absolute', left: `calc(${prog * 100}% - 9px)`, top: -6, width: 18, height: 18, borderRadius: 9, background: '#FF0000'}} />
+      </div>
+      <div style={{position: 'absolute', left: 22, right: 22, bottom: 14, height: 48, display: 'flex', alignItems: 'center', gap: 22, opacity: ui,
+        fontFamily: SANS, fontWeight: 500, fontSize: 24, color: 'white'}}>
+        <Ico d={I.pause} /><Ico d={I.next} /><Ico d={I.vol} /><span>{mmss(t)} / {mmss(dur)}</span>
+        <span style={{flex: 1}} /><Ico d={I.cc} /><Ico d={I.gear} /><Ico d={I.full} />
+      </div>
+    </div>
+    {/* title + meta + channel row */}
+    <div style={{position: 'absolute', left: PX + 4, top: PY + PH + 26, width: PW - 8, opacity: ui, fontFamily: SANS, color: '#0F0F0F',
+      transform: `translateY(${(1 - m) * 30}px)`}}>
+      <div style={{fontWeight: 700, fontSize: 44, lineHeight: '54px'}}>{title}</div>
+      <div style={{fontWeight: 500, fontSize: 26, color: '#606060', marginTop: 8}}>{views}</div>
+      <div style={{display: 'flex', alignItems: 'center', marginTop: 26, gap: 18}}>
+        <div style={{width: 72, height: 72, borderRadius: 36, background: '#1C1C1C', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontWeight: 800, fontSize: 28}}>BB</div>
+        <div style={{flex: 1}}>
+          <div style={{fontWeight: 700, fontSize: 30}}>{channel}</div>
+          <div style={{fontWeight: 500, fontSize: 22, color: '#606060'}}>{subs}</div>
+        </div>
+        <div style={{background: '#0F0F0F', color: 'white', borderRadius: 40, padding: '16px 30px', fontWeight: 600, fontSize: 26}}>Subscribe</div>
+      </div>
+      <div style={{display: 'flex', gap: 16, marginTop: 24}}>
+        <div style={{display: 'flex', alignItems: 'center', background: '#F2F2F2', borderRadius: 40, padding: '10px 22px', gap: 12, fontWeight: 600, fontSize: 24}}>
+          <Ico d={I.like} size={28} fill="#0F0F0F" />{likes}<span style={{width: 2, height: 30, background: '#CCC', margin: '0 8px'}} /><Ico d={I.dislike} size={28} fill="#0F0F0F" /></div>
+        <div style={{display: 'flex', alignItems: 'center', background: '#F2F2F2', borderRadius: 40, padding: '10px 22px', gap: 10, fontWeight: 600, fontSize: 24}}>
+          <Ico d={I.share} size={28} fill="#0F0F0F" />Share</div>
+      </div>
+    </div>
   </AbsoluteFill>;
 };
 // dark rounded badge, big number + small green label (top-right of the box)
@@ -122,13 +186,14 @@ const CELLY_V2: Spec = {
   words: WORDS,
   shots: [[0, 'M'], [COLD + STROBE_CUT - STROBE_CUT, 'W'], [Y.maybe, 'M'], [COLD + sTl.segOut[2], 'W'], [Y.psa, 'M'], [Y.ten1 - 240 + STROBE_CUT, 'M'], [Y.its, 'W'], [Y.like, 'M']],
   strobes: [COLD - STROBE_CUT, Y.ten1 - 240],
-  tints: [[Y.cTen, GREEN], [Y.celly, GREEN], [Y.maybe, RED], [Y.psa, GREEN], [Y.yo, GREEN]],
+  tints: [[Y.cTen, GREEN], [Y.maybe, RED], [Y.psa, GREEN], [Y.yo, GREEN]],
+  capsOff: [[COLD + 120, COLD + 2500]], // no captions over the YouTube card
   swish: [Y.cTen, Y.celly, Y.yo],
   music: {file: 'eclipser.mp3', from: 15800 - (COLD - STROBE_CUT), level: 0},
   inBox: (o) => <Layer>
     <StatBadge o={o} a={Y.cTen} b={COLD - 60} big="10·10·10" label="THE CELLY" x={300} />
     <WordRing o={o} a={Y.cTen} b={Y.cTen3 + 300} y={WORD_Y - 417 + 6} w={120} />
-    <QuestionCard o={o} a={COLD + 300} b={COLD + 2300} q="How did Trevor get a TD celly?" cam={CAM} />
+    <YouTubeCard o={o} a={COLD + 200} b={COLD + 2500} title="How did Trevor Lawrence get a TD celly?" cam={CAM} startAt={COLD + 200} dur={V2_CELLY_MS} />
     <TypedAction o={o} a={Y.maybe} b={COLD + sTl.segOut[2] + 1300} text="Not a celly guy" />
     <GradeScale o={o} a={Y.psa + 300} b={Y.psa + 2700} title="PSA GRADE" label="GEM MINT" />
     <StatBadge o={o} a={Y.ten1 - 240 + STROBE_CUT} b={Y.its} big="10·10·10" label="THE CELLY" x={300} />
@@ -137,8 +202,8 @@ const CELLY_V2: Spec = {
   </Layer>,
   extraSfx: [
     sfx('jv2-smash-bros-hit', Y.cTen, 0.16),
-    sfx('keyboard-typing', COLD + 450, 0.16, 1300),
-    sfx('jv2-sudden-suspense-boom', COLD + 2300, 0.12), sfx('fast-whoosh', COLD + 2300, 0.28),
+    sfx('mg-click', COLD + 200, 0.25),
+    sfx('jv2-sudden-suspense-boom', COLD + 2500, 0.12), sfx('fast-whoosh', COLD + 2500, 0.28),
     sfx('keyboard-typing', Y.maybe, 0.2, 800),
     ...Array.from({length: 10}, (_, i) => sfx('mg-click', Y.psa + 550 + i * 110, 0.2)),
     sfx('ding-2', Y.psa + 550 + 9 * 110, 0.22),

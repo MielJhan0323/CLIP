@@ -37,7 +37,7 @@ const shotAt = (shots: Shot[], o: number) => shots.reduce<Seat>((w, [t, s]) => (
 
 type Cut = {file: string; from: number; to: number; x: number; h: number};
 export type Spec = {
-  inBox?: (o: number) => ReactNode; extraSfx?: Sfx[]; // Jorho v2: graphics inside the video box, extra sounds
+  inBox?: (o: number) => ReactNode; extraSfx?: Sfx[]; capsOff?: [number, number][]; // Jorho v2: graphics inside the video box, extra sounds
   tl: TL; src: string; track: Track; top: string; words: Word[]; wordY: number; wideX: number; shots: Shot[];
   strobes: number[]; beeps?: number[]; tints: [number, string][]; swish: number[]; cut?: Cut; cuts?: Cut[];
   music: {file: string; from: number; level: number};
@@ -50,7 +50,7 @@ export const Jorho = ({s}: {s: Spec}) => {
     who: () => shotAt(s.shots, o)};
   return <Frame o={o} top={s.top}
     over={<>
-      <OneWord o={o} words={s.words} y={s.wordY} />
+      {!inAny(o, s.capsOff ?? []) && <OneWord o={o} words={s.words} y={s.wordY} />}
       <SpeechTrack src={s.src} tl={s.tl} />
       <Music file={s.music.file} songFrom={s.music.from} level={(t) => musicGain(s.music.file) * Math.min(1, (s.tl.total - t) / 400)} />
       <SfxTrack list={[
