@@ -146,3 +146,41 @@ t1 ant-autograph roast, adapted (not cloned): paradox top line "His autograph is
 - Beep pause: off by default. Du bist: retired for now (it was in Ant, Wrong Josh Allen, Lefty v1, Celly v1, Enters, the formula demo, NBA GOAT v1).
 - Spec supports `music.until` (hard stop before a punchline) and meme stingers through `extraSfx` (e.g. `curb-credits`).
 - Mood picks: thinking/question → Jeopardy Think; awkward punchline → Curb credits stinger; goofy → Fluffing a Duck / Monkeys Spinning Monkeys; wholesome → Blue / lullaby / QKThr; hype → phonk. Gain comes from `MUSIC_LUFS` (add new files there).
+
+
+# ⭐ Refs #6–7 (user uploads, 2026-11-01): "Giving a 20,000$ card to a player worth 40M 💀" + "The one player thats better than LeBron 💀"
+Contact sheets: `assets/references/jorho_refs_tiger_nbagoat_sheet.jpg`. Both 15.2 s, black Jorho frame, Trevor clips we have (t2 Tiger gift, NBA GOAT).
+
+## Viewer-seat breakdown
+**NBA GOAT ("better than LeBron")**
+- 0.0 s: a bold claim tied to the most famous name, plus a stacked split-screen (asker close-up over Trevor close-up) with red arrows on both faces. I want the name and I'm ready to argue → stay.
+- 2.1 s: the question is asked out loud, with a green flash and a LeBron/Jordan image. I start guessing.
+- 3.5 s: curved red arrow + red **\*TREVOR LAWRENCE\*** (non-fans learn he's an NFL QB → bigger stakes), red tint on "goat".
+- 6.5–9.7 s: **\*thinking\*** held on the silence. The wait itself is the joke and the tension.
+- 10.2 s: "…Matthew Dellavedova" → flash + **huge real Delly photo**. Expectation broken → laugh + "who??" comments.
+- 12–15 s: "hahaha", **\*impressed\***, ends ~2 s after the payoff. **No beep.**
+
+**Tiger gift ("20,000$ card to a player worth 40M")**
+- 0.0 s: number contrast = absurd, money hook; green flash + red arrow on the card.
+- 1–3 s: **\*20,000$ card\*** label on the card (you see the stakes).
+- 3.4 s: white-flash cut to the object reveal (Tiger game-worn patch auto).
+- 7.5 s: **\*TREVOR LAWRENCE\*** curved callout.
+- 10.5 s: red tint + **\*bros too rich to care\*** that stays over the ending: the editor's opinion becomes the joke and starts arguments.
+- 15.2 s: ends mid-sentence and loops (we keep the finished-sentence rule).
+
+Audio: music 8.5–10 dB under the voice (we keep 14 dB, user rule), 3–6 hits total, all on cuts/tints.
+
+# 🏆 Jorho PLAYBOOK (combined: gift ticket + these 2 + all feedback)
+1. **Title = contradiction + famous anchor**, ≤ 10 words: "better than LeBron", "gifted himself", "20K card to a 40M player". Provoke, don't describe.
+2. **Frame 0 tells you where to look:** arrows on faces, a split-screen of the two people, or a label on the object.
+3. **Question or object by ~2 s.** Cold start on the first line of the arc.
+4. **Identify Trevor once** with `CallOut` (curved red arrow + red *TREVOR LAWRENCE*). Non-fans need the stakes.
+5. **Dress the pause, don't delete all of it:** `Asterisk` *thinking* / *awkward* + crickets or awkward-moment.
+6. **Payoff = broken expectation, shown BIG on the exact word:** full-size real cut-out photo (MemePop / Cutout) + green or red tint or a flash + fahhh or a meme sting (Curb). No beep.
+7. **Editor's comment after the payoff:** `Asterisk` *impressed* / *bros too rich to care* / *he's not joking*. Gives viewers an opinion to agree or argue with.
+8. **End ≤ 2 s after the payoff**, 15–17 s total, on a finished line.
+9. **Effects only on beats:** green = setup/name, red = payoff/laugh; ≤ 2 white-flash cuts; 3–6 SFX; music 14 dB under, rotated (no Du bist for now).
+10. **Two looks:** black Jorho (roasts, hype, crazy answers) and light (gifts, wholesome). Alternate across a batch.
+Before every render, watch the first 2 s as a scroller: would I stay? If not, fix the title or the first frame first.
+
+Code: `Asterisk`, `CallOut` (new), `MemePop`, `Cutout`, `Tints`, `strobe` in `src/jorho/kit.tsx`; spec fields `overlay`, `fah`, `awkward`, `music.until`, `light`.

@@ -149,3 +149,30 @@ export const MemePop = ({o, at, to, src, x = 340, y = 1480, size = 400}: {o: num
   return <Img src={staticFile(src)} style={{position: 'absolute', left: x, top: y, width: size, transform: `scale(${s})`, opacity: out,
     filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.45))'}} />;
 };
+
+// ---- asterisk narration label (refs 2026-11-01: *thinking*, *impressed*, *bros too rich to care*, *20,000$ card*) -------
+// editor's commentary / labels, lowercase in asterisks, bold + glow + dark outline; can sit over the speaker while one-word captions run
+export const Asterisk = ({o, a, b, text, y, x, color = '#FFFFFF', size = 54}: {o: number; a: number; b: number; text: string; y: number; x?: number; color?: string; size?: number}) => {
+  if (o < a || o >= b) return null;
+  const s = interpolate(fr(o) - fr(a), [0, 3, 5], [0.6, 1.08, 1], clamp);
+  return <div style={{position: 'absolute', top: y, left: x ?? 0, width: x === undefined ? W : undefined, textAlign: 'center', transform: `scale(${s})`,
+    opacity: interpolate(o, [b - 120, b], [1, 0], clamp)}}>
+    <span style={{fontFamily: MONT, fontWeight: 800, fontSize: size, color, WebkitTextStroke: '4px #111', paintOrder: 'stroke fill',
+      textShadow: `0 0 16px ${color}88, 0 3px 8px rgba(0,0,0,0.7)`}}>*{text}*</span>
+  </div>;
+};
+// curved hand-drawn red arrow + red "*TREVOR LAWRENCE*" label pointing at a person (who's who for non-fans; once per video)
+export const CallOut = ({o, a, b, x, y, label, flip}: {o: number; a: number; b: number; x: number; y: number; label: string; flip?: boolean}) => {
+  if (o < a || o >= b) return null;
+  const p = interpolate(o - a, [0, 220], [0, 1], clamp);
+  const d = flip ? 'M 230 260 C 120 250, 40 180, 60 40' : 'M 30 260 C 140 250, 220 180, 200 40';
+  return <div style={{position: 'absolute', left: x - (flip ? 60 : 200), top: y, opacity: interpolate(o, [b - 120, b], [1, 0], clamp)}}>
+    <svg width={260} height={280} style={{overflow: 'visible'}}>
+      <path d={d} fill="none" stroke="#E8132B" strokeWidth={16} strokeLinecap="round" strokeDasharray={420} strokeDashoffset={420 * (1 - p)}
+        style={{filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.5))'}} />
+      {p > 0.9 && <polygon points={flip ? '60,0 20,60 100,55' : '200,0 160,55 240,60'} fill="#E8132B" />}
+    </svg>
+    <div style={{position: 'absolute', top: 270, left: flip ? -40 : -180, width: 460, textAlign: 'center', fontFamily: MONT, fontWeight: 900, fontSize: 46,
+      color: '#E8132B', WebkitTextStroke: '5px white', paintOrder: 'stroke fill', opacity: p}}>*{label}*</div>
+  </div>;
+};
