@@ -38,6 +38,7 @@ const shotAt = (shots: Shot[], o: number) => shots.reduce<Seat>((w, [t, s]) => (
 type Cut = {file: string; from: number; to: number; x: number; h: number};
 export type Spec = {
   inBox?: (o: number) => ReactNode; extraSfx?: Sfx[]; capsOff?: [number, number][]; light?: boolean;
+  awkward?: {at: number; sfx?: 'ja-ding' | 'crickets' | 'taco-bell-bong'}[]; // awkward pauses / cringe (user, 2026-11-01)
   fah?: number[]; // "fahhh" right after roasts / shots at people / crazy statements (user, 2026-11-01)
   overlay?: (o: number) => ReactNode; // full-frame layer (light look: meme pops go in the blurred area under the box) // Jorho v2: graphics inside the video box, extra sounds
   tl: TL; src: string; track: Track; top: string; words: Word[]; wordY: number; wideX: number; shots: Shot[];
@@ -63,6 +64,7 @@ export const Jorho = ({s}: {s: Spec}) => {
         ...(s.beeps ?? []).map((t) => sfx('jorho-beep', t, 0.25)),
         ...(s.extraSfx ?? []),
         ...(s.fah ?? []).map((t) => sfx('fahhh', t, 0.32, 1500)),
+        ...(s.awkward ?? []).map((w) => sfx(w.sfx ?? 'ja-ding', w.at, w.sfx === 'crickets' ? 0.25 : 0.3, w.sfx === 'crickets' ? 2000 : 1300)),
       ]} />
     </>}>
     <AbsoluteFill style={{filter: strobe(o, s.strobes) || undefined}}>
@@ -300,6 +302,7 @@ const FORMULA: Spec = {
   shots: [[0, 'W'], [FM.anthony, 'L'], [FM.haveNt, 'M'], [FM.auto, 'L'], [FM.ant + STROBE_CUT, 'L'], [FM.big, 'W'], [FM.mention, 'R'], [FM.look, 'M'], [fTl.segOut[4], 'W']],
   strobes: [FM.ant],
   fah: [fTl.out(16380)], // right after "…looks like an ANT"
+  awkward: [{at: FM.haveNt}], // "…no disrespect." / "I haven't." (awkward-moment ding)
   tints: [[FM.goated, GREEN]],
   swish: [FM.anthony, FM.goated],
   music: {file: 'du-bist-full.mp3', from: 42051 - FM.ant, level: 0},
