@@ -23,7 +23,7 @@ import ticketTrack from '../plans/data/t4_natty_ticket.seats.json';
 import entersWords from '../plans/data/u5_trevor_enters.words.json';
 import entersTrack from '../plans/data/u5_trevor_enters.seats.json';
 import {Cam, FPS, Music, SfxTrack, SpeechTrack, sfx, timeline, type CamCfg, type Seat, type Sfx, type TL, type Track} from '../e3/kit';
-import {BOX_H, Cutout, Frame, GREEN, OneWord, RED, STROBE_CUT, Tints, strobe, wordsFrom, type Word} from './kit';
+import {BOX_H, Cutout, Frame, GREEN, MemePop, OneWord, RED, STROBE_CUT, Tints, strobe, wordsFrom, type Word} from './kit';
 
 const GRADE = 'contrast(1.06) saturate(1.05)';
 // Music sits a fixed 14 dB under the voice (voices measure ≈ −13.5 LUFS) so it never pulls focus (user, 2026-11-01).
@@ -37,7 +37,8 @@ const shotAt = (shots: Shot[], o: number) => shots.reduce<Seat>((w, [t, s]) => (
 
 type Cut = {file: string; from: number; to: number; x: number; h: number};
 export type Spec = {
-  inBox?: (o: number) => ReactNode; extraSfx?: Sfx[]; capsOff?: [number, number][]; light?: boolean; // Jorho v2: graphics inside the video box, extra sounds
+  inBox?: (o: number) => ReactNode; extraSfx?: Sfx[]; capsOff?: [number, number][]; light?: boolean;
+  overlay?: (o: number) => ReactNode; // full-frame layer (light look: meme pops go in the blurred area under the box) // Jorho v2: graphics inside the video box, extra sounds
   tl: TL; src: string; track: Track; top: string; words: Word[]; wordY: number; wideX: number; shots: Shot[];
   strobes: number[]; beeps?: number[]; tints: [number, string][]; swish: number[]; cut?: Cut; cuts?: Cut[];
   music: {file: string; from: number; level: number};
@@ -50,6 +51,7 @@ export const Jorho = ({s}: {s: Spec}) => {
     who: () => shotAt(s.shots, o)};
   return <Frame o={o} top={s.top} light={s.light}
     over={<>
+      {s.overlay?.(o)}
       {!inAny(o, s.capsOff ?? []) && <OneWord o={o} words={s.words} y={s.wordY} />}
       <SpeechTrack src={s.src} tl={s.tl} />
       <Music file={s.music.file} songFrom={s.music.from} level={(t) => musicGain(s.music.file) * Math.min(1, (s.tl.total - t) / 400)} />
@@ -283,3 +285,25 @@ export const JorhoEnters = () => <Jorho s={ENTERS} />;
 
 // test of the light look on the same source as the top performer (not a deliverable)
 export const JorhoTicketLight = () => <Jorho s={{...TICKET, light: true, wordY: 1290}} />;
+
+// ---- DEMO of the top-performer formula (gift_ticket): t1 "his auto looks like an ant" -------------------------------------
+// paradox top line, light look, one arc 15.7 s, 3 meme pops on trigger words, 1 strobe, no beep, quiet music.
+const fTl = timeline([[9340, 12020], [12160, 20380], [20460, 22200], [24080, 25260], [25500, 27400]]);
+export const FORMULA_MS = fTl.total;
+const FM = {anthony: fTl.out(12800), haveNt: fTl.out(14700), auto: fTl.out(14980), ant: fTl.out(16160), big: fTl.out(19020), respect: fTl.out(19940),
+  mention: fTl.segOut[2], look: fTl.segOut[3], goated: fTl.out(26900)};
+const FORMULA: Spec = {
+  tl: fTl, src: 'pod/t1_tiger_auto_pen.mp4', track: antTrack as unknown as Track, top: 'His autograph is smaller than an ant', wordY: 1290, wideX: 760, light: true,
+  words: wordsFrom(antWords, fTl, {goaded: 'goated', "Richardson's": 'Richardson'}, {Anthony: '#21F5E6', Richardson: '#21F5E6', ant: '#F9FC35', goated: '#58EE28'}),
+  shots: [[0, 'W'], [FM.anthony, 'L'], [FM.haveNt, 'M'], [FM.auto, 'L'], [FM.ant + STROBE_CUT, 'L'], [FM.big, 'W'], [FM.mention, 'R'], [FM.look, 'M'], [fTl.segOut[4], 'W']],
+  strobes: [FM.ant],
+  tints: [[FM.goated, GREEN]],
+  swish: [FM.anthony, FM.goated],
+  music: {file: 'du-bist-full.mp3', from: 42051 - FM.ant, level: 0},
+  overlay: (o) => <>
+    <MemePop o={o} at={FM.anthony} to={FM.haveNt + 400} src="img/jorho/richardson.png" x={330} y={1462} size={420} />
+    <MemePop o={o} at={FM.ant} to={FM.big} src="emoji-ios/1f41c.png" x={390} y={1480} size={300} />
+    <MemePop o={o} at={FM.respect} to={FM.mention + 300} src="emoji-ios/1f480.png" x={390} y={1480} size={300} />
+  </>,
+};
+export const JorhoFormulaAnt = () => <Jorho s={FORMULA} />;

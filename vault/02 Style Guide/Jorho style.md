@@ -138,3 +138,6 @@ Source: t4 natty ticket (same moment as our JorhoTicket). 16.9 s, 1080x1920.
 ## Code
 - `Frame` takes `light` (white band + blurred fill + white flash-in, measured above); set `light: true` on a Jorho `Spec`. Test comp `JorhoTicketLight` (layout check on the same source, not a deliverable).
 - `MemePop` in `src/jorho/kit.tsx`: iOS emoji PNG or cut-out popped on one word.
+
+## Demo of the formula (2026-11-01): `JorhoFormulaAnt` → `out/jorho_formula_ant_demo.mp4` (15.7 s)
+t1 ant-autograph roast, adapted (not cloned): paradox top line "His autograph is smaller than an ant 💀"; light look; one arc from "Some hobby players have no respect" → "his auto looks like an ant… this big" → "he's got a goated pen"; meme pops under the box (Richardson cut-out on his name, 🐜 on "ant", 💀 on "no respect") via the new full-frame `overlay` on the spec; 1 strobe (on "ant"), 1 green tint, no beep; Du bist 14 dB under.
