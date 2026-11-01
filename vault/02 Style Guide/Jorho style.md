@@ -69,6 +69,7 @@ Every number below comes from that, not from eyeballing. YouTube itself is not d
   - `JorhoPeyton`: u4, "Imagine having Peyton Manning on speed dial".
   - `JorhoGolf`: t2, "Trevor's dream golf foursome is undefeated".
   - `JorhoRedeem` (u3) and `JorhoCoen` (u6).
+  - Batch 5 (2026-11-01): `JorhoLefty`, `JorhoTicket`, `JorhoCelly`, `JorhoTigerGift`, `JorhoEnters`. See [[Batch 5 - Jorho Trevor clips 2]].
   - Batch 4 (2026-10-31): `JorhoAnt` (t1), `JorhoJosh` (t5), `JorhoTrav` (t3). See [[Batch 4 - Jorho Trevor clips]].
 - A spec can have `cuts: [...]` (several cut-outs), e.g. the wrong Josh Allen → the real Hines-Allen gag.
 - Cut-outs go on the **right side of the box** (x ≈ 560–640, h 420–520), so they don't cover the speaker or the caption.

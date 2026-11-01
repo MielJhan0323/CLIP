@@ -37,6 +37,7 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 - **Podcast clips:** use the Ref C layout (black bars, video box, plain top caption "Do you agree with this? 💀", cut-out photos of people mentioned) **on top of** our normal edit style. See [[Reference Shorts#Ref C: podcast layout (user: "for podcast style videos make it like this")]].
 
 - **New card-pull style "justinaugh"** (2026-10-31): see [[JustinAugh style]]. **Keep flashing low**: zoom whips + fast-whoosh on cuts instead of white flashes (2026-10-31).
+- **"Trevor Wallace clips" = the Trevor Lawrence Clips tab** of the sheet (2026-11-01).
 - **Card pulls (stream clips from the Backyard Breaks sheet):** follow [[Card pull playbook]] (white banner hook, whip transitions, tracked red circle + arrow, card title stack with price).
 
 ## Map
@@ -63,6 +64,7 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
   - [[Batch 1 - 6 big pulls + 6 Trevor clips]]: 12 Shorts from the sheet, how the batch pipeline works, titles/descriptions
   - [[Batch 2 - 6 big pulls + 6 Trevor clips]]: hooks, mood music, face tracking
   - [[Batch 3 - Edit3 4 cards + 4 Trevor]]: Edit3 style on black bars + card pulls, titles/descriptions
+  - [[Batch 5 - Jorho Trevor clips 2]]: 5 more Jorho Trevor clips (lefty, natty ticket, PSA 10 celly, Tiger gift, all hail the king)
   - [[Batch 4 - Jorho Trevor clips]]: 3 Trevor clips in Jorho style (ant autograph, wrong Josh Allen, Traveling Trevors)
 
 ## Quick start (new session)

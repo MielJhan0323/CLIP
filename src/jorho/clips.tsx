@@ -15,6 +15,12 @@ import travWords from '../plans/data/t3_traveling_trevors.words.json';
 import travTrack from '../plans/data/t3_traveling_trevors.seats.json';
 import joshWords from '../plans/data/t5_ex_teammate.words.json';
 import joshTrack from '../plans/data/t5_ex_teammate.seats.json';
+import cellyWords from '../plans/data/u2_psa10_celly.words.json';
+import cellyTrack from '../plans/data/u2_psa10_celly.seats.json';
+import ticketWords from '../plans/data/t4_natty_ticket.words.json';
+import ticketTrack from '../plans/data/t4_natty_ticket.seats.json';
+import entersWords from '../plans/data/u5_trevor_enters.words.json';
+import entersTrack from '../plans/data/u5_trevor_enters.seats.json';
 import {Cam, FPS, Music, SfxTrack, SpeechTrack, sfx, timeline, type CamCfg, type Seat, type TL, type Track} from '../e3/kit';
 import {BOX_H, Cutout, Frame, GREEN, OneWord, RED, STROBE_CUT, Tints, strobe, wordsFrom, type Word} from './kit';
 
@@ -180,3 +186,88 @@ const TRAV: Spec = {
   music: {file: 'blue-yung-kai.mp3', from: 37245 - T.whacked, level: 0.33},
 };
 export const JorhoTrav = () => <Jorho s={TRAV} />;
+
+// ================= batch 5 (2026-11-01): 3 new clips + 2 new moments from clips used before =====================
+// ---- t3 (first half) · "coaches only roll you right… so I threw way more going to my [beep] left" ----------------------
+const lTl = timeline([[16200, 18900], [22400, 23760], [25700, 31260], [32050, 33300], [33820, 36040, 480], [36040, 36520], [44780, 46300],
+  [46700, 50600], [50800, 52800]]);
+export const LEFTY_J_MS = lTl.total;
+const L = {kid: lTl.out(18080), right: lTl.out(28740), hated: lTl.out(32800), left: lTl.segOut[5], better: lTl.out(48840), best: lTl.segOut[8]};
+const LEFTY: Spec = {
+  tl: lTl, src: 'pod/t3_traveling_trevors.mp4', track: travTrack as unknown as Track, top: 'Trevor trained himself to throw better going left', wordY: 1170, wideX: 715,
+  words: wordsFrom(travWords, lTl, {}, {left: '#58EE28', right: '#F9FC35', hated: '#21F5E6', best: '#58EE28'}),
+  shots: [[0, 'M'], [lTl.segOut[2], 'W'], [lTl.segOut[3], 'M'], [L.left + STROBE_CUT, 'W'], [lTl.segOut[6], 'M'], [L.best + STROBE_CUT, 'L']],
+  strobes: [L.left, L.best],
+  beeps: [lTl.segOut[4] + 2220],
+  tints: [[L.kid, GREEN], [L.hated, RED], [L.left + STROBE_CUT, GREEN], [L.better, GREEN]],
+  swish: [L.kid, L.left + STROBE_CUT, L.better],
+  music: {file: 'du-bist-full.mp3', from: 60488 - L.left, level: 0.32},
+};
+export const JorhoLefty = () => <Jorho s={LEFTY} />;
+
+// ---- t4 · "a signed ticket from your [beep] national championship game… that's for me?" ---------------------------------
+const kTl = timeline([[9780, 11500], [12300, 13660], [14340, 17300], [21520, 23930, 480], [23930, 29000], [29400, 29800], [31800, 33300], [35500, 36100]]);
+export const TICKET_J_MS = kTl.total;
+const K2 = {gift: kTl.out(11260), weird: kTl.out(14680), national: kTl.segOut[4], mvp: kTl.out(25680), forMe: kTl.segOut[6], thank: kTl.out(33120),
+  awesome: kTl.segOut[7]};
+const TICKET: Spec = {
+  tl: kTl, src: 'pod/t4_natty_ticket.mp4', track: ticketTrack as unknown as Track, top: 'Gifting Trevor a ticket to his own natty game', wordY: 1170, wideX: 760,
+  words: wordsFrom(ticketWords, kTl, {}, {gift: '#58EE28', national: '#21F5E6', championship: '#21F5E6', MVP: '#F9FC35', Clemson: '#58EE28'}),
+  shots: [[0, 'W'], [kTl.segOut[2], 'M'], [kTl.segOut[3], 'W'], [K2.national + STROBE_CUT, 'M'], [kTl.segOut[5], 'W'], [K2.forMe, 'M'], [K2.awesome - 240 + STROBE_CUT, 'W']],
+  strobes: [K2.national, K2.awesome - 240],
+  beeps: [kTl.segOut[3] + 2410],
+  tints: [[K2.gift, GREEN], [K2.weird, RED], [K2.national + STROBE_CUT, GREEN], [K2.mvp, GREEN], [K2.thank, GREEN]],
+  swish: [K2.gift, K2.national + STROBE_CUT, K2.mvp, K2.thank],
+  music: {file: 'blue-yung-kai.mp3', from: 89861 - K2.national, level: 0.33},
+};
+export const JorhoTicket = () => <Jorho s={TICKET} />;
+
+// ---- u2 · "you get a [beep] PSA 10… you point and go 10, 10, 10" -----------------------------------------------------
+const yTl = timeline([[3940, 8100], [8380, 9000], [9480, 11500], [16800, 18200], [20800, 22640, 480], [22640, 25400], [25480, 28200], [28600, 29700],
+  [30700, 31500], [31900, 32600]]);
+export const CELLY_J_MS = yTl.total;
+const Y = {celly: yTl.out(5200), maybe: yTl.segOut[1], psa: yTl.segOut[5], ten: yTl.out(27580), easy: yTl.out(28660), like: yTl.segOut[8], yo: yTl.segOut[9]};
+const CELLY: Spec = {
+  tl: yTl, src: 'pod2/u2_psa10_celly.mp4', track: cellyTrack as unknown as Track, top: "Trevor's new touchdown celly is a PSA 10 fr", wordY: 1170, wideX: 760,
+  words: wordsFrom(cellyWords, yTl, {selly: 'celly', '1010': '10', tutti: 'TD'}, {celly: '#58EE28', touchdown: '#58EE28', PSA: '#21F5E6', '10': '#F9FC35'}),
+  shots: [[0, 'W'], [Y.maybe, 'M'], [yTl.segOut[2], 'W'], [Y.psa + STROBE_CUT, 'M'], [yTl.segOut[6], 'W'], [Y.ten + STROBE_CUT, 'M'], [Y.like, 'W']],
+  strobes: [Y.psa, Y.ten],
+  beeps: [yTl.segOut[4] + 1840],
+  tints: [[Y.celly, GREEN], [Y.maybe, RED], [Y.psa + STROBE_CUT, GREEN], [Y.easy, GREEN], [Y.yo, GREEN]],
+  swish: [Y.celly, Y.psa + STROBE_CUT, Y.easy, Y.yo],
+  music: {file: 'du-bist-full.mp3', from: 20317 - Y.psa, level: 0.32},
+};
+export const JorhoCelly = () => <Jorho s={CELLY} />;
+
+// ---- t2 (later) · "I've had this in my PC for four years… exquisite, [beep] Tiger, game-worn patch auto" -----------------
+const gT = timeline([[76800, 81300], [82000, 86060, 480], [86060, 91400], [97560, 102940], [105580, 108300]]);
+export const TIGER_J_MS = gT.total;
+const TG = {gifts: gT.out(78900), four: gT.out(83400), tiger: gT.segOut[2], auto: gT.out(88880), wow: gT.out(102500), golfer: gT.out(107800)};
+const TIGERGIFT: Spec = {
+  tl: gT, src: 'pod/t2_dream_golf_four.mp4', track: golfTrack as unknown as Track, top: 'Imagine getting this as a gift for being a golfer', wordY: 1150, wideX: 720,
+  words: wordsFrom(golfWords, gT, {'-5': '9.5', '9': ''}, {Tiger: '#21F5E6', Game: '#58EE28', worn: '#58EE28', Auto: '#F9FC35', golfer: '#58EE28'}),
+  shots: [[0, 'W'], [gT.segOut[1], 'L'], [TG.tiger + STROBE_CUT, 'M'], [gT.segOut[3], 'W'], [gT.segOut[4], 'M']],
+  strobes: [TG.tiger, gT.segOut[4]],
+  beeps: [gT.segOut[1] + 4060],
+  tints: [[TG.gifts, GREEN], [TG.tiger + STROBE_CUT, GREEN], [TG.auto, GREEN], [TG.wow, GREEN], [TG.golfer + 300, RED]],
+  swish: [TG.gifts, TG.tiger + STROBE_CUT, TG.auto, TG.wow],
+  cut: {file: 'tiger.png', from: TG.tiger + STROBE_CUT, to: gT.segOut[3] - 200, x: 600, h: 520},
+  music: {file: 'blue-yung-kai.mp3', from: 60209 - TG.tiger, level: 0.33},
+};
+export const JorhoTigerGift = () => <Jorho s={TIGERGIFT} />;
+
+// ---- u5 · "All hail the king" ×3 … [beep] "Boys." (13.8 s source → freeze holds bring it to 15 s) ------------------------
+const eTl = timeline([[0, 9800, 480], [9800, 13500, 1160]]);
+export const ENTERS_J_MS = eTl.total;
+const EN = {king1: eTl.out(1460), king2: eTl.out(3960), king3: eTl.out(6280), boys: eTl.segOut[1] + 40, here: eTl.out(12820)};
+const ENTERS: Spec = {
+  tl: eTl, src: 'pod2/u5_trevor_enters.mp4', track: entersTrack as unknown as Track, top: 'When Trevor Lawrence walks into your stream', wordY: 1170, wideX: 960,
+  words: wordsFrom(entersWords, eTl, {}, {king: '#F9FC35', Boys: '#58EE28'}),
+  shots: [[0, 'W'], [EN.king2 + STROBE_CUT, 'M'], [EN.king3, 'W'], [EN.boys + STROBE_CUT, 'M']],
+  strobes: [EN.king2, EN.boys],
+  beeps: [eTl.segOut[0] + 9800],
+  tints: [[EN.king1, GREEN], [EN.king3, GREEN], [EN.boys + STROBE_CUT, GREEN], [EN.here, GREEN]],
+  swish: [EN.king1, EN.king3, EN.boys + STROBE_CUT],
+  music: {file: 'du-bist-full.mp3', from: 90093 - EN.king2, level: 0.32},
+};
+export const JorhoEnters = () => <Jorho s={ENTERS} />;
