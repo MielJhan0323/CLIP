@@ -35,12 +35,14 @@ export const QuestionCard = ({o, a, b, q, cam}: {o: number; a: number; b: number
   </AbsoluteFill>;
 };
 // dark rounded badge, big number + small green label (top-right of the box)
-export const StatBadge = ({o, a, b, big, label, x = 690, y = 40}: {o: number; a: number; b: number; big: string; label: string; x?: number; y?: number}) => {
+// emoji = iOS codepoint PNG from public/emoji-ios (keyboard emoji, never a text glyph: those render with the browser font and look fake)
+const Emo = ({code, size}: {code?: string; size: number}) => code ? <Img src={staticFile(`emoji-ios/${code}.png`)} style={{width: size, height: size, verticalAlign: `-${size * 0.12}px`, marginLeft: 10}} /> : null;
+export const StatBadge = ({o, a, b, big, label, x = 690, y = 40, emoji}: {o: number; a: number; b: number; big: string; label: string; x?: number; y?: number; emoji?: string}) => {
   if (!on(o, a, b)) return null;
   const s = pop(o, a, 11, 260);
   return <div style={{position: 'absolute', left: x, top: y, transform: `scale(${s})`, transformOrigin: '50% 0', opacity: 1 - ease(o, b - 150, 150),
     background: V2.dark, borderRadius: 26, padding: '14px 30px', textAlign: 'center', boxShadow: '0 12px 30px rgba(0,0,0,0.35)'}}>
-    <div style={{fontFamily: MONT, fontWeight: 900, fontSize: 92, lineHeight: '96px', color: 'white'}}>{big}</div>
+    <div style={{fontFamily: MONT, fontWeight: 900, fontSize: 92, lineHeight: '96px', color: 'white'}}>{big}<Emo code={emoji} size={78} /></div>
     <div style={{fontFamily: MONT, fontWeight: 800, fontSize: 22, letterSpacing: 2, color: V2.green}}>{label}</div>
   </div>;
 };
@@ -62,11 +64,11 @@ export const GradeScale = ({o, a, b, n = 10, label, title}: {o: number; a: numbe
   </AbsoluteFill>;
 };
 // white tilted sticker label ("NOT A CELLY GUY")
-export const Sticker = ({o, a, b, text, x, y, rot = -6}: {o: number; a: number; b: number; text: string; x: number; y: number; rot?: number}) => {
+export const Sticker = ({o, a, b, text, x, y, rot = -6, emoji}: {o: number; a: number; b: number; text: string; x: number; y: number; rot?: number; emoji?: string}) => {
   if (!on(o, a, b)) return null;
   return <div style={{position: 'absolute', left: x, top: y, transform: `rotate(${rot}deg) scale(${pop(o, a, 9, 320)})`, opacity: 1 - ease(o, b - 120, 120),
     background: 'white', border: '5px solid #111', borderRadius: 10, padding: '6px 18px', fontFamily: MONT, fontWeight: 900, fontSize: 40, color: '#111',
-    boxShadow: '6px 6px 0 rgba(0,0,0,0.6)'}}>{text}</div>;
+    boxShadow: '6px 6px 0 rgba(0,0,0,0.6)'}}>{text}<Emo code={emoji} size={42} /></div>;
 };
 // condensed heading that gets a red strike-through drawn across it
 export const Strike = ({o, a, b, text, y = 60}: {o: number; a: number; b: number; text: string; y?: number}) => {
@@ -90,40 +92,51 @@ export const WordRing = ({o, a, b, y, w = 220}: {o: number; a: number; b: number
 export const Layer = ({children}: {children: ReactNode}) => <AbsoluteFill>{children}</AbsoluteFill>;
 
 // ================= demo: u2 PSA 10 celly in Jorho v2 =================================================================
-const yTl: TL = timeline([[3940, 8100], [8380, 9000], [9480, 11500], [16800, 18200], [20800, 22640, 480], [22640, 25400], [25480, 28200], [28600, 29700],
-  [30700, 31500], [31900, 32600]]);
+// v2.1 (user 2026-11-01): cold open on the payoff (scroll test), no beep pause (it didn't fit), no emoji inside graphics.
+const COLD_SEG: [number, number] = [26300, 28250];
+const STORY: [number, number][] = [[3940, 8100], [8380, 9000], [9480, 11500], [16800, 18200], [20800, 25400], [25480, 28200], [28600, 29700], [30700, 31500], [31900, 32600]];
+const COLD = COLD_SEG[1] - COLD_SEG[0];
+const yTl: TL = timeline([COLD_SEG, ...STORY]);
+const sTl = timeline(STORY);
+const at = (src: number) => COLD + sTl.out(src); // story time → output (the cold open repeats source 26.3–28.3 s)
 export const V2_CELLY_MS = yTl.total;
-const Y = {celly: yTl.out(5200), maybe: yTl.segOut[1], easy: yTl.out(11060), point: yTl.out(18040), psa: yTl.segOut[5], best: yTl.out(24560),
-  ten1: yTl.out(27580), ten2: yTl.out(27840), ten3: yTl.out(28000), its: yTl.segOut[7], like: yTl.segOut[8], yo: yTl.segOut[9]};
+const c0 = timeline([COLD_SEG]);
+const Y = {cTen: c0.out(27580), cTen3: c0.out(28000), maybe: COLD + sTl.segOut[1], point: at(18040), psa: at(22660), ten1: COLD + sTl.segOut[5] + 27580 - 25480,
+  ten3: COLD + sTl.segOut[5] + 28000 - 25480, its: COLD + sTl.segOut[6], like: COLD + sTl.segOut[7], yo: COLD + sTl.segOut[8], celly: at(5200)};
 const CAM: CamCfg = {src: 'pod2/u2_psa10_celly.mp4', tl: yTl, track: cellyTrack as unknown as Track, grade: 'contrast(1.06) saturate(1.05)', box: [1080, BOX_H],
   baseH: 640, faceY: 0.42, wideX: 760, who: () => 'W'};
 const WORD_Y = 1170;
+const FIX = {selly: 'celly', '1010': '10', tutti: 'TD'};
+const COLS = {celly: '#58EE28', PSA: '#21F5E6', '10': '#F9FC35', easy: '#58EE28'};
+const WORDS = [...wordsFrom(cellyWords, c0, FIX, COLS), ...wordsFrom(cellyWords, sTl, FIX, COLS).map((w) => ({...w, at: w.at + COLD}))];
 const CELLY_V2: Spec = {
   tl: yTl, src: 'pod2/u2_psa10_celly.mp4', track: cellyTrack as unknown as Track, top: 'Trevor finally got a touchdown celly fr', wordY: WORD_Y, wideX: 760,
-  words: wordsFrom(cellyWords, yTl, {selly: 'celly', '1010': '10', tutti: 'TD'}, {celly: '#58EE28', PSA: '#21F5E6', '10': '#F9FC35', easy: '#58EE28'}),
-  shots: [[0, 'W'], [Y.maybe, 'M'], [yTl.segOut[2], 'W'], [Y.psa + STROBE_CUT, 'M'], [Y.ten1 - 240 + STROBE_CUT, 'M'], [Y.its, 'W'], [Y.like, 'M']],
-  strobes: [Y.psa, Y.ten1 - 240],
-  beeps: [yTl.segOut[4] + 1840],
-  tints: [[Y.celly, GREEN], [Y.maybe, RED], [Y.psa + STROBE_CUT, GREEN], [Y.yo, GREEN]],
-  swish: [Y.celly, Y.yo],
-  music: {file: 'eclipser.mp3', from: 15800 - Y.psa, level: 0},
+  words: WORDS,
+  shots: [[0, 'M'], [COLD + STROBE_CUT - STROBE_CUT, 'W'], [Y.maybe, 'M'], [COLD + sTl.segOut[2], 'W'], [Y.psa, 'M'], [Y.ten1 - 240 + STROBE_CUT, 'M'], [Y.its, 'W'], [Y.like, 'M']],
+  strobes: [COLD - STROBE_CUT, Y.ten1 - 240],
+  tints: [[Y.cTen, GREEN], [Y.celly, GREEN], [Y.maybe, RED], [Y.psa, GREEN], [Y.yo, GREEN]],
+  swish: [Y.cTen, Y.celly, Y.yo],
+  music: {file: 'eclipser.mp3', from: 15800 - (COLD - STROBE_CUT), level: 0},
   inBox: (o) => <Layer>
-    <QuestionCard o={o} a={0} b={2300} q="Does Trevor even have a TD celly?" cam={CAM} />
-    <Sticker o={o} a={Y.maybe} b={yTl.segOut[2]} text="NOT A CELLY GUY" x={90} y={70} />
-    <StatBadge o={o} a={Y.point} b={Y.point + 1300} big="☝️" label="JUST A POINT" />
+    <StatBadge o={o} a={Y.cTen} b={COLD - 60} big="10·10·10" label="THE CELLY" x={300} />
+    <WordRing o={o} a={Y.cTen} b={Y.cTen3 + 300} y={WORD_Y - 417 + 6} w={120} />
+    <QuestionCard o={o} a={COLD + 300} b={COLD + 2300} q="How did Trevor get a TD celly?" cam={CAM} />
+    <Sticker o={o} a={Y.maybe} b={COLD + sTl.segOut[2]} text="NOT A CELLY GUY" x={90} y={70} />
+    <StatBadge o={o} a={Y.point} b={Y.point + 1300} big="1 MOVE" label="JUST POINT" emoji="261d" />
     <GradeScale o={o} a={Y.psa + 300} b={Y.psa + 2700} title="PSA GRADE" label="GEM MINT" />
     <StatBadge o={o} a={Y.ten1 - 240 + STROBE_CUT} b={Y.its} big="10·10·10" label="THE CELLY" x={300} />
     <WordRing o={o} a={Y.ten1} b={Y.ten3 + 500} y={WORD_Y - 417 + 6} w={120} />
-    <Sticker o={o} a={Y.its} b={Y.like + 600} text="EASY ✅" x={640} y={80} rot={5} />
+    <Sticker o={o} a={Y.its} b={Y.like + 600} text="EASY" x={680} y={80} rot={5} emoji="2705" />
   </Layer>,
   extraSfx: [
-    sfx('keyboard-typing', 150, 0.18, 1500),
-    sfx('jv2-sudden-suspense-boom', 2300, 0.14), sfx('fast-whoosh', 2300, 0.3),
-    sfx('jv2-pop-button', Y.maybe, 0.35), sfx('jv2-pop-button', Y.point, 0.3),
-    ...Array.from({length: 10}, (_, i) => sfx('mg-click', Y.psa + 550 + i * 110, 0.22)),
-    sfx('ding-2', Y.psa + 550 + 9 * 110, 0.25),
-    sfx('jv2-smash-bros-hit', Y.ten1, 0.18), sfx('jv2-smash-bros-hit', Y.ten2, 0.16), sfx('jv2-smash-bros-hit', Y.ten3, 0.2),
-    sfx('jv2-pop-button', Y.its, 0.3),
+    sfx('jv2-smash-bros-hit', Y.cTen, 0.16),
+    sfx('keyboard-typing', COLD + 450, 0.16, 1300),
+    sfx('jv2-sudden-suspense-boom', COLD + 2300, 0.12), sfx('fast-whoosh', COLD + 2300, 0.28),
+    sfx('jv2-pop-button', Y.maybe, 0.3), sfx('jv2-pop-button', Y.point, 0.28),
+    ...Array.from({length: 10}, (_, i) => sfx('mg-click', Y.psa + 550 + i * 110, 0.2)),
+    sfx('ding-2', Y.psa + 550 + 9 * 110, 0.22),
+    sfx('jv2-smash-bros-hit', Y.ten1, 0.16), sfx('jv2-smash-bros-hit', Y.ten3, 0.18),
+    sfx('jv2-pop-button', Y.its, 0.28),
   ],
 };
 export const JorhoV2Celly = () => <Jorho s={CELLY_V2} />;

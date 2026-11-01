@@ -37,6 +37,9 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 - **Podcast clips:** use the Ref C layout (black bars, video box, plain top caption "Do you agree with this? 💀", cut-out photos of people mentioned) **on top of** our normal edit style. See [[Reference Shorts#Ref C: podcast layout (user: "for podcast style videos make it like this")]].
 
 - **New card-pull style "justinaugh"** (2026-10-31): see [[JustinAugh style]]. **Keep flashing low**: zoom whips + fast-whoosh on cuts instead of white flashes (2026-10-31).
+- **Beep pause only when it fits** (2026-11-01): a censor beep + freeze before a NAME or a real reveal word that builds suspense. Never by default, never in every video; it gets distracting and unfitting.
+- **Scroll test** (2026-11-01): before rendering, watch the first 1–2 s as a Shorts scroller: would I stay or scroll? Open on the strongest/payoff moment (cold open), not a slow intro or a blurred card. Judge every beat the same way: does it keep me watching?
+- **Emoji = real keyboard emoji only** (2026-11-01): iOS PNGs from `public/emoji-ios/` (Emojipedia Apple set) as images. Never type emoji into text (the browser font draws them and they look AI-generated/uncanny). Graphs, badges, notations are wanted; avoid assets that look uncanny.
 - **Jorho v2** (2026-11-01): use the refs as a reference, but **don't make every edit look the same**; mix the graphics and sounds per clip, and source new generic edit SFX.
 - **Music must never distract from the content: keep it ~14 dB under the voice, SFX modest** (2026-11-01).
 - **Jorho music: rotate Du bist / Blue / the user's QKThr + lullaby tracks so songs don't repeat across a batch** (2026-11-01).

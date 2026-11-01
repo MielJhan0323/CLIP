@@ -31,6 +31,7 @@ Every number below comes from that, not from eyeballing. YouTube itself is not d
 - The top line rides on the box.
 - The footage starts **blurred and blown out** (with a horizontal smear) and is clear by about frame 16–18.
 - The first spoken word is already on screen at frame 0.
+- **Beep pause is optional** (user, 2026-11-01): only when a name or reveal word really benefits from it.
 - **Sound:** a 2642 Hz "ting" at frame 0 (pure tone, faint partial near 6.9 kHz, full level at once, decays about 35 dB over 1.3 s).
 
 ## Captions
