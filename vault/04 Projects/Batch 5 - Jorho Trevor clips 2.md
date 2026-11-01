@@ -18,4 +18,4 @@ User ask (2026-11-01): "take trevor wallace clips unique ones from before and so
 - u5 is only 13.8 s long: the beep hold + an end freeze bring it to 15 s. Freeze on a frame ≥ 250 ms before the file ends, or the hold renders black.
 
 ## Feedback log
-1. User (2026-11-01): add their two uploaded songs to the Jorho style and swap some videos' music so it doesn't repeat → JorhoLefty now uses `jorho-qkthr` (`jorho_throws_left_v2.mp4`), JorhoTicket uses `jorho-lullaby` (`jorho_natty_ticket_v2.mp4`). Batch music is now: QKThr, lullaby, Du bist, Blue, Du bist (different section).
+1. User (2026-11-01): add their two uploaded songs to the Jorho style and swap some videos' music so it doesn't repeat → JorhoLefty now uses `jorho-qkthr` (`jorho_throws_left_v2.mp4`), JorhoTicket uses `jorho-lullaby` (`jorho_natty_ticket_v2.mp4`). 2. User: put the Instant Sleep lullaby on the PSA 10 celly → `jorho_psa10_celly_v2.mp4` (lullaby from ~120 s, a different part than the ticket clip). Batch music was: QKThr, lullaby, Du bist, Blue, Du bist (different section).

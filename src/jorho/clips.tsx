@@ -235,7 +235,7 @@ const CELLY: Spec = {
   beeps: [yTl.segOut[4] + 1840],
   tints: [[Y.celly, GREEN], [Y.maybe, RED], [Y.psa + STROBE_CUT, GREEN], [Y.easy, GREEN], [Y.yo, GREEN]],
   swish: [Y.celly, Y.psa + STROBE_CUT, Y.easy, Y.yo],
-  music: {file: 'du-bist-full.mp3', from: 20317 - Y.psa, level: 0.32},
+  music: {file: 'jorho-lullaby.mp3', from: 120465 - Y.psa, level: 0.42}, // user pick (2026-11-01); later section than JorhoTicket
 };
 export const JorhoCelly = () => <Jorho s={CELLY} />;
 
