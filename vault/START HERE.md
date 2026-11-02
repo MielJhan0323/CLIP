@@ -39,6 +39,7 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 - **New card-pull style "justinaugh"** (2026-10-31): see [[JustinAugh style]]. **Keep flashing low**: zoom whips + fast-whoosh on cuts instead of white flashes (2026-10-31).
 - **Intro voiceover option for Jorho** (2026-11-01): an Alex line at the start ("Trevor Lawrence explains why…") over an opening shot, speech ducked under it, VO captions (spec `vo`). Use it when the clip needs context in the first seconds.
 - **Sticker accuracy** (2026-11-01): labels, arrows and callouts that point at a person must be **anchored to the tracked face** (`overlay(o, face)` → `face('L'|'M'|'R')` gives the face in frame px from the seat track + camera crop), never hand-placed coordinates. Arrow tip ≈ face + (70, −90) with `flip`; head labels ≈ 300 px above the face. Check each pointing sticker on a still before rendering.
+- **Asset hive mind** (2026-11-02): references add OPTIONS, not a checklist. Every video picks 2–4 fitting assets from [[Asset hive mind]], no repeated combos, no signature asset (arrow callout, YouTube card, editor comment, cut-out pop) in more than ~2 of 5 videos per batch; log usage there each batch. Don't overuse the arrow.
 - **Jorho PLAYBOOK** (2026-11-01, from the 3 top performers): follow [[Jorho style#🏆 Jorho PLAYBOOK (combined: gift ticket + these 2 + all feedback)]] for every new Jorho clip.
 - **Jorho top performer = "He really got gifted himself" (gift_ticket)** (2026-11-01): paradox top line, one complete arc ≤ 17 s, 2–3 literal meme pops on trigger words, light look (white band + blurred fill), very few effects. Use that formula (adapted, not cloned) for next Jorho videos. See [[Jorho style#⭐ Top performer]].
 - **Awkward SFX in some videos** (2026-11-01): on awkward pauses, cringe answers, silences or weird reveals use `ja-ding` (myinstants "awkward moment"), `crickets` (dead silence) or `taco-bell-bong` (awkward reveal). Jorho spec `awkward: [{at, sfx}]`. Only where a moment is really awkward; not every video.
@@ -61,6 +62,7 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
   - [[Reference Shorts]]: Refs A–C (A = same show as their footage, C = podcast layout)
   - [[Card pull and clip refs D-G]]: SFX, red circle/arrow tracking, transitions (round 2 training)
 - **Style guide**
+  - [[Asset hive mind]]: every learned asset + when it fits + usage log; mix them per video
   - [[Caption style]]: font (Montserrat 800 + glow), keyword colors, iOS emoji
   - [[SFX and music library]]: every sound/music file, when to use it, licensing
   - [[Card pull playbook]]: template for card-pull stream clips

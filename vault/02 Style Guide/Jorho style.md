@@ -171,6 +171,7 @@ Contact sheets: `assets/references/jorho_refs_tiger_nbagoat_sheet.jpg`. Both 15.
 Audio: music 8.5–10 dB under the voice (we keep 14 dB, user rule), 3–6 hits total, all on cuts/tints.
 
 # 🏆 Jorho PLAYBOOK (combined: gift ticket + these 2 + all feedback)
+> ⚠️ 2026-11-02: the steps below are a menu, not a checklist. Pick what fits each clip; see [[Asset hive mind]] (callout and editor comment were overused in batch 7).
 1. **Title = contradiction + famous anchor**, ≤ 10 words: "better than LeBron", "gifted himself", "20K card to a 40M player". Provoke, don't describe.
 2. **Frame 0 tells you where to look:** arrows on faces, a split-screen of the two people, or a label on the object.
 3. **Question or object by ~2 s.** Cold start on the first line of the arc.
