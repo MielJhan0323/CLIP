@@ -10,7 +10,7 @@ import {E3_CLIPS} from './e3/clips';
 import {JorhoV2Celly, V2_CELLY_MS} from './jorho/v2';
 import {JA_OHTANI_MS, JaOhtani} from './justinaugh/clips';
 import {JA_DART, JA_FLAGG, JA_LEBRON, JA_MAHOMES, JA_STARWARS} from './justinaugh/batch';
-import {CELLY_J_MS, ENTERS_J_MS, JorhoCelly, JorhoEnters, JorhoLefty, JorhoTicket, JorhoTicketLight, JorhoFormulaAnt, FORMULA_MS, JorhoNbaGoat, NBAGOAT_MS, JorhoPlaybookDemo, PLAYBOOK_DEMO_MS, JorhoLeftyVO, LEFTY_VO_MS, JorhoTigerGift, LEFTY_J_MS, TICKET_J_MS, TIGER_J_MS} from './jorho/clips';
+import {CELLY_J_MS, ENTERS_J_MS, JorhoCelly, JorhoEnters, JorhoLefty, JorhoTicket, JorhoTicketLight, JorhoFormulaAnt, FORMULA_MS, JorhoNbaGoat, NBAGOAT_MS, JorhoPlaybookDemo, PLAYBOOK_DEMO_MS, JorhoLeftyVO, LEFTY_VO_MS, B7NbaGoat, B7_NBA_MS, B7Peyton, B7_PEYTON_MS, B7Redeem, B7_REDEEM_MS, B7Golf, B7_GOLF_MS, B7Coen, B7_COEN_MS, JorhoTigerGift, LEFTY_J_MS, TICKET_J_MS, TIGER_J_MS} from './jorho/clips';
 import {ANT_MS, COEN_MS, GOLF_MS, JOSH_MS, JorhoAnt, JorhoCoen, JorhoGolf, JorhoJosh, JorhoPeyton, JorhoRedeem, JorhoTrav, PEYTON_MS, REDEEM_MS, TRAV_MS} from './jorho/clips';
 
 export const RemotionRoot = () => (
@@ -71,7 +71,8 @@ export const RemotionRoot = () => (
   {([['JorhoPeyton', JorhoPeyton, PEYTON_MS], ['JorhoGolf', JorhoGolf, GOLF_MS], ['JorhoRedeem', JorhoRedeem, REDEEM_MS], ['JorhoCoen', JorhoCoen, COEN_MS],
     ['JorhoAnt', JorhoAnt, ANT_MS], ['JorhoJosh', JorhoJosh, JOSH_MS], ['JorhoTrav', JorhoTrav, TRAV_MS],
     ['JorhoLefty', JorhoLefty, LEFTY_J_MS], ['JorhoTicket', JorhoTicket, TICKET_J_MS], ['JorhoCelly', JorhoCelly, CELLY_J_MS],
-    ['JorhoTigerGift', JorhoTigerGift, TIGER_J_MS], ['JorhoEnters', JorhoEnters, ENTERS_J_MS], ['JorhoV2Celly', JorhoV2Celly, V2_CELLY_MS], ['JorhoTicketLight', JorhoTicketLight, TICKET_J_MS], ['JorhoFormulaAnt', JorhoFormulaAnt, FORMULA_MS], ['JorhoNbaGoat', JorhoNbaGoat, NBAGOAT_MS], ['JorhoPlaybookDemo', JorhoPlaybookDemo, PLAYBOOK_DEMO_MS], ['JorhoLeftyVO', JorhoLeftyVO, LEFTY_VO_MS]] as const).map(([id, C, ms]) => (
+    ['JorhoTigerGift', JorhoTigerGift, TIGER_J_MS], ['JorhoEnters', JorhoEnters, ENTERS_J_MS], ['JorhoV2Celly', JorhoV2Celly, V2_CELLY_MS], ['JorhoTicketLight', JorhoTicketLight, TICKET_J_MS], ['JorhoFormulaAnt', JorhoFormulaAnt, FORMULA_MS], ['JorhoNbaGoat', JorhoNbaGoat, NBAGOAT_MS], ['JorhoPlaybookDemo', JorhoPlaybookDemo, PLAYBOOK_DEMO_MS], ['JorhoLeftyVO', JorhoLeftyVO, LEFTY_VO_MS],
+    ['B7NbaGoat', B7NbaGoat, B7_NBA_MS], ['B7Peyton', B7Peyton, B7_PEYTON_MS], ['B7Redeem', B7Redeem, B7_REDEEM_MS], ['B7Golf', B7Golf, B7_GOLF_MS], ['B7Coen', B7Coen, B7_COEN_MS]] as const).map(([id, C, ms]) => (
     <Composition key={id} id={id} component={C} fps={30} width={1080} height={1920} durationInFrames={Math.round((ms / 1000) * 30)} />))}
   </>
 );

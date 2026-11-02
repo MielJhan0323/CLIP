@@ -399,3 +399,107 @@ const LEFTY_VO: Spec = {
   music: {file: 'jorho-qkthr.mp3', from: 28003 - LV.left, level: 0.42},
 };
 export const JorhoLeftyVO = () => <Jorho s={LEFTY_VO} />;
+
+// ================= BATCH 7 (2026-11-02): 5 Trevor clips in the Jorho PLAYBOOK style ======================================
+const callTrevor = (o: number, face: (w: 'L' | 'M' | 'R') => {x: number; y: number}, a: number) =>
+  <CallOut o={o} a={a} b={a + 2100} x={face('M').x + 70} y={face('M').y - 90} label="TREVOR LAWRENCE" flip />;
+
+// 1 · NBA GOAT (black): question → *thinking* + crickets + Jeopardy → "Matthew Dellavedova" (strobe, big Delly, fahhh) → Curb + comment
+const b1 = timeline([[0, 1800], [2250, 3600], [4350, 7450], [7450, 10500], [12950, 13980], [13980, 15000], [15000, 17400], [17450, 18760]]);
+const B1 = {goat: b1.out(3260), trev: b1.segOut[2], quiet: b1.segOut[3], gotta: b1.segOut[4], name: b1.segOut[5], laugh: b1.out(15100), tension: b1.segOut[7]};
+const NBA_B7: Spec = {
+  tl: b1, src: 'pod/nba_goat.mp4', track: gTrack, top: "Trevor's NBA GOAT has never been an All-Star", wordY: 1300, wideX: 960,
+  words: wordsFrom(NG_RAW.map(([text, startMs]) => ({text, startMs})), b1, {}, {NBA: '#F9FC35', GOAT: '#58EE28', Matthew: '#21F5E6', Dellavedova: '#21F5E6'}),
+  shots: [[0, 'W'], [b1.segOut[1], 'L'], [B1.trev, 'M'], [b1.out(5560), 'L'], [B1.quiet, 'M'], [B1.name + STROBE_CUT, 'M'], [B1.laugh, 'W'], [B1.tension, 'R']],
+  strobes: [B1.name], tints: [[B1.goat, GREEN], [B1.laugh + 200, RED]], swish: [B1.goat],
+  fah: [b1.out(14950)], awkward: [{at: B1.quiet + 300, sfx: 'crickets'}],
+  music: {file: 'Jeopardy_Think.mp3', from: 150, level: 0, until: B1.gotta}, extraSfx: [sfx('curb-credits', B1.laugh + 250, 0.6)],
+  overlay: (o, face) => <>
+    <Asterisk o={o} a={700} b={B1.trev} text="the easiest question in sports" y={500} color="#F9FC35" />
+    {callTrevor(o, face, B1.trev + 100)}
+    <Asterisk o={o} a={B1.quiet + 200} b={B1.gotta} text="thinking" cx={face('M').x} y={face('M').y - 300} color="#58EE28" />
+    <MemePop o={o} at={B1.name + STROBE_CUT} to={B1.laugh + 500} src="cutouts/delly1.png" x={600} y={1000} size={440} />
+    <Asterisk o={o} a={B1.laugh + 600} b={B1.tension} text="he was not joking" y={520} />
+  </>,
+};
+export const B7NbaGoat = () => <Jorho s={NBA_B7} />;
+export const B7_NBA_MS = b1.total;
+
+// 2 · Peyton (light): Peyton cut-out on the name → "he called me… about my signature" (strobe) → "we text… he's great" → comment
+const b2 = timeline([[1000, 1620], [1620, 2300], [2700, 7100], [7700, 9500], [11300, 13050], [13600, 14450], [14800, 19950]]);
+const B2 = {peyton: b2.out(1680), called: b2.out(4440), sig: b2.out(2980), nice: b2.out(9040), real: b2.out(12420), text: b2.out(17640), great: b2.out(19640)};
+const PEYTON_B7: Spec = {
+  tl: b2, src: 'pod2/u4_peyton.mp4', track: peytonTrack as unknown as Track, top: 'Peyton called Trevor about his signature', wordY: 1290, wideX: 700,
+  light: true,
+  words: wordsFrom(peytonWords, b2, {}, {Peyton: '#21F5E6', Manning: '#21F5E6', signature: '#58EE28', nice: '#58EE28'}),
+  shots: [[0, 'M'], [B2.called + STROBE_CUT, 'M'], [b2.segOut[3], 'W'], [b2.segOut[4], 'L'], [b2.segOut[5], 'W'], [b2.segOut[6], 'M']],
+  strobes: [B2.called], tints: [[B2.peyton, GREEN], [B2.nice, GREEN], [B2.great, GREEN]], swish: [B2.peyton],
+  music: {file: 'blue-yung-kai.mp3', from: 37245 - B2.called, level: 0},
+  overlay: (o, face) => <>
+    <MemePop o={o} at={B2.peyton} to={B2.called + 400} src="img/jorho/peyton.png" x={330} y={1462} size={420} />
+    {callTrevor(o, face, b2.segOut[1] + 200)}
+    <Asterisk o={o} a={B2.sig} b={B2.called} text="the signature" cx={face('M').x} y={face('M').y - 300} color="#58EE28" />
+    <Asterisk o={o} a={B2.text} b={b2.total} text="the GOAT checks in" y={1500} color="#F9FC35" />
+  </>,
+};
+export const B7Peyton = () => <Jorho s={PEYTON_B7} />;
+export const B7_PEYTON_MS = b2.total;
+
+// 3 · Redemptions (black): "$20,000… what is it now? $200? $500 maybe" (red, 💸, fahhh) → why → "people dislike that" → "most expensive sale ever"
+const b3 = timeline([[0, 1780], [1780, 2900], [2900, 6000], [7000, 9600], [24100, 27900], [28950, 33700]]);
+const B3 = {k20: b3.out(1140), now: b3.out(2580), maybe: b3.out(5520), redeem: b3.out(8840), dislike: b3.out(25940), sale: b3.out(32460)};
+const REDEEM_B7: Spec = {
+  tl: b3, src: 'pod2/u3_redemptions.mp4', track: redeemTrack as unknown as Track, top: 'His $20,000 card is worth $500 now', wordY: 1300, wideX: 700,
+  words: wordsFrom(redeemWords, b3, {'20': '$20,000', '000': '', '200': '$200?', '500': '$500'}, {'$20,000': '#58EE28', '$500': '#F9FC35', redeem: '#21F5E6'}),
+  shots: [[0, 'W'], [b3.segOut[2], 'M'], [b3.segOut[3], 'R'], [b3.segOut[4], 'W'], [b3.segOut[5], 'M']],
+  strobes: [b3.segOut[2]], tints: [[B3.k20, GREEN], [B3.maybe, RED], [B3.sale, GREEN]], swish: [B3.k20],
+  fah: [B3.maybe + 500],
+  music: {file: 'joyful-chess-slowed.mp3', from: 20062 - b3.segOut[2], level: 0},
+  overlay: (o, face) => <>
+    <Asterisk o={o} a={300} b={B3.now} text="$20,000 card" y={500} color="#58EE28" />
+    {callTrevor(o, face, b3.segOut[2] + 200)}
+    <MemePop o={o} at={B3.maybe} to={B3.maybe + 1600} src="emoji-ios/1f4b8.png" x={680} y={1000} size={300} />
+    <Asterisk o={o} a={B3.dislike} b={b3.segOut[5]} text="the hobby hates redemptions" y={520} color="#F9FC35" />
+  </>,
+};
+export const B7Redeem = () => <Jorho s={REDEEM_B7} />;
+export const B7_REDEEM_MS = b3.total;
+
+// 4 · Golf foursome (black): "dream foursome?" → "throw Jesus in there" (strobe, fahhh, 💀 comment) → "Tiger, the goat"
+const b4 = timeline([[11250, 13900], [16820, 18500], [32200, 34150], [34750, 35700], [35800, 36800], [45450, 48450], [50400, 54400]]);
+const B4 = {dream: b4.out(12380), jesus: b4.out(33460), like: b4.segOut[3], unbel: b4.out(36500), tiger: b4.out(48000), goat: b4.out(53200)};
+const GOLF_B7: Spec = {
+  tl: b4, src: 'pod/t2_dream_golf_four.mp4', track: golfTrack as unknown as Track, top: "Trevor's golf foursome has Jesus in it", wordY: 1300, wideX: 720,
+  words: wordsFrom(golfWords, b4, {for: 'four', '-time': 'time'}, {Jesus: '#F9FC35', Tiger: '#21F5E6', goat: '#58EE28', dream: '#58EE28'}),
+  shots: [[0, 'W'], [b4.segOut[2], 'M'], [B4.jesus + STROBE_CUT, 'W'], [b4.segOut[5], 'M']],
+  strobes: [B4.jesus], tints: [[B4.dream, GREEN], [B4.like, RED], [B4.tiger, GREEN]], swish: [B4.dream, B4.tiger],
+  fah: [b4.out(34000)],
+  music: {file: 'Monkeys_Spinning_Monkeys.mp3', from: 0, level: 0},
+  overlay: (o, face) => <>
+    <Asterisk o={o} a={600} b={b4.segOut[2]} text="dream golf foursome" y={500} color="#58EE28" />
+    {callTrevor(o, face, b4.segOut[2] + 100)}
+    <Asterisk o={o} a={B4.like + 200} b={b4.segOut[5]} text="nobody can beat that" y={520} />
+    <MemePop o={o} at={B4.tiger} to={b4.total} src="img/jorho/tiger.png" x={560} y={1000} size={440} />
+  </>,
+};
+export const B7Golf = () => <Jorho s={GOLF_B7} />;
+export const B7_GOLF_MS = b4.total;
+
+// 5 · Liam Coen (light): host quotes "taught me more in a year…" → "Yeah, definitely" (strobe) → why: the system
+const b5 = timeline([[4700, 6500], [6500, 7900], [11400, 17950], [18300, 23000], [23400, 27700]]);
+const B5 = {liam: b5.segOut[1], taught: b5.out(7280), life: b5.out(14800), why: b5.out(17240), yeah: b5.segOut[3], system: b5.out(25580)};
+const COEN_B7: Spec = {
+  tl: b5, src: 'pod2/u6_coen_duo.mp4', track: coenTrack as unknown as Track, top: '1 year with this coach beat his whole career', wordY: 1290,
+  wideX: 690, light: true,
+  words: wordsFrom(coenWords, b5, {Cohen: 'Coen'}, {Liam: '#21F5E6', Coen: '#21F5E6', definitely: '#58EE28', system: '#F9FC35'}),
+  shots: [[0, 'L'], [B5.liam, 'L'], [b5.segOut[2], 'W'], [B5.yeah + STROBE_CUT, 'M']],
+  strobes: [B5.yeah], tints: [[B5.liam, GREEN], [B5.yeah + STROBE_CUT, GREEN]], swish: [B5.liam],
+  music: {file: 'jorho-lullaby.mp3', from: 59977 - B5.yeah, level: 0},
+  overlay: (o, face) => <>
+    <MemePop o={o} at={B5.liam} to={B5.life} src="img/jorho/coen.png" x={330} y={1462} size={420} />
+    {callTrevor(o, face, B5.yeah + 300)}
+    <Asterisk o={o} a={B5.system} b={b5.total} text="coen effect" y={1500} color="#58EE28" />
+  </>,
+};
+export const B7Coen = () => <Jorho s={COEN_B7} />;
+export const B7_COEN_MS = b5.total;

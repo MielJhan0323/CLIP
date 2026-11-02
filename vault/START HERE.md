@@ -78,6 +78,7 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
   - [[Batch 1 - 6 big pulls + 6 Trevor clips]]: 12 Shorts from the sheet, how the batch pipeline works, titles/descriptions
   - [[Batch 2 - 6 big pulls + 6 Trevor clips]]: hooks, mood music, face tracking
   - [[Batch 3 - Edit3 4 cards + 4 Trevor]]: Edit3 style on black bars + card pulls, titles/descriptions
+  - [[Batch 7 - Jorho playbook 5 Trevor clips]]: NBA GOAT, Peyton, redemptions, golf/Jesus, Liam Coen in the Jorho playbook style
   - [[Batch 6 - JustinAugh 5 card pulls]]: Mahomes, Flagg, LeBron, Star Wars, Dart in JustinAugh style (`makeJa` factory)
   - [[Batch 5 - Jorho Trevor clips 2]]: 5 more Jorho Trevor clips (lefty, natty ticket, PSA 10 celly, Tiger gift, all hail the king)
   - [[Batch 4 - Jorho Trevor clips]]: 3 Trevor clips in Jorho style (ant autograph, wrong Josh Allen, Traveling Trevors)
