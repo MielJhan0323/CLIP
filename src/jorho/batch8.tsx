@@ -37,22 +37,23 @@ const DAVIS: Spec = {
 export const B8Davis = () => <Jorho s={DAVIS} />;
 export const B8_DAVIS_MS = d1.total;
 
-// ---- J2 · National Treasures rip (black): cold open "Come on, Trevor!" + 🙏 → no Trevor → "Dan Marino" taco-bell bong + 1 comment ----
-const n1 = timeline([[55500, 58100], [27400, 32000], [50040, 51500], [53400, 54000], [57240, 60000], [62000, 68100]]);
+// ---- J2 · National Treasures rip v2 (user: "random loud effect, not that pulling"): cold open on "Ew… put it away" (🤢), story, payoff again
+const n1 = timeline([[78100, 82400], [28100, 32000], [50040, 51500], [53400, 54000], [55500, 60000], [62000, 62500], [75600, 77300], [78100, 82400]]);
 const nOut = (i: number, src: number) => n1.segOut[i] + src - n1.segs[i][0];
-const N1 = {come: nOut(0, 55540), trevorHere: nOut(1, 29880), electric: nOut(1, 31680), come2: nOut(4, 57280), marino: nOut(5, 62060), sling: nOut(5, 67560)};
+const N1 = {ew: nOut(0, 78180), electric: nOut(1, 31680), come: nOut(4, 55540), marino: nOut(5, 62060), no: nOut(6, 77100), ew2: nOut(7, 78180), away2: nOut(7, 82080)};
+const ntWordsFor = (i: number, fix: Record<string, string>, col: Record<string, string>) =>
+  wordsFrom(ntWords, timeline([n1.segs[i] as [number, number]]), fix, col).map((w) => ({...w, at: w.at + n1.segOut[i]}));
+const NT_COL = {Trevor: '#21F5E6', electric: '#F9FC35', Ew: '#58EE28', away: '#FF4D4D', Marino: '#21F5E6'};
 const NT: Spec = {
-  tl: n1, src: 'b3/v_nt_rip.mp4', track: T(ntTrack), top: 'Trevor ripped packs hoping to pull himself', wordY: 1300, wideX: 760,
-  words: (() => { const base = timeline([[27400, 32000], [50040, 51500], [53400, 54000], [57240, 60000], [62000, 68100]]); const off = n1.segOut[1];
-    const cold = timeline([[55500, 58100]]);
-    return [...wordsFrom(ntWords, cold, {}, {Trevor: '#21F5E6'}), ...wordsFrom(ntWords, base, {}, {Trevor: '#21F5E6', electric: '#F9FC35', Marino: '#FF4D4D'}).map((w) => ({...w, at: w.at + off}))]; })(),
-  shots: [[0, 'M'], [n1.segOut[1], 'W'], [n1.segOut[2], 'M'], [n1.segOut[4], 'W'], [N1.marino + STROBE_CUT, 'M']],
-  strobes: [N1.marino], tints: [[N1.electric, GREEN], [N1.marino + STROBE_CUT, RED]], swish: [N1.electric],
-  awkward: [{at: N1.marino + 300, sfx: 'taco-bell-bong'}],
+  tl: n1, src: 'b3/v_nt_rip.mp4', track: T(ntTrack), top: 'Trevor saw this card and said put it away', wordY: 1300, wideX: 760,
+  words: n1.segs.flatMap((_, i) => ntWordsFor(i, {}, NT_COL)),
+  shots: [[0, 'M'], [n1.segOut[1], 'W'], [n1.segOut[4], 'M'], [n1.segOut[6], 'W'], [N1.ew2 + STROBE_CUT, 'M']],
+  strobes: [n1.segOut[1] - 200, N1.ew2], tints: [[N1.ew, RED], [N1.electric, GREEN], [N1.ew2 + STROBE_CUT, RED]], swish: [N1.electric],
   music: {file: 'tak-tak.mp3', from: 2000, level: 0},
   overlay: (o) => <>
-    <MemePop o={o} at={N1.come} to={n1.segOut[1]} src="emoji-ios/1f64f.png" x={660} y={1000} size={300} />
-    <Asterisk o={o} a={N1.marino + 500} b={n1.total} text="still no trevor" y={520} />
+    <MemePop o={o} at={N1.ew} to={n1.segOut[1] - 200} src="emoji-ios/1f922.png" x={700} y={860} size={280} />
+    <MemePop o={o} at={N1.ew2 + STROBE_CUT} to={N1.away2 + 400} src="emoji-ios/1f922.png" x={700} y={860} size={280} />
+    <Asterisk o={o} a={N1.away2} b={n1.total} text="which card was it?" y={520} color="#F9FC35" />
   </>,
 };
 export const B8NatTreasures = () => <Jorho s={NT} />;

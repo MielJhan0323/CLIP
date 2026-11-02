@@ -27,3 +27,4 @@ User ask (2026-11-02): "edit 3 card pulls using justin augh and 4 trevor clips u
 
 ## Feedback log
 1. User: cards: don't blur the background all the time; only blur the chase card before its reveal, and the bg behind the end reveal → `blurBox` per pull (Kon [230,960,560,600] from 21.3 s, Clark [40,470,660,560] from 0, Cade [150,500,480,560] from 55.3 s) → `ja_*_v2.mp4`.
+2. User: the Nat Treasures clip had "a random loud effect" (the taco-bell bong, ~9 dB over everything) and "the video itself is not that pulling" (no payoff, no Trevor card) → v2: **cold open on Trevor's "Ew. Don't show that, man… put it away"** (🤢 pop), title *Trevor saw this card and said put it away 💀*, then the story ("if we hit a Trevor we go electric" → pulls → "Come on… No."), payoff repeats at the end (strobe, 🤢) + one comment *which card was it?* (comment bait, the card is never shown). No bong; render has no loudness spikes. → `b8_national_treasures_v2.mp4` (21.3 s).
