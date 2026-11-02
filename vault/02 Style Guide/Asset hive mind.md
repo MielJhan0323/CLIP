@@ -29,6 +29,7 @@ User (2026-11-02): "when I tell you to reference something I don't mean to redo 
 | Curved red arrow + *TREVOR LAWRENCE* | ref NBA GOAT/Tiger | once in a while; when he isn't obvious | `CallOut` (face-anchored) |
 | Real cut-out photo of the person named | Jorho refs, gift ticket | a name drop (Peyton, Tiger, Delly, Coen) | `MemePop` / `Cutout` |
 | Red circle on a face | card-pull refs | a reaction in a busy frame | `RedCircle` (justinaugh) |
+| **Tracked head circle + ding** (user 2026-11-02) | user feedback | identify Trevor instead of the arrow; draws on, follows his head, `ding-2` when it appears | `HeadRing` + overlay `face()` (k = zoom) |
 
 ## Payoff & comedy
 | asset | learned from | fits when | code |
@@ -60,4 +61,5 @@ User (2026-11-02): "when I tell you to reference something I don't mean to redo 
 | 7 | Redemptions | callout, *frame-0 label*, 💸 pop, fahhh, editor comment, Joyful Chess |
 | 7 | Golf/Jesus | callout, *frame-0 label*, fahhh, editor comment, Tiger pop, Monkeys |
 | 7 | Liam Coen | callout, Coen pop, editor comment, light look, lullaby |
+| 7 (v2) | Peyton, Redemptions, Coen | arrow → **tracked head circle + ding-2** (user: "replace some of the arrows with circles tracking his head, add a ding") |
 → Batch 7 **overused the callout (5/5) and the editor comment (5/5)**: that's the mistake this note exists to stop. Next batch: callout in ≤ 1–2 videos, and lean on the unused assets (split-screen, cold open, YouTube card, typed action text, grade/stat graphics, voiceover, punch-ins).

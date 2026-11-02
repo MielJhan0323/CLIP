@@ -23,7 +23,7 @@ import ticketTrack from '../plans/data/t4_natty_ticket.seats.json';
 import entersWords from '../plans/data/u5_trevor_enters.words.json';
 import entersTrack from '../plans/data/u5_trevor_enters.seats.json';
 import {Cam, FPS, Music, camRect, faceAt, SfxTrack, SpeechTrack, sfx, timeline, type CamCfg, type Seat, type Sfx, type TL, type Track} from '../e3/kit';
-import {Asterisk, BOX_H, BOX_TOP, LIGHT, CallOut, Cutout, Frame, GREEN, MemePop, OneWord, RED, STROBE_CUT, Tints, strobe, wordsFrom, type Word} from './kit';
+import {Asterisk, BOX_H, BOX_TOP, HeadRing, LIGHT, CallOut, Cutout, Frame, GREEN, MemePop, OneWord, RED, STROBE_CUT, Tints, strobe, wordsFrom, type Word} from './kit';
 
 const GRADE = 'contrast(1.06) saturate(1.05)';
 // Music sits a fixed 14 dB under the voice (voices measure ≈ −13.5 LUFS) so it never pulls focus (user, 2026-11-01).
@@ -41,7 +41,7 @@ export type Spec = {
   awkward?: {at: number; sfx?: 'ja-ding' | 'crickets' | 'taco-bell-bong'}[]; // awkward pauses / cringe (user, 2026-11-01)
   vo?: {file: string; from: number; to: number; words: Word[]}; // intro voiceover at out 0 (Alex), speech ducked under it
   fah?: number[]; // "fahhh" right after roasts / shots at people / crazy statements (user, 2026-11-01)
-  overlay?: (o: number, face: (who: 'L' | 'M' | 'R') => {x: number; y: number}) => ReactNode; // face(): tracked face in FRAME px (stickers stay accurate) // full-frame layer (light look: meme pops go in the blurred area under the box) // Jorho v2: graphics inside the video box, extra sounds
+  overlay?: (o: number, face: (who: 'L' | 'M' | 'R') => {x: number; y: number; k: number}) => ReactNode; // face(): tracked face in FRAME px (stickers stay accurate) // full-frame layer (light look: meme pops go in the blurred area under the box) // Jorho v2: graphics inside the video box, extra sounds
   tl: TL; src: string; track: Track; top: string; words: Word[]; wordY: number; wideX: number; shots: Shot[];
   strobes: number[]; beeps?: number[]; tints: [number, string][]; swish: number[]; cut?: Cut; cuts?: Cut[];
   music: {file: string; from: number; level: number; until?: number}; // until = hard stop (e.g. right before a punchline)
@@ -57,7 +57,7 @@ export const Jorho = ({s}: {s: Spec}) => {
       {s.overlay?.(o, (who) => {
         const r = camRect(cam, o); const fa = faceAt(s.track, who, r.src);
         const top = s.light ? LIGHT.box[0] - (BOX_H - (LIGHT.box[1] - LIGHT.box[0])) / 2 : BOX_TOP;
-        return {x: (fa.x - r.x0) * r.k, y: top + (fa.y - r.y0) * r.k};
+        return {x: (fa.x - r.x0) * r.k, y: top + (fa.y - r.y0) * r.k, k: r.k};
       })}
       {!inAny(o, s.capsOff ?? []) && <OneWord o={o} words={s.words} y={s.wordY} />}
       <SpeechTrack src={s.src} tl={s.tl} duck={s.vo ? (t) => (t < s.vo!.to - s.vo!.from + 150 ? 0.12 : 1) : undefined} />
@@ -401,7 +401,7 @@ const LEFTY_VO: Spec = {
 export const JorhoLeftyVO = () => <Jorho s={LEFTY_VO} />;
 
 // ================= BATCH 7 (2026-11-02): 5 Trevor clips in the Jorho PLAYBOOK style ======================================
-const callTrevor = (o: number, face: (w: 'L' | 'M' | 'R') => {x: number; y: number}, a: number) =>
+const callTrevor = (o: number, face: (w: 'L' | 'M' | 'R') => {x: number; y: number; k: number}, a: number) =>
   <CallOut o={o} a={a} b={a + 2100} x={face('M').x + 70} y={face('M').y - 90} label="TREVOR LAWRENCE" flip />;
 
 // 1 · NBA GOAT (black): question → *thinking* + crickets + Jeopardy → "Matthew Dellavedova" (strobe, big Delly, fahhh) → Curb + comment
@@ -435,9 +435,10 @@ const PEYTON_B7: Spec = {
   shots: [[0, 'M'], [B2.called + STROBE_CUT, 'M'], [b2.segOut[3], 'W'], [b2.segOut[4], 'L'], [b2.segOut[5], 'W'], [b2.segOut[6], 'M']],
   strobes: [B2.called], tints: [[B2.peyton, GREEN], [B2.nice, GREEN], [B2.great, GREEN]], swish: [B2.peyton],
   music: {file: 'blue-yung-kai.mp3', from: 37245 - B2.called, level: 0},
+  extraSfx: [sfx('ding-2', b2.segOut[1] + 200, 0.3)],
   overlay: (o, face) => <>
     <MemePop o={o} at={B2.peyton} to={B2.called + 400} src="img/jorho/peyton.png" x={330} y={1462} size={420} />
-    {callTrevor(o, face, b2.segOut[1] + 200)}
+    {ringTrevor(o, face, b2.segOut[1] + 200)}
     <Asterisk o={o} a={B2.sig} b={B2.called} text="the signature" cx={face('M').x} y={face('M').y - 300} color="#58EE28" />
     <Asterisk o={o} a={B2.text} b={b2.total} text="the GOAT checks in" y={1500} color="#F9FC35" />
   </>,
@@ -455,9 +456,10 @@ const REDEEM_B7: Spec = {
   strobes: [b3.segOut[2]], tints: [[B3.k20, GREEN], [B3.maybe, RED], [B3.sale, GREEN]], swish: [B3.k20],
   fah: [B3.maybe + 500],
   music: {file: 'joyful-chess-slowed.mp3', from: 20062 - b3.segOut[2], level: 0},
+  extraSfx: [sfx('ding-2', b3.segOut[2] + 200, 0.3)],
   overlay: (o, face) => <>
     <Asterisk o={o} a={300} b={B3.now} text="$20,000 card" y={500} color="#58EE28" />
-    {callTrevor(o, face, b3.segOut[2] + 200)}
+    {ringTrevor(o, face, b3.segOut[2] + 200)}
     <MemePop o={o} at={B3.maybe} to={B3.maybe + 1600} src="emoji-ios/1f4b8.png" x={680} y={1000} size={300} />
     <Asterisk o={o} a={B3.dislike} b={b3.segOut[5]} text="the hobby hates redemptions" y={520} color="#F9FC35" />
   </>,
@@ -495,11 +497,18 @@ const COEN_B7: Spec = {
   shots: [[0, 'L'], [B5.liam, 'L'], [b5.segOut[2], 'W'], [B5.yeah + STROBE_CUT, 'M']],
   strobes: [B5.yeah], tints: [[B5.liam, GREEN], [B5.yeah + STROBE_CUT, GREEN]], swish: [B5.liam],
   music: {file: 'jorho-lullaby.mp3', from: 59977 - B5.yeah, level: 0},
+  extraSfx: [sfx('ding-2', B5.yeah + 300, 0.3)],
   overlay: (o, face) => <>
     <MemePop o={o} at={B5.liam} to={B5.life} src="img/jorho/coen.png" x={330} y={1462} size={420} />
-    {callTrevor(o, face, B5.yeah + 300)}
+    {ringTrevor(o, face, B5.yeah + 300)}
     <Asterisk o={o} a={B5.system} b={b5.total} text="coen effect" y={1500} color="#58EE28" />
   </>,
 };
 export const B7Coen = () => <Jorho s={COEN_B7} />;
 export const B7_COEN_MS = b5.total;
+
+// v2 (user 2026-11-02): arrows → tracked head circles + ding in 3 of 5 (Peyton, Redemptions, Coen)
+const ringTrevor = (o: number, face: (w: 'L' | 'M' | 'R') => {x: number; y: number; k: number}, a: number) => {
+  const f = face('M');
+  return <HeadRing o={o} a={a} b={a + 2100} x={f.x} y={f.y} k={f.k} />;
+};

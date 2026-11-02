@@ -17,4 +17,4 @@ User ask (2026-11-02): "take some trevor lawrence clips from the sheet and edit 
 Footage downloaded this batch: `public/pod2/u4_peyton.mp4`, `u3_redemptions.mp4`, `u6_coen_duo.mp4`. Trevor sits in the middle seat (M) in all five.
 
 ## Feedback log
-- (waiting)
+1. User (2026-11-02): don't overuse the arrow, and treat references as a pool of assets to interchange (see [[Asset hive mind]]); replace some arrows with circles tracking his head; add a ding. Everything else is good. → Peyton, Redemptions, Coen now use `HeadRing` + `ding-2` (`*_v2.mp4`); NBA GOAT + Golf keep the arrow (2/5).

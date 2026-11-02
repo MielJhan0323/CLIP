@@ -179,3 +179,15 @@ export const CallOut = ({o, a, b, x, y, label, flip}: {o: number; a: number; b: 
       color: '#E8132B', WebkitTextStroke: '5px white', paintOrder: 'stroke fill', opacity: p}}>*{label}*</div>
   </div>;
 };
+
+// red ring that draws itself around a TRACKED head (face from the spec overlay: x, y, k = crop zoom), pair with ding-2
+export const HeadRing = ({o, a, b, x, y, k}: {o: number; a: number; b: number; x: number; y: number; k: number}) => {
+  if (o < a || o >= b) return null;
+  const r = 92 * k; // ≈ half a head in source px × crop zoom
+  const p = interpolate(o - a, [0, 220], [0, 1], clamp);
+  const C = 2 * Math.PI * r;
+  return <svg width={W} height={1920} style={{position: 'absolute', inset: 0, overflow: 'visible', opacity: interpolate(o, [b - 150, b], [1, 0], clamp)}}>
+    <circle cx={x} cy={y - 10 * k} r={r} fill="none" stroke="#FF1E1E" strokeWidth={11} strokeDasharray={C} strokeDashoffset={C * (1 - p)}
+      transform={`rotate(-90 ${x} ${y - 10 * k})`} style={{filter: 'drop-shadow(0 3px 5px rgba(0,0,0,0.5))'}} />
+  </svg>;
+};
