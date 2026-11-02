@@ -29,7 +29,7 @@ User (2026-11-02): "when I tell you to reference something I don't mean to redo 
 | Curved red arrow + *TREVOR LAWRENCE* | ref NBA GOAT/Tiger | once in a while; when he isn't obvious | `CallOut` (face-anchored) |
 | Real cut-out photo of the person named | Jorho refs, gift ticket | a name drop (Peyton, Tiger, Delly, Coen) | `MemePop` / `Cutout` |
 | Red circle on a face | card-pull refs | a reaction in a busy frame | `RedCircle` (justinaugh) |
-| **Tracked head circle + ding** (user 2026-11-02) | user feedback | identify Trevor instead of the arrow; draws on, follows his head, `ding-2` when it appears | `HeadRing` + overlay `face()` (k = zoom) |
+| **Tracked head circle + ding** (user 2026-11-02) | user feedback | identify Trevor instead of the arrow; draws on, follows his head, `ding-2` when it appears, **red *TREVOR LAWRENCE* label under the circle** (user 2026-11-02) | `HeadRing label=` + overlay `face()` (k = zoom) |
 
 ## Payoff & comedy
 | asset | learned from | fits when | code |

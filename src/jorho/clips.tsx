@@ -510,5 +510,5 @@ export const B7_COEN_MS = b5.total;
 // v2 (user 2026-11-02): arrows → tracked head circles + ding in 3 of 5 (Peyton, Redemptions, Coen)
 const ringTrevor = (o: number, face: (w: 'L' | 'M' | 'R') => {x: number; y: number; k: number}, a: number) => {
   const f = face('M');
-  return <HeadRing o={o} a={a} b={a + 2100} x={f.x} y={f.y} k={f.k} />;
+  return <HeadRing o={o} a={a} b={a + 2100} x={f.x} y={f.y} k={f.k} label="TREVOR LAWRENCE" />;
 };

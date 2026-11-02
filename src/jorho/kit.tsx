@@ -181,7 +181,7 @@ export const CallOut = ({o, a, b, x, y, label, flip}: {o: number; a: number; b: 
 };
 
 // red ring that draws itself around a TRACKED head (face from the spec overlay: x, y, k = crop zoom), pair with ding-2
-export const HeadRing = ({o, a, b, x, y, k}: {o: number; a: number; b: number; x: number; y: number; k: number}) => {
+export const HeadRing = ({o, a, b, x, y, k, label}: {o: number; a: number; b: number; x: number; y: number; k: number; label?: string}) => {
   if (o < a || o >= b) return null;
   const r = 92 * k; // ≈ half a head in source px × crop zoom
   const p = interpolate(o - a, [0, 220], [0, 1], clamp);
@@ -189,5 +189,7 @@ export const HeadRing = ({o, a, b, x, y, k}: {o: number; a: number; b: number; x
   return <svg width={W} height={1920} style={{position: 'absolute', inset: 0, overflow: 'visible', opacity: interpolate(o, [b - 150, b], [1, 0], clamp)}}>
     <circle cx={x} cy={y - 10 * k} r={r} fill="none" stroke="#FF1E1E" strokeWidth={11} strokeDasharray={C} strokeDashoffset={C * (1 - p)}
       transform={`rotate(-90 ${x} ${y - 10 * k})`} style={{filter: 'drop-shadow(0 3px 5px rgba(0,0,0,0.5))'}} />
+    {label && p > 0.6 && <text x={x} y={y - 10 * k + r + 52} textAnchor="middle" fontFamily="Montserrat" fontWeight={900} fontSize={46} fill="#E8132B"
+      stroke="white" strokeWidth={10} paintOrder="stroke" opacity={interpolate(p, [0.6, 1], [0, 1], clamp)}>*{label}*</text>}
   </svg>;
 };

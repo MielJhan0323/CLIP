@@ -18,3 +18,4 @@ Footage downloaded this batch: `public/pod2/u4_peyton.mp4`, `u3_redemptions.mp4`
 
 ## Feedback log
 1. User (2026-11-02): don't overuse the arrow, and treat references as a pool of assets to interchange (see [[Asset hive mind]]); replace some arrows with circles tracking his head; add a ding. Everything else is good. → Peyton, Redemptions, Coen now use `HeadRing` + `ding-2` (`*_v2.mp4`); NBA GOAT + Golf keep the arrow (2/5).
+2. User: "still add trevor lawrence at bottom of circles" → `HeadRing label="TREVOR LAWRENCE"` (red, white outline, rides under the circle) → `*_v3.mp4` for Peyton, Redemptions, Coen.
