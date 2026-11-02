@@ -38,7 +38,7 @@ User (2026-11-02): "when I tell you to reference something I don't mean to redo 
 | Editor comment *bros too rich to care* / *he was not joking* | ref Tiger/NBA | a reaction worth an opinion | `Asterisk` |
 | *thinking* / *awkward* label on a pause | ref NBA GOAT | a real silence | `Asterisk` |
 | Typed *action text* | celly v3 | describing an action/reaction | `TypedAction` (v2) |
-| Grade scale / stat badge / graphs | Jorho v2 refs | numbers, grades, stats | `GradeScale`, `StatBadge` |
+| Grade scale / stat badge / graphs | Jorho v2 refs | numbers, grades, stats | `GradeScale`, `StatBadge`, `PercentBars`, `ValueGraph` (batch 8) |
 | Jorho strobe on the beat | Jorho refs | the single biggest moment | `strobes` |
 | Green/red tints | Jorho refs | setup (green) / laugh or fail (red) | `tints` |
 | Beep pause | Jorho ref | rare: a name reveal only (~1 in 10) | `beeps` |
@@ -63,3 +63,11 @@ User (2026-11-02): "when I tell you to reference something I don't mean to redo 
 | 7 | Liam Coen | callout, Coen pop, editor comment, light look, lullaby |
 | 7 (v2) | Peyton, Redemptions, Coen | arrow → **tracked head circle + ding-2** (user: "replace some of the arrows with circles tracking his head, add a ding") |
 → Batch 7 **overused the callout (5/5) and the editor comment (5/5)**: that's the mistake this note exists to stop. Next batch: callout in ≤ 1–2 videos, and lean on the unused assets (split-screen, cold open, YouTube card, typed action text, grade/stat graphics, voiceover, punch-ins).
+| 8 | Davis Mills | cut-out pop, fahhh, red tints, strobe |
+| 8 | Nat Treasures | cold open, 🙏 pop, taco-bell bong, 1 editor comment |
+| 8 | Rogers' Realm | 🥊 pop + boxing bell, light look |
+| 8 | Lair | head circle + label + ding, 🤝 pop, light look |
+| 8 | v2 Playbook | YouTube card, stat badge, grade scale |
+| 8 | v2 Pre-snap | question card, percent bars, typed action |
+| 8 | v2 Redemptions | value graph, typed action, error blip |
+→ Batch 8: arrow 0/7, head circle 1/7, editor comment 1/7, YouTube card 1/7 ✓.

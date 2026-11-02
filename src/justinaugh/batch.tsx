@@ -15,13 +15,20 @@ import flaggN from '../../public/narr/flagg2.json';
 import lebronN from '../../public/narr/lebron2.json';
 import swN from '../../public/narr/starwars.json';
 import dartN from '../../public/narr/dart.json';
+import konN from '../../public/narr/kon.json';
+import clarkN from '../../public/narr/clark.json';
+import cadeN from '../../public/narr/cade.json';
+import konWords from '../plans/data/c4_kon.words.json';
+import clarkWords from '../plans/data/c2_clark.words.json';
+import cadeWords from '../plans/data/c6_cade.words.json';
 import mahomesN2 from '../../public/narr/mahomes_v2.json';
 import flaggN2 from '../../public/narr/flagg2_v2.json';
 
 type NLine = {file: number[]; words: {text: string; at: number}[]};
 type Box = [number, number, number, number];
 type Cfg = {
-  src: string; hosts: Box; card: Box; cardCx: number; still: string; price: string; revealAt: number; segs: Seg[]; blurFrom: number;
+  // hosts null = single-camera stream (no PiP)
+  src: string; hosts: Box | null; srcW?: number; card: Box; cardCx: number; still: string; price: string; revealAt: number; segs: Seg[]; blurFrom: number;
   hook: {file: string; from: number; to: number; cover: Box}; words: {text: string; startMs: number}[];
   narr: {file: string; lines: NLine[]; hook: number; hype: number}; banner: Part[][]; emoji?: string[];
   music: {file: string; drop: number; lufs: number}; track: [number, number, number][]; ringR?: number;
@@ -36,7 +43,7 @@ const narrWords = (l: NLine, at0: number): Word[] => {
     if (t.startsWith('-') && out.length) { out[out.length - 1].text += t; return; } // "life" "-changing"
     if (t.startsWith(',') && out.length) { out[out.length - 1].text += t.replace(/,$/, ''); return; } // "$100" ",000" → "$100,000"
     const bare = t.replace(/,$/, '');
-    out.push({text: ({flag: 'Flagg', Otani: 'Ohtani'} as Record<string, string>)[bare] ?? bare, at: at0 + w.at - l.file[0]});
+    out.push({text: ({flag: 'Flagg', Otani: 'Ohtani', Cone: 'Kon', Canoopal: 'Knueppel', Otto: 'Auto', Brakes: 'Breaks'} as Record<string, string>)[bare] ?? bare, at: at0 + w.at - l.file[0]});
   });
   return out.map((w) => ({...w, color: /^\$/.test(w.text) ? JA.green : /^(ONE|OF)$/i.test(w.text) ? JA.cyan : undefined}));
 };
@@ -60,12 +67,13 @@ export const makeJa = (c: Cfg) => {
     .map((w) => ({text: clean(w.text).replace(/,$/, ''), at: out(w.startMs)}))
     .filter((w) => w.text && w.at > HOOK_END + 100 && !(w.at >= REVEAL && w.at < BACK) && !(w.at >= HYPE && w.at < HYPE_END));
   const CAPS = [...narrWords(hookL, 0), ...hostWords, ...narrWords(hypeL, HYPE).filter((w) => w.at >= BACK)].sort((a, b) => a.at - b.at);
-  const PIP: Box = [70, 330, 940, Math.round((940 * c.hosts[3]) / c.hosts[2])];
-  const K = PIP[2] / c.hosts[2];
-  const TRACK: Pt[] = c.track.map(([s, x, y]) => ({at: out(s), x: PIP[0] + (x - c.hosts[0]) * K, y: PIP[1] + (y - c.hosts[1]) * K}));
+  const H = c.hosts ?? [0, 0, 1, 1];
+  const PIP: Box = [70, 330, 940, Math.round((940 * H[3]) / H[2])];
+  const K = PIP[2] / H[2];
+  const TRACK: Pt[] = c.hosts ? c.track.map(([s, x, y]) => ({at: out(s), x: PIP[0] + (x - H[0]) * K, y: PIP[1] + (y - H[1]) * K})) : [];
   const ringTo = TRACK.length ? Math.min(TRACK[TRACK.length - 1].at, total - 300) : 0;
   const sh = c.card[3], sw = Math.round(sh * 0.5625);
-  const sx = Math.max(0, Math.min(1080 - sw, c.cardCx - sw / 2));
+  const sx = Math.max(0, Math.min((c.srcW ?? 1080) - sw, c.cardCx - sw / 2));
   const FLASHES: Flash[] = [{at: 0, kind: 'cut'}, {at: REVEAL, kind: 'reveal'}];
   const hc = c.hook.cover.map((v) => v * 1.5);
   const musicLvl = (o: number) => {
@@ -86,7 +94,7 @@ export const makeJa = (c: Cfg) => {
         {o >= HOOK && <>
           <Footage src={c.src} tl={tl} at={HOOK} crop={[sx, c.card[1], sw, sh]} box={[0, 0, 1080, 1920]}
             style={{filter: inReveal ? 'blur(30px) brightness(0.75)' : blur ? `blur(${blur}px)` : undefined, transform: inReveal ? 'scale(1.12)' : undefined}} />
-          {!inReveal && <PipFrame box={PIP}><Footage src={c.src} tl={tl} at={HOOK} crop={c.hosts} box={[0, 0, PIP[2], PIP[3]]} /></PipFrame>}
+          {!inReveal && c.hosts && <PipFrame box={PIP}><Footage src={c.src} tl={tl} at={HOOK} crop={c.hosts} box={[0, 0, PIP[2], PIP[3]]} /></PipFrame>}
         </>}
       </AbsoluteFill>
       <AbsoluteFill style={zoomStyle(o, [REVEAL])}><Reveal o={o} at={REVEAL} until={BACK} card={c.still} price={c.price} /></AbsoluteFill>
@@ -161,3 +169,32 @@ export const JA_DART = makeJa({
   track: [[91200, 762, 239], [91600, 716, 143], [92500, 700, 170], [93500, 710, 180], [95000, 720, 190]],
 });
 export const JaMahomes = JA_MAHOMES.C, JaFlagg = JA_FLAGG.C, JaLebron = JA_LEBRON.C, JaStarwars = JA_STARWARS.C, JaDart = JA_DART.C;
+
+// ---- batch 8 (2026-11-02): Kon, Clark (720x1280 stream), Cade (single camera) ------------------------------------------------
+export const JA_KON = makeJa({
+  src: 'cards/c4_kon.mp4', hosts: [0, 0, 1080, 480], card: [0, 620, 1080, 1300], cardCx: 500, still: 'cards/kon.png', price: '100,000 USD',
+  revealAt: 22600, segs: [[11500, 15500], [15900, 20600], [21300, 22600], [22600, 30000]], blurFrom: 21300,
+  hook: {file: 'hooks/costco_guys_boom.mp4', from: 0, to: 2900, cover: [60, 930, 600, 160]}, words: konWords,
+  narr: {file: 'narr/kon_loud.mp3', lines: konN, hook: 1, hype: 3},
+  banner: [[['THEY ALREADY HIT ONE '], ['1/1', R]], [['COULD THEY HIT ', undefined], ['TWO?', G]]], emoji: ['1f440', '1f92f'],
+  music: {file: 'montagem-pegadora.mp3', drop: 15700, lufs: -4.9},
+  track: [[24400, 408, 30], [25200, 324, 36], [26000, 302, 38], [26833, 272, 44], [27667, 156, 47], [28500, 346, 48], [29333, 504, 46]],
+});
+export const JA_CLARK = makeJa({
+  src: 'cards/c2_clark.mp4', srcW: 720, hosts: [125, 75, 470, 295], card: [0, 380, 720, 900], cardCx: 330, still: 'cards/clark.png', price: '234,000 USD',
+  revealAt: 16000, segs: [[0, 4400], [5000, 11800], [14700, 16000], [16000, 24000]], blurFrom: 0,
+  hook: {file: 'hooks/oh_my_god_our_first_one.mp4', from: 0, to: 2800, cover: [60, 880, 600, 200]}, words: clarkWords,
+  narr: {file: 'narr/clark_loud.mp3', lines: clarkN, hook: 1, hype: 3},
+  banner: [[['GOLD VINYL ', G], ['AUTO 1/1…']], [['BUT WHOSE ', undefined], ['NAME', R], [' IS ON IT?']]], emoji: ['1f440'],
+  music: {file: 'tipo-insta-buzeira.mp3', drop: 19300, lufs: -3.7},
+  track: [[18200, 324, 162], [19000, 390, 154], [19800, 350, 170], [21000, 350, 165]],
+});
+export const JA_CADE = makeJa({
+  src: 'cards/c6_cade.mp4', srcW: 808, hosts: null, card: [0, 150, 808, 1180], cardCx: 385, still: 'cards/cade.png', price: '27,000+ USD',
+  revealAt: 56800, segs: [[2000, 9500], [18200, 24600], [55300, 56800], [56800, 62500]], blurFrom: 55300,
+  hook: {file: 'hooks/this_product_is_unbelievable.mp4', from: 0, to: 2200, cover: [60, 920, 600, 170]}, words: cadeWords,
+  narr: {file: 'narr/cade_loud.mp3', lines: cadeN, hook: 2, hype: 3},
+  banner: [[['NATIONAL TREASURES… '], ['ONE LOGO', G]], [['CHANGED ', undefined], ['EVERYTHING', R]]], emoji: ['1f62e', '1f525'],
+  music: {file: 'eclipser.mp3', drop: 21100, lufs: -3.1}, track: [],
+});
+export const JaKon = JA_KON.C, JaClark = JA_CLARK.C, JaCade = JA_CADE.C;

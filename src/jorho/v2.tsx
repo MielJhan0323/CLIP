@@ -219,3 +219,41 @@ const CELLY_V2: Spec = {
   ],
 };
 export const JorhoV2Celly = () => <Jorho s={CELLY_V2} />;
+
+// ---- percentage bars (pre-snap reads): rows fill to their % in turn ------------------------------------------------------
+export const PercentBars = ({o, a, b, title, rows}: {o: number; a: number; b: number; title: string; rows: {label: string; pct: number; at: number; color: string}[]}) => {
+  if (!on(o, a, b)) return null;
+  return <AbsoluteFill style={{background: 'rgba(8,10,14,0.66)', opacity: fadeIO(o, a, b)}}>
+    <div style={{position: 'absolute', top: 110, width: BW, textAlign: 'center', fontFamily: MONT, fontWeight: 900, fontSize: 56, color: 'white'}}>{title}</div>
+    {rows.map((r, i) => {
+      const p = ease(o, r.at, 700);
+      return <div key={i} style={{position: 'absolute', left: 90, top: 300 + i * 190, width: BW - 180, opacity: o >= r.at ? 1 : 0.35}}>
+        <div style={{fontFamily: MONT, fontWeight: 800, fontSize: 34, color: 'white', marginBottom: 12}}>{r.label}</div>
+        <div style={{height: 46, borderRadius: 23, background: 'rgba(255,255,255,0.18)', overflow: 'hidden'}}>
+          <div style={{height: '100%', width: `${r.pct * p}%`, background: r.color, borderRadius: 23, boxShadow: `0 0 24px ${r.color}`}} /></div>
+        <div style={{position: 'absolute', right: 0, top: 0, fontFamily: MONT, fontWeight: 900, fontSize: 40, color: r.color}}>{Math.round(r.pct * p)}%</div>
+      </div>;
+    })}
+  </AbsoluteFill>;
+};
+// ---- value graph (redemptions): a price line that falls from high to low, labels on the ends -------------------------------
+export const ValueGraph = ({o, a, b, from, to, fromLabel, toLabel, dropAt}: {o: number; a: number; b: number; from: number; to: number; fromLabel: string; toLabel: string; dropAt: number}) => {
+  if (!on(o, a, b)) return null;
+  const X0 = 120, X1 = 960, Y0 = 260, Y1 = 760;
+  const pts = [[X0, Y0 + 40], [X0 + 200, Y0 + 10], [X0 + 380, Y0], [X0 + 520, Y0 + 90], [X0 + 640, Y1 - 120], [X1, Y1]];
+  const p1 = ease(o, a + 200, 600), p2 = ease(o, dropAt, 700);
+  const n = Math.max(2, Math.round(1 + p1 * 2 + p2 * 3));
+  const d = pts.slice(0, n).map(([x, y], i) => `${i ? 'L' : 'M'}${x},${y}`).join(' ');
+  return <AbsoluteFill style={{background: 'rgba(8,10,14,0.66)', opacity: fadeIO(o, a, b)}}>
+    <svg width={BW} height={BOX_H} style={{position: 'absolute', inset: 0}}>
+      {[0, 1, 2, 3].map((i) => <line key={i} x1={X0} x2={X1} y1={Y0 + i * 166} y2={Y0 + i * 166} stroke="rgba(255,255,255,0.12)" strokeWidth={2} />)}
+      <path d={d} fill="none" stroke={p2 > 0.05 ? V2.red : V2.green} strokeWidth={12} strokeLinejoin="round" strokeLinecap="round"
+        style={{filter: `drop-shadow(0 0 12px ${p2 > 0.05 ? V2.red : V2.green})`}} />
+    </svg>
+    <div style={{position: 'absolute', left: X0 - 20, top: Y0 - 120, fontFamily: MONT, fontWeight: 900, fontSize: 72, color: V2.green}}>{fromLabel}</div>
+    {p2 > 0.6 && <div style={{position: 'absolute', left: X1 - 300, top: Y1 + 30, fontFamily: MONT, fontWeight: 900, fontSize: 84, color: V2.red,
+      transform: `scale(${pop(o, dropAt + 400, 10, 260)})`}}>{toLabel}</div>}
+    <div style={{position: 'absolute', left: X0, top: Y1 + 170, fontFamily: MONT, fontWeight: 800, fontSize: 30, color: 'rgba(255,255,255,0.7)'}}>
+      {`-${Math.round((1 - to / from) * 100)}% VALUE`}</div>
+  </AbsoluteFill>;
+};

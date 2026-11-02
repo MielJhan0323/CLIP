@@ -7,9 +7,10 @@ import {E2_FPS, E2_OUT_MS, Edit2} from './Edit2';
 import {CV_FPS, CV_OUT_MS, E2Coverage} from './E2Coverage';
 import {E3_FPS, E3_OUT_MS, E3Ant} from './E3Ant';
 import {E3_CLIPS} from './e3/clips';
+import {B8Davis, B8_DAVIS_MS, B8NatTreasures, B8_NT_MS, B8Rogers, B8_ROGERS_MS, B8Lair, B8_LAIR_MS, B8Playbook, B8_PLAYBOOK_MS, B8Presnap, B8_PRESNAP_MS, B8RedeemV2, B8_REDEEM_V2_MS} from './jorho/batch8';
 import {JorhoV2Celly, V2_CELLY_MS} from './jorho/v2';
 import {JA_OHTANI_MS, JaOhtani} from './justinaugh/clips';
-import {JA_DART, JA_FLAGG, JA_LEBRON, JA_MAHOMES, JA_STARWARS} from './justinaugh/batch';
+import {JA_CADE, JA_CLARK, JA_DART, JA_FLAGG, JA_KON, JA_LEBRON, JA_MAHOMES, JA_STARWARS} from './justinaugh/batch';
 import {CELLY_J_MS, ENTERS_J_MS, JorhoCelly, JorhoEnters, JorhoLefty, JorhoTicket, JorhoTicketLight, JorhoFormulaAnt, FORMULA_MS, JorhoNbaGoat, NBAGOAT_MS, JorhoPlaybookDemo, PLAYBOOK_DEMO_MS, JorhoLeftyVO, LEFTY_VO_MS, B7NbaGoat, B7_NBA_MS, B7Peyton, B7_PEYTON_MS, B7Redeem, B7_REDEEM_MS, B7Golf, B7_GOLF_MS, B7Coen, B7_COEN_MS, JorhoTigerGift, LEFTY_J_MS, TICKET_J_MS, TIGER_J_MS} from './jorho/clips';
 import {ANT_MS, COEN_MS, GOLF_MS, JOSH_MS, JorhoAnt, JorhoCoen, JorhoGolf, JorhoJosh, JorhoPeyton, JorhoRedeem, JorhoTrav, PEYTON_MS, REDEEM_MS, TRAV_MS} from './jorho/clips';
 
@@ -65,8 +66,11 @@ export const RemotionRoot = () => (
     durationInFrames={Math.round((E3_OUT_MS / 1000) * E3_FPS)}
   />
   <Composition id="JaOhtani" component={JaOhtani} fps={30} width={1080} height={1920} durationInFrames={Math.round((JA_OHTANI_MS / 1000) * 30)} />
-  {([['JaMahomes', JA_MAHOMES], ['JaFlagg', JA_FLAGG], ['JaLebron', JA_LEBRON], ['JaStarwars', JA_STARWARS], ['JaDart', JA_DART]] as const).map(([id, j]) => (
+  {([['JaMahomes', JA_MAHOMES], ['JaFlagg', JA_FLAGG], ['JaLebron', JA_LEBRON], ['JaStarwars', JA_STARWARS], ['JaDart', JA_DART], ['JaKon', JA_KON], ['JaClark', JA_CLARK], ['JaCade', JA_CADE]] as const).map(([id, j]) => (
     <Composition key={id} id={id} component={j.C} fps={30} width={1080} height={1920} durationInFrames={Math.round((j.total / 1000) * 30)} />))}
+  {([['B8Davis', B8Davis, B8_DAVIS_MS], ['B8NatTreasures', B8NatTreasures, B8_NT_MS], ['B8Rogers', B8Rogers, B8_ROGERS_MS], ['B8Lair', B8Lair, B8_LAIR_MS],
+    ['B8Playbook', B8Playbook, B8_PLAYBOOK_MS], ['B8Presnap', B8Presnap, B8_PRESNAP_MS], ['B8RedeemV2', B8RedeemV2, B8_REDEEM_V2_MS]] as const).map(([id, C, ms]) => (
+    <Composition key={id} id={id} component={C} fps={30} width={1080} height={1920} durationInFrames={Math.round((ms / 1000) * 30)} />))}
   {E3_CLIPS.map(([id, C, ms]) => <Composition key={id} id={id} component={C} fps={30} width={1080} height={1920} durationInFrames={Math.round((ms / 1000) * 30)} />)}
   {([['JorhoPeyton', JorhoPeyton, PEYTON_MS], ['JorhoGolf', JorhoGolf, GOLF_MS], ['JorhoRedeem', JorhoRedeem, REDEEM_MS], ['JorhoCoen', JorhoCoen, COEN_MS],
     ['JorhoAnt', JorhoAnt, ANT_MS], ['JorhoJosh', JorhoJosh, JOSH_MS], ['JorhoTrav', JorhoTrav, TRAV_MS],
