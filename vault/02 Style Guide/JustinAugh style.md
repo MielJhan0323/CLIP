@@ -50,3 +50,6 @@ Music is a quiet bed (~−30 dB, ~15 dB under voices); couldn't be identified (c
 
 ## Factory (2026-11-01)
 `makeJa(cfg)` in `src/justinaugh/batch.tsx`: one config per pull (stream src, hosts/card boxes, card still, price, reveal, segments, blur start, hook clip + cover box, narration file/lines, banner, music + LUFS, host track). See [[Batch 6 - JustinAugh 5 card pulls]].
+
+## Blur rule (user, 2026-11-02)
+"Don't blur the bg all the time." Blur only (1) the **card area** while the chase card is visible but not yet revealed (`blurBox` in source px + `blurFrom`, a rounded backdrop-blur patch that moves with the footage), and (2) the background behind the end reveal card + price. Never blur the whole stream for long stretches.

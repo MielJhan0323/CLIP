@@ -26,4 +26,4 @@ User ask (2026-11-02): "edit 3 card pulls using justin augh and 4 trevor clips u
 - Montagem Alquimia is only a 15 s myinstants loop (drop 3.92 s): it can't be used when the reveal is later than ~3.9 s into the edit.
 
 ## Feedback log
-- (waiting)
+1. User: cards: don't blur the background all the time; only blur the chase card before its reveal, and the bg behind the end reveal → `blurBox` per pull (Kon [230,960,560,600] from 21.3 s, Clark [40,470,660,560] from 0, Cade [150,500,480,560] from 55.3 s) → `ja_*_v2.mp4`.

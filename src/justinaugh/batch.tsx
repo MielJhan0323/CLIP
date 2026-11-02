@@ -29,6 +29,7 @@ type Box = [number, number, number, number];
 type Cfg = {
   // hosts null = single-camera stream (no PiP)
   src: string; hosts: Box | null; srcW?: number; card: Box; cardCx: number; still: string; price: string; revealAt: number; segs: Seg[]; blurFrom: number;
+  blurBox?: Box; // source px: blur ONLY the card area before the reveal (user 2026-11-02); without it the whole card cam blurs
   hook: {file: string; from: number; to: number; cover: Box}; words: {text: string; startMs: number}[];
   narr: {file: string; lines: NLine[]; hook: number; hype: number}; banner: Part[][]; emoji?: string[];
   music: {file: string; drop: number; lufs: number}; track: [number, number, number][]; ringR?: number;
@@ -84,7 +85,8 @@ export const makeJa = (c: Cfg) => {
   const C = () => {
     const o = (useCurrentFrame() / FPS) * 1000;
     const inReveal = o >= REVEAL && o < BACK;
-    const blur = o >= BLUR_AT && o < REVEAL ? 26 : 0;
+    const hide = o >= BLUR_AT && o < REVEAL;
+    const blur = hide && !c.blurBox ? 26 : 0;
     return <AbsoluteFill style={{background: 'black'}}>
       <AbsoluteFill style={zoomStyle(o, WHIPS)}>
         <Sequence durationInFrames={f(HOOK)}>
@@ -94,6 +96,9 @@ export const makeJa = (c: Cfg) => {
         {o >= HOOK && <>
           <Footage src={c.src} tl={tl} at={HOOK} crop={[sx, c.card[1], sw, sh]} box={[0, 0, 1080, 1920]}
             style={{filter: inReveal ? 'blur(30px) brightness(0.75)' : blur ? `blur(${blur}px)` : undefined, transform: inReveal ? 'scale(1.12)' : undefined}} />
+          {hide && c.blurBox && (() => { const k = 1080 / sw; const [bx, by, bw, bh] = c.blurBox;
+            return <div style={{position: 'absolute', left: (bx - sx) * k, top: (by - c.card[1]) * k, width: bw * k, height: bh * k, borderRadius: 30,
+              backdropFilter: 'blur(34px)', WebkitBackdropFilter: 'blur(34px)'}} />; })()}
           {!inReveal && c.hosts && <PipFrame box={PIP}><Footage src={c.src} tl={tl} at={HOOK} crop={c.hosts} box={[0, 0, PIP[2], PIP[3]]} /></PipFrame>}
         </>}
       </AbsoluteFill>
@@ -172,7 +177,7 @@ export const JaMahomes = JA_MAHOMES.C, JaFlagg = JA_FLAGG.C, JaLebron = JA_LEBRO
 
 // ---- batch 8 (2026-11-02): Kon, Clark (720x1280 stream), Cade (single camera) ------------------------------------------------
 export const JA_KON = makeJa({
-  src: 'cards/c4_kon.mp4', hosts: [0, 0, 1080, 480], card: [0, 620, 1080, 1300], cardCx: 500, still: 'cards/kon.png', price: '100,000 USD',
+  src: 'cards/c4_kon.mp4', hosts: [0, 0, 1080, 480], card: [0, 620, 1080, 1300], cardCx: 500, still: 'cards/kon.png', price: '100,000 USD', blurBox: [230, 960, 560, 600],
   revealAt: 22600, segs: [[11500, 15500], [15900, 20600], [21300, 22600], [22600, 30000]], blurFrom: 21300,
   hook: {file: 'hooks/costco_guys_boom.mp4', from: 0, to: 2900, cover: [60, 930, 600, 160]}, words: konWords,
   narr: {file: 'narr/kon_loud.mp3', lines: konN, hook: 1, hype: 3},
@@ -181,7 +186,7 @@ export const JA_KON = makeJa({
   track: [[24400, 408, 30], [25200, 324, 36], [26000, 302, 38], [26833, 272, 44], [27667, 156, 47], [28500, 346, 48], [29333, 504, 46]],
 });
 export const JA_CLARK = makeJa({
-  src: 'cards/c2_clark.mp4', srcW: 720, hosts: [125, 75, 470, 295], card: [0, 380, 720, 900], cardCx: 330, still: 'cards/clark.png', price: '234,000 USD',
+  src: 'cards/c2_clark.mp4', srcW: 720, hosts: [125, 75, 470, 295], card: [0, 380, 720, 900], cardCx: 330, still: 'cards/clark.png', price: '234,000 USD', blurBox: [40, 470, 660, 560],
   revealAt: 16000, segs: [[0, 4400], [5000, 11800], [14700, 16000], [16000, 24000]], blurFrom: 0,
   hook: {file: 'hooks/oh_my_god_our_first_one.mp4', from: 0, to: 2800, cover: [60, 880, 600, 200]}, words: clarkWords,
   narr: {file: 'narr/clark_loud.mp3', lines: clarkN, hook: 1, hype: 3},
@@ -190,7 +195,7 @@ export const JA_CLARK = makeJa({
   track: [[18200, 324, 162], [19000, 390, 154], [19800, 350, 170], [21000, 350, 165]],
 });
 export const JA_CADE = makeJa({
-  src: 'cards/c6_cade.mp4', srcW: 808, hosts: null, card: [0, 150, 808, 1180], cardCx: 385, still: 'cards/cade.png', price: '27,000+ USD',
+  src: 'cards/c6_cade.mp4', srcW: 808, hosts: null, card: [0, 150, 808, 1180], cardCx: 385, still: 'cards/cade.png', price: '27,000+ USD', blurBox: [150, 500, 480, 560],
   revealAt: 56800, segs: [[2000, 9500], [18200, 24600], [55300, 56800], [56800, 62500]], blurFrom: 55300,
   hook: {file: 'hooks/this_product_is_unbelievable.mp4', from: 0, to: 2200, cover: [60, 920, 600, 170]}, words: cadeWords,
   narr: {file: 'narr/cade_loud.mp3', lines: cadeN, hook: 2, hype: 3},
