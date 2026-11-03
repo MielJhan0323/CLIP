@@ -28,7 +28,7 @@ import {Asterisk, BOX_H, BOX_TOP, HeadRing, LIGHT, CallOut, Cutout, Frame, GREEN
 const GRADE = 'contrast(1.06) saturate(1.05)';
 // Music sits a fixed 14 dB under the voice (voices measure ≈ −13.5 LUFS) so it never pulls focus (user, 2026-11-01).
 // Gain per file from its measured loudness; the spec's `level` is ignored.
-const MUSIC_LUFS: Record<string, number> = {'funk-sigilo.mp3': -16.0, 'montagem-alquimia.mp3': -5.4, 'lose-you-adturnup.mp3': -10.0, 'interstellar-piano.mp3': -13.5, 'tak-tak.mp3': -9.2, 'funk-do-balkan.mp3': -6.2, 'joyful-chess-slowed.mp3': -9.9, 'eclipser.mp3': -3.1, 'Jeopardy_Think.mp3': -18.9, 'Fluffing_a_Duck.mp3': -16.3, 'Monkeys_Spinning_Monkeys.mp3': -17.3, 'du-bist-full.mp3': -9.1, 'blue-yung-kai.mp3': -12.2, 'jorho-qkthr.mp3': -13.8, 'jorho-lullaby.mp3': -14.2};
+const MUSIC_LUFS: Record<string, number> = {'midnight-club.mp3': -14.1, 'funk-sigilo.mp3': -16.0, 'montagem-alquimia.mp3': -5.4, 'lose-you-adturnup.mp3': -10.0, 'interstellar-piano.mp3': -13.5, 'tak-tak.mp3': -9.2, 'funk-do-balkan.mp3': -6.2, 'joyful-chess-slowed.mp3': -9.9, 'eclipser.mp3': -3.1, 'Jeopardy_Think.mp3': -18.9, 'Fluffing_a_Duck.mp3': -16.3, 'Monkeys_Spinning_Monkeys.mp3': -17.3, 'du-bist-full.mp3': -9.1, 'blue-yung-kai.mp3': -12.2, 'jorho-qkthr.mp3': -13.8, 'jorho-lullaby.mp3': -14.2};
 const MUSIC_TARGET = -27.5;
 const musicGain = (file: string) => Math.pow(10, (MUSIC_TARGET - (MUSIC_LUFS[file] ?? -12)) / 20);
 const inAny = (s: number, spans: [number, number][]) => spans.some(([a, b]) => s >= a && s < b);
@@ -322,10 +322,10 @@ export const JorhoFormulaAnt = () => <Jorho s={FORMULA} />;
 
 // ---- NBA GOAT (Delly) · Jorho + top-performer formula (2026-11-01) ------------------------------------------------------
 // public/pod/nba_goat.mp4 (1920x1080, 18.8 s). Word times are the audio-verified phrase times from vault "NBA GOAT pick".
-const gTrack = {stepMs: 1000, fromMs: 0, L: Array(20).fill([440, 488]), M: Array(20).fill([980, 460]), R: Array(20).fill([1490, 505])} as unknown as Track;
+export const gTrack = {stepMs: 1000, fromMs: 0, L: Array(20).fill([440, 488]), M: Array(20).fill([980, 460]), R: Array(20).fill([1490, 505])} as unknown as Track;
 const ngTl = timeline([[0, 1800], [2250, 3600], [4350, 7450], [7450, 10500], [12950, 13980], [13980, 15000], [15000, 17400], [17450, 18760]]); // v2: no beep hold
 export const NBAGOAT_MS = ngTl.total;
-const NG_RAW: [string, number][] = [['Bring', 20], ['it', 200], ['up,', 330], ['but', 560], ['I', 700], ['want', 800], ['to', 950], ['ask', 1050], ['you', 1250],
+export const NG_RAW: [string, number][] = [['Bring', 20], ['it', 200], ['up,', 330], ['but', 560], ['I', 700], ['want', 800], ['to', 950], ['ask', 1050], ['you', 1250],
   ['the', 1350], ['question', 1450], ['before', 1650], ['Who', 2300], ['is', 2560], ['your', 2760], ['NBA', 2960], ['GOAT?', 3260], ['NBA', 4400], ['GOAT?', 4850],
   ['Greatest', 5560], ['of', 6050], ['all', 6250], ['time', 6420], ['NBA', 6650], ['player', 7000], ['Gotta', 13480], ['be', 13800], ['Matthew', 14000],
   ['Dellavedova', 14350], ['I', 17500], ['can', 17650], ['feel', 17800], ['the', 18050], ['tension', 18200]];

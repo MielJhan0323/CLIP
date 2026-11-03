@@ -71,3 +71,6 @@ User: "edit the trevor's nba goat clip… using jorho style". Built with the top
 - meme pops under the box: LeBron cut-out on "GOAT?" (the expected answer), Dellavedova cut-out on the reveal, 💀;
 - Du bist 14 dB under; footage `public/pod/nba_goat.mp4` (Drive `1mTForun8TLZYBuwQgihxF00SlT2Gub9E`); static seat track L(440,488) M(980,460) R(1490,505).
 - **v2 (user: remove the beep, stop overusing beep + Du bist):** no beep/hold; **Jeopardy Think** under the question + thinking silence with a hard stop before "Gotta be" (`music.until`); **Curb Your Enthusiasm credits** (`sfx/curb-credits.mp3`, starts 600 ms in) on the laugh; fahhh + crickets kept. 15.1 s → `out/jorho_nba_goat_v2.mp4`.
+
+## Jorho v2 version (2026-11-03): `B9NbaGoatV2` → `out/b9_v2_nba_goat.mp4` (15.1 s)
+Assets picked for this one (none of the earlier NBA GOAT edits' Jeopardy/Curb/arrow/crickets): YouTube card "Who is Trevor Lawrence's NBA GOAT?", typed *thinking…* on the silence, strobe on "Matthew", **GOAT CHECK table** (Jordan 5 MVPs / 6 rings, LeBron 4 / 4, Dellavedova **0** / 1 in red, counting up, `src/jorho/batch9.tsx`), fahhh after the name, Midnight Club bed (hard stop before "Gotta be"), title "His NBA GOAT has 0 MVPs 💀". No loudness spikes.
