@@ -83,3 +83,9 @@ Assets picked for this one (none of the earlier NBA GOAT edits' Jeopardy/Curb/ar
 - User: "the highlight is always there and it switches through different papers and articles fast while keeping NBA GOAT in the center."
 - `ArticleHighlight` in `src/jorho/batch9.tsx` now cuts to a new `PaperPage` every 3 frames (100 ms). Each page changes the paper colour, font, size, tilt and the article text around the word. The yellow highlight is always on, and NBA GOAT is locked dead center (grid `minmax(0,1fr) auto minmax(0,1fr)`; wide fonts are shrunk to 0.72 so the word never clips). The film-roll SFX stays underneath.
 - Output: `out/b9_v2_nba_goat_v6.mp4`, 15.1 s.
+
+## v7 (2026-11-03)
+- NBA GOAT part: only Grant's "NBA GOAT?" with an echo tail (`public/sfx/nba-goat-echo.mp3`: ffmpeg aecho of src 2.94–3.60 s). Trevor's repeat is muted with the new `Spec.mute` windows, its captions are dropped and the film-roll SFX is lowered to 0.18. The part exits with a whip left + zoom + blur and the fast-whoosh into "Greatest of all time".
+- Slot machine minimized: no box, lights or JACKPOT sign. Just a small round head reel (white ring → red on landing) with DELLAVEDOVA under it; the jackpot SFX is now ding-2.
+- Caption: "Trevor's NBA GOAT is better than LeBron?"
+- Output: `out/b9_v2_nba_goat_v7.mp4`, 15.1 s.
