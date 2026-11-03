@@ -25,9 +25,9 @@ const SANS = 'Helvetica, Arial, "Liberation Sans", sans-serif';
 const on = (o: number, a: number, b: number) => o >= a && o < b;
 const io = (o: number, a: number, b: number, d = 200) => Math.min(ease(o, a, d), 1 - ease(o, b - d, d));
 // captions per segment (works when a cold open repeats a later line: tl.out() would map both copies to the first one)
-const segWords = (raw: Raw, tl: TL, fix: Record<string, string>, colors: Record<string, string>): Word[] =>
+export const segWords = (raw: Raw, tl: TL, fix: Record<string, string>, colors: Record<string, string>): Word[] =>
   tl.segs.flatMap((s, i) => wordsFrom(raw, timeline([[s[0], s[1]]]), fix, colors).map((w) => ({...w, at: w.at + tl.segOut[i]})));
-const cam = (src: string, tl: TL, track: Track, wideX: number): CamCfg =>
+export const cam = (src: string, tl: TL, track: Track, wideX: number): CamCfg =>
   ({src, tl, track, grade: 'contrast(1.06) saturate(1.05)', box: [1080, BOX_H], baseH: 640, faceY: 0.42, wideX, who: () => 'W'});
 const PHONE = 'M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z';
 const Emo = ({code, size, style}: {code: string; size: number; style?: CSSProperties}) =>

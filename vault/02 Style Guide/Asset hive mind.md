@@ -83,3 +83,9 @@ User (2026-11-02): "when I tell you to reference something I don't mean to redo 
 - **Years bars** (B10Coen): plain bars comparing two time spans, ✅ + ding on the winner.
 - **Magnifier** (B10Ant): a tiny thing (signature, number, logo) on a card, then a lens slides over it and shows it big.
 - **Video tiles + verdict stamps** (B10Trav): two YouTube-style tiles that each get a stamp (WHACKED / PRETTY FUNNY) as the speaker judges them.
+- **List ticker** (B12Davis): a dark "IN THE PACK" box where names tick in one by one with clicks; the last one in red.
+- **Comparison meter** (B12Davis NECK-O-METER): a measuring tape with two markers; the punchline one overshoots.
+- **Who's-who panel + stamps** (B12Josh): two player tiles with NOT HIM / THE REAL ONE stamps. Good cold-open graphic.
+- **Name-change / then→now timeline** (B12Josh).
+- **Event ticket** (B12Ticket): an illustrated ticket with a signature that draws on.
+- **Chalk field board** (B12Lefty): top-down field, QB circle, arrows that draw on, red ✗; chalk-scratch SFX. For any "where/how he throws/plays" explainer.

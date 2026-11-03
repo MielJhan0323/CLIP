@@ -8,6 +8,7 @@ import {CV_FPS, CV_OUT_MS, E2Coverage} from './E2Coverage';
 import {E3_FPS, E3_OUT_MS, E3Ant} from './E3Ant';
 import {E3_CLIPS} from './e3/clips';
 import {B9NbaGoatV2, B9_NBA_V2_MS} from './jorho/batch9';
+import {B12Davis, B12Josh, B12Lefty, B12Ticket, B12_DAVIS_MS, B12_JOSH_MS, B12_LEFTY_MS, B12_TICKET_MS} from './jorho/batch12';
 import {J11Algo, J11Closet, J11GodGiven, J11Rookie, J11Stapleton, J11_ALGO_MS, J11_CLOSET_MS, J11_GOD_MS, J11_ROOKIE_MS, J11_STAPLETON_MS} from './jorho/batch11';
 import {B10Ant, B10Coen, B10Golf, B10Peyton, B10Trav, B10_ANT_MS, B10_COEN_MS, B10_GOLF_MS, B10_PEYTON_MS, B10_TRAV_MS} from './jorho/batch10';
 import {B8Davis, B8_DAVIS_MS, B8NatTreasures, B8_NT_MS, B8Rogers, B8_ROGERS_MS, B8Lair, B8_LAIR_MS, B8Playbook, B8_PLAYBOOK_MS, B8Presnap, B8_PRESNAP_MS, B8RedeemV2, B8_REDEEM_V2_MS} from './jorho/batch8';
@@ -85,6 +86,10 @@ export const RemotionRoot = () => (
   <Composition id="J11GodGiven" component={J11GodGiven} fps={30} width={1080} height={1920} durationInFrames={Math.round((J11_GOD_MS / 1000) * 30)} />
   <Composition id="J11Closet" component={J11Closet} fps={30} width={1080} height={1920} durationInFrames={Math.round((J11_CLOSET_MS / 1000) * 30)} />
   <Composition id="J11Algo" component={J11Algo} fps={30} width={1080} height={1920} durationInFrames={Math.round((J11_ALGO_MS / 1000) * 30)} />
+  <Composition id="B12Davis" component={B12Davis} fps={30} width={1080} height={1920} durationInFrames={Math.round((B12_DAVIS_MS / 1000) * 30)} />
+  <Composition id="B12Josh" component={B12Josh} fps={30} width={1080} height={1920} durationInFrames={Math.round((B12_JOSH_MS / 1000) * 30)} />
+  <Composition id="B12Ticket" component={B12Ticket} fps={30} width={1080} height={1920} durationInFrames={Math.round((B12_TICKET_MS / 1000) * 30)} />
+  <Composition id="B12Lefty" component={B12Lefty} fps={30} width={1080} height={1920} durationInFrames={Math.round((B12_LEFTY_MS / 1000) * 30)} />
   {E3_CLIPS.map(([id, C, ms]) => <Composition key={id} id={id} component={C} fps={30} width={1080} height={1920} durationInFrames={Math.round((ms / 1000) * 30)} />)}
   {([['JorhoPeyton', JorhoPeyton, PEYTON_MS], ['JorhoGolf', JorhoGolf, GOLF_MS], ['JorhoRedeem', JorhoRedeem, REDEEM_MS], ['JorhoCoen', JorhoCoen, COEN_MS],
     ['JorhoAnt', JorhoAnt, ANT_MS], ['JorhoJosh', JorhoJosh, JOSH_MS], ['JorhoTrav', JorhoTrav, TRAV_MS],

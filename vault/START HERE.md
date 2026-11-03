@@ -56,6 +56,8 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 - **"Trevor Wallace clips" = the Trevor Lawrence Clips tab** of the sheet (2026-11-01).
 - **Card pulls (stream clips from the Backyard Breaks sheet):** follow [[Card pull playbook]] (white banner hook, whip transitions, tracked red circle + arrow, card title stack with price).
 
+- (2026-11-03) **Pull from the first second and stay engaging the whole way**: cold-open every clip on its payoff line with a graphic already moving, then add a new beat (graphic, cut, emoji, typed text, stamp) about every 2–3 s. Graphics take over for 3 s at most and hand back to the cam. No dead stretches; the payoff lands again at the end.
+
 ## Map
 - **Research**
   - [[Shorts analysis - 50 clips]]: the 50 Shorts, views, format, hook and edit notes for each

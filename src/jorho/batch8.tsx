@@ -22,7 +22,7 @@ const camOf = (src: string, tl: ReturnType<typeof timeline>, track: Track, wideX
   ({src, tl, track, grade: 'contrast(1.06) saturate(1.05)', box: [1080, BOX_H], baseH: 640, faceY: 0.42, wideX, who: () => 'W'});
 
 // ---- J1 · Davis Mills roast (black): Glennon cut-out + fahhh + red tint ---------------------------------------------------
-const dTrack = T({stepMs: 1000, fromMs: 0, L: Array(18).fill([700, 400]), M: Array(18).fill([990, 485]), R: Array(18).fill([1455, 515])});
+export const dTrack = T({stepMs: 1000, fromMs: 0, L: Array(18).fill([700, 400]), M: Array(18).fill([990, 485]), R: Array(18).fill([1455, 515])});
 const d1 = timeline([[0, 16800]]);
 const D1 = {davis: 5820, ew: 6940, neck: 9940, glennon: 10380, trevor: 11940, oh: 14320};
 const DAVIS: Spec = {
