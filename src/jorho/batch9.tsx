@@ -1,6 +1,7 @@
 // BATCH 9 (2026-11-03): NBA GOAT pick in Jorho v2 (explainer graphics). Assets picked for this clip only:
 // YouTube card question, typed *thinking…*, GOAT stats table (Jordan / LeBron / Dellavedova), fahhh. No arrow, no beep, no Jeopardy/Curb.
 import {AbsoluteFill, Img, interpolate, staticFile} from 'remotion';
+import {Grain} from '../e3/kit';
 import {MONT} from '../e3/bars';
 import {type CamCfg} from '../e3/kit';
 import {clamp, ease, pop, sfx, timeline} from '../e3/kit';
@@ -46,6 +47,59 @@ const SlotBox = ({o, spin, land}: {o: number; spin: number; land: number}) => {
   </div>;
 };
 
+// Newspaper rush (user 2026-11-03): "NBA GOAT" highlighted while newspaper pages / clippings fly past, old-film look + film-roll sound
+const HEADS = ['WHO IS THE GOAT?', 'DEBATE RAGES ON', 'GREATEST OF ALL TIME', '6 RINGS', 'THE KING', 'MAMBA MENTALITY', 'MVP!', 'CHAMPIONS AGAIN',
+  'THE DEBATE NEVER ENDS', 'HISTORY MADE', 'NBA FINALS', 'LEGEND'];
+const Clipping = ({w, h, head, seed}: {w: number; h: number; head: string; seed: number}) => (
+  <div style={{width: w, height: h, background: '#efe6cf', boxShadow: '0 10px 30px rgba(0,0,0,0.45)', padding: 18, boxSizing: 'border-box', overflow: 'hidden'}}>
+    <div style={{fontFamily: 'Playfair Display', fontWeight: 800, fontSize: w * 0.085, lineHeight: 1.05, color: '#1b1b1b', borderBottom: '3px solid #1b1b1b', paddingBottom: 8}}>{head}</div>
+    <div style={{display: 'flex', gap: 12, marginTop: 12}}>
+      {[0, 1, 2].map((c) => <div key={c} style={{flex: 1}}>
+        {c === (seed % 3) && <div style={{height: h * 0.28, background: 'linear-gradient(135deg,#8a8a8a,#4a4a4a)', marginBottom: 8, filter: 'contrast(1.2)'}} />}
+        {Array.from({length: 14}, (_, i) => <div key={i} style={{height: 6, marginBottom: 7, background: '#6e6a62', opacity: 0.55,
+          width: `${70 + ((seed * 7 + i * 13 + c * 5) % 30)}%`}} />)}
+      </div>)}
+    </div>
+  </div>
+);
+const NewspaperRush = ({o, a, b, word}: {o: number; a: number; b: number; word: string}) => {
+  if (o < a || o >= b) return null;
+  const t = o - a;
+  const fade = Math.min(1, t / 120, (b - o) / 160);
+  const flicker = 0.9 + 0.1 * Math.sin(o * 0.37) * Math.sin(o * 0.13);
+  const weave = Math.sin(o * 0.05) * 3;
+  const hl = interpolate(t, [180, 480], [0, 1], clamp);
+  return <AbsoluteFill style={{opacity: fade, overflow: 'hidden', background: '#d9cba8'}}>
+    <AbsoluteFill style={{filter: `sepia(0.85) contrast(1.08) brightness(${flicker})`, transform: `translateY(${weave}px)`}}>
+      {Array.from({length: 16}, (_, i) => {
+        const life = 900; const start = (i * 137) % life;           // staggered, looping flights from the center outward
+        const k = ((t + start) % life) / life;
+        const ang = (i * 2.399) % (2 * Math.PI);
+        const r = 80 + k * 900;
+        const sc = 0.25 + k * 1.9;
+        const x = 540 + Math.cos(ang) * r - 210, y = 540 + Math.sin(ang) * r * 0.8 - 150;
+        return <div key={i} style={{position: 'absolute', left: x, top: y, transform: `scale(${sc}) rotate(${((i * 47) % 40) - 20 + k * 12}deg)`,
+          opacity: Math.min(1, k * 4) * (1 - Math.max(0, k - 0.8) * 5), filter: `blur(${k * 3}px)`}}>
+          <Clipping w={420} h={300} head={HEADS[i % HEADS.length]} seed={i} /></div>;
+      })}
+      {/* film scratches */}
+      {[0, 1, 2].map((i) => <div key={i} style={{position: 'absolute', top: 0, height: BOX_H, width: 2, background: 'rgba(40,30,20,0.35)',
+        left: ((Math.floor(o / 70) * (97 + i * 53)) % 1080)}} />)}
+    </AbsoluteFill>
+    <Grain frame={Math.floor(o / 33)} opacity={0.22} />
+    <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(30,18,6,0.65) 100%)'}} />
+    {/* the highlighted words */}
+    <div style={{position: 'absolute', top: 400 + weave, width: 1080, textAlign: 'center'}}>
+      <span style={{position: 'relative', display: 'inline-block', padding: '0 26px', transform: `scale(${interpolate(t, [0, 220], [1.4, 1], clamp)})`}}>
+        <span style={{position: 'absolute', left: 0, top: '18%', height: '70%', width: `${hl * 100}%`, background: '#FFE14D', transform: 'skewX(-8deg) rotate(-1.5deg)',
+          borderRadius: 6, boxShadow: '0 0 0 4px rgba(255,225,77,0.35)'}} />
+        <span style={{position: 'relative', fontFamily: 'Playfair Display', fontWeight: 800, fontSize: 170, color: '#111', letterSpacing: 2,
+          textShadow: '0 4px 0 rgba(255,255,255,0.35)'}}>{word}</span>
+      </span>
+    </div>
+  </AbsoluteFill>;
+};
+
 // GOAT stats table: three cut-outs, MVPs + rings count up per column; a 0 shows in red
 const GoatTable = ({o, a, b}: {o: number; a: number; b: number}) => {
   if (o < a || o >= b) return null;
@@ -73,7 +127,7 @@ const GoatTable = ({o, a, b}: {o: number; a: number; b: number}) => {
 };
 
 const b9 = timeline([[0, 1800], [2250, 3600], [4350, 7450], [7450, 10500], [12950, 13980], [13980, 15000], [15000, 17400], [17450, 18760]]);
-const G9 = {goat: b9.out(3260), quiet: b9.segOut[3], gotta: b9.segOut[4], name: b9.segOut[5], delly: b9.out(14350), laugh: b9.segOut[6], tension: b9.segOut[7]};
+const G9 = {nba: b9.out(2960) - 80, nbaEnd: b9.out(5340), goat: b9.out(3260), quiet: b9.segOut[3], gotta: b9.segOut[4], name: b9.segOut[5], delly: b9.out(14350), laugh: b9.segOut[6], tension: b9.segOut[7]};
 const CAM: CamCfg = {src: 'pod/nba_goat.mp4', tl: b9, track: gTrack, grade: 'contrast(1.06) saturate(1.05)', box: [1080, BOX_H], baseH: 640, faceY: 0.42, wideX: 960, who: () => 'W'};
 const NBA_V2: Spec = {
   tl: b9, src: 'pod/nba_goat.mp4', track: gTrack, top: 'His NBA GOAT has 0 MVPs', wordY: 1420, wideX: 960,
@@ -81,15 +135,16 @@ const NBA_V2: Spec = {
   shots: [[0, 'W'], [b9.segOut[1], 'L'], [b9.segOut[2], 'M'], [b9.out(5560), 'L'], [G9.quiet, 'M'], [G9.name + STROBE_CUT, 'M'], [G9.laugh, 'W'], [G9.tension, 'R']],
   strobes: [G9.name], tints: [[G9.goat, GREEN], [G9.delly + 400, RED]], swish: [G9.goat],
   fah: [b9.out(14950)],
-  capsOff: [[150, 2500], [G9.laugh + 100, G9.tension]],
+  capsOff: [[150, 2500], [b9.out(2960) - 80, b9.out(5340)], [G9.laugh + 100, G9.tension]],
   overlay: (o) => <SlotBox o={o} spin={G9.quiet} land={G9.name} />,
   music: {file: 'midnight-club.mp3', from: 0, level: 0, until: G9.gotta}, // drop at 2.7 s lands as the YouTube card ends
   inBox: (o) => <Layer>
     <YouTubeCard o={o} a={0} b={2500} title="Who is Trevor Lawrence's NBA GOAT?" cam={CAM} startAt={0} dur={b9.total} />
+    <NewspaperRush o={o} a={G9.nba} b={G9.nbaEnd} word="NBA GOAT" />
     <TypedAction o={o} a={G9.quiet + 200} b={G9.gotta} text="thinking…" />
     <GoatTable o={o} a={G9.laugh + 100} b={b9.total} />
   </Layer>,
-  extraSfx: [sfx('mg-click', 200, 0.25), sfx('mg-swoosh', 420, 0.2), sfx('slot-spin', G9.quiet, 0.5, G9.name - G9.quiet), sfx('slot-jackpot', G9.name, 0.32),
+  extraSfx: [sfx('mg-click', 200, 0.25), sfx('mg-swoosh', 420, 0.2), sfx('film-roll', b9.out(2960) - 80, 0.35, b9.out(5340) - b9.out(2960) + 80), sfx('slot-spin', G9.quiet, 0.5, G9.name - G9.quiet), sfx('slot-jackpot', G9.name, 0.32),
     ...[0, 1, 2].map((i) => sfx('mg-click', G9.laugh + 350 + i * 380, 0.22)), sfx('error', G9.laugh + 1260, 0.18)],
 };
 export const B9NbaGoatV2 = () => <Jorho s={NBA_V2} />;
