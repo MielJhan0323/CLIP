@@ -39,6 +39,27 @@ Cuts: hard cuts (scdet 2–7 per clip), a Jorho strobe on 1–2 beats, a green t
 7. Music 14 dB under the voice; soft SFX only.
 8. 3–5 graphics per clip, each tied to a line. Leave plain cam stretches between them.
 
+## Reference edit #5: our approved NBA GOAT edit (user, 2026-11-03: "add this video as reference for jorho v2")
+`out/b9_v2_nba_goat_v8.mp4` (`B9NbaGoatV2` in `src/jorho/batch9.tsx`, 15.1 s), contact sheet `assets/references/jorho_v2_nba_goat_v8_sheet.jpg`. Version history: `04 Projects/NBA GOAT pick.md` (v1–v8). Use it for structure and polish next to reference #4. Don't paste its graphics onto every clip; pick from the hive mind.
+
+| out time | beat | why it works |
+|---|---|---|
+| 0–2.5 s | **YouTube watch-page card**, title "Who is Trevor Lawrence's NBA GOAT?" wipes + slides in; top caption "Trevor's NBA GOAT is better than LeBron? 💀" | the question plus a provocative claim in the first second |
+| 2.4–4.25 s | **paper-animator word lock**: NBA GOAT highlighted yellow and fixed in the center while newspaper/article pages cut every 3 frames; the audio is **only Grant's "NBA GOAT?" with an echo tail** (Trevor's repeat muted), quiet film-roll underneath | turns a plain question into a hypnotic, rewatchable moment |
+| 4.25 s | page whips left with zoom + blur, fast-whoosh into "Greatest of all time" | a clean hard reset back to the cam |
+| 6.25–10.3 s | `*thinking…*` typed + **minimized head reel** (small round circle under the video spinning player heads, slot-spin ticks) | fills the silence with suspense instead of dead air |
+| 10.3 s | lands on Dellavedova: strobe, red ring + red name, ding-2, red tint, fahhh | the payoff; never spoiled before the name |
+| 11.4–15 s | plain broadcast-style stat sheet (same-size head photos, MVPs / RINGS rows, white numbers, Delly's 0 in red) + **hand-drawn red marker box that draws itself** around his column (pen-scribble) | explains the joke with real numbers; the drawn box feels handmade, not templated |
+| end | "I can feel the tension" | ends on a finished line |
+
+**Rules this edit set** (from the feedback rounds):
+1. A keyword moment can get the paper-animator lock: fast pages (100 ms) with the word always highlighted and centered. Not slow, not drifting.
+2. Echo the asker's key words and mute the repeat, then whoosh out into the next line.
+3. Gimmick graphics (slot machine etc.) stay **minimal**: no heavy machine frames, lights or signs. Show them only while the moment lasts (thinking), then get out.
+4. Highlight boxes/circles **draw themselves on** and must fit around everything they mark.
+5. Stat screens look like a plain TV graphic: no glows, neon or count-ups, and the same kind of photo for every player.
+6. Top caption = a provocative claim/question ("…is better than LeBron?"), not a summary of the clip.
+
 ## Audio
 - Music in the refs is LOUD (only ~1.3–6 dB under the voice). **We keep our rule: music 14 dB under the voice** (user, 2026-11-01). The tracks couldn't be identified (chroma matching is not decisive); they are phonk/trap beds at 89–99 BPM.
 - SFX at the scene changes fingerprint to generic **soft booms/impacts** (best: myinstants "sudden suspense boom" 0.90, "smash bros hit", "vine boom slow"), plus UI-style pops and clicks on graphics. No exact match because the music masks them.
