@@ -1,4 +1,5 @@
 // BATCH 9 (2026-11-03): NBA GOAT pick in Jorho v2 (explainer graphics). Assets picked for this clip only:
+import type {ReactNode} from 'react';
 // YouTube card question, typed *thinking…*, GOAT stats table (Jordan / LeBron / Dellavedova), fahhh. No arrow, no beep, no Jeopardy/Curb.
 import {AbsoluteFill, Img, interpolate, staticFile} from 'remotion';
 import {Grain} from '../e3/kit';
@@ -47,56 +48,59 @@ const SlotBox = ({o, spin, land}: {o: number; spin: number; land: number}) => {
   </div>;
 };
 
-// Newspaper rush (user 2026-11-03): "NBA GOAT" highlighted while newspaper pages / clippings fly past, old-film look + film-roll sound
-const HEADS = ['WHO IS THE GOAT?', 'DEBATE RAGES ON', 'GREATEST OF ALL TIME', '6 RINGS', 'THE KING', 'MAMBA MENTALITY', 'MVP!', 'CHAMPIONS AGAIN',
-  'THE DEBATE NEVER ENDS', 'HISTORY MADE', 'NBA FINALS', 'LEGEND'];
-const Clipping = ({w, h, head, seed}: {w: number; h: number; head: string; seed: number}) => (
-  <div style={{width: w, height: h, background: '#efe6cf', boxShadow: '0 10px 30px rgba(0,0,0,0.45)', padding: 18, boxSizing: 'border-box', overflow: 'hidden'}}>
-    <div style={{fontFamily: 'Playfair Display', fontWeight: 800, fontSize: w * 0.085, lineHeight: 1.05, color: '#1b1b1b', borderBottom: '3px solid #1b1b1b', paddingBottom: 8}}>{head}</div>
-    <div style={{display: 'flex', gap: 12, marginTop: 12}}>
-      {[0, 1, 2].map((c) => <div key={c} style={{flex: 1}}>
-        {c === (seed % 3) && <div style={{height: h * 0.28, background: 'linear-gradient(135deg,#8a8a8a,#4a4a4a)', marginBottom: 8, filter: 'contrast(1.2)'}} />}
-        {Array.from({length: 14}, (_, i) => <div key={i} style={{height: 6, marginBottom: 7, background: '#6e6a62', opacity: 0.55,
-          width: `${70 + ((seed * 7 + i * 13 + c * 5) % 30)}%`}} />)}
-      </div>)}
-    </div>
-  </div>
-);
-const NewspaperRush = ({o, a, b, word}: {o: number; a: number; b: number; word: string}) => {
+// Article highlight (user ref youtube.com/shorts/STHOVgEWqf8, 2026-11-03): a printed article close-up, tilted, shallow depth of field,
+// camera pushing along the text, the key phrase marked with a yellow highlighter; 2 shots (headline → paragraph); old film-roll sound.
+const BODY = ['For decades the debate has never really ended. Every generation picks a side, every barbershop has an opinion,',
+  'and every new season adds another chapter. Rings, MVPs, scoring titles and longevity all get thrown into the argument.',
+  'So when a star quarterback was asked to name his', '__KEY__', 'nobody expected the answer that followed. The room went quiet,',
+  'the hosts leaned in, and for a few long seconds he simply thought about it. Then he said a name that nobody saw coming,',
+  'and the internet has not stopped talking about it since. Some called it a joke, others called it the boldest take of the year.'];
+const Mark = ({children, p}: {children: string; p: number}) => <span style={{position: 'relative', display: 'inline-block', padding: '0 0.12em'}}>
+  <span style={{position: 'absolute', left: 0, top: '12%', height: '82%', width: `${p * 100}%`, background: '#FFE34D', opacity: 0.9, transform: 'rotate(-1deg)',
+    borderRadius: 4, mixBlendMode: 'multiply'}} />
+  <span style={{position: 'relative', fontWeight: 800}}>{children}</span></span>;
+const Paper = ({children}: {children: ReactNode}) => <div style={{position: 'absolute', inset: 0, background: '#f3efe6',
+  backgroundImage: 'linear-gradient(115deg, rgba(0,0,0,0.05) 0 1px, transparent 1px 160px), linear-gradient(28deg, rgba(0,0,0,0.04) 0 1px, transparent 1px 220px), radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.6), rgba(0,0,0,0.08))'}}>{children}</div>;
+const ArticleShot = ({t, dur, kind, word}: {t: number; dur: number; kind: 'head' | 'para'; word: string}) => {
+  const k = t / dur;
+  const hl = interpolate(t, [140, 440], [0, 1], clamp);
+  const page = kind === 'head'
+    ? <div style={{position: 'absolute', left: 120, top: 260, width: 1700, fontFamily: 'Playfair Display', color: '#141414'}}>
+        <div style={{fontFamily: 'Courier Prime', fontSize: 34, letterSpacing: 4, color: '#555', marginBottom: 18}}>SPORTS · OPINION</div>
+        <div style={{fontWeight: 800, fontSize: 150, lineHeight: 1.02, whiteSpace: 'nowrap'}}>Who Is The <Mark p={hl}>{word}</Mark>?<br />The Debate Never Ends</div>
+        <div style={{fontFamily: 'Georgia, serif', fontSize: 44, lineHeight: 1.45, color: '#2a2a2a', marginTop: 40, width: 1500}}>{BODY.slice(0, 2).join(' ')}</div>
+      </div>
+    : <div style={{position: 'absolute', left: 140, top: 160, width: 1650, fontFamily: 'Georgia, serif', fontSize: 64, lineHeight: 1.5, color: '#1d1d1d'}}>
+        {BODY.map((l, i) => l === '__KEY__' ? <Mark key={i} p={hl}>{word}</Mark> : <span key={i}>{l} </span>)}
+      </div>;
+  // camera: tilted page, push-in + drift; focus point on the marked phrase
+  const cam = kind === 'head'
+    ? {rx: 14, ry: 12, s: 0.8 + 0.08 * k, x: -330 - 50 * k, y: 30 - 20 * k, fx: 50, fy: 42}
+    : {rx: 18, ry: 10, s: 1.35 + 0.12 * k, x: -960 + 80 * k, y: -70 - 40 * k, fx: 50, fy: 50};
+  const layer = (blur: number, mask?: string) => <div style={{position: 'absolute', inset: 0, filter: blur ? `blur(${blur}px)` : undefined,
+    WebkitMaskImage: mask, maskImage: mask}}>
+    <div style={{position: 'absolute', left: 0, top: 0, width: 2000, height: 1600, transformOrigin: '0 0',
+      transform: `perspective(1500px) translate(${cam.x}px, ${cam.y}px) scale(${cam.s}) rotateX(${cam.rx}deg) rotateY(${cam.ry}deg)`}}>
+      <Paper>{page}</Paper></div></div>;
+  const focus = `radial-gradient(ellipse 46% 22% at ${cam.fx}% ${cam.fy}%, black 45%, transparent 100%)`;
+  return <AbsoluteFill style={{background: '#cfc8b8', overflow: 'hidden'}}>
+    {layer(9)}
+    {layer(0, focus)}
+  </AbsoluteFill>;
+};
+const ArticleHighlight = ({o, a, b, word}: {o: number; a: number; b: number; word: string}) => {
   if (o < a || o >= b) return null;
-  const t = o - a;
-  const fade = Math.min(1, t / 120, (b - o) / 160);
-  const flicker = 0.9 + 0.1 * Math.sin(o * 0.37) * Math.sin(o * 0.13);
-  const weave = Math.sin(o * 0.05) * 3;
-  const hl = interpolate(t, [180, 480], [0, 1], clamp);
-  return <AbsoluteFill style={{opacity: fade, overflow: 'hidden', background: '#d9cba8'}}>
-    <AbsoluteFill style={{filter: `sepia(0.85) contrast(1.08) brightness(${flicker})`, transform: `translateY(${weave}px)`}}>
-      {Array.from({length: 16}, (_, i) => {
-        const life = 900; const start = (i * 137) % life;           // staggered, looping flights from the center outward
-        const k = ((t + start) % life) / life;
-        const ang = (i * 2.399) % (2 * Math.PI);
-        const r = 80 + k * 900;
-        const sc = 0.25 + k * 1.9;
-        const x = 540 + Math.cos(ang) * r - 210, y = 540 + Math.sin(ang) * r * 0.8 - 150;
-        return <div key={i} style={{position: 'absolute', left: x, top: y, transform: `scale(${sc}) rotate(${((i * 47) % 40) - 20 + k * 12}deg)`,
-          opacity: Math.min(1, k * 4) * (1 - Math.max(0, k - 0.8) * 5), filter: `blur(${k * 3}px)`}}>
-          <Clipping w={420} h={300} head={HEADS[i % HEADS.length]} seed={i} /></div>;
-      })}
-      {/* film scratches */}
-      {[0, 1, 2].map((i) => <div key={i} style={{position: 'absolute', top: 0, height: BOX_H, width: 2, background: 'rgba(40,30,20,0.35)',
-        left: ((Math.floor(o / 70) * (97 + i * 53)) % 1080)}} />)}
+  const t = o - a, half = (b - a) * 0.46;
+  const fade = Math.min(1, t / 90, (b - o) / 140);
+  const cutFlash = interpolate(t - half, [0, 40, 160], [0, 0.7, 0], clamp);
+  const flicker = 0.94 + 0.06 * Math.sin(o * 0.41) * Math.sin(o * 0.17);
+  return <AbsoluteFill style={{opacity: fade}}>
+    <AbsoluteFill style={{filter: `sepia(0.25) contrast(1.06) brightness(${flicker})`, transform: `translateY(${Math.sin(o * 0.05) * 2}px)`}}>
+      {t < half ? <ArticleShot t={t} dur={half} kind="head" word={word} /> : <ArticleShot t={t - half} dur={b - a - half} kind="para" word={word} />}
     </AbsoluteFill>
-    <Grain frame={Math.floor(o / 33)} opacity={0.22} />
-    <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(30,18,6,0.65) 100%)'}} />
-    {/* the highlighted words */}
-    <div style={{position: 'absolute', top: 400 + weave, width: 1080, textAlign: 'center'}}>
-      <span style={{position: 'relative', display: 'inline-block', padding: '0 26px', transform: `scale(${interpolate(t, [0, 220], [1.4, 1], clamp)})`}}>
-        <span style={{position: 'absolute', left: 0, top: '18%', height: '70%', width: `${hl * 100}%`, background: '#FFE14D', transform: 'skewX(-8deg) rotate(-1.5deg)',
-          borderRadius: 6, boxShadow: '0 0 0 4px rgba(255,225,77,0.35)'}} />
-        <span style={{position: 'relative', fontFamily: 'Playfair Display', fontWeight: 800, fontSize: 170, color: '#111', letterSpacing: 2,
-          textShadow: '0 4px 0 rgba(255,255,255,0.35)'}}>{word}</span>
-      </span>
-    </div>
+    <Grain frame={Math.floor(o / 33)} opacity={0.16} />
+    <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 50%, transparent 45%, rgba(25,18,8,0.55) 100%)'}} />
+    <AbsoluteFill style={{background: 'white', opacity: cutFlash}} />
   </AbsoluteFill>;
 };
 
@@ -133,14 +137,14 @@ const NBA_V2: Spec = {
   tl: b9, src: 'pod/nba_goat.mp4', track: gTrack, top: 'His NBA GOAT has 0 MVPs', wordY: 1420, wideX: 960,
   words: wordsFrom(NG_RAW.map(([text, startMs]) => ({text, startMs})), b9, {}, {NBA: '#F9FC35', GOAT: '#58EE28', Matthew: '#21F5E6', Dellavedova: '#21F5E6'}),
   shots: [[0, 'W'], [b9.segOut[1], 'L'], [b9.segOut[2], 'M'], [b9.out(5560), 'L'], [G9.quiet, 'M'], [G9.name + STROBE_CUT, 'M'], [G9.laugh, 'W'], [G9.tension, 'R']],
-  strobes: [G9.name], tints: [[G9.goat, GREEN], [G9.delly + 400, RED]], swish: [G9.goat],
+  strobes: [G9.name], tints: [[G9.delly + 400, RED]], swish: [G9.goat],
   fah: [b9.out(14950)],
   capsOff: [[150, 2500], [b9.out(2960) - 80, b9.out(5340)], [G9.laugh + 100, G9.tension]],
   overlay: (o) => <SlotBox o={o} spin={G9.quiet} land={G9.name} />,
   music: {file: 'midnight-club.mp3', from: 0, level: 0, until: G9.gotta}, // drop at 2.7 s lands as the YouTube card ends
   inBox: (o) => <Layer>
     <YouTubeCard o={o} a={0} b={2500} title="Who is Trevor Lawrence's NBA GOAT?" cam={CAM} startAt={0} dur={b9.total} />
-    <NewspaperRush o={o} a={G9.nba} b={G9.nbaEnd} word="NBA GOAT" />
+    <ArticleHighlight o={o} a={G9.nba} b={G9.nbaEnd} word="NBA GOAT" />
     <TypedAction o={o} a={G9.quiet + 200} b={G9.gotta} text="thinking…" />
     <GoatTable o={o} a={G9.laugh + 100} b={b9.total} />
   </Layer>,
