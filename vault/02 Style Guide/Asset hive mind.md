@@ -77,3 +77,9 @@ User (2026-11-02): "when I tell you to reference something I don't mean to redo 
 | 9 | NBA GOAT v2 | YouTube card, typed *thinking…*, **jackpot slot box + spin/jackpot SFX**, GOAT stats table, fahhh, Midnight Club |
 - **Paper-animator word lock** (2026-11-03, NBA GOAT v6): a key phrase highlighted yellow and fixed in the center while newspaper/article pages cut every 3 frames around it, with the film-roll SFX. Use it for a big "keyword" moment; don't run it longer than about 2 s.
 - **Echo word moment** (2026-11-03, NBA GOAT v7): a question's key words replayed with an aecho tail while the clip's own speech is muted (`Spec.mute`), then a whip/zoom-blur exit with fast-whoosh into the next line. Pairs well with the paper-animator word lock.
+- **iOS incoming-call banner** (2026-11-03, B10Peyton): a dark rounded banner slides down with photo, name, "mobile" and red/green buttons, buzzes, `iphone-ring` SFX. Use for "X called me".
+- **Lock-screen notification stack** (B10Peyton): iMessage notifications from a person, newest on top and older ones tucked behind, `imessage-swoosh` on each. Shows "keeps in touch" without inventing quotes.
+- **Golf scorecard / lineup card** (B10Golf): a paper card where names are hand-written in as they're said; leave one slot empty for comment bait.
+- **Years bars** (B10Coen): plain bars comparing two time spans, ✅ + ding on the winner.
+- **Magnifier** (B10Ant): a tiny thing (signature, number, logo) on a card, then a lens slides over it and shows it big.
+- **Video tiles + verdict stamps** (B10Trav): two YouTube-style tiles that each get a stamp (WHACKED / PRETTY FUNNY) as the speaker judges them.

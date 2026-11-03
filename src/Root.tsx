@@ -8,6 +8,7 @@ import {CV_FPS, CV_OUT_MS, E2Coverage} from './E2Coverage';
 import {E3_FPS, E3_OUT_MS, E3Ant} from './E3Ant';
 import {E3_CLIPS} from './e3/clips';
 import {B9NbaGoatV2, B9_NBA_V2_MS} from './jorho/batch9';
+import {B10Ant, B10Coen, B10Golf, B10Peyton, B10Trav, B10_ANT_MS, B10_COEN_MS, B10_GOLF_MS, B10_PEYTON_MS, B10_TRAV_MS} from './jorho/batch10';
 import {B8Davis, B8_DAVIS_MS, B8NatTreasures, B8_NT_MS, B8Rogers, B8_ROGERS_MS, B8Lair, B8_LAIR_MS, B8Playbook, B8_PLAYBOOK_MS, B8Presnap, B8_PRESNAP_MS, B8RedeemV2, B8_REDEEM_V2_MS} from './jorho/batch8';
 import {JorhoV2Celly, V2_CELLY_MS} from './jorho/v2';
 import {JA_OHTANI_MS, JaOhtani} from './justinaugh/clips';
@@ -73,6 +74,11 @@ export const RemotionRoot = () => (
     ['B8Playbook', B8Playbook, B8_PLAYBOOK_MS], ['B8Presnap', B8Presnap, B8_PRESNAP_MS], ['B8RedeemV2', B8RedeemV2, B8_REDEEM_V2_MS]] as const).map(([id, C, ms]) => (
     <Composition key={id} id={id} component={C} fps={30} width={1080} height={1920} durationInFrames={Math.round((ms / 1000) * 30)} />))}
   <Composition id="B9NbaGoatV2" component={B9NbaGoatV2} fps={30} width={1080} height={1920} durationInFrames={Math.round((B9_NBA_V2_MS / 1000) * 30)} />
+  <Composition id="B10Peyton" component={B10Peyton} fps={30} width={1080} height={1920} durationInFrames={Math.round((B10_PEYTON_MS / 1000) * 30)} />
+  <Composition id="B10Golf" component={B10Golf} fps={30} width={1080} height={1920} durationInFrames={Math.round((B10_GOLF_MS / 1000) * 30)} />
+  <Composition id="B10Coen" component={B10Coen} fps={30} width={1080} height={1920} durationInFrames={Math.round((B10_COEN_MS / 1000) * 30)} />
+  <Composition id="B10Ant" component={B10Ant} fps={30} width={1080} height={1920} durationInFrames={Math.round((B10_ANT_MS / 1000) * 30)} />
+  <Composition id="B10Trav" component={B10Trav} fps={30} width={1080} height={1920} durationInFrames={Math.round((B10_TRAV_MS / 1000) * 30)} />
   {E3_CLIPS.map(([id, C, ms]) => <Composition key={id} id={id} component={C} fps={30} width={1080} height={1920} durationInFrames={Math.round((ms / 1000) * 30)} />)}
   {([['JorhoPeyton', JorhoPeyton, PEYTON_MS], ['JorhoGolf', JorhoGolf, GOLF_MS], ['JorhoRedeem', JorhoRedeem, REDEEM_MS], ['JorhoCoen', JorhoCoen, COEN_MS],
     ['JorhoAnt', JorhoAnt, ANT_MS], ['JorhoJosh', JorhoJosh, JOSH_MS], ['JorhoTrav', JorhoTrav, TRAV_MS],

@@ -28,7 +28,7 @@ import {Asterisk, BOX_H, BOX_TOP, HeadRing, LIGHT, CallOut, Cutout, Frame, GREEN
 const GRADE = 'contrast(1.06) saturate(1.05)';
 // Music sits a fixed 14 dB under the voice (voices measure ≈ −13.5 LUFS) so it never pulls focus (user, 2026-11-01).
 // Gain per file from its measured loudness; the spec's `level` is ignored.
-const MUSIC_LUFS: Record<string, number> = {'midnight-club.mp3': -14.1, 'funk-sigilo.mp3': -16.0, 'montagem-alquimia.mp3': -5.4, 'lose-you-adturnup.mp3': -10.0, 'interstellar-piano.mp3': -13.5, 'tak-tak.mp3': -9.2, 'funk-do-balkan.mp3': -6.2, 'joyful-chess-slowed.mp3': -9.9, 'eclipser.mp3': -3.1, 'Jeopardy_Think.mp3': -18.9, 'Fluffing_a_Duck.mp3': -16.3, 'Monkeys_Spinning_Monkeys.mp3': -17.3, 'du-bist-full.mp3': -9.1, 'blue-yung-kai.mp3': -12.2, 'jorho-qkthr.mp3': -13.8, 'jorho-lullaby.mp3': -14.2};
+const MUSIC_LUFS: Record<string, number> = {'midnight-club.mp3': -14.1, 'funk-sigilo.mp3': -16.0, 'montagem-alquimia.mp3': -5.4, 'lose-you-adturnup.mp3': -10.0, 'interstellar-piano.mp3': -13.5, 'tak-tak.mp3': -9.2, 'funk-do-balkan.mp3': -6.2, 'joyful-chess-slowed.mp3': -9.9, 'eclipser.mp3': -3.1, 'Jeopardy_Think.mp3': -18.9, 'Fluffing_a_Duck.mp3': -16.3, 'Monkeys_Spinning_Monkeys.mp3': -17.3, 'du-bist-full.mp3': -9.1, 'blue-yung-kai.mp3': -12.2, 'jorho-qkthr.mp3': -13.8, 'jorho-lullaby.mp3': -14.2, 'Sneaky_Snitch.mp3': -17.5, 'versatile.mp3': -8.4, 'Investigations.mp3': -18.7};
 const MUSIC_TARGET = -27.5;
 const musicGain = (file: string) => Math.pow(10, (MUSIC_TARGET - (MUSIC_LUFS[file] ?? -12)) / 20);
 const inAny = (s: number, spans: [number, number][]) => spans.some(([a, b]) => s >= a && s < b);
