@@ -88,19 +88,48 @@ const ArticleShot = ({t, dur, kind, word}: {t: number; dur: number; kind: 'head'
     {layer(0, focus)}
   </AbsoluteFill>;
 };
+// v2 (user 2026-11-03, "like paper animator"): the highlighted word stays locked in the CENTER while the page around it
+// switches every 3 frames through different papers / articles (paper colour, font, surrounding text, angle, size).
+const PAPERS = ['#f4f1ea', '#ebe3cf', '#dcd8cc', '#fbfaf6', '#e6dcc0', '#d9d2bf'];
+const FONTS = [['Playfair Display', 800], ['Georgia, serif', 700], ['Courier Prime', 700], ['Oswald', 700], ['Archivo Black', 400], ['Cinzel', 700], ['Anton', 400]] as const;
+const LEFT = ['asked to name his', 'the debate over the', 'who is the real', 'crowning the', 'still no consensus on the', 'the case for the', 'forget everything about the', 'ranking every'];
+const RIGHT = ['nobody saw coming', 'has never ended', 'of all time', 'is back on', 'debate rages on', 'remains unsettled', 'was not who you think', 'goes viral'];
+const FILL = 'For decades the argument has gone on in gyms, group chats and barbershops across the country, and every season adds another chapter to it. Rings, MVPs, scoring titles and longevity all get thrown in, yet nobody ever agrees on who belongs at the very top. ';
+const PaperPage = ({n, word}: {n: number; word: string}) => {
+  const [font, weight] = FONTS[(n * 3) % FONTS.length];
+  const wide = /Courier|Cinzel|Archivo/.test(font);
+  const size = [74, 92, 64, 110, 84][n % 5] * (wide ? 0.72 : 1);
+  const rot = ((n * 37) % 13) - 6;
+  const sc = 1 + ((n * 17) % 5) * 0.06;
+  const line = (k: number) => <div key={k} style={{fontFamily: (FONTS[(n + k) % FONTS.length][0]), fontWeight: 500, fontSize: size * 0.62, lineHeight: 1.35,
+    whiteSpace: 'nowrap', color: '#2b2b2b', opacity: 0.9, marginLeft: -((n * 53 + k * 97) % 400)}}>{FILL.repeat(2)}</div>;
+  return <AbsoluteFill style={{background: PAPERS[n % PAPERS.length], overflow: 'hidden'}}>
+    <AbsoluteFill style={{transform: `rotate(${rot}deg) scale(${sc})`, transformOrigin: '50% 50%'}}>
+      <div style={{position: 'absolute', left: -200, right: -200, top: 0, bottom: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 6}}>
+        {[0, 1, 2, 3].map(line)}
+        <div style={{display: 'grid', gridTemplateColumns: 'minmax(0,1fr) auto minmax(0,1fr)', alignItems: 'center', columnGap: size * 0.25, margin: '10px 0'}}>
+          <span style={{justifySelf: 'end', whiteSpace: 'nowrap', fontFamily: font, fontWeight: weight, fontSize: size, color: '#1a1a1a'}}>{LEFT[n % LEFT.length]}</span>
+          <span style={{position: 'relative', whiteSpace: 'nowrap', fontFamily: font, fontWeight: weight, fontSize: size * 1.12, color: '#111', padding: '0 0.15em'}}>
+            <span style={{position: 'absolute', inset: '8% -2% 2% -2%', background: '#FFE34D', transform: `rotate(${-rot * 0.2 - 1}deg)`, borderRadius: 4, zIndex: -1}} />
+            <span style={{position: 'relative'}}>{word}</span></span>
+          <span style={{justifySelf: 'start', whiteSpace: 'nowrap', fontFamily: font, fontWeight: weight, fontSize: size, color: '#1a1a1a'}}>{RIGHT[(n * 5) % RIGHT.length]}</span>
+        </div>
+        {[4, 5, 6, 7].map(line)}
+      </div>
+    </AbsoluteFill>
+  </AbsoluteFill>;
+};
 const ArticleHighlight = ({o, a, b, word}: {o: number; a: number; b: number; word: string}) => {
   if (o < a || o >= b) return null;
-  const t = o - a, half = (b - a) * 0.46;
-  const fade = Math.min(1, t / 90, (b - o) / 140);
-  const cutFlash = interpolate(t - half, [0, 40, 160], [0, 0.7, 0], clamp);
-  const flicker = 0.94 + 0.06 * Math.sin(o * 0.41) * Math.sin(o * 0.17);
+  const n = Math.floor((o - a) / 100); // new page every 3 frames
+  const fade = Math.min(1, (o - a) / 60, (b - o) / 100);
   return <AbsoluteFill style={{opacity: fade}}>
-    <AbsoluteFill style={{filter: `sepia(0.25) contrast(1.06) brightness(${flicker})`, transform: `translateY(${Math.sin(o * 0.05) * 2}px)`}}>
-      {t < half ? <ArticleShot t={t} dur={half} kind="head" word={word} /> : <ArticleShot t={t - half} dur={b - a - half} kind="para" word={word} />}
-    </AbsoluteFill>
-    <Grain frame={Math.floor(o / 33)} opacity={0.16} />
-    <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 50%, transparent 45%, rgba(25,18,8,0.55) 100%)'}} />
-    <AbsoluteFill style={{background: 'white', opacity: cutFlash}} />
+    <AbsoluteFill style={{isolation: 'isolate'}}><PaperPage n={n} word={word} /></AbsoluteFill>
+    {/* shallow focus: soften top and bottom, keep the centre line crisp */}
+    <AbsoluteFill style={{backdropFilter: 'blur(5px)', WebkitMaskImage: 'linear-gradient(black 0%, transparent 38%, transparent 62%, black 100%)',
+      maskImage: 'linear-gradient(black 0%, transparent 38%, transparent 62%, black 100%)'}} />
+    <Grain frame={Math.floor(o / 33)} opacity={0.14} />
+    <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(25,18,8,0.45) 100%)'}} />
   </AbsoluteFill>;
 };
 

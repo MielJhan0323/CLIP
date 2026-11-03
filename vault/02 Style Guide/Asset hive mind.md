@@ -75,3 +75,4 @@ User (2026-11-02): "when I tell you to reference something I don't mean to redo 
 | 8 | v2 Redemptions | value graph, typed action, error blip |
 → Batch 8: arrow 0/7, head circle 1/7, editor comment 1/7, YouTube card 1/7 ✓.
 | 9 | NBA GOAT v2 | YouTube card, typed *thinking…*, **jackpot slot box + spin/jackpot SFX**, GOAT stats table, fahhh, Midnight Club |
+- **Paper-animator word lock** (2026-11-03, NBA GOAT v6): a key phrase highlighted yellow and fixed in the center while newspaper/article pages cut every 3 frames around it, with the film-roll SFX. Use it for a big "keyword" moment; don't run it longer than about 2 s.
