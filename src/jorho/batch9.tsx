@@ -130,31 +130,47 @@ const ArticleHighlight = ({o, a, b, word}: {o: number; a: number; b: number; wor
   </AbsoluteFill>;
 };
 
-// GOAT stats table: three cut-outs, MVPs + rings count up per column; a 0 shows in red
+// GOAT stats table v2 (user 2026-11-03, "less AI"): plain broadcast-style stat sheet. Same-size head photos, row labels on the
+// left, white numbers on thin dividers, no glows / neon / count-up. The red box is a hand-drawn marker stroke that DRAWS around
+// the whole Dellavedova column (pen-scribble sound) instead of popping in.
+const COLX = [310, 570, 830]; // column centres
+const markerPath = (x0: number, y0: number, x1: number, y1: number) => {
+  // slightly uneven rectangle that overshoots where it closes, like a real marker
+  const j = (k: number) => Math.sin(k * 12.9898) * 7;
+  return `M ${x0 + 14} ${y0 + j(1)} C ${x0 + 120} ${y0 - 6}, ${x1 - 90} ${y0 + 5}, ${x1 + j(2)} ${y0 + 6}`
+    + ` C ${x1 + 6} ${y0 + 200}, ${x1 - 5} ${y1 - 220}, ${x1 + j(3)} ${y1}`
+    + ` C ${x1 - 90} ${y1 + 7}, ${x0 + 100} ${y1 - 4}, ${x0 + j(4)} ${y1 + 3}`
+    + ` C ${x0 - 6} ${y1 - 200}, ${x0 + 6} ${y0 + 220}, ${x0 - 4} ${y0 + 30} L ${x0 + 40} ${y0 - 10}`;
+};
 const GoatTable = ({o, a, b}: {o: number; a: number; b: number}) => {
   if (o < a || o >= b) return null;
   const fade = Math.min(ease(o, a, 200), 1 - ease(o, b - 200, 200));
-  const cols = [{img: 'cutouts/jordan.png', name: 'JORDAN', mvp: 5, ring: 6}, {img: 'cutouts/lebron.png', name: 'LEBRON', mvp: 4, ring: 4},
-    {img: 'cutouts/delly1.png', name: 'DELLAVEDOVA', mvp: 0, ring: 1, hot: true}];
-  return <AbsoluteFill style={{background: 'rgba(8,10,14,0.72)', opacity: fade}}>
-    <div style={{position: 'absolute', top: 60, width: 1080, textAlign: 'center', fontFamily: MONT, fontWeight: 900, fontSize: 60, color: 'white'}}>GOAT CHECK</div>
+  const cols = [{img: 'jordan', name: 'JORDAN', mvp: 5, ring: 6}, {img: 'lebron', name: 'LEBRON', mvp: 4, ring: 4},
+    {img: 'delly1', name: 'DELLAVEDOVA', mvp: 0, ring: 1, hot: true}];
+  const rows = [['MVPs', 'mvp', 520], ['RINGS', 'ring', 690]] as const;
+  const draw = ease(o, MARK(a), 450);
+  return <AbsoluteFill style={{background: 'rgba(10,10,12,0.8)', opacity: fade}}>
+    {rows.map(([lab, , y]) => <div key={lab}>
+      <div style={{position: 'absolute', left: 50, top: y + 30, fontFamily: MONT, fontWeight: 700, fontSize: 34, letterSpacing: 2, color: 'rgba(255,255,255,0.55)'}}>{lab}</div>
+      <div style={{position: 'absolute', left: 40, right: 40, top: y - 12, height: 2, background: 'rgba(255,255,255,0.16)'}} />
+    </div>)}
     {cols.map((c, i) => {
       const t = a + 250 + i * 380;
-      const p = ease(o, t, 500);
-      const s = pop(o, t, 11, 260);
-      const x = 60 + i * 330;
-      return <div key={c.name} style={{position: 'absolute', left: x, top: 170, width: 300, textAlign: 'center', opacity: o >= t ? 1 : 0, transform: `scale(${0.85 + 0.15 * s})`}}>
-        <div style={{height: 360, display: 'flex', alignItems: 'flex-end', justifyContent: 'center'}}>
-          <Img src={staticFile(c.img)} style={{maxHeight: 360, maxWidth: 290, filter: c.hot ? 'drop-shadow(0 0 22px rgba(255,60,60,0.6))' : 'drop-shadow(0 8px 20px rgba(0,0,0,0.5))'}} /></div>
-        <div style={{fontFamily: MONT, fontWeight: 900, fontSize: c.hot ? 34 : 40, color: c.hot ? '#FFE14D' : 'white', marginTop: 14}}>{c.name}</div>
-        {[['MVPs', c.mvp], ['RINGS', c.ring]].map(([lab, v]) => <div key={lab as string} style={{marginTop: 18, fontFamily: MONT, fontWeight: 900, fontSize: 78, lineHeight: '80px',
-          color: c.hot && v === 0 ? '#FF2B2B' : '#9BE600'}}>{Math.round((v as number) * p)}<div style={{fontSize: 24, fontWeight: 800, color: 'rgba(255,255,255,0.75)'}}>{lab}</div></div>)}
+      const p = ease(o, t, 260);
+      return <div key={c.name} style={{position: 'absolute', left: COLX[i] - 130, top: 150, width: 260, textAlign: 'center', opacity: p, transform: `translateY(${(1 - p) * 30}px)`}}>
+        <Img src={staticFile(`img/heads/${c.img}.png`)} style={{width: 210, height: 210, borderRadius: '50%', objectFit: 'cover', background: '#2a2a2e'}} />
+        <div style={{fontFamily: MONT, fontWeight: 800, fontSize: c.hot ? 30 : 36, color: 'white', marginTop: 16, letterSpacing: 1}}>{c.name}</div>
+        {rows.map(([lab, k, y]) => <div key={lab} style={{position: 'absolute', top: y - 150, width: 260, fontFamily: MONT, fontWeight: 800, fontSize: 96, lineHeight: '110px',
+          color: c.hot && c[k] === 0 ? '#FF3B30' : 'white'}}>{c[k]}</div>)}
       </div>;
     })}
-    {o >= a + 250 + 2 * 380 + 500 && <div style={{position: 'absolute', left: 60 + 2 * 330 - 10, top: 150, width: 320, height: 760, border: '7px solid #FF2B2B', borderRadius: 26,
-      opacity: interpolate(o - (a + 1260), [0, 160], [0, 1], clamp)}} />}
+    {draw > 0 && <svg width={1080} height={BOX_H} style={{position: 'absolute', left: 0, top: 0}}>
+      <path d={markerPath(COLX[2] - 150, 120, COLX[2] + 150, 830)} fill="none" stroke="#FF2B2B" strokeWidth={11} strokeLinecap="round" strokeLinejoin="round"
+        pathLength={1} strokeDasharray={1} strokeDashoffset={1 - draw} />
+    </svg>}
   </AbsoluteFill>;
 };
+const MARK = (a: number) => a + 250 + 2 * 380 + 450;
 
 const b9 = timeline([[0, 1800], [2250, 3600], [4350, 7450], [7450, 10500], [12950, 13980], [13980, 15000], [15000, 17400], [17450, 18760]]);
 const G9 = {nba: b9.out(2960) - 80, nbaEnd: b9.out(5450), goat: b9.out(3260), quiet: b9.segOut[3], gotta: b9.segOut[4], name: b9.segOut[5], delly: b9.out(14350), laugh: b9.segOut[6], tension: b9.segOut[7]};
@@ -176,7 +192,7 @@ const NBA_V2: Spec = {
     <GoatTable o={o} a={G9.laugh + 100} b={b9.total} />
   </Layer>,
   extraSfx: [sfx('mg-click', 200, 0.25), sfx('mg-swoosh', 420, 0.2), sfx('film-roll', G9.nba, 0.18, G9.nbaEnd - G9.nba), sfx('nba-goat-echo', b9.out(2940), 0.95, G9.nbaEnd - b9.out(2940) + 150), sfx('fast-whoosh', G9.nbaEnd, 0.35), sfx('slot-spin', G9.quiet, 0.5, G9.name - G9.quiet), sfx('ding-2', G9.name, 0.3),
-    ...[0, 1, 2].map((i) => sfx('mg-click', G9.laugh + 350 + i * 380, 0.22)), sfx('error', G9.laugh + 1260, 0.18)],
+    ...[0, 1, 2].map((i) => sfx('mg-click', G9.laugh + 350 + i * 380, 0.22)), sfx('pen-scribble', MARK(G9.laugh + 100), 0.4, 500), sfx('error', MARK(G9.laugh + 100) + 450, 0.18)],
 };
 export const B9NbaGoatV2 = () => <Jorho s={NBA_V2} />;
 export const B9_NBA_V2_MS = b9.total;

@@ -89,3 +89,7 @@ Assets picked for this one (none of the earlier NBA GOAT edits' Jeopardy/Curb/ar
 - Slot machine minimized: no box, lights or JACKPOT sign. Just a small round head reel (white ring → red on landing) with DELLAVEDOVA under it; the jackpot SFX is now ding-2.
 - Caption: "Trevor's NBA GOAT is better than LeBron?"
 - Output: `out/b9_v2_nba_goat_v7.mp4`, 15.1 s.
+
+## v8 (2026-11-03)
+- The red box at the end is now a hand-drawn marker stroke (uneven SVG path, overshoots where it closes) that draws itself around the whole Dellavedova column in 450 ms, with the pen-scribble sound. It no longer pops in and no longer cuts off the RINGS label.
+- GOAT CHECK table made "less AI": round head photos all the same size, row labels on the left, plain white numbers on thin dividers. Removed the glows, the neon green, the count-up and the title. Output: `out/b9_v2_nba_goat_v8.mp4`.

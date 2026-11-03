@@ -114,3 +114,4 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 | `public/sfx/`, `public/music/` | sound effects and royalty-free music |
 | `vault/assets/research/` | contact sheets of the 50 analysed Shorts + the hashtag pool |
 | `vault/assets/references/` | full-res frames of the two reference Shorts |
+- (2026-11-03) Highlight boxes and circles should **draw themselves on** (marker stroke), not just appear, and must fit around everything they mark. Stat displays should look like a plain broadcast graphic: no glows, neon or template count-ups, and use the same kind of photo for every player.
