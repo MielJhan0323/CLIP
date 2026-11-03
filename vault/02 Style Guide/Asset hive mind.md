@@ -38,6 +38,7 @@ User (2026-11-02): "when I tell you to reference something I don't mean to redo 
 | Editor comment *bros too rich to care* / *he was not joking* | ref Tiger/NBA | a reaction worth an opinion | `Asterisk` |
 | *thinking* / *awkward* label on a pause | ref NBA GOAT | a real silence | `Asterisk` |
 | Typed *action text* | celly v3 | describing an action/reaction | `TypedAction` (v2) |
+| Jackpot slot machine reel spinning names, lands on the answer (user idea 2026-11-03) | NBA GOAT v2 | a "who will he pick?" pause; bottom bar | `SlotBox` (batch9.tsx) + `slot-spin` / `slot-jackpot` SFX |
 | GOAT/stat comparison table (cut-outs + counting stats) (batch 9) | NBA GOAT v2 | comparing people by numbers | `GoatTable` (batch9.tsx) |
 | Grade scale / stat badge / graphs | Jorho v2 refs | numbers, grades, stats | `GradeScale`, `StatBadge`, `PercentBars`, `ValueGraph` (batch 8) |
 | Jorho strobe on the beat | Jorho refs | the single biggest moment | `strobes` |
@@ -72,4 +73,4 @@ User (2026-11-02): "when I tell you to reference something I don't mean to redo 
 | 8 | v2 Pre-snap | question card, percent bars, typed action |
 | 8 | v2 Redemptions | value graph, typed action, error blip |
 → Batch 8: arrow 0/7, head circle 1/7, editor comment 1/7, YouTube card 1/7 ✓.
-| 9 | NBA GOAT v2 | YouTube card, typed *thinking…*, GOAT stats table, fahhh, Midnight Club |
+| 9 | NBA GOAT v2 | YouTube card, typed *thinking…*, **jackpot slot box + spin/jackpot SFX**, GOAT stats table, fahhh, Midnight Club |
