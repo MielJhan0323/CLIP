@@ -10,37 +10,39 @@ import {Layer, TypedAction, YouTubeCard} from './v2';
 
 // Jackpot slot machine in the bottom bar: idle '? ? ?' from the question, reels spin GOAT candidates while he thinks,
 // decelerate and land on DELLAVEDOVA on the name (user 2026-11-03), lights blink after the hit
-const REEL = ['JORDAN', 'LEBRON', 'KOBE', 'CURRY', 'MAGIC', 'BIRD', 'SHAQ', 'KAREEM', 'DUNCAN', 'WILT', 'HAKEEM', 'GIANNIS'];
-const SlotBox = ({o, show, spin, land}: {o: number; show: number; spin: number; land: number}) => {
-  if (o < show) return null;
-  const K = 46; // items scrolled before landing; item K = DELLAVEDOVA
-  const p = o < spin ? 0 : Math.min(1, (o - spin) / (land - spin));
-  const idx = o < spin ? -1 : (1 - (1 - p) ** 3) * K;
-  // DELLAVEDOVA only appears in the window at the moment it lands (no peeking while the reel slows)
-  const name = (i: number) => (i >= K && o >= land ? 'DELLAVEDOVA' : i < 0 ? '? ? ?' : REEL[((i % REEL.length) + REEL.length) % REEL.length]);
+const REEL = ['jordan', 'lebron', 'kobe', 'stephen_curry', 'magic_johnson', 'larry_bird', 'shaquille_oneal', 'tim_duncan', 'giannis_antetokounmpo'];
+// v2 (user 2026-11-03): only while he's thinking (pops in on the silence, out ~1.3 s after landing) and the reel spins player HEADS
+const SlotBox = ({o, spin, land}: {o: number; spin: number; land: number}) => {
+  const OUT = land + 1300;
+  if (o < spin || o >= OUT + 250) return null;
+  const K = 40; // heads scrolled before landing; item K = Dellavedova
+  const p = Math.min(1, (o - spin) / (land - spin));
+  const idx = (1 - (1 - p) ** 3) * K;
+  const head = (i: number) => (i >= K && o >= land ? 'delly1' : REEL[((i % REEL.length) + REEL.length) % REEL.length]);
   const i0 = Math.floor(idx), frac = idx - i0;
   const landed = o >= land;
-  const H = 110;
-  const blink = landed && Math.floor((o - land) / 180) % 2 === 0;
-  const s = pop(o, show, 12, 240);
-  return <div style={{position: 'absolute', left: 150, top: 1528, width: 780, height: 330, transform: `scale(${s})`, transformOrigin: '50% 100%'}}>
+  const H = 170, WIN = 230;
+  const blink = landed && Math.floor((o - land) / 160) % 2 === 0;
+  const sIn = pop(o, spin, 12, 260), sOut = 1 - ease(o, OUT, 250);
+  if (sOut < 0.04) return null;
+  return <div style={{position: 'absolute', left: 240, top: 1514, width: 600, height: 380, transform: `scale(${sIn * sOut})`, transformOrigin: '50% 100%'}}>
     <div style={{position: 'absolute', inset: 0, borderRadius: 34, background: 'linear-gradient(#5a0f0f, #2a0606)', border: '8px solid #F5C84C',
       boxShadow: `0 0 ${landed ? 50 : 18}px ${landed ? 'rgba(255,215,60,0.8)' : 'rgba(0,0,0,0.6)'}`}} />
-    <div style={{position: 'absolute', top: 14, width: 780, textAlign: 'center', fontFamily: MONT, fontWeight: 900, fontSize: 46, letterSpacing: 6,
+    <div style={{position: 'absolute', top: 12, width: 600, textAlign: 'center', fontFamily: MONT, fontWeight: 900, fontSize: 40, letterSpacing: 6,
       color: blink ? '#FFFFFF' : '#F5C84C', textShadow: '0 0 14px rgba(245,200,76,0.8)'}}>JACKPOT</div>
-    {Array.from({length: 14}, (_, i) => <div key={i} style={{position: 'absolute', top: 30 + (i % 2) * 6, left: i < 7 ? 26 + i * 18 : 780 - 26 - (i - 7) * 18 - 12, width: 12, height: 12,
-      borderRadius: 6, background: (landed ? blink : Math.floor(o / 120 + i) % 2 === 0) ? '#FFE14D' : '#6b3b00'}} />)}
-    <div style={{position: 'absolute', left: 50, top: 92, width: 680, height: H * 1.6, borderRadius: 18, background: 'white', overflow: 'hidden',
-      boxShadow: 'inset 0 16px 20px rgba(0,0,0,0.35), inset 0 -16px 20px rgba(0,0,0,0.35)'}}>
+    {Array.from({length: 12}, (_, i) => <div key={i} style={{position: 'absolute', top: 26, left: i < 6 ? 24 + i * 16 : 600 - 24 - (i - 6) * 16 - 11, width: 11, height: 11,
+      borderRadius: 6, background: (landed ? blink : Math.floor(o / 110 + i) % 2 === 0) ? '#FFE14D' : '#6b3b00'}} />)}
+    <div style={{position: 'absolute', left: (600 - 300) / 2, top: 70, width: 300, height: WIN, borderRadius: 20, background: 'linear-gradient(#ffffff, #e9e9e9)', overflow: 'hidden',
+      boxShadow: 'inset 0 18px 22px rgba(0,0,0,0.35), inset 0 -18px 22px rgba(0,0,0,0.35)'}}>
       {[-1, 0, 1].map((d) => {
         const i = i0 + d;
-        const y = (H * 1.6 - H) / 2 + (d - frac) * H;
-        return <div key={d} style={{position: 'absolute', top: y, width: 680, height: H, display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontFamily: MONT, fontWeight: 900, fontSize: name(i).length > 8 ? 62 : 76, color: name(i) === 'DELLAVEDOVA' && landed ? '#E8132B' : '#111',
-          filter: !landed && o >= spin && p < 0.92 ? `blur(${(1 - p) * 3}px)` : undefined}}>{name(i)}</div>;
+        const y = (WIN - H) / 2 + (d - frac) * H;
+        return <Img key={d} src={staticFile(`img/heads/${head(i)}.png`)} style={{position: 'absolute', left: (300 - H) / 2, top: y, width: H, height: H,
+          filter: !landed && p < 0.9 ? `blur(${(1 - p) * 4}px)` : undefined}} />;
       })}
-      <div style={{position: 'absolute', top: (H * 1.6 - 6) / 2, left: 0, width: 680, height: 6, background: 'rgba(232,19,43,0.35)'}} />
     </div>
+    <div style={{position: 'absolute', top: 310, width: 600, textAlign: 'center', fontFamily: MONT, fontWeight: 900, fontSize: 40,
+      color: landed ? '#E8132B' : 'rgba(255,255,255,0.6)', textShadow: landed ? '0 0 16px rgba(232,19,43,0.6)' : undefined}}>{landed ? 'DELLAVEDOVA' : '? ? ?'}</div>
   </div>;
 };
 
@@ -80,7 +82,7 @@ const NBA_V2: Spec = {
   strobes: [G9.name], tints: [[G9.goat, GREEN], [G9.delly + 400, RED]], swish: [G9.goat],
   fah: [b9.out(14950)],
   capsOff: [[150, 2500], [G9.laugh + 100, G9.tension]],
-  overlay: (o) => <SlotBox o={o} show={G9.goat} spin={G9.quiet} land={G9.name} />,
+  overlay: (o) => <SlotBox o={o} spin={G9.quiet} land={G9.name} />,
   music: {file: 'midnight-club.mp3', from: 0, level: 0, until: G9.gotta}, // drop at 2.7 s lands as the YouTube card ends
   inBox: (o) => <Layer>
     <YouTubeCard o={o} a={0} b={2500} title="Who is Trevor Lawrence's NBA GOAT?" cam={CAM} startAt={0} dur={b9.total} />
