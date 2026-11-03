@@ -24,6 +24,10 @@ import cadeWords from '../plans/data/c6_cade.words.json';
 import mahomesN2 from '../../public/narr/mahomes_v2.json';
 import purdyN from '../../public/narr/purdy.json';
 import tlkN from '../../public/narr/tl_kaboom.json';
+import hunterN from '../../public/narr/hunter.json';
+import calebN from '../../public/narr/caleb.json';
+import calebWords from '../plans/data/c10_caleb_papa.words.json';
+import hunterWords from '../plans/data/c11_hunter_kaboom.words.json';
 import tlkWords from '../plans/data/c7_tl_kaboom.words.json';
 import purdyWords from '../plans/data/c8_allen_purdy.words.json';
 import flaggN2 from '../../public/narr/flagg2_v2.json';
@@ -37,6 +41,7 @@ type Cfg = {
   hook: {file: string; from: number; to: number; cover: Box}; words: {text: string; startMs: number}[];
   narr: {file: string; lines: NLine[]; hook: number; hype: number}; banner: Part[][]; emoji?: string[];
   music: {file: string; drop: number; lufs: number}; track: [number, number, number][]; ringR?: number;
+  hostGain?: number; // streams recorded hot (screaming clips at 0 dB): scale the host audio down
 };
 const BED = -28, LIFT = -22; // music LUFS targets (voice ≈ −13.5)
 const gain = (lufs: number, target: number) => Math.pow(10, (target - lufs) / 20);
@@ -85,7 +90,7 @@ export const makeJa = (c: Cfg) => {
     const g = o < REVEAL - 250 ? gain(c.music.lufs, BED) : o < REVEAL ? 0 : o < BACK ? gain(c.music.lufs, LIFT) : gain(c.music.lufs, BED + 1);
     return g * Math.min(1, (total - o) / 500);
   };
-  const hostVol = (o: number) => (o < HOOK_END ? 0.3 : o >= HYPE && o < HYPE_END ? 0.2 : 1);
+  const hostVol = (o: number) => (c.hostGain ?? 1) * (o < HOOK_END ? 0.3 : o >= HYPE && o < HYPE_END ? 0.2 : 1);
   const C = () => {
     const o = (useCurrentFrame() / FPS) * 1000;
     const inReveal = o >= REVEAL && o < BACK;
@@ -230,3 +235,26 @@ export const JA_TLKABOOM = makeJa({
   music: {file: 'funk-do-balkan.mp3', drop: 42000, lufs: -6.2}, track: [],
 });
 export const JaTlKaboom = JA_TLKABOOM.C;
+
+// ---- Batch 11 (2026-11-03) ---------------------------------------------------------------------------------------------------
+// Travis Hunter purple on-card Kaboom auto 1/1 from a "pick 3, choose 1" (the f-word at 2.5 s is cut; starts on "I'm doing it")
+export const JA_HUNTER = makeJa({
+  src: 'cards2/hunter_kaboom.mp4', hosts: [0, 0, 1080, 420], card: [0, 640, 1080, 1280], cardCx: 470, still: 'cards2/hunter_kaboom.png', price: '10,000+ USD',
+  revealAt: 18300, segs: [[2780, 6000], [10400, 14700], [14700, 18300], [18300, 27000]], blurFrom: 18300,
+  hook: {file: 'hooks/funny_scream.mp4', from: 0, to: 3000, cover: [20, 905, 680, 170]}, words: hunterWords,
+  narr: {file: 'narr/hunter_loud.mp3', lines: hunterN, hook: 1, hype: 3},
+  banner: [[['PICK 3, '], ['CHOOSE 1', G]], [['"GET READY TO ', undefined], ['SCREAM"', R]]], emoji: ['1f631'],
+  music: {file: 'montagem-uranium.mp3', drop: 37000, lufs: -3.2}, track: [],
+});
+export const JaHunter = JA_HUNTER.C;
+// Caleb Williams Papa auto 1/1, Topps Chrome Sapphire release day, 30 minutes after their first Papa ("we hit both of them").
+// "Chicago Bears" (8.1–9.1 s) is cut so nothing hints at the player before the reveal.
+export const JA_CALEB = makeJa({
+  src: 'cards2/caleb_papa.mp4', hosts: [60, 100, 960, 380], card: [0, 560, 1080, 1300], cardCx: 470, still: 'cards2/caleb_papa.png', price: '20K–30K USD',
+  revealAt: 10000, segs: [[3000, 7900], [9200, 10000], [10000, 20600]], blurFrom: 10000,
+  hook: {file: 'hooks/cmon.mp4', from: 0, to: 3000, cover: [20, 930, 680, 150]}, words: calebWords,
+  narr: {file: 'narr/caleb_loud.mp3', lines: calebN, hook: 1, hype: 3},
+  banner: [[['ONE '], ['PAPA', G], [' ALREADY…']], [['COULD THEY HIT ', undefined], ['TWO?', R]]], emoji: ['1f440'],
+  music: {file: 'vem-pere-reka.mp3', drop: 63500, lufs: -8.8}, track: [], hostGain: 0.3,
+});
+export const JaCaleb = JA_CALEB.C;
