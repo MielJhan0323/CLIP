@@ -18,3 +18,15 @@ None of these 5 clips had a Jorho v2 edit before (they had plain Jorho cuts in b
 | B10Trav | b10_v2_whacked.mp4 (21.7 s) | Trevor thought the Traveling Trevors were WHACKED | **cold open** "these guys are whacked"; YouTube card question; **two video tiles** (Traveling Trevors #1 / #2) with verdict stamps WHACKED (red) and PRETTY FUNNY (green); fahhh; head circle + TREVOR LAWRENCE on "we need more Jags fans" | Versatile |
 
 New SFX from myinstants: `iphone-ring` (iPhone ringtone, first 2.6 s), `imessage-swoosh` (iPhone message swoosh).
+
+## JustinAugh (src/justinaugh/batch.tsx): 2 pulls never edited before
+| comp | out | pull | hook | banner | music |
+|---|---|---|---|---|---|
+| JaPurdy | ja_purdy_two_shields.mp4 (22.8 s) | Josh Allen Game Gear NFL Shield, then a Brock Purdy Colossal NFL Shield auto 1/1 in the same pack (National Treasures) | omg_we_cant_be_hotter ("2 PAPA'S IN ONE CASE") | ONE SHIELD ALREADY… / COULD THERE BE TWO? 👀 | TAK TAK (drop 25.7 s) |
+| JaTlKaboom | ja_trevor_green_kaboom.mp4 (22.1 s) | Trevor Lawrence Green Kaboom 1/1 from a $500 break (2023 Absolute), $15K | holy_scream | A $500 BREAK… / COULD IT PAY OFF? 👀 | Funk do Balkan (drop 42 s) |
+
+Notes:
+- Alex narration (eleven_v4) in `public/narr/purdy*` and `tl_kaboom*`. `prep_narr.py` couldn't split these takes on silence (the pauses were too short), so the 5 lines were cut by word times by hand.
+- The Purdy stream is nearly silent at the reveal (Telford runs off celebrating). Alex + the drop carry it. The Purdy card only shows for about 0.3 s (47.55 s), and the still came from that frame.
+- The Kaboom source is an already-cut 720×1280 TikTok edit (single camera, `hosts: null`). The Leo meme and the Trevor b-roll were left out.
+- The free ElevenLabs queue was busy twice; the takes went through about 3 minutes later.

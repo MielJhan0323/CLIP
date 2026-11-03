@@ -22,6 +22,10 @@ import konWords from '../plans/data/c4_kon.words.json';
 import clarkWords from '../plans/data/c2_clark.words.json';
 import cadeWords from '../plans/data/c6_cade.words.json';
 import mahomesN2 from '../../public/narr/mahomes_v2.json';
+import purdyN from '../../public/narr/purdy.json';
+import tlkN from '../../public/narr/tl_kaboom.json';
+import tlkWords from '../plans/data/c7_tl_kaboom.words.json';
+import purdyWords from '../plans/data/c8_allen_purdy.words.json';
 import flaggN2 from '../../public/narr/flagg2_v2.json';
 
 type NLine = {file: number[]; words: {text: string; at: number}[]};
@@ -203,3 +207,26 @@ export const JA_CADE = makeJa({
   music: {file: 'eclipser.mp3', drop: 21100, lufs: -3.1}, track: [],
 });
 export const JaKon = JA_KON.C, JaClark = JA_CLARK.C, JaCade = JA_CADE.C;
+
+// ---- Batch 10 (2026-11-03): Josh Allen NFL Shield, then a Brock Purdy Colossal NFL Shield auto 1/1 in the same pack -------------
+// The stream is nearly silent at the reveal (Telford just runs off celebrating), so Alex + the drop carry it. Purdy is never named before the reveal.
+export const JA_PURDY = makeJa({
+  src: 'cards2/allen_purdy.mp4', hosts: [0, 180, 1080, 420], card: [0, 700, 1080, 1220], cardCx: 480, still: 'cards2/purdy.png', price: '5K–12K USD',
+  revealAt: 47450, segs: [[13500, 18500], [26800, 31400], [44900, 47450], [47450, 55500]], blurFrom: 47450,
+  hook: {file: 'hooks/omg_we_cant_be_hotter.mp4', from: 0, to: 2600, cover: [20, 985, 680, 100]}, words: purdyWords,
+  narr: {file: 'narr/purdy_loud.mp3', lines: purdyN, hook: 1, hype: 3},
+  banner: [[['ONE '], ['SHIELD', G], [' ALREADY…']], [['COULD THERE BE ', undefined], ['TWO?', R]]], emoji: ['1f440'],
+  music: {file: 'tak-tak.mp3', drop: 25700, lufs: -9.2}, track: [],
+});
+export const JaPurdy = JA_PURDY.C;
+// Trevor Lawrence Green Kaboom 1/1 from a $500 break (2023 Absolute). The source is an already-cut 720x1280 clip: one camera, no PiP;
+// the Leo meme (16–20 s) and the Trevor b-roll at the end are left out.
+export const JA_TLKABOOM = makeJa({
+  src: 'cards2/tl_kaboom.mp4', srcW: 720, hosts: null, card: [0, 0, 720, 1280], cardCx: 360, still: 'cards2/tl_kaboom.png', price: '15,000 USD',
+  revealAt: 34250, segs: [[5500, 9900], [24500, 34250], [34250, 39400]], blurFrom: 34250,
+  hook: {file: 'hooks/holy_scream.mp4', from: 0, to: 2800, cover: [20, 975, 680, 120]}, words: tlkWords,
+  narr: {file: 'narr/tl_kaboom_loud.mp3', lines: tlkN, hook: 1, hype: 3},
+  banner: [[['A '], ['$500', G], [' BREAK…']], [['COULD IT ', undefined], ['PAY OFF?', R]]], emoji: ['1f440'],
+  music: {file: 'funk-do-balkan.mp3', drop: 42000, lufs: -6.2}, track: [],
+});
+export const JaTlKaboom = JA_TLKABOOM.C;
