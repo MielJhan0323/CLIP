@@ -62,6 +62,8 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 
 - (2026-11-04) **The redemptions clip went even MORE viral** ([[Viral formula - Redemptions]]): a title that promises a concrete, visual event with a number; the number in the first second; pay the promise off early with a big visual (graph crash), then chain new open loops (why → answer → twist); near-silent micro-pauses before every key number; end on an unanswered question. Each clip uses one engine: delayed reveal (NBA GOAT) or promise → payoff → new loop (Redemptions).
 
+- (2026-11-04) **Copy the PRINCIPLES of a viral clip, never its tools.** User: "you're making it too similar… only copy which parts need to be grasping". From a reference, take the *job* each part does (hook claim, open loop, guessing, dead stop before the turn, reaction ending) and build it with a different visual language for that clip. Don't reuse the YouTube card, guessing reel, scorecard, typed text, chalk board etc. back to back. Example: Demo14 (lefty).
+
 ## Map
 - **Research**
   - [[Shorts analysis - 50 clips]]: the 50 Shorts, views, format, hook and edit notes for each

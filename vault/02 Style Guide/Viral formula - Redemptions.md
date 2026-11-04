@@ -52,3 +52,17 @@ Back to [[START HERE]] · [[Viral formula - NBA GOAT]] · source edit: `out/b8_v
 - **Next loop:** "obviously… Tiger", Tiger cut-out, "the goat in the golf world".
 - **Visual proof:** scorecard writes Trevor Lawrence → Jesus 🙏 → Tiger Woods 🐐 → **???**
 - **Ending on an open question:** *who's #4?* on "That'd be pretty sick". It loops and invites comments.
+
+## Demo14 (2026-11-04): the same principles with a *different* toolkit (user: Demo13 was too similar)
+`Demo14` (`src/jorho/demo14.tsx`) → `out/demo14_lefty_new_style.mp4` (20.7 s), t3 "throws better going left":
+
+| principle (the job) | how it's done here |
+|---|---|
+| hook: a claim that sounds wrong, first second | "He's right-handed… but BETTER going left?" + cold open "I throw it better moving left" with a **mirror-flip whip** on "left" (flips back on "right") |
+| open loop → why | "worked on it since I was a kid" → **VHS home-video flashback** (PLAY ▶, SP counter, scanlines, rolling tracking band, warm grade, projector hum) |
+| visualize the claim | **moving type** that travels the way he says: "ROLL RIGHT →" slides right; "← LEFT" sweeps left |
+| dead stop before the turn | "I just hated that" → **freeze + punch-in + record scratch + ❚❚ PAUSE**, music dips |
+| payoff | white flash back to the present, "so I threw way more going to my left" + another flip on each "left" |
+| reaction ending / loop | "You're the best quarterback I've ever seen in my life" with a **slow push-in** on Trevor |
+
+New engine options: `Spec.camFx(o)` (a per-frame transform/filter on the camera only) and `music.dips`.

@@ -1,6 +1,6 @@
 // Jorho edits (v2 kit). Each clip: the ting on frame 0 under the intro reveal, a white strobe on the beat that
 // carries a shot change, green tints with a swish on the names, a red tint on the laugh, one cut-out photo.
-import type {ReactNode} from 'react';
+import type {CSSProperties, ReactNode} from 'react';
 import {AbsoluteFill, Audio, Sequence, staticFile, useCurrentFrame} from 'remotion';
 import peytonWords from '../plans/data/u4_peyton.words.json';
 import peytonTrack from '../plans/data/u4_peyton.seats.json';
@@ -28,7 +28,7 @@ import {Asterisk, BOX_H, BOX_TOP, HeadRing, LIGHT, CallOut, Cutout, Frame, GREEN
 const GRADE = 'contrast(1.06) saturate(1.05)';
 // Music sits a fixed 14 dB under the voice (voices measure ≈ −13.5 LUFS) so it never pulls focus (user, 2026-11-01).
 // Gain per file from its measured loudness; the spec's `level` is ignored.
-const MUSIC_LUFS: Record<string, number> = {'midnight-club.mp3': -14.1, 'funk-sigilo.mp3': -16.0, 'montagem-alquimia.mp3': -5.4, 'lose-you-adturnup.mp3': -10.0, 'interstellar-piano.mp3': -13.5, 'tak-tak.mp3': -9.2, 'funk-do-balkan.mp3': -6.2, 'joyful-chess-slowed.mp3': -9.9, 'eclipser.mp3': -3.1, 'Jeopardy_Think.mp3': -18.9, 'Fluffing_a_Duck.mp3': -16.3, 'Monkeys_Spinning_Monkeys.mp3': -17.3, 'du-bist-full.mp3': -9.1, 'blue-yung-kai.mp3': -12.2, 'jorho-qkthr.mp3': -13.8, 'jorho-lullaby.mp3': -14.2, 'Sneaky_Snitch.mp3': -17.5, 'versatile.mp3': -8.4, 'Investigations.mp3': -18.7, 'experience-einaudi.mp3': -12.8, 'spooky-phonk-fennecxx.mp3': -4.6};
+const MUSIC_LUFS: Record<string, number> = {'midnight-club.mp3': -14.1, 'funk-sigilo.mp3': -16.0, 'montagem-alquimia.mp3': -5.4, 'lose-you-adturnup.mp3': -10.0, 'interstellar-piano.mp3': -13.5, 'tak-tak.mp3': -9.2, 'funk-do-balkan.mp3': -6.2, 'joyful-chess-slowed.mp3': -9.9, 'eclipser.mp3': -3.1, 'Jeopardy_Think.mp3': -18.9, 'Fluffing_a_Duck.mp3': -16.3, 'Monkeys_Spinning_Monkeys.mp3': -17.3, 'du-bist-full.mp3': -9.1, 'blue-yung-kai.mp3': -12.2, 'jorho-qkthr.mp3': -13.8, 'jorho-lullaby.mp3': -14.2, 'Sneaky_Snitch.mp3': -17.5, 'versatile.mp3': -8.4, 'Investigations.mp3': -18.7, 'experience-einaudi.mp3': -12.8, 'spooky-phonk-fennecxx.mp3': -4.6, 'acido-iii.mp3': -7.6};
 const MUSIC_TARGET = -27.5;
 const musicGain = (file: string) => Math.pow(10, (MUSIC_TARGET - (MUSIC_LUFS[file] ?? -12)) / 20);
 const inAny = (s: number, spans: [number, number][]) => spans.some(([a, b]) => s >= a && s < b);
@@ -41,6 +41,7 @@ export type Spec = {
   awkward?: {at: number; sfx?: 'ja-ding' | 'crickets' | 'taco-bell-bong'}[]; // awkward pauses / cringe (user, 2026-11-01)
   vo?: {file: string; from: number; to: number; words: Word[]}; // intro voiceover at out 0 (Alex), speech ducked under it
   mute?: [number, number][]; // output windows where the clip's own speech is silenced (e.g. replaced by an echo)
+  camFx?: (o: number) => CSSProperties; // per-frame transform/filter on the camera only (mirror flips, VHS grade, punch-ins)
   fah?: number[]; // "fahhh" right after roasts / shots at people / crazy statements (user, 2026-11-01)
   overlay?: (o: number, face: (who: 'L' | 'M' | 'R') => {x: number; y: number; k: number}) => ReactNode; // face(): tracked face in FRAME px (stickers stay accurate) // full-frame layer (light look: meme pops go in the blurred area under the box) // Jorho v2: graphics inside the video box, extra sounds
   tl: TL; src: string; track: Track; top: string; words: Word[]; wordY: number; wideX: number; shots: Shot[];
@@ -75,7 +76,7 @@ export const Jorho = ({s}: {s: Spec}) => {
       ]} />
     </>}>
     <AbsoluteFill style={{filter: strobe(o, s.strobes) || undefined}}>
-      <Cam c={cam} o={o} />
+      {s.camFx ? <AbsoluteFill style={s.camFx(o)}><Cam c={cam} o={o} /></AbsoluteFill> : <Cam c={cam} o={o} />}
       {[...(s.cut ? [s.cut] : []), ...(s.cuts ?? [])].map((c) => <Cutout key={c.file} o={o} {...c} />)}
     </AbsoluteFill>
     {s.inBox?.(o)}
