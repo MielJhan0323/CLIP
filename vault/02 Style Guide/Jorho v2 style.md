@@ -39,6 +39,8 @@ Cuts: hard cuts (scdet 2–7 per clip), a Jorho strobe on 1–2 beats, a green t
 7. Music 14 dB under the voice; soft SFX only.
 8. 3–5 graphics per clip, each tied to a line. Leave plain cam stretches between them.
 
+> **Went viral (2026-11-04).** Its formula is broken down in [[Viral formula - NBA GOAT]]. Follow that template first.
+
 ## Reference edit #5: our approved NBA GOAT edit (user, 2026-11-03: "add this video as reference for jorho v2")
 `out/b9_v2_nba_goat_v8.mp4` (`B9NbaGoatV2` in `src/jorho/batch9.tsx`, 15.1 s), contact sheet `assets/references/jorho_v2_nba_goat_v8_sheet.jpg`. Version history: `04 Projects/NBA GOAT pick.md` (v1–v8). Use it for structure and polish next to reference #4. Don't paste its graphics onto every clip; pick from the hive mind.
 
