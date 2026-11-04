@@ -2,9 +2,9 @@
 // when he mentions something illustratable make the illustration the main screen and his face a face cam in the top left".
 // → explainer layout: when a line can be pictured, an ANIMATED ILLUSTRATION fills the box and Trevor shrinks into a face cam
 // (top-left, rounded, white border); otherwise the normal cam. No VHS / flips / moving type.
-import {AbsoluteFill} from 'remotion';
+import {AbsoluteFill, Img, staticFile} from 'remotion';
 import {MONT} from '../e3/bars';
-import {Cam, ease, pop, sfx, timeline} from '../e3/kit';
+import {Cam, ease, pop, timeline} from '../e3/kit';
 import {BOX_H, GREEN, wordsFrom} from './kit';
 import {Jorho, type Spec} from './clips';
 import {cam} from './batch10';
@@ -20,7 +20,8 @@ export const DEMO15_MS = t15.total;
 const A: [number, number] = [0, t15.segOut[1]]; // hook: left vs right on the move
 const B: [number, number] = [t15.segOut[3], t15.segOut[5]]; // coaches' play sheet: roll right, roll right…
 const C: [number, number] = [t15.segOut[6], t15.segOut[8]]; // he reps going left
-const ILLUS = [A, B, C];
+const K: [number, number] = [t15.segOut[1], t15.segOut[2]]; // since he was a kid: career timeline
+const ILLUS = [A, K, B, C];
 
 // ---- face cam: Trevor (seat M) in a rounded square, top-left ----------------------------------------------------------
 const FC = 330;
@@ -60,9 +61,11 @@ const Rollout = ({o, t0, dir, clean}: {o: number; t0: number; dir: 1 | -1; clean
   const path = `M${qx} ${qy} Q ${(qx + rx) / 2} ${(qy + ry) / 2 - 240} ${rx} ${ry}`;
   return <svg width={W} height={H} style={{position: 'absolute', inset: 0, overflow: 'visible'}}>
     <path d={`M540 900 L${qx} ${qy}`} stroke="rgba(255,255,255,0.6)" strokeWidth={6} strokeDasharray="14 12" fill="none" />
-    {thr > 0 && <path d={path} stroke={col} strokeWidth={clean ? 8 : 6} strokeDasharray={`${thr} 1`} fill="none" pathLength={1}
+    {thr > 0 && clean && <path d={path} stroke={col} strokeWidth={26} strokeDasharray={`${thr} 1`} fill="none" pathLength={1} opacity={0.35}
+      style={{filter: 'blur(8px)'}} />}
+    {thr > 0 && <path d={path} stroke={col} strokeWidth={clean ? 9 : 6} strokeDasharray={`${thr} 1`} fill="none" pathLength={1}
       opacity={clean ? 0.95 : 0.7} />}
-    <circle cx={rx} cy={ry} r={42} fill="white" stroke="#111" strokeWidth={5} />
+    <circle cx={rx} cy={ry} r={42 * (thr >= 1 ? pop(o, t0 + 1120, 8, 220) : 1)} fill={thr >= 1 && clean ? '#9BE600' : 'white'} stroke="#111" strokeWidth={5} />
     <text x={rx} y={ry + 10} textAnchor="middle" fontFamily="Montserrat" fontWeight={900} fontSize={32} fill="#111">WR</text>
     <circle cx={qx} cy={qy} r={54} fill="#006778" stroke="white" strokeWidth={7} />
     <text x={qx} y={qy + 13} textAnchor="middle" fontFamily="Montserrat" fontWeight={900} fontSize={48} fill="white">16</text>
@@ -77,13 +80,37 @@ const Pill = ({o, at, text, color, x, y}: {o: number; at: number; text: string; 
 
 const IllusA = ({o}: {o: number}) => {
   if (o < A[0] || o >= A[1]) return null;
-  const leftDone = o >= 1650;
-  return <AbsoluteFill style={{opacity: 1 - ease(o, A[1] - 140, 140)}}>
+  const leftDone = o >= 1500;
+  return <AbsoluteFill style={{opacity: 1 - ease(o, A[1] - 140, 140), transform: `scale(${1 + 0.06 * (o - A[0]) / (A[1] - A[0])})`}}>
     <Turf />
-    {!leftDone && <Rollout o={o} t0={250} dir={-1} clean />}
-    {leftDone && <Rollout o={o} t0={1650} dir={1} clean={false} />}
-    <Pill o={o} at={350} text="MOVING LEFT" color="#9BE600" x={leftDone ? -400 : 420} y={950} />
-    <Pill o={o} at={1700} text="MOVING RIGHT" color="#FFD84D" x={410} y={950} />
+    {!leftDone && <Rollout o={o} t0={0} dir={-1} clean />}
+    {leftDone && <Rollout o={o} t0={1500} dir={1} clean={false} />}
+    <Pill o={o} at={80} text="MOVING LEFT" color="#9BE600" x={leftDone ? -400 : 420} y={950} />
+    <Pill o={o} at={1550} text="MOVING RIGHT" color="#FFD84D" x={410} y={950} />
+  </AbsoluteFill>;
+};
+// since he was a kid: a career line that fills as he talks, each stop lighting up; the green "going left" band runs the whole way
+const STOPS = [{t: 'YOUTH', s: 'AGE 8', e: '1f3c8'}, {t: 'HIGH SCHOOL', s: 'CARTERSVILLE', e: '1f3eb'}, {t: 'CLEMSON', s: 'NATTY', e: '1f3c6'}, {t: 'JAGUARS', s: 'NFL', e: '1f406'}];
+const IllusK = ({o}: {o: number}) => {
+  if (o < K[0] || o >= K[1]) return null;
+  const p = ease(o, K[0] + 150, K[1] - K[0] - 600);
+  const X0 = 140, X1 = 940, Yl = 640;
+  return <AbsoluteFill style={{opacity: Math.min(ease(o, K[0], 160), 1 - ease(o, K[1] - 140, 140)), background: 'radial-gradient(ellipse at 50% 45%, #1f2a33, #0d1216)'}}>
+    <div style={{position: 'absolute', left: 400, top: 120, fontFamily: MONT, fontWeight: 900, fontSize: 50, color: 'white'}}>SINCE HE WAS A KID</div>
+    <div style={{position: 'absolute', left: X0, top: Yl - 6, width: X1 - X0, height: 12, borderRadius: 6, background: 'rgba(255,255,255,0.15)'}} />
+    <div style={{position: 'absolute', left: X0, top: Yl - 6, width: (X1 - X0) * p, height: 12, borderRadius: 6, background: '#9BE600'}} />
+    <div style={{position: 'absolute', left: X0, top: Yl + 40, width: (X1 - X0) * p, overflow: 'hidden', whiteSpace: 'nowrap', fontFamily: MONT, fontWeight: 900,
+      fontSize: 30, letterSpacing: 3, color: '#9BE600'}}>← WORKING ON GOING LEFT ← WORKING ON GOING LEFT</div>
+    {STOPS.map((st, i) => {
+      const x = X0 + ((X1 - X0) * i) / (STOPS.length - 1), lit = p >= i / (STOPS.length - 1) - 0.001;
+      return <div key={st.t} style={{position: 'absolute', left: x - 90, top: Yl - 225, width: 180, textAlign: 'center', fontFamily: MONT, opacity: lit ? 1 : 0.35,
+        transform: `scale(${lit ? 1.05 : 0.9})`}}>
+        <div style={{fontSize: 64}}><Img src={staticFile(`emoji-ios/${st.e}.png`)} style={{width: 70, height: 70}} /></div>
+        <div style={{fontWeight: 900, fontSize: 28, color: 'white', marginTop: 6}}>{st.t}</div>
+        <div style={{fontWeight: 700, fontSize: 20, color: 'rgba(255,255,255,0.6)'}}>{st.s}</div>
+        <div style={{width: 26, height: 26, borderRadius: 13, margin: '14px auto 0', background: lit ? '#9BE600' : '#555', border: '4px solid white'}} />
+      </div>;
+    })}
   </AbsoluteFill>;
 };
 // youth play sheet: every play is ROLL RIGHT
@@ -109,7 +136,7 @@ const IllusC = ({o}: {o: number}) => {
   const T = 900;
   const k = Math.floor((o - C[0]) / T);
   const reps = Math.min(999, Math.round(((o - C[0]) / (C[1] - C[0])) ** 3 * 999));
-  return <AbsoluteFill style={{opacity: Math.min(ease(o, C[0], 160), 1 - ease(o, C[1] - 140, 140))}}>
+  return <AbsoluteFill style={{opacity: Math.min(ease(o, C[0], 160), 1 - ease(o, C[1] - 140, 140)), transform: `scale(${1 + 0.08 * (o - C[0]) / (C[1] - C[0])})`}}>
     <Turf />
     <Rollout key={k} o={o} t0={C[0] + k * T} dir={-1} clean />
     <div style={{position: 'absolute', right: 50, top: 50, background: 'rgba(10,10,12,0.85)', borderRadius: 22, padding: '14px 28px', textAlign: 'center', fontFamily: MONT}}>
@@ -127,13 +154,11 @@ const DEMO: Spec = {
   music: {file: 'acido-iii.mp3', from: 20000, level: 0},
   inBox: (o) => <>
     <IllusA o={o} />
+    <IllusK o={o} />
     <IllusB o={o} />
     <IllusC o={o} />
     <FaceCam o={o} />
   </>,
-  extraSfx: [sfx('whoosh', 250 + 600, 0.18), sfx('whoosh', 1650 + 600, 0.14), sfx('fast-whoosh', B[0], 0.3), sfx('fast-whoosh', A[1], 0.3),
-    ...[Z.coaches + 200, Z.coaches + 700, Z.rollouts, Z.rollouts + 450, Z.most, Z.most + 500].map((t) => sfx('pen-scribble', t, 0.18, 300)),
-    sfx('fast-whoosh', B[1], 0.3), sfx('fast-whoosh', C[0], 0.3), ...[0, 1, 2, 3].map((k) => sfx('whoosh', C[0] + k * 900 + 600, 0.12)), sfx('fast-whoosh', C[1], 0.3),
-    sfx('ding-2', Z.best + 300, 0.16)],
+  extraSfx: [], // user 2026-11-04: "chill out on the sound effects"
 };
 export const Demo15 = () => <Jorho s={DEMO} />;

@@ -66,6 +66,8 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 
 - (2026-11-04) **Face-cam explainer layout.** User on Demo14: "not even entertaining… when he mentions something illustratable make the illustration the main screen and his face a face cam in the top left". When a line can be pictured (a play, a list, a number, a place), an **animated illustration fills the box** and Trevor sits in a **rounded face cam in the top-left** (white border); otherwise the normal cam. Skip gimmicks (VHS, flips, moving type) that don't add meaning. Example: Demo15.
 
+- (2026-11-04) **Chill on SFX.** User on Demo15: "chill out on the sound effects". Explainer / face-cam clips get no per-beat SFX (no whoosh per throw, no pen scribble per row, no transition swooshes); the style's opening ting and the music carry it. At most 1–2 SFX on the real punchline. Engagement comes from the visuals moving (push-ins, glowing trails, things popping), not from sounds.
+
 ## Map
 - **Research**
   - [[Shorts analysis - 50 clips]]: the 50 Shorts, views, format, hook and edit notes for each
