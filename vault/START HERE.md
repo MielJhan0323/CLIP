@@ -60,6 +60,8 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 
 - (2026-11-04) **The NBA GOAT clip went viral → use its formula** ([[Viral formula - NBA GOAT]]): a universal question with a surprising answer; a provocative caption that hides the answer; the viewer guesses during a quiet thinking beat; reveal at 60–70 % as the loudest hit; a proof/second-laugh graphic; end on the reaction so it loops; ≤18 s. Pick clips with that shape first.
 
+- (2026-11-04) **The redemptions clip went even MORE viral** ([[Viral formula - Redemptions]]): a title that promises a concrete, visual event with a number; the number in the first second; pay the promise off early with a big visual (graph crash), then chain new open loops (why → answer → twist); near-silent micro-pauses before every key number; end on an unanswered question. Each clip uses one engine: delayed reveal (NBA GOAT) or promise → payoff → new loop (Redemptions).
+
 ## Map
 - **Research**
   - [[Shorts analysis - 50 clips]]: the 50 Shorts, views, format, hook and edit notes for each

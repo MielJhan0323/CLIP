@@ -4,6 +4,8 @@ date: 2026-11-04
 ---
 # Viral formula: what made the NBA GOAT clip pop
 
+> See also [[Viral formula - Redemptions]] (did even better). It has the combined rules for both engines.
+
 Back to [[START HERE]] · [[Jorho v2 style]] · source edit: `out/b9_v2_nba_goat_v8.mp4` (`B9NbaGoatV2`, 15.1 s), history in [[NBA GOAT pick]].
 
 User (2026-11-04): "this video went viral, analyze what aspect made it viral, what made people stay, and harness that element in future vids."
