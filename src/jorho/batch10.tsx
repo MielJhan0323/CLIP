@@ -72,7 +72,7 @@ const NotifStack = ({o, a, b, name, photo, items}: {o: number; a: number; b: num
   </AbsoluteFill>;
 };
 // ---- golf scorecard: paper card, green header, names written in with a pen as they're said --------------------------------
-const Scorecard = ({o, wins, rows}: {o: number; wins: [number, number][]; rows: {name: string; at: number; emoji?: string}[]}) => {
+export const Scorecard = ({o, wins, rows}: {o: number; wins: [number, number][]; rows: {name: string; at: number; emoji?: string}[]}) => {
   const w = wins.find(([a, b]) => on(o, a, b));
   if (!w) return null;
   const p = io(o, w[0], w[1], 180);

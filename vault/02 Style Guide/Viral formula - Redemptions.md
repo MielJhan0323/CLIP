@@ -42,3 +42,13 @@ Back to [[START HERE]] · [[Viral formula - NBA GOAT]] · source edit: `out/b8_v
 - **NFL 1/1 vs Clemson 1/1** (t4 72–83 s): "That's probably like $2,000. Compared to potentially $500… to a million." Value-comparison graph. (Only use it once the "$500 vs $500K" wording is clear: show "$2,000 vs up to $1,000,000".)
 - **Tiger patch auto gift** (t2 77–108 s, JorhoTigerGift): any price talk there could become "Watch Trevor find out what this card is worth".
 - **Card pulls (JustinAugh)**: the value reveal already works like this. Add a value graph or meter beat after the reveal ("sold for…") and end on "would you keep it or sell it?", which already is an open question.
+
+## Demo built from both formulas (2026-11-04)
+`Demo13` (`src/jorho/demo13.tsx`) → `out/demo13_viral_formula_foursome.mp4` (20.7 s), t2 dream golf foursome:
+- **Title** "Trevor's FIRST pick for his dream foursome isn't Tiger 💀": a bold claim that hides the answer.
+- **0–2.6 s** YouTube card with the question; **2.6–6.3 s** "all-time humans, could be anybody" + chips 🏈 FOOTBALL / 🏀 BASKETBALL / 🎤 ARTIST pop as he lists them.
+- **6.3–11.6 s** *thinking…* + **guess reel** spinning legends (Jordan, Tiger, LeBron, Kobe…) with slot ticks; the music dips to −12 dB (`music.dips`, new Spec option) and a 0.55 s silent hold comes right before the line.
+- **11.6 s (56 %)** "throw JESUS in there": reel lands on 🙏 JESUS, strobe, ding, green tint, then fahhh.
+- **Next loop:** "obviously… Tiger", Tiger cut-out, "the goat in the golf world".
+- **Visual proof:** scorecard writes Trevor Lawrence → Jesus 🙏 → Tiger Woods 🐐 → **???**
+- **Ending on an open question:** *who's #4?* on "That'd be pretty sick". It loops and invites comments.

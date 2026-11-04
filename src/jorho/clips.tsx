@@ -45,7 +45,7 @@ export type Spec = {
   overlay?: (o: number, face: (who: 'L' | 'M' | 'R') => {x: number; y: number; k: number}) => ReactNode; // face(): tracked face in FRAME px (stickers stay accurate) // full-frame layer (light look: meme pops go in the blurred area under the box) // Jorho v2: graphics inside the video box, extra sounds
   tl: TL; src: string; track: Track; top: string; words: Word[]; wordY: number; wideX: number; shots: Shot[];
   strobes: number[]; beeps?: number[]; tints: [number, string][]; swish: number[]; cut?: Cut; cuts?: Cut[];
-  music: {file: string; from: number; level: number; until?: number}; // until = hard stop (e.g. right before a punchline)
+  music: {file: string; from: number; level: number; until?: number; dips?: [number, number][]}; // until = hard stop; dips = windows at −12 dB (suspense before a reveal)
 };
 export const Jorho = ({s}: {s: Spec}) => {
   const frame = useCurrentFrame();
@@ -63,7 +63,7 @@ export const Jorho = ({s}: {s: Spec}) => {
       {!inAny(o, s.capsOff ?? []) && <OneWord o={o} words={s.words} y={s.wordY} />}
       <SpeechTrack src={s.src} tl={s.tl} duck={s.vo || s.mute ? (t) => (s.vo && t < s.vo.to - s.vo.from + 150 ? 0.12 : 1) * (inAny(t, s.mute ?? []) ? 0 : 1) : undefined} />
       {s.vo && <Sequence durationInFrames={Math.round(((s.vo.to - s.vo.from) / 1000) * FPS)}><Audio src={staticFile(s.vo.file)} trimBefore={Math.round((s.vo.from / 1000) * FPS)} /></Sequence>}
-      <Music file={s.music.file} songFrom={s.music.from} level={(t) => (s.music.until !== undefined && t >= s.music.until ? 0 : musicGain(s.music.file) * Math.min(1, (s.tl.total - t) / 400))} />
+      <Music file={s.music.file} songFrom={s.music.from} level={(t) => (s.music.until !== undefined && t >= s.music.until ? 0 : musicGain(s.music.file) * Math.min(1, (s.tl.total - t) / 400) * (inAny(t, s.music.dips ?? []) ? 0.25 : 1))} />
       <SfxTrack list={[
         sfx('jorho-ting', 0, 0.38),
         ...s.strobes.map((t) => sfx('jorho-flash', t, 0.45)),
