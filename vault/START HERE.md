@@ -68,6 +68,8 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 
 - (2026-11-04) **Chill on SFX.** User on Demo15: "chill out on the sound effects". Explainer / face-cam clips get no per-beat SFX (no whoosh per throw, no pen scribble per row, no transition swooshes); the style's opening ting and the music carry it. At most 1–2 SFX on the real punchline. Engagement comes from the visuals moving (push-ins, glowing trails, things popping), not from sounds.
 
+- (2026-11-04) **Face-cam rules.** Don't illustrate everything: about half the runtime stays on the normal cam, with illustrations only on the 2–3 most picturable lines. The face-cam transition is the full cam **shrinking into the top-left corner** (size + position, ~0.4 s ease-out with only a very slight settle) and growing back the same way. No elastic pop-in. Example: Demo15 v3.
+
 ## Map
 - **Research**
   - [[Shorts analysis - 50 clips]]: the 50 Shorts, views, format, hook and edit notes for each

@@ -18,22 +18,30 @@ const Z = {left: t15.out(49440), right: t15.out(49920), coaches: t15.out(26820),
   threw: t15.out(34440), worked: t15.out(45000), best: t15.segOut[8]};
 export const DEMO15_MS = t15.total;
 const A: [number, number] = [0, t15.segOut[1]]; // hook: left vs right on the move
-const B: [number, number] = [t15.segOut[3], t15.segOut[5]]; // coaches' play sheet: roll right, roll right…
-const C: [number, number] = [t15.segOut[6], t15.segOut[8]]; // he reps going left
+const B: [number, number] = [Z.coaches - 200, Z.most + 900]; // coaches' play sheet: roll right, roll right… (shorter: cam before/after)
+const C: [number, number] = [t15.segOut[6], t15.segOut[7] + 700]; // he reps going left
 const K: [number, number] = [t15.segOut[1], t15.segOut[2]]; // since he was a kid: career timeline
-const ILLUS = [A, K, B, C];
+const ILLUS = [A, B, C]; // user 2026-11-04: not everything illustrated, leave cam stretches between (K unused)
 
 // ---- face cam: Trevor (seat M) in a rounded square, top-left ----------------------------------------------------------
 const FC = 330;
 const faceCfg = {...cam('pod/t3_traveling_trevors.mp4', t15, travTrack as unknown as Track, 715), box: [FC, FC] as [number, number], baseH: 400, faceY: 0.45,
   who: () => 'M' as const};
+// the full cam SHRINKS into the face-cam corner (top-left) when an illustration starts and grows back when it ends.
+// user: "don't make the animation for the webcam elastic, or only a little, make it shrink to that size at that axis".
+const SH = 420;
+const backOut = (x: number) => { const c = 0.6; return 1 + (c + 1) * (x - 1) ** 3 + c * (x - 1) ** 2; }; // a very slight settle
 const FaceCam = ({o}: {o: number}) => {
   const w = ILLUS.find(([a, b]) => o >= a && o < b);
   if (!w) return null;
-  const s = pop(o, w[0], 10, 240) * (1 - ease(o, w[1] - 140, 140));
-  return <div style={{position: 'absolute', left: 36, top: 36, width: FC, height: FC, borderRadius: 30, overflow: 'hidden', border: '7px solid white',
-    boxShadow: '0 12px 28px rgba(0,0,0,0.5)', transform: `scale(${s})`, transformOrigin: '0 0', background: '#111'}}>
-    <Cam c={faceCfg} o={o} />
+  const pin = Math.min(1, Math.max(0, (o - w[0]) / SH)), pout = Math.min(1, Math.max(0, (o - (w[1] - SH)) / SH));
+  const t = backOut(pin) - (pout > 0 ? 1 - (1 - pout) ** 3 : 0); // 0 = full box, 1 = face-cam
+  const lerp = (a: number, b: number) => a + (b - a) * t;
+  const x = lerp(0, 36), y = lerp(0, 36), cw = lerp(1080, FC), ch = lerp(BOX_H, FC);
+  const cfg = {...faceCfg, box: [Math.round(cw), Math.round(ch)] as [number, number], baseH: lerp(640, 400), faceY: lerp(0.42, 0.45)};
+  return <div style={{position: 'absolute', left: x, top: y, width: cw, height: ch, borderRadius: lerp(0, 30), overflow: 'hidden',
+    border: `${Math.max(0, lerp(0, 7))}px solid white`, boxShadow: `0 12px 28px rgba(0,0,0,${0.5 * Math.min(1, t)})`, background: '#111'}}>
+    <Cam c={cfg} o={o} />
   </div>;
 };
 
@@ -149,12 +157,11 @@ const IllusC = ({o}: {o: number}) => {
 const DEMO: Spec = {
   tl: t15, src: 'pod/t3_traveling_trevors.mp4', track: travTrack as unknown as Track, top: "He's right-handed… but BETTER going left?", wordY: 1170, wideX: 715,
   words: wordsFrom(travWords, t15, {uh: '', i: 'I'}, {left: '#58EE28', right: '#F9FC35', hated: '#FF4D4D', best: '#58EE28', kid: '#F9FC35'}),
-  shots: [[0, 'M'], [t15.segOut[1], 'M'], [t15.segOut[2], 'W'], [B[1], 'M'], [Z.best, 'W']],
+  shots: [[0, 'M'], [t15.segOut[2], 'W'], [B[0] - 900, 'M'], [B[1], 'M'], [C[1], 'M'], [Z.best, 'W']],
   strobes: [], tints: [[Z.best + 300, GREEN]], swish: [],
   music: {file: 'acido-iii.mp3', from: 20000, level: 0},
   inBox: (o) => <>
     <IllusA o={o} />
-    <IllusK o={o} />
     <IllusB o={o} />
     <IllusC o={o} />
     <FaceCam o={o} />
