@@ -89,3 +89,4 @@ User (2026-11-02): "when I tell you to reference something I don't mean to redo 
 - **Name-change / then→now timeline** (B12Josh).
 - **Event ticket** (B12Ticket): an illustrated ticket with a signature that draws on.
 - **Chalk field board** (B12Lefty): top-down field, QB circle, arrows that draw on, red ✗; chalk-scratch SFX. For any "where/how he throws/plays" explainer.
+- **Face-cam explainer** (2026-11-04, Demo15): the illustration is the main screen and Trevor is a 330 px rounded face cam top-left (`FaceCam` in `src/jorho/demo15.tsx`, a second `Cam` with `box [330,330]`, `baseH 400`, seat M). Illustrations built for it: **animated turf field** (QB #16 token rolls out, ball arcs to a WR, ✓ clean / ~ wobbly; O-line + defenders), **youth playbook sheet** (rows popping in), **rep counter** (speeds up to 999+).

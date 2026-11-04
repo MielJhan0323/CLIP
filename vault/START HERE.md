@@ -64,6 +64,8 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 
 - (2026-11-04) **Copy the PRINCIPLES of a viral clip, never its tools.** User: "you're making it too similar… only copy which parts need to be grasping". From a reference, take the *job* each part does (hook claim, open loop, guessing, dead stop before the turn, reaction ending) and build it with a different visual language for that clip. Don't reuse the YouTube card, guessing reel, scorecard, typed text, chalk board etc. back to back. Example: Demo14 (lefty).
 
+- (2026-11-04) **Face-cam explainer layout.** User on Demo14: "not even entertaining… when he mentions something illustratable make the illustration the main screen and his face a face cam in the top left". When a line can be pictured (a play, a list, a number, a place), an **animated illustration fills the box** and Trevor sits in a **rounded face cam in the top-left** (white border); otherwise the normal cam. Skip gimmicks (VHS, flips, moving type) that don't add meaning. Example: Demo15.
+
 ## Map
 - **Research**
   - [[Shorts analysis - 50 clips]]: the 50 Shorts, views, format, hook and edit notes for each
