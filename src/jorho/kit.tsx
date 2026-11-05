@@ -85,7 +85,8 @@ export const wordsFrom = (raw: {text: string; startMs: number}[], tl: TL, fix: R
     if (!text) return;
     out.push({text, at: tl.out(w.startMs), color: colors[text] ?? PAL[hash(text, out.length) % PAL.length]});
   });
-  return out;
+  // OUTPUT order, not source order: with a cold open (a later line placed first) source order breaks OneWord (2026-11-05 caption bug)
+  return out.sort((a, b) => a.at - b.at);
 };
 // the word stays until the next one (or 1.2 s of silence); first 2 frames are a horizontal smear
 export const OneWord = ({o, words, y}: {o: number; words: Word[]; y: number}) => {
@@ -199,7 +200,7 @@ export const HeadRing = ({o, a, b, x, y, k, label}: {o: number; a: number; b: nu
 // 1–3 words so every caption stays up ≥ minMs; a short leftover merges into its neighbour. Colour = the longest word's colour.
 // `breaks` = output times where a new sentence/segment starts (e.g. tl.segOut): chunks never span one.
 export const chunkWords = (words: Word[], total: number, breaks: number[] = [], minMs = 260, maxChars = 15): Word[] => {
-  const ws = words.filter((w) => w.text);
+  const ws = words.filter((w) => w.text).sort((a, b) => a.at - b.at);
   const split = (a: number, b: number) => breaks.some((x) => x > a && x <= b);
     const chunks: {parts: Word[]; at: number}[] = [];
   for (let i = 0; i < ws.length; i++) {

@@ -70,7 +70,7 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 
 - (2026-11-04) **Face-cam rules.** Don't illustrate everything: about half the runtime stays on the normal cam, with illustrations only on the 2–3 most picturable lines. The face-cam transition is the full cam **shrinking into the top-left corner** (size + position, ~0.4 s ease-out with only a very slight settle) and growing back the same way. No elastic pop-in. Example: Demo15 v3.
 
-- (2026-11-05) **Captions must not flicker.** User: "fix the subtitles because it's glitching out". Fast talk produced 1–3-frame words (24 of 103 under 0.12 s). Wrap caption lists in `chunkWords(words, tl.total, tl.segOut)` (src/jorho/kit.tsx): it groups 1–3 words so every caption stays up for at least about 0.25 s, never across a cut/sentence. Use it on every new clip.
+- (2026-11-05) **Captions must not flicker.** User: "fix the subtitles because it's glitching out". Fast talk produced 1–3-frame words (24 of 103 under 0.12 s). Wrap caption lists in `chunkWords(words, tl.total, tl.segOut)` (src/jorho/kit.tsx): it groups 1–3 words so every caption stays up for at least about 0.25 s, never across a cut/sentence. Use it on every new clip. Also (same day): `wordsFrom` now sorts captions by output time. With a cold open (a later line placed first) the list used to be in source order, and OneWord then dropped captions for whole stretches (Demo14/Demo15). Clips built with `segWords` were never affected.
 
 ## Map
 - **Research**
