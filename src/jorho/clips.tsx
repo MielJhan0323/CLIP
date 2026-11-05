@@ -42,6 +42,7 @@ export type Spec = {
   vo?: {file: string; from: number; to: number; words: Word[]}; // intro voiceover at out 0 (Alex), speech ducked under it
   mute?: [number, number][]; // output windows where the clip's own speech is silenced (e.g. replaced by an echo)
   camFx?: (o: number) => CSSProperties; // per-frame transform/filter on the camera only (mirror flips, VHS grade, punch-ins)
+  speechGain?: number; // hot recordings (shouting): scale the clip's own speech
   fah?: number[]; // "fahhh" right after roasts / shots at people / crazy statements (user, 2026-11-01)
   overlay?: (o: number, face: (who: 'L' | 'M' | 'R') => {x: number; y: number; k: number}) => ReactNode; // face(): tracked face in FRAME px (stickers stay accurate) // full-frame layer (light look: meme pops go in the blurred area under the box) // Jorho v2: graphics inside the video box, extra sounds
   tl: TL; src: string; track: Track; top: string; words: Word[]; wordY: number; wideX: number; shots: Shot[];
@@ -62,7 +63,7 @@ export const Jorho = ({s}: {s: Spec}) => {
         return {x: (fa.x - r.x0) * r.k, y: top + (fa.y - r.y0) * r.k, k: r.k};
       })}
       {!inAny(o, s.capsOff ?? []) && <OneWord o={o} words={s.words} y={s.wordY} />}
-      <SpeechTrack src={s.src} tl={s.tl} duck={s.vo || s.mute ? (t) => (s.vo && t < s.vo.to - s.vo.from + 150 ? 0.12 : 1) * (inAny(t, s.mute ?? []) ? 0 : 1) : undefined} />
+      <SpeechTrack src={s.src} tl={s.tl} gain={1.05 * (s.speechGain ?? 1)} duck={s.vo || s.mute ? (t) => (s.vo && t < s.vo.to - s.vo.from + 150 ? 0.12 : 1) * (inAny(t, s.mute ?? []) ? 0 : 1) : undefined} />
       {s.vo && <Sequence durationInFrames={Math.round(((s.vo.to - s.vo.from) / 1000) * FPS)}><Audio src={staticFile(s.vo.file)} trimBefore={Math.round((s.vo.from / 1000) * FPS)} /></Sequence>}
       <Music file={s.music.file} songFrom={s.music.from} level={(t) => (s.music.until !== undefined && t >= s.music.until ? 0 : musicGain(s.music.file) * Math.min(1, (s.tl.total - t) / 400) * (inAny(t, s.music.dips ?? []) ? 0.25 : 1))} />
       <SfxTrack list={[

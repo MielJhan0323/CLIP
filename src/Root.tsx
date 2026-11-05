@@ -11,6 +11,7 @@ import {B9NbaGoatV2, B9_NBA_V2_MS} from './jorho/batch9';
 import {Demo13, DEMO13_MS} from './jorho/demo13';
 import {Demo14, DEMO14_MS} from './jorho/demo14';
 import {Demo15, DEMO15_MS} from './jorho/demo15';
+import {B13Artist, B13Cards, B13King, B13Rookie, B13Tiger, B13_ARTIST_MS, B13_CARDS_MS, B13_KING_MS, B13_ROOKIE_MS, B13_TIGER_MS} from './jorho/batch13';
 import {B12Davis, B12Josh, B12Lefty, B12Ticket, B12_DAVIS_MS, B12_JOSH_MS, B12_LEFTY_MS, B12_TICKET_MS} from './jorho/batch12';
 import {J11Algo, J11Closet, J11GodGiven, J11Rookie, J11Stapleton, J11_ALGO_MS, J11_CLOSET_MS, J11_GOD_MS, J11_ROOKIE_MS, J11_STAPLETON_MS} from './jorho/batch11';
 import {B10Ant, B10Coen, B10Golf, B10Peyton, B10Trav, B10_ANT_MS, B10_COEN_MS, B10_GOLF_MS, B10_PEYTON_MS, B10_TRAV_MS} from './jorho/batch10';
@@ -96,6 +97,11 @@ export const RemotionRoot = () => (
   <Composition id="Demo13" component={Demo13} fps={30} width={1080} height={1920} durationInFrames={Math.round((DEMO13_MS / 1000) * 30)} />
   <Composition id="Demo14" component={Demo14} fps={30} width={1080} height={1920} durationInFrames={Math.round((DEMO14_MS / 1000) * 30)} />
   <Composition id="Demo15" component={Demo15} fps={30} width={1080} height={1920} durationInFrames={Math.round((DEMO15_MS / 1000) * 30)} />
+  <Composition id="B13Cards" component={B13Cards} fps={30} width={1080} height={1920} durationInFrames={Math.round((B13_CARDS_MS / 1000) * 30)} />
+  <Composition id="B13Tiger" component={B13Tiger} fps={30} width={1080} height={1920} durationInFrames={Math.round((B13_TIGER_MS / 1000) * 30)} />
+  <Composition id="B13Rookie" component={B13Rookie} fps={30} width={1080} height={1920} durationInFrames={Math.round((B13_ROOKIE_MS / 1000) * 30)} />
+  <Composition id="B13Artist" component={B13Artist} fps={30} width={1080} height={1920} durationInFrames={Math.round((B13_ARTIST_MS / 1000) * 30)} />
+  <Composition id="B13King" component={B13King} fps={30} width={1080} height={1920} durationInFrames={Math.round((B13_KING_MS / 1000) * 30)} />
   {E3_CLIPS.map(([id, C, ms]) => <Composition key={id} id={id} component={C} fps={30} width={1080} height={1920} durationInFrames={Math.round((ms / 1000) * 30)} />)}
   {([['JorhoPeyton', JorhoPeyton, PEYTON_MS], ['JorhoGolf', JorhoGolf, GOLF_MS], ['JorhoRedeem', JorhoRedeem, REDEEM_MS], ['JorhoCoen', JorhoCoen, COEN_MS],
     ['JorhoAnt', JorhoAnt, ANT_MS], ['JorhoJosh', JorhoJosh, JOSH_MS], ['JorhoTrav', JorhoTrav, TRAV_MS],
