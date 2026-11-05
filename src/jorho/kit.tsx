@@ -193,3 +193,32 @@ export const HeadRing = ({o, a, b, x, y, k, label}: {o: number; a: number; b: nu
       stroke="white" strokeWidth={10} paintOrder="stroke" opacity={interpolate(p, [0.6, 1], [0, 1], clamp)}>*{label}*</text>}
   </svg>;
 };
+
+// ---- caption chunking (user 2026-11-05: "fix the subtitles because it's glitching out") ---------------------------------------
+// Fast talk gives words that show for 1–3 frames (and the 2-frame smear on each makes them flicker). Group words into chunks of
+// 1–3 words so every caption stays up ≥ minMs; a short leftover merges into its neighbour. Colour = the longest word's colour.
+// `breaks` = output times where a new sentence/segment starts (e.g. tl.segOut): chunks never span one.
+export const chunkWords = (words: Word[], total: number, breaks: number[] = [], minMs = 260, maxChars = 15): Word[] => {
+  const ws = words.filter((w) => w.text);
+  const split = (a: number, b: number) => breaks.some((x) => x > a && x <= b);
+    const chunks: {parts: Word[]; at: number}[] = [];
+  for (let i = 0; i < ws.length; i++) {
+    const c = {parts: [ws[i]], at: ws[i].at};
+    let end = i;
+    while (end + 1 < ws.length && !split(ws[end].at, ws[end + 1].at) && (ws[end + 1].at - c.at) < minMs && c.parts.length < 3
+      && c.parts.map((p) => p.text).join(' ').length + 1 + ws[end + 1].text.length <= maxChars) { end++; c.parts.push(ws[end]); }
+    chunks.push(c); i = end;
+  }
+  // merge chunks still shorter than minMs into the previous one when it fits, else into the next
+  const len = (k: number, arr: typeof chunks) => (k + 1 < arr.length ? arr[k + 1].at : total) - arr[k].at;
+  for (let k = 0; k < chunks.length; k++) {
+    if (len(k, chunks) >= minMs * 0.75 || chunks.length < 2) continue;
+    const txt = (c: typeof chunks[number]) => c.parts.map((p) => p.text).join(' ');
+    if (k > 0 && !split(chunks[k - 1].at, chunks[k].at) && txt(chunks[k - 1]).length + 1 + txt(chunks[k]).length <= maxChars + 4) { chunks[k - 1].parts.push(...chunks[k].parts); chunks.splice(k, 1); k--; }
+    else if (k + 1 < chunks.length && !split(chunks[k].at, chunks[k + 1].at) && txt(chunks[k]).length + 1 + txt(chunks[k + 1]).length <= maxChars + 4) { chunks[k + 1].parts.unshift(...chunks[k].parts); chunks[k + 1].at = chunks[k].at; chunks.splice(k, 1); k--; }
+  }
+  return chunks.map((c) => {
+    const key = c.parts.reduce((a, b) => (b.text.length > a.text.length ? b : a));
+    return {text: c.parts.map((p) => p.text).join(' '), at: c.at, color: key.color};
+  });
+};

@@ -5,7 +5,7 @@
 import {AbsoluteFill, Img, staticFile} from 'remotion';
 import {MONT} from '../e3/bars';
 import {Cam, ease, pop, timeline} from '../e3/kit';
-import {BOX_H, GREEN, wordsFrom} from './kit';
+import {BOX_H, GREEN, chunkWords, wordsFrom} from './kit';
 import {Jorho, type Spec} from './clips';
 import {cam} from './batch10';
 import travWords from '../plans/data/t3_traveling_trevors.words.json';
@@ -156,7 +156,7 @@ const IllusC = ({o}: {o: number}) => {
 
 const DEMO: Spec = {
   tl: t15, src: 'pod/t3_traveling_trevors.mp4', track: travTrack as unknown as Track, top: "He's right-handed… but BETTER going left?", wordY: 1170, wideX: 715,
-  words: wordsFrom(travWords, t15, {uh: '', i: 'I'}, {left: '#58EE28', right: '#F9FC35', hated: '#FF4D4D', best: '#58EE28', kid: '#F9FC35'}),
+  words: chunkWords(wordsFrom(travWords, t15, {uh: '', i: 'I'}, {left: '#58EE28', right: '#F9FC35', hated: '#FF4D4D', best: '#58EE28', kid: '#F9FC35'}), t15.total, t15.segOut),
   shots: [[0, 'M'], [t15.segOut[2], 'W'], [B[0] - 900, 'M'], [B[1], 'M'], [C[1], 'M'], [Z.best, 'W']],
   strobes: [], tints: [[Z.best + 300, GREEN]], swish: [],
   music: {file: 'acido-iii.mp3', from: 20000, level: 0},
