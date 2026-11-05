@@ -72,6 +72,8 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 
 - (2026-11-05) **Captions must not flicker.** User: "fix the subtitles because it's glitching out". Fast talk produced 1–3-frame words (24 of 103 under 0.12 s). Wrap caption lists in `chunkWords(words, tl.total, tl.segOut)` (src/jorho/kit.tsx): it groups 1–3 words so every caption stays up for at least about 0.25 s, never across a cut/sentence. Use it on every new clip. Also (same day): `wordsFrom` now sorts captions by output time. With a cold open (a later line placed first) the list used to be in source order, and OneWord then dropped captions for whole stretches (Demo14/Demo15). Clips built with `segWords` were never affected.
 
+- (2026-11-05) **No clipped words at cuts.** User: "his sentences are cut off before every cut". Segment ends were set at the last word's START time. Before rendering, run `python3 scripts/snap_segments.py <video> <words.json> '<segs>'`: it moves each end to where the speech actually decays (+120 ms) without touching the next word, and starts 80 ms before the first word. Then check the render with a speech-to-text pass.
+
 ## Map
 - **Research**
   - [[Shorts analysis - 50 clips]]: the 50 Shorts, views, format, hook and edit notes for each

@@ -12,8 +12,9 @@ import travWords from '../plans/data/t3_traveling_trevors.words.json';
 import travTrack from '../plans/data/t3_traveling_trevors.seats.json';
 
 type Track = Spec['track'];
-const t15 = timeline([[48000, 50600], [16200, 18900], [21140, 23720], [25720, 29000], [29140, 31250], [32100, 33250], [33860, 36200], [44820, 46300],
-  [50840, 52700]]);
+// segment edges snapped to real speech ends with scripts/snap_segments.py (user 2026-11-05: "sentences are cut off before every cut")
+const t15 = timeline([[48000, 50800], [16140, 19110], [21060, 24040], [25640, 29100], [29100, 31620], [32020, 33670], [33780, 36460], [44740, 46660],
+  [50800, 52890]]);
 const Z = {left: t15.out(49440), right: t15.out(49920), coaches: t15.out(26820), rollouts: t15.out(28220), most: t15.out(29560), hated: t15.segOut[5],
   threw: t15.out(34440), worked: t15.out(45000), best: t15.segOut[8]};
 export const DEMO15_MS = t15.total;
