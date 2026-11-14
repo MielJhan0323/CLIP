@@ -14,6 +14,7 @@ import {clamp, sfx, timeline, type Seg, type TL} from '../e3/kit';
 import {MemePop, wordsFrom} from './kit';
 import {Jorho, VIRAL_WARM, type Spec} from './clips';
 import {speechDips} from '../campaigns/neon_clip/neon';
+import {tighten} from './tighten';
 import {interpolate} from 'remotion';
 import peytonWords from '../plans/data/u4_peyton.words.json';
 import peytonTrack from '../plans/data/u4_peyton.seats.json';
@@ -38,24 +39,6 @@ type Seat = 'L' | 'M' | 'W';
 const T = (x: unknown) => x as Track;
 
 // split each segment wherever the speech pauses longer than maxGap (keeps a short tail / lead-in), holds stay on the last piece
-const tighten = (segs: Seg[], raw: Raw, maxGap = 380): Seg[] => {
-  const all = [...raw].sort((x, y) => x.startMs - y.startMs);
-  const nextStart = (ms: number) => all.find((w) => w.startMs > ms)?.startMs ?? Infinity;
-  // a cut keeps ~250 ms after the last word's end (word end-times run early → the last syllable got clipped), never into the next word
-  const tail = (w: Raw[number]) => Math.min(w.endMs + 250, nextStart(w.startMs) - 60);
-  return segs.flatMap(([a, b, hold]) => {
-    const ws = all.filter((w) => w.startMs >= a && w.startMs < b);
-    const out: Seg[] = [];
-    let s0 = a;
-    for (let k = 0; k + 1 < ws.length; k++) {
-      if (ws[k + 1].startMs - ws[k].endMs > maxGap) { out.push([s0, tail(ws[k])]); s0 = Math.max(s0, ws[k + 1].startMs - 90); }
-    }
-    const end = ws.length ? Math.max(b, tail(ws[ws.length - 1])) : b;
-    out.push(hold ? [s0, end, hold] : [s0, end]);
-    return out.filter(([x, y]) => y - x > 120);
-  });
-};
-
 type Flash = [src: number, color: 'red' | 'yellow' | 'green', inBody?: boolean]; // inBody: a repeated line, flash it in the body (default: the cold open)
 type Cfg = {src: string; track: Track; raw: Raw; segs: Seg[]; top: string; wideX: number; grant: [number, number][]; music: string; from: number;
   flashes: Flash[]; arrowAt: number; cutout?: {src: number; file: string; x?: number; y?: number; size?: number}; fah?: number; hookPieces?: number};

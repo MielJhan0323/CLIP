@@ -17,6 +17,8 @@ import calWords from '../../plans/data/r3born_ep2_cal.words.json';
 import poleWords from '../../plans/data/r3born_ep2_pole.words.json';
 import obWords from '../../plans/data/r3born_ep2_ob.words.json';
 import fiveWords from '../../plans/data/r3born_ep2_five.words.json';
+import moreWords from '../../plans/data/r3born_ep2_more.words.json';
+import {tighten} from '../../jorho/tighten';
 
 type Track = Spec['track'];
 const SRC = 'neon/r3born_ep2.mp4';
@@ -200,3 +202,70 @@ export const NeonWax = () => <Jorho s={neon(n8, 'N3on lost the bet… time for t
   {fuck: 'f***', neon: 'N3on'}, N8(1, 737490), 'Sneaky_Snitch.mp3', 20000,
   [{at: N8(1, 737490), to: N8(1, 737490) + 1500, text: 'N3on lost', red: true}], 960, {speechGain: 1.25},
   [['ja-ding', N8(0, 756000), 0.3, 1100], ['heartbeat-loud', n8.segOut[2] - 900, 0.2, 900], ['vine-boom', N8(2, 763300), 0.3]])} />;
+
+// =====================================================================================================================================
+// NEON BATCH 3 (user 2026-11-14: "5 more n3on clips with insured virality… reflect in your output to ensure virality").
+// Approved Neon template (batch 2: calm, warm grade, one roast label, one freeze + fahhh, gap SFX, low music, END ON THE CLIMAX) +
+// the viral lessons that DON'T add stim: curiosity-gap titles, dead-air trims (pauses > 0.38 s cut, word tails kept), and the ending
+// lands LOUD: music swells ×2.5 + a boom on a ~0.8 s reaction tail AFTER the last word (viral #3 ending), never over a voice.
+type Raw = {text: string; startMs: number; endMs: number}[];
+const neon3 = (segs0: [number, number, number?][], top: string, keys: string[], fix: Record<string, string>, fah: number | null, music: string, from: number,
+  label: {src: number; text: string} | null, memes: [string, number, number?, number?][] = [], wideX: number | ((src: number) => number) = 960) => {
+  const raw = moreWords as Raw;
+  const segs = tighten(segs0 as never, raw);
+  const last = segs[segs.length - 1];
+  const after = [...raw].sort((x, y) => x.startMs - y.startMs).find((w) => w.startMs >= last[1])?.startMs ?? Infinity;
+  const spokeEnd = last[1];
+  segs[segs.length - 1] = [last[0], Math.max(last[1], Math.min(last[1] + 800, after - 60)), last[2] ?? 0];
+  const tl = timeline(segs);
+  const hookN = tighten([segs0[0]] as never, raw).length;
+  const out = (src: number) => { for (let i = hookN; i < segs.length; i++) if (src >= segs[i][0] && src < segs[i][1] + (segs[i][2] ?? 0)) return tl.segOut[i] + Math.min(src, segs[i][1]) - segs[i][0]; return 0; };
+  const end = tl.segOut[segs.length - 1] + spokeEnd - last[0];
+  const dips = speechDips(raw, tl);
+  const fahAt = fah !== null ? out(fah) : -1;
+  return {total: tl.total, spec: {
+    tl, src: SRC, track: track as unknown as Track, top, wordY: 1010, wideX, capSize: 72, grade: VIRAL_WARM,
+    words: caps(raw, tl, fix, keys), shots: [[0, 'W']], strobes: [], tints: [], swish: [],
+    inBox: (o: number) => (label ? <TypedAction o={o} a={out(label.src)} b={out(label.src) + 1500} text={label.text} y={70} color="#FF4D4D" glow="rgba(255,77,77,0.55)" /> : null),
+    fah: fahAt >= 0 ? [fahAt + 40] : [], fahVol: 1.6,
+    music: {file: music, from, level: 0, gain: 1, floor: 0.4, ramp: 150, dips, swell: [end, 2.5]},
+    extraSfx: [sfx('record-scratch', tl.segOut[1] - 60, 0.2, 450),
+      ...tl.segOut.slice(2).filter((t) => dips.every(([a, b]) => t < a || t >= b)).map((t) => sfx('fast-whoosh', t - 120, 0.12, 400)),
+      ...(label ? [sfx('keyboard-typing', out(label.src), 0.09, label.text.length * 45 + 150)] : []),
+      ...memes.map(([f, t, v, m]) => sfx(f, inGap(out(t), dips), v ?? 0.26, m ?? 900)),
+      sfx('bass-boosted-vine-boom', end + 40, 0.16, 900)],
+  } as Spec};
+};
+
+const N9 = neon3([[80800, 83900], [61500, 66500], [78700, 84100, 1000], [90100, 94000]], 'N3on asked the Pilates instructor THIS',
+  ['kidding', 'Pilates', 'pilates', 'prison', 'straight', 'losing', 'easy', 'glasses'], {pilates: 'Pilates'}, 84100, 'Monkeys_Spinning_Monkeys.mp3', 2000,
+  {src: 84100, text: 'asked the real question'}, [['ja-ding', 79500, 0.26, 1000], ['huh-cat', 66500, 0.22, 700]]);
+export const NeonPilatesQ = () => <Jorho s={N9.spec} />;
+export const NEON_PILATESQ_MS = N9.total;
+
+const N10 = neon3([[568000, 569800], [543700, 547600], [549300, 558000], [566000, 570000, 1000], [573600, 574600]], 'Sarah vs N3on: who can hold it longer?',
+  ['winner', 'tuck', 'longest', 'go', 'Really', 'dude', 'hands'], {}, 570000, 'Sneaky_Snitch.mp3', 20000,
+  {src: 570000, text: 'lost again'}, [['ja-ding', 574700, 0.26, 1000], ['heartbeat-loud', 555000, 0.18, 2500]]);
+N10.spec.speechGain = 1.4;
+export const NeonTuck = () => <Jorho s={N10.spec} />;
+export const NEON_TUCK_MS = N10.total;
+
+const N11 = neon3([[716600, 718800], [602600, 608500], [617200, 622000], [706100, 708600], [712200, 718800]], 'N3on finally found something he is good at',
+  ['spider', 'man', 'god', 'best', 'good', 'bad', 'fun'], {'-man': 'man', shit: 'sh*t'}, null, 'joyful-chess-slowed.mp3', 4000,
+  {src: 713600, text: 'finally good at something'}, [['anime-wow', 622000, 0.24, 1200], ['ja-ding', 715200, 0.24, 1000]]);
+N11.spec.speechGain = 1.15;
+export const NeonSpider = () => <Jorho s={N11.spec} />;
+export const NEON_SPIDER_MS = N11.total;
+
+const N12 = neon3([[418100, 421700], [416100, 429700]], 'N3on gained a new respect for pole dancers',
+  ['technique', 'hard', 'work', 'salute', 'respect', 'brother'], {ask: 'a**'}, null, 'experience-einaudi.mp3', 30000,
+  {src: 423600, text: 'respect'}, [['ja-ding', 421700, 0.24, 1000]]);
+N12.spec.speechGain = 1.45;
+export const NeonRespect = () => <Jorho s={N12.spec} />;
+export const NEON_RESPECT_MS = N12.total;
+
+const N13 = neon3([[244500, 245700], [225000, 226200], [230000, 232800], [242400, 245700], [246600, 257700, 1000]], 'N3on was WAY too excited for this class',
+  ['strippers', 'thrown', 'excited', 'Pilates', '17', 'years', 'stripper', 'Hell', 'yeah'], {}, 257700, 'funk-do-balkan.mp3', 42000,
+  {src: 257700, text: 'way too excited'}, [['ja-ding', 232800, 0.26, 1000], ['vine-boom', 245800, 0.24]]);
+export const NeonExcited = () => <Jorho s={N13.spec} />;
+export const NEON_EXCITED_MS = N13.total;

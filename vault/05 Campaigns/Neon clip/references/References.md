@@ -28,3 +28,13 @@ Code: `neon()` builder in `src/campaigns/neon_clip/neon.tsx` (NeonBet / NeonPila
 | ✅ **APPROVED reference (batch 2)** | `neon_results_wax.mp4` (22.3 s) | NeonWax: cold open "don't touch me, I'm gonna sue you / sue me, I got good lawyers" → 326 vs 389 "dumbass" (freeze + fahhh, *N3on lost*) → "I'll do calf" → "I'm so scared" → "three, two, one" — now runs THROUGH the wax (climax shown, 23.9 s) | Sneaky Snitch |
 
 - (2026-11-14) Batch 2 redone after feedback ("stop cutting before the climax", "music too loud", "overstim, sfx good"): no flash, 1 roast label, music ~20 dB under the voice, SFX + awkward dings kept, wax clip now ends on the wax itself (23.9 s).
+
+## Batch 3 (2026-11-14, "5 more N3on clips with insured virality") — awaiting feedback
+Approved template + the calm viral lessons: curiosity titles, dead-air trims, music swell + boom on a reaction tail AFTER the last word. Code: `neon3()`.
+| file | moment | ends on |
+|---|---|---|
+| `neon_pilates_question.mp4` (18.9 s) | "invented by a man in prison… was he straight?" (freeze + fahhh) → "you think this is gonna be easy?" | "I'm not losing." |
+| `neon_tuck_contest.mp4` (22.0 s) | "who can hold their tuck the longest, 3, 2, 1, go" (the show's timers) → "Sarah, you are the winner" (freeze + fahhh) | "Really, dude?" |
+| `neon_spiderman_silks.mp4` (22.3 s) | silks: "wide, wide, legs… keep going, Spider-Man… oh my god" → "this is what you were best at all day" | "…little boop-de-doop sh*t" |
+| `neon_new_respect.mp4` (17.8 s) | "you're not looking at the actual technique… this is hard work, salute to you" | "especially him right there, my brother" |
+| `neon_too_excited.mp4` (21.9 s) | "throwing money at strippers? no money is gonna be thrown" → "more excited for this than Pilates" → "I have been a stripper" (freeze + fahhh) | "Hell yeah!" |
