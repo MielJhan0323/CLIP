@@ -23,6 +23,14 @@ import pbWords from '../plans/data/u1_playbook.words.json';
 import pbTrack from '../plans/data/u1_playbook.seats.json';
 import travWords from '../plans/data/t3_traveling_trevors.words.json';
 import travTrack from '../plans/data/t3_traveling_trevors.seats.json';
+import t6Words from '../plans/data/t6_davis_mills_joke.words.json';
+import ticketWords from '../plans/data/t4_natty_ticket.words.json';
+import ticketTrack from '../plans/data/t4_natty_ticket.seats.json';
+import golfWords from '../plans/data/t2_dream_golf_four.words.json';
+import golfTrack from '../plans/data/t2_dream_golf_four.seats.json';
+import ntWords from '../plans/data/v_nt_rip.words.json';
+import ntTrack from '../plans/data/v_nt_rip.seats.json';
+import {dTrack} from './batch8';
 
 type Track = Spec['track'];
 type Raw = {text: string; startMs: number; endMs: number}[];
@@ -169,3 +177,39 @@ const LEFT = make({src: 'pod/t3_traveling_trevors.mp4', track: T(travTrack), raw
   flashes: [[49300, 'green'], [32800, 'red'], [36100, 'green'], [51100, 'yellow']]});
 export const B16Left = () => <Jorho s={LEFT.spec} />;
 export const B16_LEFT_MS = LEFT.total;
+
+// ---- 6–10: five more Trevor moments in the same 500K style (user: "make me 10 jorho v2 with the viral references") ---------------
+const DAVIS = make({src: 'pod/t6_davis_mills_joke.mp4', track: dTrack, raw: t6Words as Raw, wideX: 960, top: "Trevor's reaction to the Davis Mills card",
+  segs: [[9160, 12000], [2060, 16800]], grant: [[2060, 6800], [9160, 12100], [15900, 16800]],
+  music: 'Fluffing_a_Duck.mp3', from: 6000, arrowAt: 6900, cutout: {src: 10400, file: 'cutouts/glennon.png'},
+  flashes: [[10600, 'yellow'], [6940, 'red'], [10600, 'yellow', true]]});
+export const B16Davis = () => <Jorho s={DAVIS.spec} />;
+export const B16_DAVIS_MS = DAVIS.total;
+
+const GIFT = make({src: 'pod/t4_natty_ticket.mp4', track: T(ticketTrack), raw: ticketWords as Raw, wideX: 760, top: 'Grant gifted Trevor a ticket to his OWN natty',
+  segs: [[27160, 29500], [9800, 17400], [21540, 33300]], grant: [[9800, 29420], [30480, 32100]],
+  music: 'jorho-lullaby.mp3', from: 150000, arrowAt: 9900,
+  flashes: [[27400, 'yellow'], [24200, 'yellow'], [29760, 'green']]});
+export const B16Gift = () => <Jorho s={GIFT.spec} />;
+export const B16_GIFT_MS = GIFT.total;
+
+const JESUS = make({src: 'pod/t2_dream_golf_four.mp4', track: T(golfTrack), raw: golfWords as Raw, wideX: 720, top: "Trevor's FIRST pick for his dream golf foursome",
+  segs: [[32240, 34350], [11280, 19850], [23760, 28620], [32240, 37700]], grant: [[11280, 24900], [34780, 37700]],
+  music: 'midnight-club.mp3', from: 30000, arrowAt: 23800, cutout: {src: 33500, file: 'emoji-ios/1f64f.png', size: 300, x: 640, y: 860},
+  flashes: [[33500, 'yellow'], [33500, 'yellow', true], [36600, 'green']]});
+export const B16Jesus = () => <Jorho s={JESUS.spec} />;
+export const B16_JESUS_MS = JESUS.total;
+
+const MARINO = make({src: 'b3/v_nt_rip.mp4', track: T(ntTrack), raw: ntWords as Raw, wideX: 900, top: 'Is Dan Marino a top 10 QB? Trevor answered',
+  segs: [[66940, 69200], [55460, 73630]], grant: [[55460, 64900]],
+  music: 'tak-tak.mp3', from: 2000, arrowAt: 55600,
+  flashes: [[67600, 'yellow'], [62100, 'yellow'], [65600, 'green']]});
+export const B16Marino = () => <Jorho s={MARINO.spec} />;
+export const B16_MARINO_MS = MARINO.total;
+
+const SWEAT = make({src: 'b3/v_nt_rip.mp4', track: T(ntTrack), raw: ntWords as Raw, wideX: 900, top: 'Grant teaches Trevor how to sweat a card',
+  segs: [[29100, 32240], [15960, 24170], [33560, 46070]], grant: [[15960, 46100]],
+  music: 'Investigations.mp3', from: 10000, arrowAt: 16000,
+  flashes: [[31900, 'yellow'], [18700, 'red'], [44100, 'green']]});
+export const B16Sweat = () => <Jorho s={SWEAT.spec} />;
+export const B16_SWEAT_MS = SWEAT.total;
