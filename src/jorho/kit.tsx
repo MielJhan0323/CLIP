@@ -89,7 +89,7 @@ export const wordsFrom = (raw: {text: string; startMs: number}[], tl: TL, fix: R
   return out.sort((a, b) => a.at - b.at);
 };
 // the word stays until the next one (or 1.2 s of silence); first 2 frames are a horizontal smear
-export const OneWord = ({o, words, y}: {o: number; words: Word[]; y: number}) => {
+export const OneWord = ({o, words, y, size = 58}: {o: number; words: Word[]; y: number; size?: number}) => {
   let i = -1;
   words.forEach((w, j) => { if (o >= w.at) i = j; });
   if (i < 0) return null;
@@ -98,7 +98,7 @@ export const OneWord = ({o, words, y}: {o: number; words: Word[]; y: number}) =>
   const k = fr(o) - fr(w.at);
   const smear = k < 2 ? {transform: `scaleX(${k === 0 ? 1.35 : 1.15})`, filter: `blur(${k === 0 ? 5 : 2.5}px)`, opacity: 0.85} : {};
   return <div style={{position: 'absolute', left: 0, width: W, top: y - 40, textAlign: 'center', ...smear}}>
-    <span style={{fontFamily: MONT, fontWeight: 800, fontSize: 58, color: w.color, WebkitTextStroke: '5px #111', paintOrder: 'stroke fill',
+    <span style={{fontFamily: MONT, fontWeight: 800, fontSize: size, color: w.color, WebkitTextStroke: `${Math.round(size / 11)}px #111`, paintOrder: 'stroke fill',
       textShadow: '0 3px 8px rgba(0,0,0,0.7)'}}>{w.text}</span>
   </div>;
 };
