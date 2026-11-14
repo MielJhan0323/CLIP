@@ -11,6 +11,7 @@ import {B9NbaGoatV2, B9_NBA_V2_MS} from './jorho/batch9';
 import {Demo13, DEMO13_MS} from './jorho/demo13';
 import {Demo14, DEMO14_MS} from './jorho/demo14';
 import {Demo15, DEMO15_MS} from './jorho/demo15';
+import {B15Signature, B15Rookie, B15Ant, B15Playbook, B15Left, B15_SIG_MS, B15_ROOKIE_MS, B15_ANT_MS, B15_PLAYBOOK_MS, B15_LEFT_MS} from './jorho/batch15';
 import {B14Judge, B14Murakami, B14Randy, B14_JUDGE_MS, B14_MURA_MS, B14_RANDY_MS, B14Patch, B14Sweat, B14Marino, B14_PATCH_MS, B14_SWEAT_MS, B14_MARINO_MS, B14Rpa, B14_RPA_MS} from './jorho/batch14';
 import {NeonCalories, NeonObnoxious, NeonPole, NEON_CAL_MS, NEON_OB_MS, NEON_POLE_MS, NeonBet, NeonPilates, NeonHeadstand, NeonBathroom, NeonWax, NEON_BET_MS, NEON_PILATES_MS, NEON_HEADSTAND_MS, NEON_BATHROOM_MS, NEON_WAX_MS} from './campaigns/neon_clip/neon';
 import {FomoBowling, FomoChainlink, FomoLoss, FomoRansom, FomoReveal, FOMO_BOWLING_MS, FOMO_CHAINLINK_MS, FOMO_LOSS_MS, FOMO_RANSOM_MS, FOMO_REVEAL_MS, FomoIceBath, FomoYoungMaurits, FomoAvocado, FomoFlex, FOMO_FLEX_MS, FOMO_ICE_MS, FOMO_YOUNG_MS, FOMO_AVOCADO_MS} from './campaigns/fomo_clip/fomo';
@@ -124,6 +125,11 @@ export const RemotionRoot = () => (
   <Composition id="B14Sweat" component={B14Sweat} fps={30} width={1080} height={1920} durationInFrames={Math.round((B14_SWEAT_MS / 1000) * 30)} />
   <Composition id="B14Marino" component={B14Marino} fps={30} width={1080} height={1920} durationInFrames={Math.round((B14_MARINO_MS / 1000) * 30)} />
   <Composition id="B14Rpa" component={B14Rpa} fps={30} width={1080} height={1920} durationInFrames={Math.round((B14_RPA_MS / 1000) * 30)} />
+  <Composition id="B15Signature" component={B15Signature} fps={30} width={1080} height={1920} durationInFrames={Math.round((B15_SIG_MS / 1000) * 30)} />
+  <Composition id="B15Rookie" component={B15Rookie} fps={30} width={1080} height={1920} durationInFrames={Math.round((B15_ROOKIE_MS / 1000) * 30)} />
+  <Composition id="B15Ant" component={B15Ant} fps={30} width={1080} height={1920} durationInFrames={Math.round((B15_ANT_MS / 1000) * 30)} />
+  <Composition id="B15Playbook" component={B15Playbook} fps={30} width={1080} height={1920} durationInFrames={Math.round((B15_PLAYBOOK_MS / 1000) * 30)} />
+  <Composition id="B15Left" component={B15Left} fps={30} width={1080} height={1920} durationInFrames={Math.round((B15_LEFT_MS / 1000) * 30)} />
   <Composition id="B13Cards" component={B13Cards} fps={30} width={1080} height={1920} durationInFrames={Math.round((B13_CARDS_MS / 1000) * 30)} />
   <Composition id="B13Tiger" component={B13Tiger} fps={30} width={1080} height={1920} durationInFrames={Math.round((B13_TIGER_MS / 1000) * 30)} />
   <Composition id="B13Rookie" component={B13Rookie} fps={30} width={1080} height={1920} durationInFrames={Math.round((B13_ROOKIE_MS / 1000) * 30)} />
