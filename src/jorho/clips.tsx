@@ -63,7 +63,7 @@ export type Spec = {
   grade?: string; // CSS filter on the footage (default GRADE; VIRAL_WARM = the 500K-view look)
   tl: TL; src: string; track: Track; top: string; words: Word[]; wordY: number; wideX: number | ((src: number) => number); shots: Shot[];
   strobes: number[]; beeps?: number[]; tints: [number, string][]; swish: number[]; cut?: Cut; cuts?: Cut[];
-  music: {file: string; from: number; level: number; until?: number; dips?: [number, number][]; gain?: number; floor?: number; ramp?: number}; // floor/ramp = dip depth (default 0.25) and fade ms (default 0) // gain = per-clip multiplier (user: "music too quiet") // until = hard stop; dips = windows at −12 dB (suspense before a reveal)
+  music: {file: string; from: number; level: number; until?: number; dips?: [number, number][]; gain?: number; floor?: number; ramp?: number; start?: number; swell?: [number, number]}; // start = bed fades in here (viral #3: at the first cut); swell = [from ms, ×gain] for a LOUD ending (viral #3: the laugh) // floor/ramp = dip depth (default 0.25) and fade ms (default 0) // gain = per-clip multiplier (user: "music too quiet") // until = hard stop; dips = windows at −12 dB (suspense before a reveal)
 };
 export const Jorho = ({s}: {s: Spec}) => {
   const frame = useCurrentFrame();
@@ -81,7 +81,9 @@ export const Jorho = ({s}: {s: Spec}) => {
       {!inAny(o, s.capsOff ?? []) && <OneWord o={o} words={s.words} y={s.wordY} size={s.capSize} />}
       <SpeechTrack src={s.src} tl={s.tl} gain={1.05 * (s.speechGain ?? 1)} duck={s.vo || s.mute ? (t) => (s.vo && t < s.vo.to - s.vo.from + 150 ? 0.12 : 1) * (inAny(t, s.mute ?? []) ? 0 : 1) : undefined} />
       {s.vo && <Sequence durationInFrames={Math.round(((s.vo.to - s.vo.from) / 1000) * FPS)}><Audio src={staticFile(s.vo.file)} trimBefore={Math.round((s.vo.from / 1000) * FPS)} /></Sequence>}
-      <Music file={s.music.file} songFrom={s.music.from} level={(t) => (s.music.until !== undefined && t >= s.music.until ? 0 : musicGain(s.music.file) * (s.music.gain ?? 1) * Math.min(1, (s.tl.total - t) / 400) * duckK(t, s.music.dips ?? [], s.music.floor ?? 0.25, s.music.ramp ?? 0))} />
+      <Music file={s.music.file} songFrom={s.music.from} level={(t) => (s.music.until !== undefined && t >= s.music.until ? 0 : musicGain(s.music.file) * (s.music.gain ?? 1) * Math.min(1, (s.tl.total - t) / 400) * duckK(t, s.music.dips ?? [], s.music.floor ?? 0.25, s.music.ramp ?? 0)
+        * (s.music.start !== undefined ? Math.max(0, Math.min(1, (t - s.music.start) / 120)) : 1)
+        * (s.music.swell && t >= s.music.swell[0] ? 1 + (s.music.swell[1] - 1) * Math.min(1, (t - s.music.swell[0]) / 250) : 1))} />
       <SfxTrack list={[
         sfx('jorho-ting', 0, 0.38),
         ...s.strobes.map((t) => sfx('jorho-flash', t, 0.45)),
