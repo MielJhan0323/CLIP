@@ -49,6 +49,7 @@ const CAL: Spec = {
   tl: c, src: SRC, track: track as unknown as Track, top: 'N3on thinks his fitness tracker is broken', wordY: 1010, wideX: 960, capSize: 72,
   words: caps(calWords, c, {}, ['hundred', 'three', '161', '60', 'malfunction', 'impossible']),
   shots: [[0, 'W']], strobes: [], tints: [], swish: [],
+  fah: [c.segOut[1] + (219050 - 209200)], // user: fahhh on the roast "I think that's generous for you"
   music: {file: 'Sneaky_Snitch.mp3', from: 12000, level: 0},
 };
 export const NeonCalories = () => <Jorho s={CAL} />;
