@@ -27,3 +27,5 @@ Signed links come from the share page's GraphQL (headless Chromium, `sahls.frame
 | NeonCalories (TRIAL 2) | neon_trial2_tracker_broken.mp4 (17 s) | 3:29–3:44 first calorie check: "A hundred and three? … that's impossible" → "I think it was a malfunction" → "I burned 161" → "You only got 60 more than me" | user on trial 1: "over stim, no hook, no focus" → one subject, one moment, hook = the line, hard cut (no flash), no tint/labels/punch/SFX, steady WIDE two-shot keeping the episode's own calorie counter (the payoff) in frame, captions above it |
 
 - (2026-11-14) User: **prioritize funny moments** for Neon clips. Fahhh on roasts (trial 2: right after "I think that's generous for you").
+
+- (2026-11-14) **Reference set = batch 2** (bet, pilates, headstand, bathroom, results/wax), see `references/References.md` → "THE Neon template". New Neon clips copy that.
