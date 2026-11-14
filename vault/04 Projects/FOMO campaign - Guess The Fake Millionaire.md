@@ -37,3 +37,16 @@ User: "keep the tracking for the interview because the camera keeps moving, also
   In the reveal's line-up shots the biggest face isn't the point, so those samples (25:44.8–25:49) are pinned on Iron Man (x 725, y 265).
 - Purpose: after the hook a stakes pill "REAL MILLIONAIRE OR THE FAKE?" (reveal: "7 'MILLIONAIRES' · 1 IS FAKE"); the last 1.9 s pay it off with the
   TRUE answer from the show's reveal ("HULK/THANOS WASN'T THE FAKE ✅", reveal: "THE FAKE WAS IRON MAN 🎭"), so the viewer stays to find out.
+
+## Feedback round 2 (2026-11-14)
+User: "the last two clips are good (Chainlink, Ransom), but edit 3 clips that appeal to the general viewer, funny parts, not just the money/business talk" + "keep the spoilers away and stop covering the video with cards, keep the edit interesting though".
+- **All cards removed** from every FOMO short (no stakes pill, no verdict card: "HULK WASN'T THE FAKE" spoiled the ending). Only the captions sit on the video.
+- Kept it lively without overlays: a slow push-in across every segment (resets on each cut) plus snap punch-ins (×1.16) on the punchlines and the flash at the rewind.
+- **Burned-in source captions = ground truth** for wording. Where whisper and the source disagree (whisper "45 minutes" vs the burned-in "35 minutes", "Can you stand next to him?"), the burned-in caption wins; unclear bits get no caption.
+- Hooks must match what happens: the ice bath title is the panel's reaction "35 minutes in the ice bath?!" (he actually said sauna 12 min + ice ~2 min; the panel misheard).
+
+| comp | out | moment | hook |
+|---|---|---|---|
+| FomoIceBath | fomo_ice_bath_35_minutes.mp4 (22.6 s) | 22:39–22:59 Iron Man's routine: ice bath → "That's some shit a LARPer would say" → "35 minutes?" → "No, like sauna 12 minutes, ice for like two" | "Oh, he thought he said 35 minutes. I'm like, dude, how are you here?" |
+| FomoYoungMaurits | fomo_young_maurits.mp4 (19.3 s) | 19:06–19:23 "call him young Maurits" → Maurits stands back to back with the lookalike (WIDE shot for the height check) → "This is his little brother" → "what do you tell people you do?" | "Look, bro… this is his little brother" |
+| FomoAvocado | fomo_avocado_farmer.mp4 (17.3 s) | 18:49–18:55 + 19:31–19:39 "do you tell dates you're in crypto?" → "avocado farmer, or kangaroo boxing, or sperm race" | the avocado line |
