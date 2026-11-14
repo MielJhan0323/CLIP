@@ -123,16 +123,18 @@ const neon = (tl: TL, top: string, keys: string[], fix: Record<string, string>, 
   const sfxs = [
     sfx('record-scratch', tl.segOut[1] - 60, 0.22, 450),
     ...tl.segOut.slice(2).filter((_, k) => k + 2 !== freezeCut).map((t) => sfx('fast-whoosh', t - 120, 0.16, 450)),
-    ...labels.filter((l) => inGap(l.at, dips) === l.at || l.at === fahAt).map((l) => sfx('keyboard-typing', l.at, 0.09, Math.min(l.to - l.at, l.text.length * 45 + 150))),
+    ...labels.filter((l) => l.red).slice(0, 1).filter((l) => inGap(l.at, dips) === l.at || l.at === fahAt).map((l) => sfx('keyboard-typing', l.at, 0.09, Math.min(l.to - l.at, l.text.length * 45 + 150))),
     ...memes.map(([f, t, v, m]) => sfx(f, inGap(t, dips), v ?? 0.28, m ?? 900)),
   ];
   return {
     tl, src: SRC, track: track as unknown as Track, top, wordY: 1010, wideX, capSize: 72, grade: VIRAL_WARM, // user: "add the filter this video has"
-    words: caps(fiveWords, tl, fix, keys), shots: [[0, 'W']], strobes: [fahAt], tints: [], swish: [],
-    inBox: (o) => <>{labels.map((l) => LBL(l)(o))}</>,
+    // user 2026-11-14: "the clips are overstim, the sfx are good" → no flash, only the roast label; SFX layer kept
+    words: caps(fiveWords, tl, fix, keys), shots: [[0, 'W']], strobes: [], tints: [], swish: [],
+    inBox: (o) => <>{labels.filter((l) => l.red).slice(0, 1).map((l) => LBL(l)(o))}</>,
     fah: [fahAt + 40], fahVol: 1.6,
     // user 2026-11-14: "the music is too loud" → gain 4→2: under the voice = the standard −14 dB bed, +6 dB swell in the gaps
-    music: {file: music, from, level: 0, gain: 2, floor: 0.5, ramp: 150, dips},
+    // then "bg music is too loud" (again) → gain 1, floor 0.4: ~20 dB under the voice, only the standard bed level in the gaps
+    music: {file: music, from, level: 0, gain: 1, floor: 0.4, ramp: 150, dips},
     extraSfx: sfxs,
     ...extra,
   };
@@ -189,11 +191,12 @@ export const NeonBathroom = () => <Jorho s={neon(n7, 'N3on took a "bathroom brea
 // N8 · results: cold open "don't touch me, I'm gonna sue you" / "sue me, I got good lawyers" → "let's see who won" → "326 calories" →
 // "dumbass… [389]… dumbass" (freeze + fahhh) → "I was gonna do eyebrow, but I can't, I'll do calf" → "oh, I'm so scared" → "three, two,
 // one" — cut before the wax lands (brief: cut before it resolves).
-const n8 = timeline([[753100, 756190], [721700, 722670], [726600, 737490, 1000], [738260, 741690], [743260, 744040], [757640, 759750]]);
+// user 2026-11-14: "stop cutting off the video before the climax" → now runs through the wax: "3, 2, 1… what? AH! wow, this is really
+// good wax" (the setup bits "let's see who won" / "I'll do calf" / "so scared" are dropped to stay ≤ 25 s).
+const n8 = timeline([[753100, 756190], [726600, 737490, 1000], [757640, 766790]]);
 const N8 = at(n8);
 export const NEON_WAX_MS = n8.total;
-export const NeonWax = () => <Jorho s={neon(n8, 'N3on lost the bet… time for the wax', ['Dumbass', 'Three', 'calf', 'eyebrow', 'lawyers', 'one', 'scared', 'sue', 'two', 'won'],
-  {fuck: 'f***', neon: 'N3on'}, N8(2, 737490), 'Sneaky_Snitch.mp3', 20000,
-  [{at: N8(1, 721700), to: n8.segOut[2] + 1500, text: 'the results'}, {at: N8(2, 737490), to: N8(2, 737490) + 1500, text: 'N3on lost', red: true},
-   {at: N8(5, 757640), to: n8.total, text: 'the wax', red: true}], 960, {speechGain: 1.25},
-  [['vine-boom', N8(3, 741500), 0.28], ['heartbeat-loud', N8(4, 744050), 0.22, 1300], ['ja-ding', N8(0, 756000), 0.3, 1100]])} />;
+export const NeonWax = () => <Jorho s={neon(n8, 'N3on lost the bet… time for the wax', ['Dumbass', 'Three', 'lawyers', 'one', 'sue', 'two', 'wax', 'Ah', 'follicle'],
+  {fuck: 'f***', neon: 'N3on'}, N8(1, 737490), 'Sneaky_Snitch.mp3', 20000,
+  [{at: N8(1, 737490), to: N8(1, 737490) + 1500, text: 'N3on lost', red: true}], 960, {speechGain: 1.25},
+  [['ja-ding', N8(0, 756000), 0.3, 1100], ['heartbeat-loud', n8.segOut[2] - 900, 0.2, 900], ['vine-boom', N8(2, 763300), 0.3]])} />;
