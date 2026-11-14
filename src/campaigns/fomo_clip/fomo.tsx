@@ -5,13 +5,13 @@
 // re-edited to change meaning (unclear audio is cut, not guessed), headline = what actually happens. Post captions must mention @fomo.
 import type {CSSProperties} from 'react';
 import {AbsoluteFill, Img, interpolate, staticFile} from 'remotion';
-import {MONT} from '../e3/bars';
-import {pop} from '../e3/kit';
-import {clamp, timeline, type TL} from '../e3/kit';
-import {chunkWords, wordsFrom, type Word} from '../jorho/kit';
-import {Jorho, type Spec} from '../jorho/clips';
-import track from '../plans/data/fomo_millionaire.track.json';
-import cw from '../plans/data/fomo_clipwords.json';
+import {MONT} from '../../e3/bars';
+import {pop} from '../../e3/kit';
+import {clamp, timeline, type TL} from '../../e3/kit';
+import {chunkWords, wordsFrom, type Word} from '../../jorho/kit';
+import {Jorho, type Spec} from '../../jorho/clips';
+import track from '../../plans/data/fomo_millionaire.track.json';
+import cw from '../../plans/data/fomo_clipwords.json';
 
 type Track = Spec['track'];
 const SRC = 'fomo/fomo.mp4';
@@ -25,9 +25,10 @@ const punch = (beats: [number, number][], tl?: TL) => (o: number): CSSProperties
   // slow push-in over each segment (resets on every cut) so even the quiet stretches move
   let drift = 1;
   if (tl) { const i = tl.segOut.reduce((k, t, j) => (o >= t ? j : k), 0); const a = tl.segOut[i], e = i + 1 < tl.segOut.length ? tl.segOut[i + 1] : tl.total;
-    drift = 1 + 0.06 * Math.min(1, (o - a) / Math.max(1, e - a)); }
-  const b = beats.find(([a, e]) => o >= a - 1 && o < e + 200);
-  const k = b ? interpolate(o, [b[0], b[0] + 110, b[1], b[1] + 200], [1, 1.16, 1.16, 1], clamp) : 1;
+    drift = 1 + 0 * Math.min(1, (o - a) / Math.max(1, e - a)); } // user 2026-11-14: "zooms are so trippy, chill out" → no drift
+  const key = beats.slice(-1); // ONE gentle punch per clip: the main punchline (last beat listed)
+  const b = key.find(([a, e]) => o >= a - 1 && o < e + 500);
+  const k = b ? interpolate(o, [b[0], b[0] + 350, b[1], b[1] + 450], [1, 1.06, 1.06, 1], {...clamp, easing: (x) => x * x * (3 - 2 * x)}) : 1; // gentle, smoothstep
   return {transform: `scale(${drift * k})`};
 };
 // PURPOSE (user 2026-11-14: "make sure the videos are hooking and have a purpose so audience stay and watch"):
@@ -77,7 +78,7 @@ export const FomoLoss = () => <Jorho s={LOSS} />;
 const c = timeline([[630800, 636000], [623360, 630750], [636000, 646010]]);
 export const FOMO_CHAINLINK_MS = c.total;
 const CHAINLINK = base(c, 'Still holding Chainlink in 2026?', caps(cw.chainlink, c), 'lose-you-adturnup.mp3',
-  [[c.out(634520), c.out(635980)], [c.segOut[1] + 1500, c.segOut[1] + 2400], [c.out(645020), c.out(646000)]], 1.4);
+  [[c.segOut[1] + 1500, c.segOut[1] + 2400], [c.out(645020), c.out(646000)], [c.out(634520), c.out(635980)]], 1.4);
 export const FomoChainlink = () => <Jorho s={CHAINLINK} />;
 
 // 5 · "I love Ransom" → "Who the heck is Ransom?" → "No, no, Ansem"

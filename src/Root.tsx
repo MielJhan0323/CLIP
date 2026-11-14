@@ -11,7 +11,7 @@ import {B9NbaGoatV2, B9_NBA_V2_MS} from './jorho/batch9';
 import {Demo13, DEMO13_MS} from './jorho/demo13';
 import {Demo14, DEMO14_MS} from './jorho/demo14';
 import {Demo15, DEMO15_MS} from './jorho/demo15';
-import {FomoBowling, FomoChainlink, FomoLoss, FomoRansom, FomoReveal, FOMO_BOWLING_MS, FOMO_CHAINLINK_MS, FOMO_LOSS_MS, FOMO_RANSOM_MS, FOMO_REVEAL_MS, FomoIceBath, FomoYoungMaurits, FomoAvocado, FOMO_ICE_MS, FOMO_YOUNG_MS, FOMO_AVOCADO_MS} from './fomo/fomo';
+import {FomoBowling, FomoChainlink, FomoLoss, FomoRansom, FomoReveal, FOMO_BOWLING_MS, FOMO_CHAINLINK_MS, FOMO_LOSS_MS, FOMO_RANSOM_MS, FOMO_REVEAL_MS, FomoIceBath, FomoYoungMaurits, FomoAvocado, FOMO_ICE_MS, FOMO_YOUNG_MS, FOMO_AVOCADO_MS} from './campaigns/fomo_clip/fomo';
 import {B13Artist, B13Cards, B13King, B13Rookie, B13Tiger, B13_ARTIST_MS, B13_CARDS_MS, B13_KING_MS, B13_ROOKIE_MS, B13_TIGER_MS} from './jorho/batch13';
 import {B12Davis, B12Josh, B12Lefty, B12Ticket, B12_DAVIS_MS, B12_JOSH_MS, B12_LEFTY_MS, B12_TICKET_MS} from './jorho/batch12';
 import {J11Algo, J11Closet, J11GodGiven, J11Rookie, J11Stapleton, J11_ALGO_MS, J11_CLOSET_MS, J11_GOD_MS, J11_ROOKIE_MS, J11_STAPLETON_MS} from './jorho/batch11';
