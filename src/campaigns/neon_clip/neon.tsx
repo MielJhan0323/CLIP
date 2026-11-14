@@ -13,6 +13,7 @@ import {RED, chunkWords, wordsFrom, type Word} from '../../jorho/kit';
 import {Jorho, type Spec} from '../../jorho/clips';
 import {TypedAction} from '../../jorho/v2';
 import track from '../../plans/data/r3born_ep2.track.json';
+import calWords from '../../plans/data/r3born_ep2_cal.words.json';
 import poleWords from '../../plans/data/r3born_ep2_pole.words.json';
 
 type Track = Spec['track'];
@@ -37,3 +38,17 @@ const POLE: Spec = {
   inBox: (o) => <TypedAction o={o} a={p.segOut[1] + 400} b={p.segOut[1] + 2600} text="first time on a pole" y={70} />,
 };
 export const NeonPole = () => <Jorho s={POLE} />;
+
+// ---- TRIAL 2 (user 2026-11-14 on trial 1: "kinda over stim, there's no hook and no focus") ---------------------------------------
+// ONE subject, ONE moment: the first calorie check. Hook = "A hundred and three?! … that's impossible", hard cut back, it plays.
+// Calmer: no strobe, no tint, no labels, no punch-in, no SFX; one steady WIDE two-shot so the episode's own calorie counter
+// (bottom centre: 103 vs 161) stays in frame as the payoff; captions sit ABOVE it, numbers in yellow.
+const c = timeline([[214600, 216840], [209200, 224090]]);
+export const NEON_CAL_MS = c.total;
+const CAL: Spec = {
+  tl: c, src: SRC, track: track as unknown as Track, top: 'N3on thinks his fitness tracker is broken', wordY: 1010, wideX: 960, capSize: 72,
+  words: caps(calWords, c, {}, ['hundred', 'three', '161', '60', 'malfunction', 'impossible']),
+  shots: [[0, 'W']], strobes: [], tints: [], swish: [],
+  music: {file: 'Sneaky_Snitch.mp3', from: 12000, level: 0},
+};
+export const NeonCalories = () => <Jorho s={CAL} />;

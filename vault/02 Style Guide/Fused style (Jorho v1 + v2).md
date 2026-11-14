@@ -11,3 +11,9 @@ First trial: `NeonPole` (`src/campaigns/neon_clip/neon.tsx`) → `out/neon_trial
 **Keep (v2):** at most ONE graphic, and only if it adds meaning (here a typed `*first time on a pole*` label for 2 s). The face-cam explainer only when a line is truly picturable.
 **Drop:** SFX on every beat, constant push-ins / drift, multiple punch-ins, cards or pills covering the video, spoiler end-cards, more than one graphic.
 **Camera:** steady locked framing per shot (`main_face_track.py --static`); WIDE (`'W'`) when the action is two people or the biggest face isn't the subject; one gentle punch-in (×1.06, smoothstep) on the peak only.
+
+## Trial 1 → Trial 2 (2026-11-14)
+User on trial 1 (pole class): "kinda over stim and there's no hook and no focus". Lessons:
+- **Focus = one subject + one moment.** Pick a scene with a clear person and a clear beat (a two-shot reacting to a number), not a busy room with several people moving.
+- **The hook is a LINE the viewer understands instantly** ("A hundred and three? That's impossible"), said by the subject, in a clear shot. Not someone in the background mid-spin.
+- **Less is more:** a hard cut instead of a flash, no tint, no label, no punch-in, no SFX. Captions + headline carry it. Use the source's own on-screen graphics (calorie counter) as the payoff, and keep captions out of their way.
