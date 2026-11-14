@@ -30,3 +30,10 @@ saved as `public/fomo/fomo.mp4` (gitignored). Transcript in /home/user/dl/fomo (
 | FomoRansom | fomo_who_is_ransom.mp4 (23.0 s) | 9:36–10:04 "I love Ransom" → "Who the heck is Ransom?" → "No, no, Ansem… dogwifhat at 30 mil" | "This guy just said Ransom… who the heck is Ransom?" | 13.7 s |
 
 Note: I did not put creator names on screen (I couldn't confirm which panelist is Insentos/Orangie). The clips centre on the game and the panel, not on Brez.
+
+## Feedback round 1 (2026-11-14)
+User: "keep the tracking for the interview because the camera keeps moving, also make sure the videos are hooking and have a purpose so the audience stays and watches".
+- `main_face_track.py --static`: ONE locked framing per shot (median face of the shot), re-framing only on a source cut, so the crop no longer drifts with every head move.
+  In the reveal's line-up shots the biggest face isn't the point, so those samples (25:44.8–25:49) are pinned on Iron Man (x 725, y 265).
+- Purpose: after the hook a stakes pill "REAL MILLIONAIRE OR THE FAKE?" (reveal: "7 'MILLIONAIRES' · 1 IS FAKE"); the last 1.9 s pay it off with the
+  TRUE answer from the show's reveal ("HULK/THANOS WASN'T THE FAKE ✅", reveal: "THE FAKE WAS IRON MAN 🎭"), so the viewer stays to find out.

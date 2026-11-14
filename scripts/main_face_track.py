@@ -3,7 +3,7 @@
 # (L and R = the same, so any seat works). Usage: python3 scripts/main_face_track.py <video> <out.json> [step_ms]
 import json, sys, cv2, numpy as np
 src, out = sys.argv[1], sys.argv[2]
-step = int(sys.argv[3]) if len(sys.argv) > 3 else 200
+step = int(sys.argv[3]) if len(sys.argv) > 3 and sys.argv[3].isdigit() else 200
 import subprocess
 W, H = map(int, subprocess.run(['ffprobe', '-v', 'error', '-select_streams', 'v:0', '-show_entries', 'stream=width,height', '-of', 'csv=p=0', src],
     capture_output=True, text=True).stdout.strip().split(','))
@@ -12,6 +12,7 @@ proc = subprocess.Popen(['ffmpeg', '-v', 'error', '-i', src, '-vf', f'fps={1000 
     stdout=subprocess.PIPE)  # one sequential decode (seeking per sample was far too slow)
 det = cv2.FaceDetectorYN.create('/home/user/Me-editing/models/yunet.onnx', '', (w2, h2), 0.6)
 pts, prev_hist, last = [], None, None
+raw, cuts = [], []  # for --static: raw largest face per sample + scene-cut flags
 while True:
     buf = proc.stdout.read(w2 * h2 * 3)
     if len(buf) < w2 * h2 * 3: break
@@ -28,5 +29,17 @@ while True:
         cur = last or [W / 2, H * 0.4, 200]
     last = cur
     pts.append([int(cur[0]), int(cur[1]), int(cur[2])])
+    raw.append(None if faces is None or not len(faces) else [(f[0] + f[2] / 2) * 2, (f[1] + f[3] / 2) * 2, f[3] * 2])
+    cuts.append(cut)
+if '--static' in sys.argv:
+    # user 2026-11-14: "the camera keeps moving" → one LOCKED framing per shot (median face of the shot), re-frame only on a cut
+    shots, start = [], 0
+    for i in range(1, len(cuts) + 1):
+        if i == len(cuts) or cuts[i]: shots.append((start, i)); start = i
+    for a, b in shots:
+        fs = [r for r in raw[a:b] if r]
+        if not fs: continue
+        med = [int(np.median([f[k] for f in fs])) for k in range(3)]
+        for i in range(a, b): pts[i] = med
 json.dump({'stepMs': step, 'fromMs': 0, 'L': pts, 'M': pts, 'R': pts}, open(out, 'w'))
 print('points', len(pts))
