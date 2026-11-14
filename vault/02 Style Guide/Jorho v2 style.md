@@ -62,6 +62,21 @@ Cuts: hard cuts (scdet 2–7 per clip), a Jorho strobe on 1–2 beats, a green t
 5. Stat screens look like a plain TV graphic: no glows, neon or count-ups, and the same kind of photo for every player.
 6. Top caption = a provocative claim/question ("…is better than LeBron?"), not a summary of the clip.
 
+## Reference edit #6: guess the redemption (user, 2026-11-14: "add that to jorho v2 reference")
+`out/b14_v2_trevor_guess_the_redemption.mp4` (`B14Rpa` in `src/jorho/batch14.tsx`, 24.4 s), contact sheet `assets/references/jorho_v2_guess_the_redemption_sheet.jpg`. Notes: `04 Projects/Batch 14 - 3 Jorho v2 card pulls + 3 JustinAugh.md`.
+Made from "use the same thing we did with nba goat but not completely the same" → "do the newspaper thing". **This is how to reuse a viral formula:** same engine (question → keyword lock + echo → guessing → pause → reveal → explain the payoff), new tool for each beat.
+
+| out time | beat | how it differs from NBA GOAT |
+|---|---|---|
+| 0–2.2 s | "it's a redemption… I don't think Trevor's a redemption" + a gold **mystery card "?"** wobbling top-right; top caption "Guess who's on the $20,000 redemption" | question shown as an object, not a YouTube card |
+| 2.2–6 s | "true RPA gold" → **newspaper animator** with TRUE RPA locked centre (new page every 100 ms, hobby-article text), freeze + **3-tap echo**, fast-whoosh out | same paper lock, but its text is per clip (`ArticleHighlight` takes `txt`) |
+| 6–11 s | "if I had to guess… Davis Mills? With Fields?" → **GUESS: chip** cycling only the names said (TREVOR? / DAVIS MILLS? / FIELDS?), Jeopardy Think underneath | text chip instead of a spinning head reel |
+| ~12.3 s | 0.55 s **silent freeze** before the name | micro-pause before the reveal (viral principle) |
+| ~13.6 s | "Justin Fields. Oh my God." → strobe + ding + green tint, music cuts out | music stop as the reveal accent |
+| 16–24.4 s | "2021… $20,000. What is it now? 200, 500 bucks maybe" → price card: **two hand-drawn red strikes** through $20,000 → "NOW: $200–500?" | drawn strike instead of a drawn box; label matches what he actually said |
+
+Rules it adds: 1) reuse a viral clip's **engine**, swap at least half the tools; 2) guess chips/reels only show names actually said in the clip; 3) on-screen numbers quote the speaker exactly (he said "200, 500", so not just "$500").
+
 ## Audio
 - Music in the refs is LOUD (only ~1.3–6 dB under the voice). **We keep our rule: music 14 dB under the voice** (user, 2026-11-01). The tracks couldn't be identified (chroma matching is not decisive); they are phonk/trap beds at 89–99 BPM.
 - SFX at the scene changes fingerprint to generic **soft booms/impacts** (best: myinstants "sudden suspense boom" 0.90, "smash bros hit", "vine boom slow"), plus UI-style pops and clicks on graphics. No exact match because the music masks them.

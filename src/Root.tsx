@@ -11,8 +11,9 @@ import {B9NbaGoatV2, B9_NBA_V2_MS} from './jorho/batch9';
 import {Demo13, DEMO13_MS} from './jorho/demo13';
 import {Demo14, DEMO14_MS} from './jorho/demo14';
 import {Demo15, DEMO15_MS} from './jorho/demo15';
-import {NeonCalories, NeonPole, NEON_CAL_MS, NEON_POLE_MS} from './campaigns/neon_clip/neon';
-import {FomoBowling, FomoChainlink, FomoLoss, FomoRansom, FomoReveal, FOMO_BOWLING_MS, FOMO_CHAINLINK_MS, FOMO_LOSS_MS, FOMO_RANSOM_MS, FOMO_REVEAL_MS, FomoIceBath, FomoYoungMaurits, FomoAvocado, FOMO_ICE_MS, FOMO_YOUNG_MS, FOMO_AVOCADO_MS} from './campaigns/fomo_clip/fomo';
+import {B14Judge, B14Murakami, B14Randy, B14_JUDGE_MS, B14_MURA_MS, B14_RANDY_MS, B14Patch, B14Sweat, B14Marino, B14_PATCH_MS, B14_SWEAT_MS, B14_MARINO_MS, B14Rpa, B14_RPA_MS} from './jorho/batch14';
+import {NeonCalories, NeonObnoxious, NeonPole, NEON_CAL_MS, NEON_OB_MS, NEON_POLE_MS, NeonBet, NeonPilates, NeonHeadstand, NeonBathroom, NeonWax, NEON_BET_MS, NEON_PILATES_MS, NEON_HEADSTAND_MS, NEON_BATHROOM_MS, NEON_WAX_MS} from './campaigns/neon_clip/neon';
+import {FomoBowling, FomoChainlink, FomoLoss, FomoRansom, FomoReveal, FOMO_BOWLING_MS, FOMO_CHAINLINK_MS, FOMO_LOSS_MS, FOMO_RANSOM_MS, FOMO_REVEAL_MS, FomoIceBath, FomoYoungMaurits, FomoAvocado, FomoFlex, FOMO_FLEX_MS, FOMO_ICE_MS, FOMO_YOUNG_MS, FOMO_AVOCADO_MS} from './campaigns/fomo_clip/fomo';
 import {B13Artist, B13Cards, B13King, B13Rookie, B13Tiger, B13_ARTIST_MS, B13_CARDS_MS, B13_KING_MS, B13_ROOKIE_MS, B13_TIGER_MS} from './jorho/batch13';
 import {B12Davis, B12Josh, B12Lefty, B12Ticket, B12_DAVIS_MS, B12_JOSH_MS, B12_LEFTY_MS, B12_TICKET_MS} from './jorho/batch12';
 import {J11Algo, J11Closet, J11GodGiven, J11Rookie, J11Stapleton, J11_ALGO_MS, J11_CLOSET_MS, J11_GOD_MS, J11_ROOKIE_MS, J11_STAPLETON_MS} from './jorho/batch11';
@@ -101,6 +102,12 @@ export const RemotionRoot = () => (
   <Composition id="Demo15" component={Demo15} fps={30} width={1080} height={1920} durationInFrames={Math.round((DEMO15_MS / 1000) * 30)} />
   <Composition id="NeonPole" component={NeonPole} fps={30} width={1080} height={1920} durationInFrames={Math.round((NEON_POLE_MS / 1000) * 30)} />
   <Composition id="NeonCalories" component={NeonCalories} fps={30} width={1080} height={1920} durationInFrames={Math.round((NEON_CAL_MS / 1000) * 30)} />
+  <Composition id="NeonObnoxious" component={NeonObnoxious} fps={30} width={1080} height={1920} durationInFrames={Math.round((NEON_OB_MS / 1000) * 30)} />
+  <Composition id="NeonBet" component={NeonBet} fps={30} width={1080} height={1920} durationInFrames={Math.round((NEON_BET_MS / 1000) * 30)} />
+  <Composition id="NeonPilates" component={NeonPilates} fps={30} width={1080} height={1920} durationInFrames={Math.round((NEON_PILATES_MS / 1000) * 30)} />
+  <Composition id="NeonHeadstand" component={NeonHeadstand} fps={30} width={1080} height={1920} durationInFrames={Math.round((NEON_HEADSTAND_MS / 1000) * 30)} />
+  <Composition id="NeonBathroom" component={NeonBathroom} fps={30} width={1080} height={1920} durationInFrames={Math.round((NEON_BATHROOM_MS / 1000) * 30)} />
+  <Composition id="NeonWax" component={NeonWax} fps={30} width={1080} height={1920} durationInFrames={Math.round((NEON_WAX_MS / 1000) * 30)} />
   <Composition id="FomoReveal" component={FomoReveal} fps={30} width={1080} height={1920} durationInFrames={Math.round((FOMO_REVEAL_MS / 1000) * 30)} />
   <Composition id="FomoBowling" component={FomoBowling} fps={30} width={1080} height={1920} durationInFrames={Math.round((FOMO_BOWLING_MS / 1000) * 30)} />
   <Composition id="FomoLoss" component={FomoLoss} fps={30} width={1080} height={1920} durationInFrames={Math.round((FOMO_LOSS_MS / 1000) * 30)} />
@@ -109,6 +116,14 @@ export const RemotionRoot = () => (
   <Composition id="FomoIceBath" component={FomoIceBath} fps={30} width={1080} height={1920} durationInFrames={Math.round((FOMO_ICE_MS / 1000) * 30)} />
   <Composition id="FomoYoungMaurits" component={FomoYoungMaurits} fps={30} width={1080} height={1920} durationInFrames={Math.round((FOMO_YOUNG_MS / 1000) * 30)} />
   <Composition id="FomoAvocado" component={FomoAvocado} fps={30} width={1080} height={1920} durationInFrames={Math.round((FOMO_AVOCADO_MS / 1000) * 30)} />
+  <Composition id="FomoFlex" component={FomoFlex} fps={30} width={1080} height={1920} durationInFrames={Math.round((FOMO_FLEX_MS / 1000) * 30)} />
+  <Composition id="B14Murakami" component={B14Murakami} fps={30} width={1080} height={1920} durationInFrames={Math.round((B14_MURA_MS / 1000) * 30)} />
+  <Composition id="B14Randy" component={B14Randy} fps={30} width={1080} height={1920} durationInFrames={Math.round((B14_RANDY_MS / 1000) * 30)} />
+  <Composition id="B14Judge" component={B14Judge} fps={30} width={1080} height={1920} durationInFrames={Math.round((B14_JUDGE_MS / 1000) * 30)} />
+  <Composition id="B14Patch" component={B14Patch} fps={30} width={1080} height={1920} durationInFrames={Math.round((B14_PATCH_MS / 1000) * 30)} />
+  <Composition id="B14Sweat" component={B14Sweat} fps={30} width={1080} height={1920} durationInFrames={Math.round((B14_SWEAT_MS / 1000) * 30)} />
+  <Composition id="B14Marino" component={B14Marino} fps={30} width={1080} height={1920} durationInFrames={Math.round((B14_MARINO_MS / 1000) * 30)} />
+  <Composition id="B14Rpa" component={B14Rpa} fps={30} width={1080} height={1920} durationInFrames={Math.round((B14_RPA_MS / 1000) * 30)} />
   <Composition id="B13Cards" component={B13Cards} fps={30} width={1080} height={1920} durationInFrames={Math.round((B13_CARDS_MS / 1000) * 30)} />
   <Composition id="B13Tiger" component={B13Tiger} fps={30} width={1080} height={1920} durationInFrames={Math.round((B13_TIGER_MS / 1000) * 30)} />
   <Composition id="B13Rookie" component={B13Rookie} fps={30} width={1080} height={1920} durationInFrames={Math.round((B13_ROOKIE_MS / 1000) * 30)} />

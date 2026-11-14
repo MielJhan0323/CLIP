@@ -12,6 +12,8 @@ import {chunkWords, wordsFrom, type Word} from '../../jorho/kit';
 import {Jorho, type Spec} from '../../jorho/clips';
 import track from '../../plans/data/fomo_millionaire.track.json';
 import cw from '../../plans/data/fomo_clipwords.json';
+import flexWords from '../../plans/data/fomo_flex.words.json';
+import {speechDips} from '../neon_clip/neon';
 
 type Track = Spec['track'];
 const SRC = 'fomo/fomo.mp4';
@@ -113,3 +115,30 @@ const AVOCADO = base(av, 'What he tells people he does for work', caps(cw.avocad
   [[av.out(1172000), av.out(1172700)], [av.segOut[2] + 1100, av.segOut[2] + 1800], [av.segOut[2] + 2300, av.segOut[2] + 2800], [av.segOut[2] + 3400, av.segOut[2] + 3900],
     [av.segOut[2] + 6080, av.segOut[2] + 6900]], 1.6);
 export const FomoAvocado = () => <Jorho s={AVOCADO} />;
+
+// 9 · FLEX ROUND, first clip in the EXTERNAL REFERENCE style (user 2026-11-14: "for fomo clips make this reference", then "make me 1";
+// see vault/05 Campaigns/FOMO clip/references/external). "What's the most expensive thing they bought?" → Lotus Emira → AMG GT63 →
+// Iron Man: an M3 for dad, a handbag for mom → Batman: Rolex Day-Date, 40K → "40K? For retail? That's cheap." (cold open)
+// From the refs: spot-the-fake game headline, contestant by contestant, each flex shown with its price (the episode's own pops),
+// coloured keyword captions on the chest. ≥ 8 s continuous: the Batman run (9.7 s).
+// No FAKE stamp (nobody is accused here), nothing over faces, no spoiler.
+const fx = timeline([[261950, 263770], [217200, 221030], [226140, 229950], [243420, 248170], [254060, 263770]]);
+export const FOMO_FLEX_MS = fx.total;
+const FX = (i: number, src: number) => fx.segOut[i] + src - fx.segs[i][0];
+const FLEX_KEYS: Record<string, string> = {Lotus: '#58EE28', Amira: '#58EE28', Mercedes: '#58EE28', AMG: '#58EE28', T63: '#58EE28', M3: '#58EE28', Singapore: '#21F5E6',
+  handbag: '#F9FC35', dad: '#F9FC35', mom: '#F9FC35', Rolex: '#58EE28', Day: '#58EE28', '-Date': '#58EE28', '40K': '#58EE28', cheap: '#FF4D4D', expensive: '#F9FC35'};
+const flexCaps = (raw: {text: string; startMs: number}[], tl: TL): Word[] =>
+  chunkWords(tl.segs.flatMap((s, i) => wordsFrom(raw, timeline([[s[0], s[1]]]), {Amira: 'Emira', T63: 'GT63', '-Date': 'Day-Date', Day: ''}).map((w) => ({...w, at: w.at + tl.segOut[i],
+    color: FLEX_KEYS[w.text.replace(/[.,?!]/g, '')] ?? (['Emira', 'GT63', 'Day-Date'].includes(w.text.replace(/[.,?!]/g, '')) ? '#58EE28' : WHITE)}))), tl.total, tl.segOut, 180, 12);
+// The episode ALREADY pops every flex with its price (Lotus $100,000+, AMG GT $180,000+, M3 $80,000+, Birkin $13.5K, Rolex $40,000+),
+// which is where the reference clippers got theirs. So no pops of our own (they'd double up): a steady WIDE shot per contestant keeps
+// the episode's own pop in frame, captions sit on the chest like the refs, and a slight top-anchored 1.06 zoom hides the episode's burned subtitles.
+const flexX = (t: number) => (t < 222000 ? 860 : t < 231000 ? 940 : t < 249000 ? 880 : 960);
+const flexK = (o: number) => interpolate(o, [FX(4, 262060), FX(4, 262410), FX(4, 263600)], [1, 1.06, 1.06], {...clamp, easing: (x) => x * x * (3 - 2 * x)}); // one gentle punch on "that's cheap"
+const FLEX: Spec = {
+  ...base(fx, 'Can you spot the FAKE millionaire?', flexCaps(flexWords, fx), 'Investigations.mp3', [], 1.75),
+  wordY: 900, capSize: 64, wideX: flexX, shots: [[0, 'W']],
+  camFx: (o) => ({transform: `scale(${1.06 * flexK(o)})`, transformOrigin: "50% 0%"}), // top-anchored: trims only the bottom strip (burned subs)
+};
+FLEX.music = {...FLEX.music, gain: 3, floor: 0.5, ramp: 150, dips: speechDips(flexWords, fx)}; // loud in the gaps, ducked under every line
+export const FomoFlex = () => <Jorho s={FLEX} />;

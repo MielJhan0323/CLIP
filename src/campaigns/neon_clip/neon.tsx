@@ -10,11 +10,13 @@ import type {CSSProperties} from 'react';
 import {interpolate} from 'remotion';
 import {clamp, timeline, type TL} from '../../e3/kit';
 import {RED, chunkWords, wordsFrom, type Word} from '../../jorho/kit';
-import {Jorho, type Spec} from '../../jorho/clips';
+import {Jorho, VIRAL_WARM, type Spec} from '../../jorho/clips';
 import {TypedAction} from '../../jorho/v2';
 import track from '../../plans/data/r3born_ep2.track.json';
 import calWords from '../../plans/data/r3born_ep2_cal.words.json';
 import poleWords from '../../plans/data/r3born_ep2_pole.words.json';
+import obWords from '../../plans/data/r3born_ep2_ob.words.json';
+import fiveWords from '../../plans/data/r3born_ep2_five.words.json';
 
 type Track = Spec['track'];
 const SRC = 'neon/r3born_ep2.mp4';
@@ -48,7 +50,7 @@ export const NEON_CAL_MS = c.total;
 const FAH = c.segOut[1] + (219300 - 209200);
 // user: "music and sfx too quiet" → "don't make them overlap the voice though": music swells only in the gaps and ducks (smooth
 // 150 ms ramps) under every spoken window; the fahhh plays on the freeze-frame, where the speech track is silent.
-const speechDips = (raw: {startMs: number; endMs: number}[], tl: TL, gap = 450): [number, number][] => {
+export const speechDips = (raw: {startMs: number; endMs: number}[], tl: TL, gap = 450): [number, number][] => {
   const w = tl.segs.flatMap((sg, i) => raw.filter((x) => x.endMs > sg[0] && x.startMs < sg[1])
     .map((x) => [tl.segOut[i] + Math.max(x.startMs, sg[0]) - sg[0], tl.segOut[i] + Math.min(x.endMs, sg[1]) - sg[0] + 100] as [number, number]))
     .sort((a, b) => a[0] - b[0]);
@@ -70,3 +72,107 @@ const CAL: Spec = {
   music: {file: 'Sneaky_Snitch.mp3', from: 12000, level: 0, gain: 4, floor: 0.5, ramp: 150, dips: speechDips(calWords, c)},
 };
 export const NeonCalories = () => <Jorho s={CAL} />;
+
+// ---- NEON 3 (user 2026-11-14: "make one more, make it N3on being obnoxious") — built on the approved tracker clip (reference) ----
+// Pole-class calorie check 7:14–7:37: he burns 50 vs Sarah's ~100 → "she crushed you" → "to be fair, we're doing women's exercises"
+// → the episode's own "2 HOURS EARLIER" cutaway: "I used ChatGPT, they said men burn more calories than women" (freeze + flash + fahhh)
+// → producer: "oh, so you're good" → "fourth-quarter comeback, I'm like LeBron James". Hook = the women's-exercises excuse.
+// Audio stays with its own scene (the cutaway is the episode's edit; labelled *2 hours earlier* since the crop hides its badge).
+const x = timeline([[442220, 444110], [434150, 445250], [448200, 453450, 1000], [453550, 457560]]);
+export const NEON_OB_MS = x.total;
+const XS = (i: number, src: number) => x.segOut[i] + src - x.segs[i][0];
+const OB_FAH = XS(2, 453450);
+const OB: Spec = {
+  tl: x, src: SRC, track: track as unknown as Track, top: 'N3on has an excuse for everything', wordY: 1010, capSize: 72, // wideX: N3on stands camera-left; the cutaway is centred past the source's own badge (ours is typed)
+  wideX: (t) => (t >= 450120 && t < 455200 ? 1200 : 840),
+  words: caps(obWords, x, {Chad: 'Chat'}, ['crushed', "women's", 'exercises', 'woman', 'Chat', 'GPT', 'men', 'LeBron', 'James', 'comeback']),
+  shots: [[0, 'W']], strobes: [OB_FAH], tints: [], swish: [],
+  inBox: (o) => <>
+    <TypedAction o={o} a={XS(1, 438900)} b={XS(1, 441300)} text="gets crushed" y={70} />
+    <TypedAction o={o} a={XS(1, 442300)} b={XS(2, 450000)} text="makes excuses" y={70} />
+    <TypedAction o={o} a={XS(2, 450150)} b={OB_FAH} text="2 hours earlier" y={70} />
+    <TypedAction o={o} a={OB_FAH} b={OB_FAH + 1400} text="source: ChatGPT" y={70} color="#FF4D4D" glow="rgba(255,77,77,0.55)" />
+  </>,
+  capsOff: [[XS(3, 453550), XS(3, 455250)]], // the episode burns in "Producer: oh so you're good" here, so ours would double it
+  fah: [OB_FAH + 40], fahVol: 1.6,
+  music: {file: 'Fluffing_a_Duck.mp3', from: 0, level: 0, gain: 4, floor: 0.5, ramp: 150, dips: speechDips(obWords, x)},
+};
+export const NeonObnoxious = () => <Jorho s={OB} />;
+
+// =====================================================================================================================================
+// NEON BATCH 2 (user 2026-11-14: "make me 5 neon clips, make sure it's high virality" + "pull from online virals if you have to").
+// All built on the approved tracker template (refs: vault/05 Campaigns/Neon clip/references): one funny moment each, the funniest line
+// as the cold open, ONE freeze + flash + fahhh on the roast (never over a voice), 2–3 typed labels, steady wide framing, music loud in
+// the gaps and ducked under every line. Viral formulas (from our viral breakdowns, not downloaded clips): cold open on the punchline,
+// a dead-stop freeze before/after the roast, end on an open loop (the brief: cut before it resolves). The silks clip skips 684 s
+// entirely (a slur is said there).
+type Lbl = {at: number; to: number; text: string; red?: boolean; green?: boolean};
+const LBL = (l: Lbl) => {
+  const c = l.red ? ['#FF4D4D', 'rgba(255,77,77,0.55)'] : l.green ? ['#58EE28', 'rgba(88,238,40,0.55)'] : ['white', 'rgba(255,255,255,0.55)'];
+  return (o: number) => <TypedAction key={l.text} o={o} a={l.at} b={l.to} text={l.text} y={70} color={c[0]} glow={c[1]} />;
+};
+const neon = (tl: TL, top: string, keys: string[], fix: Record<string, string>, fahAt: number, music: string, from: number, labels: Lbl[],
+  wideX: number | ((src: number) => number) = 960, extra: Partial<Spec> = {}): Spec => ({
+  tl, src: SRC, track: track as unknown as Track, top, wordY: 1010, wideX, capSize: 72, grade: VIRAL_WARM, // user: "add the filter this video has"
+  words: caps(fiveWords, tl, fix, keys), shots: [[0, 'W']], strobes: [fahAt], tints: [], swish: [],
+  inBox: (o) => <>{labels.map((l) => LBL(l)(o))}</>,
+  fah: [fahAt + 40], fahVol: 1.6,
+  // user 2026-11-14: "the music is too loud" → gain 4→2: under the voice = the standard −14 dB bed, +6 dB swell in the gaps
+  music: {file: music, from, level: 0, gain: 2, floor: 0.5, ramp: 150, dips: speechDips(fiveWords, tl)},
+  ...extra,
+});
+const at = (tl: TL) => (i: number, src: number) => tl.segOut[i] + src - tl.segs[i][0];
+
+// N4 · the bet: "if you lose, I'm gonna wax your armpit" → "I've worked out with you before… nothing impressive" (freeze + fahhh) →
+// "Wait, what's skinny?… now I'm skinny fat". Cold open "I'm waxing your armpit, Neon."
+const n4 = timeline([[43300, 44510], [35520, 44510], [51800, 56050, 1000], [56120, 59040]]);
+const N4 = at(n4);
+export const NEON_BET_MS = n4.total;
+export const NeonBet = () => <Jorho s={neon(n4, 'The loser of this workout gets their armpit WAXED', ['armpit', 'fat', 'impressive', 'skinny', 'spicy', 'wax', 'waxing'],
+  {Neon: 'N3on', fair: 'fat'}, N4(2, 56050), 'Monkeys_Spinning_Monkeys.mp3', 3000,
+  [{at: N4(1, 35600), to: N4(1, 38300), text: 'the punishment'}, {at: N4(1, 40900), to: N4(1, 44400), text: 'loser gets waxed', red: true},
+   {at: N4(2, 56050), to: N4(2, 56050) + 1500, text: 'gets roasted', red: true}], 1040)} />;
+
+// N5 · Pilates: cold open "my abs are on fire" → "me too" → "you're not even doing sh*t" (freeze + fahhh) → "I'm not following a word
+// you're saying, I'm so lost" → "my legs are killing me… a little slower, girl" → "what is a lat?" → "a never-ending dream" →
+// "respect to everyone who does this, this is literally impossible".
+const n5 = timeline([[157220, 160570, 1000], [113240, 116390], [137920, 143660], [145800, 149520], [186500, 187800], [196540, 201829]]);
+const N5 = at(n5);
+export const NEON_PILATES_MS = n5.total;
+export const NeonPilates = () => <Jorho s={neon(n5, 'N3on thought Pilates would be easy', ['abs', 'ending', 'fire', 'impossible', 'killing', 'lat', 'lost', 'never', 'slower'],
+  {shit: 'sh*t', fuck: 'f***'}, N5(0, 160570), 'joyful-chess-slowed.mp3', 4000,
+  [{at: N5(0, 160570), to: N5(0, 160570) + 1500, text: 'gets roasted', red: true}, {at: N5(1, 113300), to: N5(1, 116300), text: 'first Pilates class'},
+   {at: N5(5, 196600), to: N5(5, 201700), text: 'humbled', green: true}], (t) => (t >= 156000 && t < 161000 ? 760 : 960),
+  {music: {file: 'joyful-chess-slowed.mp3', from: 0, level: 0, gain: 0}})} />; // user: "for clip 2 make there be no sound" (no music; the class audio carries it)
+
+// N6 · headstand: cold open "there's nothing back there to look at" (freeze + fahhh) → "headstand, handstand time" → "I don't trust her,
+// move… I just don't want my butt crack to pop out" → "why are you shaking?" → "I trust the former stripper, not Sarah" → "I did it!"
+const n6 = timeline([[385960, 389130, 1000], [359840, 361010], [382600, 389130], [392020, 395740], [399400, 402520], [409100, 412990]]);
+const N6 = at(n6);
+export const NEON_HEADSTAND_MS = n6.total;
+export const NeonHeadstand = () => <Jorho s={neon(n6, "N3on's only fear during the headstand", ['trust', 'butt', 'crack', 'nothing', 'shaking', 'stripper'],
+  {}, N6(0, 389130), 'funk-do-balkan.mp3', 42000,
+  [{at: N6(0, 389130), to: N6(0, 389130) + 1500, text: 'violated', red: true}, {at: N6(3, 392100), to: N6(3, 395700), text: 'shaking'},
+   {at: N6(5, 411800), to: n6.total, text: 'he did it', green: true}])} />;
+
+// N7 · silks: cold open "you know I'm a scammer, I'm a cheater" (freeze + fahhh) → "I'm down 50… I gotta use the restroom, I'll be right
+// back" → (back) "what are you doing?… you were running around a pool, are you trying to burn calories?" → "Sarah, don't touch me, I'm
+// gonna sue you… check the calories, there's no way that burned 50 calories, gang". 683.6–684.1 (slur) is never used.
+const n7 = timeline([[650540, 652670, 1000], [639720, 643960], [685100, 692600], [695200, 702090]]);
+const N7 = at(n7);
+export const NEON_BATHROOM_MS = n7.total;
+export const NeonBathroom = () => <Jorho s={neon(n7, 'N3on took a "bathroom break" to win', ['calories', 'cheater', 'pole', 'restroom', 'scammer', 'sue'],
+  {fuck: 'f***', shit: 'sh*t', pool: 'pole'}, N7(0, 652670), 'Investigations.mp3', 8000,
+  [{at: N7(0, 652670), to: N7(0, 652670) + 1500, text: 'admits it', red: true}, {at: N7(1, 641100), to: N7(1, 643900), text: 'bathroom break'},
+   {at: N7(2, 685100), to: N7(2, 689000), text: 'comes back "tired"'}], (t) => (t >= 685000 && t < 693000 ? 820 : 960))} />;
+
+// N8 · results: cold open "don't touch me, I'm gonna sue you" / "sue me, I got good lawyers" → "let's see who won" → "326 calories" →
+// "dumbass… [389]… dumbass" (freeze + fahhh) → "I was gonna do eyebrow, but I can't, I'll do calf" → "oh, I'm so scared" → "three, two,
+// one" — cut before the wax lands (brief: cut before it resolves).
+const n8 = timeline([[753100, 756190], [721700, 722670], [726600, 737490, 1000], [738260, 741690], [743260, 744040], [757640, 759750]]);
+const N8 = at(n8);
+export const NEON_WAX_MS = n8.total;
+export const NeonWax = () => <Jorho s={neon(n8, 'N3on lost the bet… time for the wax', ['Dumbass', 'Three', 'calf', 'eyebrow', 'lawyers', 'one', 'scared', 'sue', 'two', 'won'],
+  {fuck: 'f***', neon: 'N3on'}, N8(2, 737490), 'Sneaky_Snitch.mp3', 20000,
+  [{at: N8(1, 721700), to: n8.segOut[2] + 1500, text: 'the results'}, {at: N8(2, 737490), to: N8(2, 737490) + 1500, text: 'N3on lost', red: true},
+   {at: N8(5, 757640), to: n8.total, text: 'the wax', red: true}], 960, {speechGain: 1.25})} />;

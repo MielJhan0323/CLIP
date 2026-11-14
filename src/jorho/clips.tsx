@@ -26,6 +26,9 @@ import {Cam, FPS, Music, camRect, faceAt, SfxTrack, SpeechTrack, sfx, timeline, 
 import {Asterisk, BOX_H, BOX_TOP, HeadRing, LIGHT, CallOut, Cutout, Frame, GREEN, MemePop, OneWord, RED, STROBE_CUT, Tints, strobe, wordsFrom, type Word} from './kit';
 
 const GRADE = 'contrast(1.06) saturate(1.05)';
+// "viral warm" (user 2026-11-14: the 500K-view redemptions edit, "add the filter this video has"): measured vs our raw u3 footage it has
+// ~2× saturation, blue −34 % / green −19 % (red kept), crushed blacks (p5 0.037→0.008), +15 % contrast, a touch darker.
+export const VIRAL_WARM = 'sepia(0.5) saturate(1.95) contrast(1.22) brightness(0.85)';
 // Music sits a fixed 14 dB under the voice (voices measure ≈ −13.5 LUFS) so it never pulls focus (user, 2026-11-01).
 // Gain per file from its measured loudness; the spec's `level` is ignored.
 const MUSIC_LUFS: Record<string, number> = {'midnight-club.mp3': -14.1, 'funk-sigilo.mp3': -16.0, 'montagem-alquimia.mp3': -5.4, 'lose-you-adturnup.mp3': -10.0, 'interstellar-piano.mp3': -13.5, 'tak-tak.mp3': -9.2, 'funk-do-balkan.mp3': -6.2, 'joyful-chess-slowed.mp3': -9.9, 'eclipser.mp3': -3.1, 'Jeopardy_Think.mp3': -18.9, 'Fluffing_a_Duck.mp3': -16.3, 'Monkeys_Spinning_Monkeys.mp3': -17.3, 'du-bist-full.mp3': -9.1, 'blue-yung-kai.mp3': -12.2, 'jorho-qkthr.mp3': -13.8, 'jorho-lullaby.mp3': -14.2, 'Sneaky_Snitch.mp3': -17.5, 'versatile.mp3': -8.4, 'Investigations.mp3': -18.7, 'experience-einaudi.mp3': -12.8, 'spooky-phonk-fennecxx.mp3': -4.6, 'acido-iii.mp3': -7.6};
@@ -57,7 +60,8 @@ export type Spec = {
   fahVol?: number;
   fah?: number[]; // "fahhh" right after roasts / shots at people / crazy statements (user, 2026-11-01)
   overlay?: (o: number, face: (who: 'L' | 'M' | 'R') => {x: number; y: number; k: number}) => ReactNode; // face(): tracked face in FRAME px (stickers stay accurate) // full-frame layer (light look: meme pops go in the blurred area under the box) // Jorho v2: graphics inside the video box, extra sounds
-  tl: TL; src: string; track: Track; top: string; words: Word[]; wordY: number; wideX: number; shots: Shot[];
+  grade?: string; // CSS filter on the footage (default GRADE; VIRAL_WARM = the 500K-view look)
+  tl: TL; src: string; track: Track; top: string; words: Word[]; wordY: number; wideX: number | ((src: number) => number); shots: Shot[];
   strobes: number[]; beeps?: number[]; tints: [number, string][]; swish: number[]; cut?: Cut; cuts?: Cut[];
   music: {file: string; from: number; level: number; until?: number; dips?: [number, number][]; gain?: number; floor?: number; ramp?: number}; // floor/ramp = dip depth (default 0.25) and fade ms (default 0) // gain = per-clip multiplier (user: "music too quiet") // until = hard stop; dips = windows at −12 dB (suspense before a reveal)
 };
@@ -65,7 +69,7 @@ export const Jorho = ({s}: {s: Spec}) => {
   const frame = useCurrentFrame();
   const o = (frame / FPS) * 1000;
   // the shot list is in output time; Cam asks by source time, so keep a reverse lookup on the output clock
-  const cam: CamCfg = {src: s.src, tl: s.tl, track: s.track, grade: GRADE, box: [1080, BOX_H], baseH: 640, faceY: 0.42, wideX: s.wideX,
+  const cam: CamCfg = {src: s.src, tl: s.tl, track: s.track, grade: s.grade ?? GRADE, box: [1080, BOX_H], baseH: 640, faceY: 0.42, wideX: s.wideX,
     who: () => shotAt(s.shots, o)};
   return <Frame o={o} top={s.top} light={s.light}
     over={<>

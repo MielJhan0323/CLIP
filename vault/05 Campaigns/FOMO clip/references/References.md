@@ -17,3 +17,7 @@ All are the latest versions (static tracking, no cards/spoilers, gentle punch on
 | game | `fomo_wrong_fake.mp4` | the reveal (no spoiler card) |
 | money talk | `fomo_bowling_alley.mp4` | bowling alley, lost the $100K deposit |
 | money talk | `fomo_400k_down.mp4` | down $400K, "it's just tuition" |
+| 🆕 first in the external-ref style, awaiting feedback | `fomo_flex_round.mp4` | "most expensive thing you bought?": Lotus → AMG GT → Iron Man's M3 for dad → Batman's $40K Rolex, "that's cheap". Wide shot per contestant so the EPISODE'S OWN item + price pops show (we add none: they'd double), chest-level coloured keyword captions, spot-the-fake headline. |
+
+## External references
+Other clippers' FOMO Shorts the user picked as the style to follow (2026-11-14): see [[External FOMO references]] in `external/`. **Next FOMO clips follow these.**

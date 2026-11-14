@@ -90,38 +90,40 @@ const FONTS = [['Playfair Display', 800], ['Georgia, serif', 700], ['Courier Pri
 const LEFT = ['asked to name his', 'the debate over the', 'who is the real', 'crowning the', 'still no consensus on the', 'the case for the', 'forget everything about the', 'ranking every'];
 const RIGHT = ['nobody saw coming', 'has never ended', 'of all time', 'is back on', 'debate rages on', 'remains unsettled', 'was not who you think', 'goes viral'];
 const FILL = 'For decades the argument has gone on in gyms, group chats and barbershops across the country, and every season adds another chapter to it. Rings, MVPs, scoring titles and longevity all get thrown in, yet nobody ever agrees on who belongs at the very top. ';
-const PaperPage = ({n, word}: {n: number; word: string}) => {
+export type PaperText = {left: string[]; right: string[]; fill: string};
+const PaperPage = ({n, word, txt}: {n: number; word: string; txt?: PaperText}) => {
+  const L = txt?.left ?? LEFT, R = txt?.right ?? RIGHT, F = txt?.fill ?? FILL;
   const [font, weight] = FONTS[(n * 3) % FONTS.length];
   const wide = /Courier|Cinzel|Archivo/.test(font);
   const size = [74, 92, 64, 110, 84][n % 5] * (wide ? 0.72 : 1);
   const rot = ((n * 37) % 13) - 6;
   const sc = 1 + ((n * 17) % 5) * 0.06;
   const line = (k: number) => <div key={k} style={{fontFamily: (FONTS[(n + k) % FONTS.length][0]), fontWeight: 500, fontSize: size * 0.62, lineHeight: 1.35,
-    whiteSpace: 'nowrap', color: '#2b2b2b', opacity: 0.9, marginLeft: -((n * 53 + k * 97) % 400)}}>{FILL.repeat(2)}</div>;
+    whiteSpace: 'nowrap', color: '#2b2b2b', opacity: 0.9, marginLeft: -((n * 53 + k * 97) % 400)}}>{F.repeat(2)}</div>;
   return <AbsoluteFill style={{background: PAPERS[n % PAPERS.length], overflow: 'hidden'}}>
     <AbsoluteFill style={{transform: `rotate(${rot}deg) scale(${sc})`, transformOrigin: '50% 50%'}}>
       <div style={{position: 'absolute', left: -200, right: -200, top: 0, bottom: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 6}}>
         {[0, 1, 2, 3].map(line)}
         <div style={{display: 'grid', gridTemplateColumns: 'minmax(0,1fr) auto minmax(0,1fr)', alignItems: 'center', columnGap: size * 0.25, margin: '10px 0'}}>
-          <span style={{justifySelf: 'end', whiteSpace: 'nowrap', fontFamily: font, fontWeight: weight, fontSize: size, color: '#1a1a1a'}}>{LEFT[n % LEFT.length]}</span>
+          <span style={{justifySelf: 'end', whiteSpace: 'nowrap', fontFamily: font, fontWeight: weight, fontSize: size, color: '#1a1a1a'}}>{L[n % L.length]}</span>
           <span style={{position: 'relative', whiteSpace: 'nowrap', fontFamily: font, fontWeight: weight, fontSize: size * 1.12, color: '#111', padding: '0 0.15em'}}>
             <span style={{position: 'absolute', inset: '8% -2% 2% -2%', background: '#FFE34D', transform: `rotate(${-rot * 0.2 - 1}deg)`, borderRadius: 4, zIndex: -1}} />
             <span style={{position: 'relative'}}>{word}</span></span>
-          <span style={{justifySelf: 'start', whiteSpace: 'nowrap', fontFamily: font, fontWeight: weight, fontSize: size, color: '#1a1a1a'}}>{RIGHT[(n * 5) % RIGHT.length]}</span>
+          <span style={{justifySelf: 'start', whiteSpace: 'nowrap', fontFamily: font, fontWeight: weight, fontSize: size, color: '#1a1a1a'}}>{R[(n * 5) % R.length]}</span>
         </div>
         {[4, 5, 6, 7].map(line)}
       </div>
     </AbsoluteFill>
   </AbsoluteFill>;
 };
-const ArticleHighlight = ({o, a, b, word}: {o: number; a: number; b: number; word: string}) => {
+export const ArticleHighlight = ({o, a, b, word, txt}: {o: number; a: number; b: number; word: string; txt?: PaperText}) => {
   if (o < a || o >= b) return null;
   const n = Math.floor((o - a) / 100); // new page every 3 frames
   const fade = Math.min(1, (o - a) / 60, (b - o) / 60);
   // whoosh exit (user 2026-11-03): last 200 ms the page whips left with a zoom + motion blur into the next shot
   const w = Math.max(0, 1 - (b - o) / 200) ** 2;
   return <AbsoluteFill style={{opacity: fade, transform: `translateX(${-w * 700}px) scale(${1 + w * 0.5})`, filter: w > 0 ? `blur(${w * 14}px)` : undefined}}>
-    <AbsoluteFill style={{isolation: 'isolate'}}><PaperPage n={n} word={word} /></AbsoluteFill>
+    <AbsoluteFill style={{isolation: 'isolate'}}><PaperPage n={n} word={word} txt={txt} /></AbsoluteFill>
     {/* shallow focus: soften top and bottom, keep the centre line crisp */}
     <AbsoluteFill style={{backdropFilter: 'blur(5px)', WebkitMaskImage: 'linear-gradient(black 0%, transparent 38%, transparent 62%, black 100%)',
       maskImage: 'linear-gradient(black 0%, transparent 38%, transparent 62%, black 100%)'}} />
