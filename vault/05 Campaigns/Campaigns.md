@@ -11,3 +11,5 @@ Back to [[START HERE]]. Each paid clipping campaign is its own **category** with
 | **Neon clip** | HardScope: R3born Episode 2 (N3on's show) | frame.io share (1080p HLS) | `src/campaigns/neon_clip/` |
 
 Rules differ per campaign: always read that category's brief note before cutting.
+
+Each category also has a `references/` folder holding every clip we made for it (render + contact sheet + a `References.md` with approved/rejected status). Watch the approved ones before cutting the next clip.

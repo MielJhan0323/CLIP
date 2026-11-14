@@ -32,6 +32,16 @@ const MUSIC_LUFS: Record<string, number> = {'midnight-club.mp3': -14.1, 'funk-si
 const MUSIC_TARGET = -27.5;
 const musicGain = (file: string) => Math.pow(10, (MUSIC_TARGET - (MUSIC_LUFS[file] ?? -12)) / 20);
 const inAny = (s: number, spans: [number, number][]) => spans.some(([a, b]) => s >= a && s < b);
+// music duck envelope: `floor` inside each window, ramping back to 1 over `ramp` ms on both sides (ramp 0 = hard switch)
+const duckK = (t: number, spans: [number, number][], floor: number, ramp: number) => {
+  let k = 1;
+  for (const [a, b] of spans) {
+    const d = t < a ? a - t : t >= b ? t - b : 0;
+    const e = ramp > 0 ? Math.min(1, d / ramp) : d > 0 ? 1 : 0;
+    k = Math.min(k, floor + (1 - floor) * e * e * (3 - 2 * e));
+  }
+  return k;
+};
 type Shot = [from: number, who: Seat]; // output time → framing (hard cuts only, like the refs)
 const shotAt = (shots: Shot[], o: number) => shots.reduce<Seat>((w, [t, s]) => (o >= t ? s : w), 'W');
 
@@ -44,11 +54,12 @@ export type Spec = {
   camFx?: (o: number) => CSSProperties; // per-frame transform/filter on the camera only (mirror flips, VHS grade, punch-ins)
   speechGain?: number; // hot recordings (shouting): scale the clip's own speech
   capSize?: number; // caption px (campaign briefs that ask for BIG captions)
+  fahVol?: number;
   fah?: number[]; // "fahhh" right after roasts / shots at people / crazy statements (user, 2026-11-01)
   overlay?: (o: number, face: (who: 'L' | 'M' | 'R') => {x: number; y: number; k: number}) => ReactNode; // face(): tracked face in FRAME px (stickers stay accurate) // full-frame layer (light look: meme pops go in the blurred area under the box) // Jorho v2: graphics inside the video box, extra sounds
   tl: TL; src: string; track: Track; top: string; words: Word[]; wordY: number; wideX: number; shots: Shot[];
   strobes: number[]; beeps?: number[]; tints: [number, string][]; swish: number[]; cut?: Cut; cuts?: Cut[];
-  music: {file: string; from: number; level: number; until?: number; dips?: [number, number][]}; // until = hard stop; dips = windows at −12 dB (suspense before a reveal)
+  music: {file: string; from: number; level: number; until?: number; dips?: [number, number][]; gain?: number; floor?: number; ramp?: number}; // floor/ramp = dip depth (default 0.25) and fade ms (default 0) // gain = per-clip multiplier (user: "music too quiet") // until = hard stop; dips = windows at −12 dB (suspense before a reveal)
 };
 export const Jorho = ({s}: {s: Spec}) => {
   const frame = useCurrentFrame();
@@ -66,14 +77,14 @@ export const Jorho = ({s}: {s: Spec}) => {
       {!inAny(o, s.capsOff ?? []) && <OneWord o={o} words={s.words} y={s.wordY} size={s.capSize} />}
       <SpeechTrack src={s.src} tl={s.tl} gain={1.05 * (s.speechGain ?? 1)} duck={s.vo || s.mute ? (t) => (s.vo && t < s.vo.to - s.vo.from + 150 ? 0.12 : 1) * (inAny(t, s.mute ?? []) ? 0 : 1) : undefined} />
       {s.vo && <Sequence durationInFrames={Math.round(((s.vo.to - s.vo.from) / 1000) * FPS)}><Audio src={staticFile(s.vo.file)} trimBefore={Math.round((s.vo.from / 1000) * FPS)} /></Sequence>}
-      <Music file={s.music.file} songFrom={s.music.from} level={(t) => (s.music.until !== undefined && t >= s.music.until ? 0 : musicGain(s.music.file) * Math.min(1, (s.tl.total - t) / 400) * (inAny(t, s.music.dips ?? []) ? 0.25 : 1))} />
+      <Music file={s.music.file} songFrom={s.music.from} level={(t) => (s.music.until !== undefined && t >= s.music.until ? 0 : musicGain(s.music.file) * (s.music.gain ?? 1) * Math.min(1, (s.tl.total - t) / 400) * duckK(t, s.music.dips ?? [], s.music.floor ?? 0.25, s.music.ramp ?? 0))} />
       <SfxTrack list={[
         sfx('jorho-ting', 0, 0.38),
         ...s.strobes.map((t) => sfx('jorho-flash', t, 0.45)),
         ...s.swish.map((t) => sfx('jorho-swish', t, 0.3)),
         ...(s.beeps ?? []).map((t) => sfx('jorho-beep', t, 0.25)),
         ...(s.extraSfx ?? []),
-        ...(s.fah ?? []).map((t) => sfx('fahhh', t, 0.32, 1500)),
+        ...(s.fah ?? []).map((t) => sfx('fahhh', t, s.fahVol ?? 0.32, 1500)),
         ...(s.awkward ?? []).map((w) => sfx(w.sfx ?? 'ja-ding', w.at, w.sfx === 'crickets' ? 0.25 : 0.3, w.sfx === 'crickets' ? 2000 : 1300)),
       ]} />
     </>}>

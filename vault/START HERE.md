@@ -75,6 +75,8 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 - (2026-11-05) **No clipped words at cuts.** User: "his sentences are cut off before every cut". Segment ends were set at the last word's START time. Before rendering, run `python3 scripts/snap_segments.py <video> <words.json> '<segs>'`: it moves each end to where the speech actually decays (+120 ms) without touching the next word, and starts 80 ms before the first word. Then check the render with a speech-to-text pass.
 
 - (2026-11-14) **Paid campaigns live in categories**: see [[Campaigns]] (`vault/05 Campaigns/`). **FOMO clip** = the FOMO/ClipFarm Guess-The-Fake-Millionaire work; **Neon clip** = HardScope R3born (N3on). Read the category's brief note before cutting; each has its own tags/hashtags and banned topics (Neon: NEVER mention FaZe, no politics, #r3born + @hardscope).
+- (2026-11-14) **Louder music/SFX must never sit on the voice**: music swells in the gaps and ducks smoothly under every spoken window (`music.dips` from word timings + `floor`/`ramp`, see `speechDips` in `neon.tsx`); a meme SFX like the fahhh gets its OWN beat (a ~1.1 s freeze `hold` after the line), never played over talking.
+- (2026-11-14) **Every campaign creation goes in its category's reference folder**: after each render, copy the `.mp4` + `_sheet.jpg` into `vault/05 Campaigns/<category>/references/` and add a row to that folder's `References.md` (status: approved / liked / rejected + why). Approved ones are the template for the next clip. Neon's first approved reference: the tracker-broken clip.
 
 ## Map
 - **Research**
