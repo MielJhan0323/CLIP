@@ -11,6 +11,7 @@ import {B9NbaGoatV2, B9_NBA_V2_MS} from './jorho/batch9';
 import {Demo13, DEMO13_MS} from './jorho/demo13';
 import {Demo14, DEMO14_MS} from './jorho/demo14';
 import {Demo15, DEMO15_MS} from './jorho/demo15';
+import {NeonPole, NEON_POLE_MS} from './campaigns/neon_clip/neon';
 import {FomoBowling, FomoChainlink, FomoLoss, FomoRansom, FomoReveal, FOMO_BOWLING_MS, FOMO_CHAINLINK_MS, FOMO_LOSS_MS, FOMO_RANSOM_MS, FOMO_REVEAL_MS, FomoIceBath, FomoYoungMaurits, FomoAvocado, FOMO_ICE_MS, FOMO_YOUNG_MS, FOMO_AVOCADO_MS} from './campaigns/fomo_clip/fomo';
 import {B13Artist, B13Cards, B13King, B13Rookie, B13Tiger, B13_ARTIST_MS, B13_CARDS_MS, B13_KING_MS, B13_ROOKIE_MS, B13_TIGER_MS} from './jorho/batch13';
 import {B12Davis, B12Josh, B12Lefty, B12Ticket, B12_DAVIS_MS, B12_JOSH_MS, B12_LEFTY_MS, B12_TICKET_MS} from './jorho/batch12';
@@ -98,6 +99,7 @@ export const RemotionRoot = () => (
   <Composition id="Demo13" component={Demo13} fps={30} width={1080} height={1920} durationInFrames={Math.round((DEMO13_MS / 1000) * 30)} />
   <Composition id="Demo14" component={Demo14} fps={30} width={1080} height={1920} durationInFrames={Math.round((DEMO14_MS / 1000) * 30)} />
   <Composition id="Demo15" component={Demo15} fps={30} width={1080} height={1920} durationInFrames={Math.round((DEMO15_MS / 1000) * 30)} />
+  <Composition id="NeonPole" component={NeonPole} fps={30} width={1080} height={1920} durationInFrames={Math.round((NEON_POLE_MS / 1000) * 30)} />
   <Composition id="FomoReveal" component={FomoReveal} fps={30} width={1080} height={1920} durationInFrames={Math.round((FOMO_REVEAL_MS / 1000) * 30)} />
   <Composition id="FomoBowling" component={FomoBowling} fps={30} width={1080} height={1920} durationInFrames={Math.round((FOMO_BOWLING_MS / 1000) * 30)} />
   <Composition id="FomoLoss" component={FomoLoss} fps={30} width={1080} height={1920} durationInFrames={Math.round((FOMO_LOSS_MS / 1000) * 30)} />

@@ -19,3 +19,8 @@ Signed links come from the share page's GraphQL (headless Chromium, `sahls.frame
 - How to edit: 1) hook in the first 2 s (wildest moment, not the setup); 2) the scene is the payoff (short setup); 3) **big, readable subtitles** (followable with the sound off); 4) vertical 9:16, fast-paced, no dead air, **≥ 7 s**; 5) real moments only: Ep 2 footage only, never pair audio with a scene it isn't from, never invent context, no lying thumbnails, never upload the full episode.
 - Rejected: any FaZe mention · duplicate across agencies · missing @hardscope/#r3born · political content · framing that makes HardScope look bad (misleading thumbnails, malicious clickbait, damaging titles) · anything that could create negative press · non-Ep-2 footage · reposting another clipper's edit or the full episode · < 7 s, no captions, weak editing · slop reposting · story boosting · botted engagement.
 - Payout: Content Rewards per qualified view, per-post cap, $3 minimum; rates on the Whop campaign page.
+
+## Clips
+| comp | out | moment | notes |
+|---|---|---|---|
+| NeonPole (TRIAL, fused style) | neon_trial_first_pole_class.mp4 (23.6 s) | Level 2 pole class 5:31–5:55: "Why is it so hard to get up with this stupid… sorry, this great pole" → spin set-up → Sarah Safari mid-spin "Whoa! Stop me! Stop me!" | hook = the "Stop me!" spin, flash rewind, ends ON "Stop me" (doesn't resolve). Headline names who's actually in the shot (the "Stop me" is Sarah, not N3on). WIDE framing on the spin shots (the locked crop picked the instructor). |
