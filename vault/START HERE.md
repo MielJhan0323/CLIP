@@ -155,3 +155,5 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 | `vault/assets/research/` | contact sheets of the 50 analysed Shorts + the hashtag pool |
 | `vault/assets/references/` | full-res frames of the two reference Shorts |
 - (2026-11-03) Highlight boxes and circles should **draw themselves on** (marker stroke), not just appear, and must fit around everything they mark. Stat displays should look like a plain broadcast graphic: no glows, neon or template count-ups, and use the same kind of photo for every player.
+
+- 2026-11-15: DEFAULT STYLE = client doc "video reference" (whop ai drive / video references) → see 02 Style Guide/video reference (client)/README.md. Restraint first: no over-edit, no template zooms/SFX spam, human feel. Look = letterboxed 500K Backyard Breaks recipe (black bars, white bold title top, small 1-word captions, red arrow *Name*). Overrides other styles unless the user says otherwise.
