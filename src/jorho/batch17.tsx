@@ -14,7 +14,7 @@ import {MONT} from '../e3/bars';
 import {Cam, clamp, ease, pop, sfx, timeline, type CamCfg, type Seg, type Sfx, type TL} from '../e3/kit';
 import {BOX_H, MemePop, wordsFrom} from './kit';
 import {Jorho, VIRAL_WARM, type Spec} from './clips';
-import {TypedAction} from './v2';
+import {TypedAction, YouTubeCard} from './v2';
 import {speechDips} from '../campaigns/neon_clip/neon';
 import {tighten} from './tighten';
 import peytonWords from '../plans/data/u4_peyton.words.json';
@@ -44,6 +44,7 @@ type Cfg = {
   hookSeat: Seat; arrowAt: number; flash?: [src: number, color: 'red' | 'yellow' | 'green']; boards?: Board[];
   overlay?: (o: number, at: (src: number) => number) => ReactNode; inBox?: (o: number, at: (src: number) => number) => ReactNode;
   sfx?: (at: (src: number) => number) => Sfx[]; cutout?: {src: number; file: string; x?: number; y?: number; size?: number};
+  yt?: {title: string; a: number; b: number}; // YouTube watch-page card framing the question (source ms)
 };
 const TINT = {red: 'rgba(255,40,40,0.75)', yellow: 'rgba(240,255,60,0.7)', green: 'rgba(80,255,60,0.65)'};
 
@@ -91,6 +92,7 @@ export const make = (c: Cfg) => {
     inBox: (o) => <>
       {boards.map((bd, i) => (o >= bd.oa && o < bd.ob ? <BoardShell key={i} o={o} a={bd.oa} b={bd.ob} cam={camCfg}>{bd.render(o, at)}</BoardShell> : null))}
       {c.inBox?.(o, at)}
+      {c.yt && <YouTubeCard o={o} a={at(c.yt.a)} b={at(c.yt.b)} title={c.yt.title} cam={camCfg} startAt={c.yt.a} dur={tl.total + 20000} />}
       {flashO >= 0 && o >= flashO && o < flashO + 190 && <AbsoluteFill style={{background: TINT[c.flash![1]], mixBlendMode: 'color',
         opacity: interpolate(o - flashO, [0, 70, 190], [1, 1, 0], clamp)}} />}
     </>,
@@ -181,7 +183,7 @@ const Inventory = ({o, lightAt}: {o: number; lightAt: number}) => {
   </AbsoluteFill>;
 };
 // top-down field: rollouts to the right (coaches) in red, then to the left (him) in green
-const Field = ({o, rightAt, leftAt}: {o: number; rightAt: number; leftAt: number}) => {
+export const Field = ({o, rightAt, leftAt}: {o: number; rightAt: number; leftAt: number}) => {
   const W = 1080, H = BOX_H, LOS = 640;
   const arc = (dir: 1 | -1, t0: number, col: string, k: number) => {
     const p = interpolate(o - t0, [0, 600], [0, 1], clamp);
