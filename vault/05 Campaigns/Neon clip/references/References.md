@@ -49,3 +49,11 @@ these replace the batch-3 calm versions).
 
 ## External viral references (2026-11-15)
 The user's "Neon Ref" folder: [[Neon viral references]] (`external/`). New Neon clips copy THESE: full-screen 9:16, Anton captions (per-speaker colours), *ACTION* labels, green/red flashes held ~0.5 s, cuts on the speaker, a loud-ish music bed, B&W push-in on a loss.
+
+## Full-screen redo (2026-11-15) — user: "now redo the videos you did before" (in the Neon-ref style)
+`src/campaigns/neon_clip/full.tsx` (`makeFull()`): full-screen 9:16 with a live face track (`r3born_ep2.track_live.json`, the static one missed
+in tight crops), white title box + iOS emoji, Anton captions coloured per speaker (N3on white / Sarah magenta / instructors yellow), censored
+swears, *ACTION* labels in gaps, green/red flashes held ~0.5 s (+ ding / shock per the whop ai guideline), whip + white flash intro, client
+SFX (swoosh, typing, fahhh, huh, suspense, anime wow, correct, akward), client songs (wtf u tryna say, kai-cenat suspense, joyful chess,
+ts pmo, say goodbye at −10 dB for vocals), B&W push-in on the loss (tuck), finishing pass: hqdn3d noise reduction + unsharp sharpening.
+Files: `neon_full_pilates_question`, `neon_full_tuck_contest`, `neon_full_spiderman_silks`, `neon_full_new_respect`, `neon_full_too_excited` (awaiting feedback).

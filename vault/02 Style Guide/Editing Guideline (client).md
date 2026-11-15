@@ -2,7 +2,9 @@
 tags: [style, guideline, client, sfx, music]
 date: 2026-11-15
 ---
-# Editing Guideline (from the client, Drive folder 1Sf4n4Ve2tKlpiLiYoCbkFxcQIYEY1B0L)
+# Editing Guideline — the "whop ai" Drive (1Sf4n4Ve2tKlpiLiYoCbkFxcQIYEY1B0L)
+
+> ⭐ User 2026-11-15: "from now on reference the whop ai drive for editing style" → this folder is the SOURCE OF TRUTH; it overrides older style notes.
 
 User (2026-11-15): "get this, read all". Source: `Editing Guideline.docx` + `editing resources/` (SFX, PNGs, overlays, BG songs, BYB hook
 clips, Trevor/NBA-GOAT images, a meme video). `video references/` was empty / not shared publicly.
