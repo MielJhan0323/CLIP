@@ -13,6 +13,7 @@ import {Cam, FPS, Music, SfxTrack, SpeechTrack, clamp, sfx, timeline, type CamCf
 import {tighten} from '../../jorho/tighten';
 import {speechDips} from './neon';
 import moreWords from '../../plans/data/r3born_ep2_more.words.json';
+import FR from '../../plans/data/r3born_ep2_full_frames.json'; // hand-picked speaker per shot, refined by YuNet every 0.25 s (scripts/refine_frames.py)
 
 type Raw = {text: string; startMs: number; endMs: number}[];
 const SRC = 'neon/r3born_ep2.mp4';
@@ -64,9 +65,9 @@ const build = (c: Cfg) => {
   }
   const dips = speechDips(raw, tl);
   // camera: full-height shot centred on the current speaker's face ↔ face punch-in, alternating every ~1.5 s
-  const shots: [number, 'wide' | 'face'][] = [[0, 'face']];
-  let f = false;
-  for (let t = tl.segOut[1]; t < tl.total - 900; t += 1500) { shots.push([t, f ? 'face' : 'wide']); f = !f; }
+  // user 2026-11-15: "too many cuts, it's overstim" → no wide/face alternation; one steady full-height framing that only moves when the
+  // speaker / source shot changes (the frames list), no extra punch-in cuts
+  const shots: [number, 'wide' | 'face'][] = [[0, 'wide']];
   const shotAt = (o: number) => [...shots].reverse().find(([t]) => o >= t)?.[1] ?? 'wide';
   const end = tl.segOut[segs.length - 1] + spokeEnd - last[0];
   const lossFrom = c.lossEnd ? Math.max(0, end - 1500) : Infinity;
@@ -143,25 +144,25 @@ export const makeFull = (c: Cfg) => {
 };
 
 // ---- the 5 redos (same moments as the feed edits) -------------------------------------------------------------------------------
-export const FULL_PILATESQ = makeFull({frames: [[61.5, 1140, 240], [62.9, 1380, 220], [64.9, 420, 360], [78.7, 1380, 230], [80.0, 330, 380], [82.2, 960, 540], [83.5, 1230, 200], [90.1, 1260, 720], [92.0, 900, 380], [92.8, 450, 650], [93.5, 1450, 700]],
+export const FULL_PILATESQ = makeFull({frames: FR.FULL_PILATESQ as [number, number, number][],
   segs: [[80800, 83900], [61500, 66500], [78700, 84100, 1000], [90100, 94000]], title: 'N3on asked the Pilates instructor THIS', emoji: '1f480',
   speakers: [[64900, 66500, 'sarah'], [79800, 82750, 'other'], [83600, 84200, 'other'], [90900, 91600, 'other'], [91600, 92300, 'other'], [92300, 93500, 'sarah']],
   labels: [[66500, 'PILATES'], [84100, 'ASKED THE REAL QUESTION']], flashes: [[83100, 'red'], [93700, 'green']], fah: 84100,
   music: 'wtf-u-tryna-say.mp3', from: 0, memes: [['g-ceeday-huh-sound-effect-1', 66500, 0.3, 900]]});
-export const FULL_TUCK = makeFull({frames: [[543.7, 330, 300], [545.8, 450, 260], [548.8, 900, 300], [550.0, 540, 260], [553.5, 840, 200], [555.6, 600, 160], [566.0, 330, 200], [566.4, 840, 180], [567.4, 330, 220], [568.1, 330, 200], [569.5, 540, 220], [573.6, 1260, 260], [574.2, 760, 200]],
+export const FULL_TUCK = makeFull({frames: FR.FULL_TUCK as [number, number, number][],
   segs: [[568000, 569800], [543700, 547600], [549300, 558000], [566000, 570000, 1000], [573600, 574600]], title: 'Sarah vs N3on: who can hold it longer?', emoji: '23f1',
   speakers: [[543700, 570100, 'other']], labels: [[554700, 'TUCK HOLD'], [556000, 'SHAKING'], [570000, 'LOSES']], flashes: [[554700, 'green'], [568900, 'red']], fah: 570000, lossEnd: true,
   music: 'kai-cenat-suspense.mp3', from: 0, musicGain: 1.6, gain: 1.4, memes: [['g-sudden-suspense-sound-effect', 555000, 0.24, 1800]]});
-export const FULL_SPIDER = makeFull({frames: [[602.6, 330, 300], [603.3, 480, 300], [604.0, 1500, 300], [606.1, 330, 300], [606.8, 1300, 400], [617.2, 960, 300], [617.9, 1440, 300], [620.0, 720, 300], [621.4, 900, 300], [706.1, 900, 300], [712.6, 380, 300], [715.0, 1500, 260]],
+export const FULL_SPIDER = makeFull({frames: FR.FULL_SPIDER as [number, number, number][],
   segs: [[716600, 718800], [602600, 608500], [617200, 622000], [706100, 708600], [712200, 718800]], title: 'N3on finally found something he is good at', emoji: '1f577',
   speakers: [[602600, 621300, 'other'], [706100, 708700, 'other'], [712200, 714700, 'sarah']], labels: [[602700, 'CLIMBS'], [619300, 'SPIDER-MAN'], [622000, 'PROUD']],
   flashes: [[619300, 'green'], [621400, 'green'], [714000, 'green']], music: 'joyful-chess-guide.mp3', from: 2000, gain: 1.15,
   memes: [['g-anime-wow-sound-effect', 622000, 0.28, 1200]]});
-export const FULL_RESPECT = makeFull({frames: [[416.1, 720, 360], [418.1, 960, 200], [420.3, 640, 200], [421.0, 900, 250], [421.6, 400, 350], [422.3, 780, 200], [423.8, 660, 220], [425.2, 1300, 250], [426.6, 1100, 200], [428.0, 1450, 220], [428.6, 720, 300]],
+export const FULL_RESPECT = makeFull({frames: FR.FULL_RESPECT as [number, number, number][],
   segs: [[418100, 421700], [416100, 429700]], title: 'N3on gained a new respect for pole dancers', emoji: '1f91d',
   speakers: [], labels: [[421700, 'RESPECT']], flashes: [[423600, 'green']], music: 'ts-pmo.mp3', from: 0, musicGain: 1.5, gain: 1.45,
   memes: [['g-correct-sfx', 423600, 0.22, 900]]});
-export const FULL_EXCITED = makeFull({frames: [[225.0, 420, 200], [225.6, 1500, 200], [230.0, 960, 540], [232.1, 1450, 200], [242.4, 720, 250], [244.5, 840, 350], [246.6, 960, 300], [247.3, 450, 200], [249.0, 1050, 250], [250.3, 500, 200], [251.5, 780, 220], [252.0, 840, 220], [254.2, 1200, 280], [255.6, 760, 300], [257.0, 840, 220]],
+export const FULL_EXCITED = makeFull({frames: FR.FULL_EXCITED as [number, number, number][],
   segs: [[244500, 245700], [225000, 226200], [230000, 232800], [242400, 245700], [246600, 257700, 1000]], title: 'N3on was WAY too excited for this class', emoji: '1f929',
   speakers: [[225000, 226000, 'sarah'], [230000, 231900, 'sarah'], [242400, 245800, 'sarah'], [248900, 250000, 'other'], [250600, 250900, 'other'], [254200, 257300, 'other']],
   labels: [[245700, 'TOO EXCITED'], [257700, 'SHOCKED']], flashes: [[243300, 'green'], [256300, 'red'], [257400, 'green']], fah: 257700,
