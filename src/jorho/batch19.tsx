@@ -49,14 +49,14 @@ const ReadRings = ({o, a, b, knowAt, changeAt}: {o: number; a: number; b: number
 const LifeLine = ({o, a, b, coenAt}: {o: number; a: number; b: number; coenAt: number}) => {
   if (o < a || o >= b) return null;
   const fade = Math.min(ease(o, a, 250), 1 - ease(o, b - 250, 250));
-  const lp = ease(o, a + 150, 900), cp = ease(o, coenAt, 450);
+  const lp = ease(o, a + 100, Math.min(900, b - a - 300)), cp = ease(o, coenAt, 450);
   return <AbsoluteFill style={{opacity: fade}}><Dim>
     <div style={{position: 'absolute', left: 90, top: 300, fontFamily: MONT, fontWeight: 900, fontSize: 40, color: 'rgba(255,255,255,0.8)'}}>HIS WHOLE FOOTBALL LIFE BEFORE</div>
     <div style={{position: 'absolute', left: 90, top: 380, width: 780 * lp, height: 26, borderRadius: 13, background: 'rgba(255,255,255,0.55)'}} />
     <div style={{position: 'absolute', left: 870, top: 368, width: 120 * cp, height: 50, borderRadius: 25, background: '#21F5E6', boxShadow: '0 0 26px #21F5E6'}} />
     {o >= coenAt && <div style={{position: 'absolute', right: 70, top: 450, fontFamily: MONT, fontWeight: 900, fontSize: 36, color: '#21F5E6', textAlign: 'right', opacity: cp}}>1.5 YEARS<br />WITH THIS STAFF</div>}
-    {o >= coenAt + 600 && <div style={{position: 'absolute', left: 90, top: 640, fontFamily: MONT, fontWeight: 900, fontSize: 84, color: '#58EE28',
-      transform: `scale(${pop(o, coenAt + 600, 10, 260)})`, transformOrigin: '0 50%'}}>LEARNED MORE HERE</div>}
+    {o >= coenAt + Math.min(600, (b - coenAt) / 2) && <div style={{position: 'absolute', left: 90, top: 640, fontFamily: MONT, fontWeight: 900, fontSize: 84, color: '#58EE28',
+      transform: `scale(${pop(o, coenAt + Math.min(600, (b - coenAt) / 2), 10, 260)})`, transformOrigin: '0 50%'}}>LEARNED MORE HERE</div>}
   </Dim></AbsoluteFill>;
 };
 
@@ -79,6 +79,7 @@ const PRESNAP = make({src: 'b3/v_presnap.mp4', track: T(psTrack), raw: psWords a
   segs: [[16760, 18440], [0, 5760], [9740, 10440], [13160, 18440], [23160, 26640], [30680, 34940]], hookSeat: 'M', music: 'jorho-qkthr.mp3', from: 0, arrowAt: 9800,
   shots: [[0, 'L'], [3660, 'W'], [9740, 'M'], [30680, 'M', 1.06], [33140, 'W']],
   flash: [16760, 'green'], capsOff: [[16400, 26640]],
+  hook: (o, end) => <ReadRings o={o} a={0} b={end} knowAt={60} changeAt={700} />,
   inBox: (o, at) => <><ReadRings o={o} a={at(16300)} b={at(26640)} knowAt={at(16760)} changeAt={at(24640)} />
     <TypedAction o={o} a={at(30680)} b={at(34940) + 500} text="when the coverage changes" /></>,
   sfx: (at) => [sfx('mg-swoosh', at(16300), 0.16, 500), sfx('error', at(24900), 0.14), sfx('keyboard-typing', at(30680), 0.12, 1100)]});
@@ -90,6 +91,7 @@ const COEN = make({src: 'pod2/u6_coen_duo.mp4', track: T(coenTrack), raw: coenWo
   segs: [[18320, 19400], [4720, 7900], [11440, 15100], [15980, 16300], [18320, 27850]], hookSeat: 'M', music: 'Investigations.mp3', from: 0, arrowAt: 18400,
   shots: [[4720, 'L'], [6600, 'W'], [11440, 'L'], [15980, 'W'], [18320, 'M'], [28000, 'M', 1.06]],
   cutout: {src: 6650, file: 'img/jorho/coen.png'}, capsOff: [[19500, 23000]],
+  hook: (o, end) => <LifeLine o={o} a={0} b={end} coenAt={80} />,
   inBox: (o, at) => <><LifeLine o={o} a={at(19420)} b={at(23000)} coenAt={at(21220)} />
     <TypedAction o={o} a={at(25060)} b={at(27850) + 500} text="a whole new system" /></>,
   sfx: (at) => [sfx('mg-swoosh', at(19420), 0.16, 500), sfx('ding-2', at(21300), 0.14), sfx('keyboard-typing', at(25060), 0.12, 1000)]});
@@ -101,6 +103,7 @@ const GIFT = make({src: 'pod/t3_traveling_trevors.mp4', track: T(travTrack), raw
   segs: [[34220, 36300], [4300, 10600], [11260, 12680], [16220, 18860], [26600, 31180], [32100, 36500]], hookSeat: 'M', music: 'midnight-club.mp3', from: 30000, arrowAt: 11300,
   shots: [[4300, 'L'], [8400, 'W'], [11260, 'M'], [16220, 'M', 1.06], [26600, 'M'], [32100, 'R'], [33860, 'M', 1.08]],
   yt: {title: "Is Trevor Lawrence's accuracy God-given or drilled?", a: 4300, b: 10600},
+  hook: (o, end) => <AbsoluteFill style={{opacity: 1 - ease(o, end - 200, 200)}}><Field o={o} rightAt={0} leftAt={700} /></AbsoluteFill>,
   boards: [{a: 11260, b: 18860, render: (o, at) => <GiftSlider o={o} a={at(11260)} workAt={at(16740)} />},
     {a: 26600, b: 36500, render: (o, at) => <Field o={o} rightAt={at(26820)} leftAt={at(34440)} />}],
   sfx: (at) => [sfx('ding-2', at(34440), 0.14)]});

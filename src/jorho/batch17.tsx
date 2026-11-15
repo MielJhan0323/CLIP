@@ -44,6 +44,7 @@ type Cfg = {
   hookSeat: Seat; arrowAt: number; flash?: [src: number, color: 'red' | 'yellow' | 'green']; boards?: Board[];
   overlay?: (o: number, at: (src: number) => number) => ReactNode; inBox?: (o: number, at: (src: number) => number) => ReactNode;
   sfx?: (at: (src: number) => number) => Sfx[]; cutout?: {src: number; file: string; x?: number; y?: number; size?: number};
+  hook?: (o: number, end: number) => ReactNode; // a graphic over the cold open (end = output ms where the body starts)
   capsOff?: [number, number][]; // source ranges where captions hide (an overlay graphic owns the box)
   yt?: {title: string; a: number; b: number}; // YouTube watch-page card framing the question (source ms)
 };
@@ -85,7 +86,7 @@ export const make = (c: Cfg) => {
   const spec: Spec = {
     tl, src: c.src, track: c.track, top: c.top, wordY: 1000, wideX: c.wideX, capSize: 60, grade: VIRAL_WARM,
     words: wordsFrom(c.raw, tl, {goaded: 'goated', fields: 'Fields'}), shots, strobes: [], tints: [], swish: [],
-    capsOff: [...boards.map((bd) => [bd.oa + 150, bd.ob - 150] as [number, number]), ...(c.capsOff ?? []).map(([a, b]) => [at(a), at(b)] as [number, number])], // v2: captions off while a diagram owns the box
+    capsOff: [...boards.map((bd) => [bd.oa + 150, bd.ob - 150] as [number, number]), ...(c.capsOff ?? []).map(([a, b]) => [at(a), at(b)] as [number, number]), ...(c.hook ? [[0, tl.segOut[hookN]] as [number, number]] : [])], // v2: captions off while a diagram owns the box
     camFx: (o) => {
       const whip = o < 180 ? 1 - o / 180 : 0;
       return {transform: `translateX(${-whip * 140}px) scale(${zoomAt(o) * (1 + whip * 0.1)})`, transformOrigin: '50% 42%', filter: whip ? `blur(${whip * 12}px)` : undefined};
@@ -93,6 +94,7 @@ export const make = (c: Cfg) => {
     inBox: (o) => <>
       {boards.map((bd, i) => (o >= bd.oa && o < bd.ob ? <BoardShell key={i} o={o} a={bd.oa} b={bd.ob} cam={camCfg}>{bd.render(o, at)}</BoardShell> : null))}
       {c.inBox?.(o, at)}
+      {c.hook && o < tl.segOut[hookN] && c.hook(o, tl.segOut[hookN])}
       {c.yt && <YouTubeCard o={o} a={at(c.yt.a)} b={at(c.yt.b)} title={c.yt.title} cam={camCfg} startAt={c.yt.a} dur={tl.total + 20000} />}
       {flashO >= 0 && o >= flashO && o < flashO + 190 && <AbsoluteFill style={{background: TINT[c.flash![1]], mixBlendMode: 'color',
         opacity: interpolate(o - flashO, [0, 70, 190], [1, 1, 0], clamp)}} />}
