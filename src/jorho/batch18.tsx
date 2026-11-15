@@ -6,7 +6,7 @@ import {Jorho, type Spec} from './clips';
 import {TypedAction} from './v2';
 import {make} from './batch17';
 import ntWords from '../plans/data/v_nt_rip.words.json';
-import ntTrack from '../plans/data/v_nt_rip.seats.json';
+import ntTrack from '../plans/data/v_nt_rip_wig.seats.json'; // L = the standing wig guy (the speaker), hand keys 2026-11-15
 import joshWords from '../plans/data/t5_ex_teammate.words.json';
 import joshTrack from '../plans/data/t5_ex_teammate.seats.json';
 import psWords from '../plans/data/v_presnap.words.json';
@@ -19,7 +19,7 @@ const T = (x: unknown) => x as Track;
 // 1 · the Justin Fields true RPA: $20,000 in 2021 → ~$500 now (loss → red flash + shock, slow sad bed)
 const FIELDS = make({src: 'b3/v_nt_rip.mp4', track: T(ntTrack), raw: ntWords as Raw, wideX: 900, top: 'Watching a $20,000 card turn into $500',
   segs: [[127320, 129440], [115840, 118060], [119440, 132700]], hookSeat: 'L', music: 'say-goodbye-lodoni.mp3', from: 0, arrowAt: 122200,
-  shots: [[115840, 'L'], [122100, 'M'], [124480, 'L'], [131300, 'M', 1.08]],
+  shots: [[115840, 'L'], [119300, 'W'], [122000, 'M'], [124480, 'L'], [131300, 'M', 1.08]],
   flash: [131440, 'red'],
   sfx: (at) => [sfx('g-shock-sfx', at(131440) - 40, 0.22, 900)]});
 export const B18Fields = () => <Jorho s={FIELDS.spec} />;
