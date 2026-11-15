@@ -9,15 +9,13 @@
 //  · a music bed the whole way (clearly there, voice on top), meme SFX in the gaps, the fahhh freeze
 //  · a LOSS ends black-and-white with a slow push-in
 import {AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame} from 'remotion';
-import {Cam, FPS, Music, SfxTrack, SpeechTrack, clamp, faceAt, sfx, timeline, type CamCfg, type Sfx, type TL, type Track} from '../../e3/kit';
+import {Cam, FPS, Music, SfxTrack, SpeechTrack, clamp, sfx, timeline, type CamCfg, type Sfx, type TL, type Track} from '../../e3/kit';
 import {tighten} from '../../jorho/tighten';
 import {speechDips} from './neon';
-import track from '../../plans/data/r3born_ep2.track_live.json'; // live main-face track (follows the face every 200 ms; the static one missed in tight 9:16 crops)
 import moreWords from '../../plans/data/r3born_ep2_more.words.json';
 
 type Raw = {text: string; startMs: number; endMs: number}[];
 const SRC = 'neon/r3born_ep2.mp4';
-const TR = track as unknown as Track;
 const ANTON = 'Anton, Impact, sans-serif';
 const COL = {n3on: '#FFFFFF', sarah: '#FF4FD8', other: '#F9FC35'};
 type Who = keyof typeof COL;
@@ -29,6 +27,7 @@ type Cfg = {
   labels: [number, string][]; // *ACTION* labels at source times
   flashes: [number, 'green' | 'red'][];
   fah?: number; lossEnd?: boolean; music: string; from: number; musicGain?: number; gain?: number;
+  frames: [sec: number, x: number, y: number][]; // HAND-FRAMED crop centre per shot (source seconds, source px of the speaker's face)
   memes?: [string, number, number?, number?][];
 };
 
@@ -81,12 +80,18 @@ export const makeFull = (c: Cfg) => {
   const labels = c.labels.map(([s, t]) => [out(s), t] as const).filter(([t]) => t >= 0);
   const flashes = c.flashes.map(([s, col]) => [out(s), col] as const).filter(([t]) => t >= 0);
   const fahAt = c.fah !== undefined ? out(c.fah) : -1;
+  // camera (user 2026-11-15: "what the actual f*** are the cameras even centered on"): the auto face tracker lost faces in profile and
+  // on cuts (it sat on walls / knees), so every shot is HAND-FRAMED from contact sheets: c.frames gives the speaker's face per shot.
+  // wide = full source height centred on that face; punch-in = 700 px crop with the face 40 % down
+  const kf = [...c.frames].sort((a, z) => a[0] - z[0]);
+  const lo = Math.min(...c.segs.map((g) => g[0])), hi = Math.max(...c.segs.map((g) => g[1]));
+  const M: number[][] = [];
+  for (let t = lo; t <= hi + 200; t += 100) { const k = [...kf].reverse().find(([sec]) => sec * 1000 <= t) ?? kf[0]; M.push([k[1], k[2], 300]); }
+  const handTrack = {stepMs: 100, fromMs: lo, L: M, M, R: M} as unknown as Track;
   const cam = (o: number): CamCfg => {
-    const src = tl.srcAt(Math.min(o, tl.total - 1));
-    const fx = faceAt(TR, 'M', src).x;
-    const shot = shotAt(o);
-    return {src: SRC, tl, track: TR, grade: 'contrast(1.12) saturate(1.22) brightness(1.02)', box: [1080, 1920], baseH: shot === 'face' ? 700 : 1080, faceY: 0.4,
-      wideX: fx, who: () => (shot === 'face' ? 'M' : 'W')};
+    const face = shotAt(o) === 'face';
+    return {src: SRC, tl, track: handTrack, grade: 'contrast(1.02)', box: [1080, 1920], baseH: 1080, zoom: () => (face ? 1080 / 700 : 1),
+      faceY: face ? 0.4 : 0.32, wideX: 960, who: () => 'M'};
   };
   const sfxList: Sfx[] = [
     sfx('g-camera-flash', 0, 0.2, 500),
@@ -114,10 +119,10 @@ export const makeFull = (c: Cfg) => {
         opacity: interpolate(o - t, [0, 60, 380, 560], [0, 1, 1, 0], clamp)}} /> : null))}
       {o < 120 && <AbsoluteFill style={{background: 'white', opacity: 1 - o / 120}} />}
       {/* white title box (ref_arman) */}
-      <div style={{position: 'absolute', top: 150, left: 70, right: 70, display: 'flex', justifyContent: 'center'}}>
-        <div style={{background: 'white', padding: '16px 26px', borderRadius: 6, fontFamily: 'Georgia, "Times New Roman", serif', fontSize: 46, lineHeight: 1.15,
-          color: '#111', textAlign: 'center', boxShadow: '0 6px 18px rgba(0,0,0,0.35)', maxWidth: 900}}>
-          {c.title}{c.emoji && <Img src={staticFile(`emoji-ios/${c.emoji}.png`)} style={{width: 46, height: 46, verticalAlign: '-8px', marginLeft: 8}} />}
+      <div style={{position: 'absolute', top: 130, left: 40, right: 40, display: 'flex', justifyContent: 'center'}}>
+        <div style={{background: 'white', padding: '22px 34px', borderRadius: 8, fontFamily: 'Georgia, "Times New Roman", serif', fontSize: 66, fontWeight: 700, lineHeight: 1.12,
+          color: '#111', textAlign: 'center', boxShadow: '0 6px 18px rgba(0,0,0,0.35)', maxWidth: 1000}}>
+          {c.title}{c.emoji && <Img src={staticFile(`emoji-ios/${c.emoji}.png`)} style={{width: 66, height: 66, verticalAlign: '-12px', marginLeft: 10}} />}
         </div>
       </div>
       {/* captions (Anton, per speaker) or an *ACTION* label in the gaps */}
@@ -138,21 +143,26 @@ export const makeFull = (c: Cfg) => {
 };
 
 // ---- the 5 redos (same moments as the feed edits) -------------------------------------------------------------------------------
-export const FULL_PILATESQ = makeFull({segs: [[80800, 83900], [61500, 66500], [78700, 84100, 1000], [90100, 94000]], title: 'N3on asked the Pilates instructor THIS', emoji: '1f480',
+export const FULL_PILATESQ = makeFull({frames: [[61.5, 1140, 240], [62.9, 1380, 220], [64.9, 420, 360], [78.7, 1380, 230], [80.0, 330, 380], [82.2, 960, 540], [83.5, 1230, 200], [90.1, 1260, 720], [92.0, 900, 380], [92.8, 450, 650], [93.5, 1450, 700]],
+  segs: [[80800, 83900], [61500, 66500], [78700, 84100, 1000], [90100, 94000]], title: 'N3on asked the Pilates instructor THIS', emoji: '1f480',
   speakers: [[64900, 66500, 'sarah'], [79800, 82750, 'other'], [83600, 84200, 'other'], [90900, 91600, 'other'], [91600, 92300, 'other'], [92300, 93500, 'sarah']],
   labels: [[66500, 'PILATES'], [84100, 'ASKED THE REAL QUESTION']], flashes: [[83100, 'red'], [93700, 'green']], fah: 84100,
   music: 'wtf-u-tryna-say.mp3', from: 0, memes: [['g-ceeday-huh-sound-effect-1', 66500, 0.3, 900]]});
-export const FULL_TUCK = makeFull({segs: [[568000, 569800], [543700, 547600], [549300, 558000], [566000, 570000, 1000], [573600, 574600]], title: 'Sarah vs N3on: who can hold it longer?', emoji: '23f1',
+export const FULL_TUCK = makeFull({frames: [[543.7, 330, 300], [545.8, 450, 260], [548.8, 900, 300], [550.0, 540, 260], [553.5, 840, 200], [555.6, 600, 160], [566.0, 330, 200], [566.4, 840, 180], [567.4, 330, 220], [568.1, 330, 200], [569.5, 540, 220], [573.6, 1260, 260], [574.2, 760, 200]],
+  segs: [[568000, 569800], [543700, 547600], [549300, 558000], [566000, 570000, 1000], [573600, 574600]], title: 'Sarah vs N3on: who can hold it longer?', emoji: '23f1',
   speakers: [[543700, 570100, 'other']], labels: [[554700, 'TUCK HOLD'], [556000, 'SHAKING'], [570000, 'LOSES']], flashes: [[554700, 'green'], [568900, 'red']], fah: 570000, lossEnd: true,
   music: 'kai-cenat-suspense.mp3', from: 0, musicGain: 1.6, gain: 1.4, memes: [['g-sudden-suspense-sound-effect', 555000, 0.24, 1800]]});
-export const FULL_SPIDER = makeFull({segs: [[716600, 718800], [602600, 608500], [617200, 622000], [706100, 708600], [712200, 718800]], title: 'N3on finally found something he is good at', emoji: '1f577',
+export const FULL_SPIDER = makeFull({frames: [[602.6, 330, 300], [603.3, 480, 300], [604.0, 1500, 300], [606.1, 330, 300], [606.8, 1300, 400], [617.2, 960, 300], [617.9, 1440, 300], [620.0, 720, 300], [621.4, 900, 300], [706.1, 900, 300], [712.6, 380, 300], [715.0, 1500, 260]],
+  segs: [[716600, 718800], [602600, 608500], [617200, 622000], [706100, 708600], [712200, 718800]], title: 'N3on finally found something he is good at', emoji: '1f577',
   speakers: [[602600, 621300, 'other'], [706100, 708700, 'other'], [712200, 714700, 'sarah']], labels: [[602700, 'CLIMBS'], [619300, 'SPIDER-MAN'], [622000, 'PROUD']],
   flashes: [[619300, 'green'], [621400, 'green'], [714000, 'green']], music: 'joyful-chess-guide.mp3', from: 2000, gain: 1.15,
   memes: [['g-anime-wow-sound-effect', 622000, 0.28, 1200]]});
-export const FULL_RESPECT = makeFull({segs: [[418100, 421700], [416100, 429700]], title: 'N3on gained a new respect for pole dancers', emoji: '1f91d',
+export const FULL_RESPECT = makeFull({frames: [[416.1, 720, 360], [418.1, 960, 200], [420.3, 640, 200], [421.0, 900, 250], [421.6, 400, 350], [422.3, 780, 200], [423.8, 660, 220], [425.2, 1300, 250], [426.6, 1100, 200], [428.0, 1450, 220], [428.6, 720, 300]],
+  segs: [[418100, 421700], [416100, 429700]], title: 'N3on gained a new respect for pole dancers', emoji: '1f91d',
   speakers: [], labels: [[421700, 'RESPECT']], flashes: [[423600, 'green']], music: 'ts-pmo.mp3', from: 0, musicGain: 1.5, gain: 1.45,
   memes: [['g-correct-sfx', 423600, 0.22, 900]]});
-export const FULL_EXCITED = makeFull({segs: [[244500, 245700], [225000, 226200], [230000, 232800], [242400, 245700], [246600, 257700, 1000]], title: 'N3on was WAY too excited for this class', emoji: '1f929',
+export const FULL_EXCITED = makeFull({frames: [[225.0, 420, 200], [225.6, 1500, 200], [230.0, 960, 540], [232.1, 1450, 200], [242.4, 720, 250], [244.5, 840, 350], [246.6, 960, 300], [247.3, 450, 200], [249.0, 1050, 250], [250.3, 500, 200], [251.5, 780, 220], [252.0, 840, 220], [254.2, 1200, 280], [255.6, 760, 300], [257.0, 840, 220]],
+  segs: [[244500, 245700], [225000, 226200], [230000, 232800], [242400, 245700], [246600, 257700, 1000]], title: 'N3on was WAY too excited for this class', emoji: '1f929',
   speakers: [[225000, 226000, 'sarah'], [230000, 231900, 'sarah'], [242400, 245800, 'sarah'], [248900, 250000, 'other'], [250600, 250900, 'other'], [254200, 257300, 'other']],
   labels: [[245700, 'TOO EXCITED'], [257700, 'SHOCKED']], flashes: [[243300, 'green'], [256300, 'red'], [257400, 'green']], fah: 257700,
   music: 'say-goodbye-lodoni.mp3', from: 0, musicGain: 0.7, memes: [['g-rizz-sfx', 245800, 0.26, 1200]]});
