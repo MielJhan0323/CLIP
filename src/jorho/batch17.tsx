@@ -47,7 +47,7 @@ type Cfg = {
 };
 const TINT = {red: 'rgba(255,40,40,0.75)', yellow: 'rgba(240,255,60,0.7)', green: 'rgba(80,255,60,0.65)'};
 
-const make = (c: Cfg) => {
+export const make = (c: Cfg) => {
   const segs = tighten(c.segs, c.raw);
   const last = segs[segs.length - 1];
   const after = [...c.raw].sort((x, y) => x.startMs - y.startMs).find((w) => w.startMs >= last[1])?.startMs ?? Infinity;
