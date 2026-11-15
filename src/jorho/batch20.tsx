@@ -224,7 +224,7 @@ const MARINO = make({src: 'b3/v_nt_rip.mp4', track: T(ntTrack), raw: ntWords as 
   sfx: (at) => [sfx('ding-2', at(65300), 0.14)]});
 
 const TICKET = make({src: 'pod/t4_natty_ticket.mp4', track: T(tkTrack), raw: tkWords as Raw, wideX: 960, top: 'Grant gifted Trevor a ticket to his OWN natty',
-  segs: [[15500, 17200], [9800, 17200], [21500, 33100]], hookSeat: 'M', music: 'jorho-lullaby.mp3', from: 150000, arrowAt: 15600,
+  segs: [[15500, 17200], [9800, 17200], [21500, 33600]], hookSeat: 'M', music: 'jorho-lullaby.mp3', from: 150000, arrowAt: 15600,
   shots: [[9800, 'L'], [15500, 'M'], [17500, 'L'], [29400, 'M'], [30480, 'W'], [32300, 'M', 1.06]],
   yt: {title: 'What do you gift the guy who has everything?', a: 9800, b: 12400},
   hi: {gift: [G, '1f381'], gifting: G, ticket: [Y, '1f39f'], championship: Y, national: Y, mvp: C, signature: [C, '270d'], weird: [R, '1f62c'], thank: G},
