@@ -17,6 +17,7 @@ import FR from '../../plans/data/r3born_ep2_full_frames.json'; // hand-picked sp
 
 type Raw = {text: string; startMs: number; endMs: number}[];
 const SRC = 'neon/r3born_ep2.mp4';
+const VTOP = 330; // video starts BELOW the title banner (user: "move the main video down so faces aren't covered")
 const ANTON = 'Anton, Impact, sans-serif';
 const COL = {n3on: '#FFFFFF', sarah: '#FF4FD8', other: '#F9FC35'};
 type Who = keyof typeof COL;
@@ -91,7 +92,7 @@ export const makeFull = (c: Cfg) => {
   const handTrack = {stepMs: 100, fromMs: lo, L: M, M, R: M} as unknown as Track;
   const cam = (o: number): CamCfg => {
     const face = shotAt(o) === 'face';
-    return {src: SRC, tl, track: handTrack, grade: 'contrast(1.02)', box: [1080, 1920], baseH: 1080, zoom: () => (face ? 1080 / 700 : 1),
+    return {src: SRC, tl, track: handTrack, grade: 'contrast(1.02)', box: [1080, 1920 - VTOP], baseH: 1080, zoom: () => (face ? 1080 / 700 : 1),
       faceY: face ? 0.4 : 0.32, wideX: 960, who: () => 'M'};
   };
   const sfxList: Sfx[] = [
@@ -113,7 +114,7 @@ export const makeFull = (c: Cfg) => {
     const cap = caps.filter((w) => o >= w.at && o < w.end).pop();
     const lab = labels.find(([t]) => o >= t && o < t + 1100);
     return <AbsoluteFill style={{background: '#000'}}>
-      <AbsoluteFill style={{transform: `scale(${push * (1 + whip * 0.08)}) translateX(${-whip * 90}px)`, filter: `${bw ? `grayscale(${bw}) contrast(${1 + bw * 0.15})` : ''} ${whip ? `blur(${whip * 10}px)` : ''}`.trim() || undefined}}>
+      <AbsoluteFill style={{top: VTOP, transform: `scale(${push * (1 + whip * 0.08)}) translateX(${-whip * 90}px)`, filter: `${bw ? `grayscale(${bw}) contrast(${1 + bw * 0.15})` : ''} ${whip ? `blur(${whip * 10}px)` : ''}`.trim() || undefined}}>
         <Cam c={cfg} o={o} />
       </AbsoluteFill>
       {flashes.map(([t, col], i) => (o >= t && o < t + 560 ? <AbsoluteFill key={i} style={{background: flashCol[col], mixBlendMode: 'color',
