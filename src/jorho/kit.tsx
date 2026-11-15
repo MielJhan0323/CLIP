@@ -73,17 +73,21 @@ export const Frame = ({o, top, children, over, light}: {o: number; top: string; 
 };
 
 // ---- one-word captions ---------------------------------------------------------------------------------------
-export type Word = {text: string; at: number; color: string};
+export type Word = {text: string; at: number; color: string; end?: number}; // end = when the word stops being SAID (output ms)
 const PAL = [JORHO.yellow, JORHO.cyan, JORHO.green, JORHO.white];
 const hash = (s: string, i: number) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 9973, 7 + i * 13);
-export const wordsFrom = (raw: {text: string; startMs: number}[], tl: TL, fix: Record<string, string> = {}, colors: Record<string, string> = {}): Word[] => {
+export const wordsFrom = (raw: {text: string; startMs: number; endMs?: number}[], tl: TL, fix: Record<string, string> = {}, colors: Record<string, string> = {}): Word[] => {
   const out: Word[] = [];
   raw.forEach((w) => {
     if (!tl.segs.some(([x, y]) => w.startMs >= x && w.startMs < y)) return; // word was cut
     const bare = w.text.trim().replace(/^[-]+|[.,!?]+$/g, '');
     const text = fix[bare] ?? bare;
     if (!text) return;
-    out.push({text, at: tl.out(w.startMs), color: colors[text] ?? PAL[hash(text, out.length) % PAL.length]});
+    const at = tl.out(w.startMs);
+    // client guideline 2026-11-15: "a person says 'player', a second later he's silent but 'player' is still on screen — fix that":
+    // the caption leaves ~180 ms after the word is spoken (end-times run early, so the margin keeps it from flickering off mid-word)
+    const end = w.endMs !== undefined ? at + Math.max(260, w.endMs - w.startMs) + 180 : undefined;
+    out.push({text, at, end, color: colors[text] ?? PAL[hash(text, out.length) % PAL.length]});
   });
   // OUTPUT order, not source order: with a cold open (a later line placed first) source order breaks OneWord (2026-11-05 caption bug)
   return out.sort((a, b) => a.at - b.at);
@@ -94,7 +98,7 @@ export const OneWord = ({o, words, y, size = 58}: {o: number; words: Word[]; y: 
   words.forEach((w, j) => { if (o >= w.at) i = j; });
   if (i < 0) return null;
   const w = words[i];
-  if (o > (words[i + 1]?.at ?? Infinity) || o > w.at + 1200) return null;
+  if (o > (words[i + 1]?.at ?? Infinity) || o > w.at + 1200 || (w.end !== undefined && o > w.end)) return null;
   const k = fr(o) - fr(w.at);
   const smear = k < 2 ? {transform: `scaleX(${k === 0 ? 1.35 : 1.15})`, filter: `blur(${k === 0 ? 5 : 2.5}px)`, opacity: 0.85} : {};
   return <div style={{position: 'absolute', left: 0, width: W, top: y - 40, textAlign: 'center', ...smear}}>
@@ -220,6 +224,7 @@ export const chunkWords = (words: Word[], total: number, breaks: number[] = [], 
   }
   return chunks.map((c) => {
     const key = c.parts.reduce((a, b) => (b.text.length > a.text.length ? b : a));
-    return {text: c.parts.map((p) => p.text).join(' '), at: c.at, color: key.color};
+    const ends = c.parts.map((p) => p.end).filter((e): e is number => e !== undefined);
+    return {text: c.parts.map((p) => p.text).join(' '), at: c.at, color: key.color, end: ends.length ? Math.max(...ends) : undefined};
   });
 };
