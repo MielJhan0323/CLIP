@@ -157,3 +157,7 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 - (2026-11-03) Highlight boxes and circles should **draw themselves on** (marker stroke), not just appear, and must fit around everything they mark. Stat displays should look like a plain broadcast graphic: no glows, neon or template count-ups, and use the same kind of photo for every player.
 
 - 2026-11-15: DEFAULT STYLE = client doc "video reference" (whop ai drive / video references) → see 02 Style Guide/video reference (client)/README.md. Restraint first: no over-edit, no template zooms/SFX spam, human feel. Look = letterboxed 500K Backyard Breaks recipe (black bars, white bold title top, small 1-word captions, red arrow *Name*). Overrides other styles unless the user says otherwise.
+- 2026-11-15: MIX THE JORHO v2 FORMATS — not every clip gets the YouTube card + face-cam board. The PROVEN VIRAL one is b8_v2_redemptions
+  ("Watch a $20,000 card lose 97% of its value"): the graphic is drawn OVER the dimmed footage (ValueGraph), green→red tint on the key
+  number, a typed *action* line, no YouTube card. In a batch use different formats per clip (overlay graph / YouTube card + board /
+  plain with arrow), never the same recipe on all of them. (src/jorho/batch19.tsx shows all three side by side.)

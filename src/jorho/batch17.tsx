@@ -44,6 +44,7 @@ type Cfg = {
   hookSeat: Seat; arrowAt: number; flash?: [src: number, color: 'red' | 'yellow' | 'green']; boards?: Board[];
   overlay?: (o: number, at: (src: number) => number) => ReactNode; inBox?: (o: number, at: (src: number) => number) => ReactNode;
   sfx?: (at: (src: number) => number) => Sfx[]; cutout?: {src: number; file: string; x?: number; y?: number; size?: number};
+  capsOff?: [number, number][]; // source ranges where captions hide (an overlay graphic owns the box)
   yt?: {title: string; a: number; b: number}; // YouTube watch-page card framing the question (source ms)
 };
 const TINT = {red: 'rgba(255,40,40,0.75)', yellow: 'rgba(240,255,60,0.7)', green: 'rgba(80,255,60,0.65)'};
@@ -84,7 +85,7 @@ export const make = (c: Cfg) => {
   const spec: Spec = {
     tl, src: c.src, track: c.track, top: c.top, wordY: 1000, wideX: c.wideX, capSize: 60, grade: VIRAL_WARM,
     words: wordsFrom(c.raw, tl, {goaded: 'goated', fields: 'Fields'}), shots, strobes: [], tints: [], swish: [],
-    capsOff: boards.map((bd) => [bd.oa + 150, bd.ob - 150] as [number, number]), // v2: captions off while a diagram owns the box
+    capsOff: [...boards.map((bd) => [bd.oa + 150, bd.ob - 150] as [number, number]), ...(c.capsOff ?? []).map(([a, b]) => [at(a), at(b)] as [number, number])], // v2: captions off while a diagram owns the box
     camFx: (o) => {
       const whip = o < 180 ? 1 - o / 180 : 0;
       return {transform: `translateX(${-whip * 140}px) scale(${zoomAt(o) * (1 + whip * 0.1)})`, transformOrigin: '50% 42%', filter: whip ? `blur(${whip * 12}px)` : undefined};
