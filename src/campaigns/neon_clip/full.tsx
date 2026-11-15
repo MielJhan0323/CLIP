@@ -119,12 +119,10 @@ export const makeFull = (c: Cfg) => {
       {flashes.map(([t, col], i) => (o >= t && o < t + 560 ? <AbsoluteFill key={i} style={{background: flashCol[col], mixBlendMode: 'color',
         opacity: interpolate(o - t, [0, 60, 380, 560], [0, 1, 1, 0], clamp)}} /> : null))}
       {o < 120 && <AbsoluteFill style={{background: 'white', opacity: 1 - o / 120}} />}
-      {/* white title box (ref_arman) */}
-      <div style={{position: 'absolute', top: 130, left: 40, right: 40, display: 'flex', justifyContent: 'center'}}>
-        <div style={{background: 'white', padding: '22px 34px', borderRadius: 8, fontFamily: 'Georgia, "Times New Roman", serif', fontSize: 66, fontWeight: 700, lineHeight: 1.12,
-          color: '#111', textAlign: 'center', boxShadow: '0 6px 18px rgba(0,0,0,0.35)', maxWidth: 1000}}>
-          {c.title}{c.emoji && <Img src={staticFile(`emoji-ios/${c.emoji}.png`)} style={{width: 66, height: 66, verticalAlign: '-12px', marginLeft: 10}} />}
-        </div>
+      {/* white title banner — full width, touching the top and both sides (user 2026-11-15: "make the caption fill out the sides and the top") */}
+      <div style={{position: 'absolute', top: 0, left: 0, right: 0, background: 'white', padding: '120px 44px 30px', textAlign: 'center',
+        fontFamily: 'Georgia, "Times New Roman", serif', fontSize: 70, fontWeight: 700, lineHeight: 1.12, color: '#111', boxShadow: '0 6px 18px rgba(0,0,0,0.35)'}}>
+        {c.title}{c.emoji && <Img src={staticFile(`emoji-ios/${c.emoji}.png`)} style={{width: 70, height: 70, verticalAlign: '-12px', marginLeft: 10}} />}
       </div>
       {/* captions (Anton, per speaker) or an *ACTION* label in the gaps */}
       {(cap || lab) && <div style={{position: 'absolute', top: 1180, left: 0, right: 0, textAlign: 'center'}}>
