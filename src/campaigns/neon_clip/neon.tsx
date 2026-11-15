@@ -7,7 +7,7 @@
 // Brief: Ep 2 footage only, hook in 2 s (wildest moment), cut BEFORE it resolves, big readable subtitles, ≥ 7 s, never mention FaZe,
 // post tags @hardscope + #r3born.
 import type {CSSProperties} from 'react';
-import {interpolate} from 'remotion';
+import {AbsoluteFill, Img, interpolate, staticFile} from 'remotion';
 import {clamp, sfx, timeline, type TL} from '../../e3/kit';
 import {RED, chunkWords, wordsFrom, type Word} from '../../jorho/kit';
 import {Jorho, VIRAL_WARM, type Spec} from '../../jorho/clips';
@@ -269,3 +269,114 @@ const N13 = neon3([[244500, 245700], [225000, 226200], [230000, 232800], [242400
   {src: 257700, text: 'way too excited'}, [['ja-ding', 232800, 0.26, 1000], ['vine-boom', 245800, 0.24]]);
 export const NeonExcited = () => <Jorho s={N13.spec} />;
 export const NEON_EXCITED_MS = N13.total;
+
+// =====================================================================================================================================
+// NEON FEED EDIT (2026-11-15, user: "the neon clips are hella boring, give me something you'd see on the feed and stay to watch, pull from
+// online references of viral neon edits"). Web research found no N3on-specific breakdowns, only general streamer-clip practice, which matches
+// our measured 500K edit: frequent pattern interrupts (speaker punch-ins / angle changes, flash cuts, motion blur), no dead air, meme overlays +
+// sound hits on punchlines, captions readable on mute. So: cut WIDE ↔ FACE (the tracked speaker) every ~1.5 s, whip-blur first frame,
+// 2–3 colour-flash frames on punchlines, iOS-emoji pops on the key words, a red *N3on* arrow once, louder meme SFX (still in speech gaps),
+// the fahhh freeze, VIRAL_WARM, and the ending lands loud after the last word.
+const TINTF = {red: 'rgba(255,40,40,0.75)', yellow: 'rgba(240,255,60,0.7)', green: 'rgba(80,255,60,0.65)'};
+type FeedCfg = {segs: [number, number, number?][]; top: string; keys: string[]; fix?: Record<string, string>; fah: number | null; music: string; from: number;
+  label: {src: number; text: string} | null; flashes: [number, 'red' | 'yellow' | 'green'][]; emojis: [number, string][]; memes?: [string, number, number?, number?][];
+  arrowAt: number; wideFirst?: boolean; gain?: number};
+const neonFeed = (c: FeedCfg) => {
+  const raw = moreWords as Raw;
+  const segs = tighten(c.segs as never, raw);
+  const last = segs[segs.length - 1];
+  const after = [...raw].sort((x, y) => x.startMs - y.startMs).find((w) => w.startMs >= last[1])?.startMs ?? Infinity;
+  const spokeEnd = last[1];
+  segs[segs.length - 1] = [last[0], Math.max(last[1], Math.min(last[1] + 800, after - 60)), last[2] ?? 0];
+  const tl = timeline(segs);
+  const hookN = tighten([c.segs[0]] as never, raw).length;
+  const out = (src: number, hook = false) => {
+    for (let i = hook ? 0 : hookN; i < segs.length; i++) if (src >= segs[i][0] && src <= segs[i][1] + (segs[i][2] ?? 0)) return tl.segOut[i] + Math.min(src, segs[i][1]) - segs[i][0];
+    return -1;
+  };
+  const end = tl.segOut[segs.length - 1] + spokeEnd - last[0];
+  const dips = speechDips(raw, tl);
+  // camera: FACE on the cold open, then alternate WIDE / FACE every ~1.5 s (new piece = new angle), the last ~1.2 s wide
+  const shots: [number, 'W' | 'M'][] = [[0, c.wideFirst ? 'W' : 'M']];
+  let face = c.wideFirst ?? false;
+  for (let t = tl.segOut[1]; t < tl.total - 1200; t += 1500) { shots.push([t, face ? 'M' : 'W']); face = !face; }
+  shots.push([Math.max(tl.total - 1200, shots[shots.length - 1][0] + 600), 'W']);
+  const fahAt = c.fah !== null ? out(c.fah) : -1;
+  const flashes = c.flashes.map(([s, col]) => [out(s), col] as const).filter(([t]) => t >= 0);
+  const emojis = c.emojis.map(([s, e]) => [out(s), e] as const).filter(([t]) => t >= 0);
+  const arrow = out(c.arrowAt);
+  const spec: Spec = {
+    tl, src: SRC, track: track as unknown as Track, top: c.top, wordY: 1010, wideX: 960, capSize: 74, grade: VIRAL_WARM, speechGain: c.gain,
+    words: caps(raw, tl, c.fix ?? {}, c.keys), shots, strobes: [], tints: [], swish: [],
+    camFx: (o) => { const w = o < 180 ? 1 - o / 180 : 0; return {transform: `translateX(${-w * 140}px) scale(${1 + w * 0.1})`, filter: w ? `blur(${w * 12}px)` : undefined}; },
+    inBox: (o) => <>
+      {c.label && <TypedAction o={o} a={out(c.label.src)} b={out(c.label.src) + 1500} text={c.label.text} y={70} color="#FF4D4D" glow="rgba(255,77,77,0.55)" />}
+      {flashes.map(([t, col], i) => (o >= t && o < t + 190 ? <AbsoluteFill key={i} style={{background: TINTF[col], mixBlendMode: 'color', opacity: interpolate(o - t, [0, 70, 190], [1, 1, 0], clamp)}} /> : null))}
+      {emojis.map(([t, e], i) => (o >= t && o < t + 1100 ? <Img key={i} src={staticFile(`emoji-ios/${e}.png`)} style={{position: 'absolute', left: 760, top: 120, width: 230, height: 230,
+        transform: `scale(${interpolate(o - t, [0, 90, 180], [0.3, 1.15, 1], clamp)}) rotate(${(i % 2 ? 1 : -1) * 8}deg)`, opacity: interpolate(o - t, [900, 1100], [1, 0], clamp),
+        filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.5))'}} /> : null))}
+    </>,
+    overlay: (o, face2) => {
+      if (arrow < 0 || o < arrow || o >= arrow + 1300) return null;
+      const f = face2('M'); const p = interpolate(o - arrow, [0, 220], [0, 1], clamp), fade = interpolate(o - arrow, [1100, 1300], [1, 0], clamp);
+      const ax = Math.min(Math.max(f.x - 260, 30), 700), ay = f.y + 170;
+      return <div style={{position: 'absolute', inset: 0, opacity: fade}}>
+        <svg width={1080} height={1920} style={{position: 'absolute', inset: 0}}><path d={`M ${ax + 40} ${ay + 150} C ${ax - 40} ${ay + 60}, ${ax + 40} ${ay - 40}, ${f.x - 70} ${f.y + 40}`}
+          fill="none" stroke="#E8261F" strokeWidth={14} strokeLinecap="round" pathLength={1} strokeDasharray={1} strokeDashoffset={1 - p} /></svg>
+        <div style={{position: 'absolute', left: ax - 40, top: ay + 160, fontFamily: 'Montserrat, sans-serif', fontWeight: 900, fontStyle: 'italic', fontSize: 56, color: '#E8261F',
+          WebkitTextStroke: '6px white', paintOrder: 'stroke fill', opacity: p}}>*N3on*</div>
+      </div>;
+    },
+    fah: fahAt >= 0 ? [fahAt + 40] : [], fahVol: 1.6,
+    music: {file: c.music, from: c.from, level: 0, gain: 1.2, floor: 0.45, ramp: 150, dips, start: tl.segOut[1], swell: [end, 2.5]},
+    extraSfx: [sfx('fast-whoosh', 0, 0.22, 400), sfx('record-scratch', tl.segOut[1] - 60, 0.22, 450),
+      ...shots.slice(2).filter(([t]) => dips.every(([a, b]) => t < a || t >= b)).map(([t]) => sfx('fast-whoosh', t - 100, 0.12, 350)),
+      ...flashes.map(([t]) => sfx('bass-boosted-vine-boom', t - 60, 0.08, 450)),
+      ...emojis.map(([t]) => sfx('jv2-pop-button', t, 0.16)),
+      ...(c.label ? [sfx('keyboard-typing', out(c.label.src), 0.09, c.label.text.length * 45 + 150)] : []),
+      ...(arrow >= 0 ? [sfx('mg-swoosh', arrow, 0.16, 500)] : []),
+      ...(c.memes ?? []).map(([f, t, v, m]) => sfx(f, inGap(out(t), dips), v ?? 0.3, m ?? 900)),
+      sfx('bass-boosted-vine-boom', end + 40, 0.18, 900)],
+  };
+  return {spec, total: tl.total};
+};
+
+const F9 = neonFeed({segs: [[80800, 83900], [61500, 66500], [78700, 84100, 1000], [90100, 94000]], top: 'N3on asked the Pilates instructor THIS',
+  keys: ['kidding', 'Pilates', 'pilates', 'prison', 'straight', 'losing', 'easy', 'glasses'], fix: {pilates: 'Pilates'}, fah: 84100, music: 'Monkeys_Spinning_Monkeys.mp3', from: 2000,
+  label: {src: 84100, text: 'asked the real question'}, arrowAt: 61600,
+  flashes: [[65800, 'yellow'], [82600, 'red'], [93700, 'green']], emojis: [[64000, '1f633'], [90300, '1f913'], [93700, '1f525']],
+  memes: [['huh-cat', 66500, 0.26, 700], ['ja-ding', 79500, 0.3, 1000]]});
+export const NeonFeedPilatesQ = () => <Jorho s={F9.spec} />;
+export const NEON_F_PILATESQ_MS = F9.total;
+
+const F10 = neonFeed({segs: [[568000, 569800], [543700, 547600], [549300, 558000], [566000, 570000, 1000], [573600, 574600]], top: 'Sarah vs N3on: who can hold it longer?',
+  keys: ['winner', 'tuck', 'longest', 'go', 'Really', 'dude', 'hands'], fah: 570000, music: 'Sneaky_Snitch.mp3', from: 20000, gain: 1.4,
+  label: {src: 570000, text: 'lost again'}, arrowAt: 543800, wideFirst: true,
+  flashes: [[554700, 'yellow'], [568900, 'red']], emojis: [[553200, '23f1'], [573700, '1f62d']],
+  memes: [['heartbeat-loud', 555000, 0.2, 2500], ['ja-ding', 574700, 0.3, 1000]]});
+export const NeonFeedTuck = () => <Jorho s={F10.spec} />;
+export const NEON_F_TUCK_MS = F10.total;
+
+const F11 = neonFeed({segs: [[716600, 718800], [602600, 608500], [617200, 622000], [706100, 708600], [712200, 718800]], top: 'N3on finally found something he is good at',
+  keys: ['spider', 'man', 'god', 'best', 'good', 'bad', 'fun'], fix: {'-man': 'man', shit: 'sh*t'}, fah: null, music: 'joyful-chess-slowed.mp3', from: 4000, gain: 1.15,
+  label: {src: 713600, text: 'finally good at something'}, arrowAt: 602700, wideFirst: true,
+  flashes: [[619300, 'yellow'], [621400, 'green']], emojis: [[619300, '1f577'], [714000, '1f4aa']],
+  memes: [['anime-wow', 622000, 0.28, 1200], ['ja-ding', 715200, 0.28, 1000]]});
+export const NeonFeedSpider = () => <Jorho s={F11.spec} />;
+export const NEON_F_SPIDER_MS = F11.total;
+
+const F12 = neonFeed({segs: [[418100, 421700], [416100, 429700]], top: 'N3on gained a new respect for pole dancers',
+  keys: ['technique', 'hard', 'work', 'salute', 'respect', 'brother'], fix: {ask: 'a**'}, fah: null, music: 'experience-einaudi.mp3', from: 30000, gain: 1.45,
+  label: {src: 423600, text: 'respect'}, arrowAt: 416200,
+  flashes: [[421300, 'yellow'], [423600, 'green']], emojis: [[423600, '1fae1'], [429100, '1f91d']],
+  memes: [['ja-ding', 421700, 0.28, 1000]]});
+export const NeonFeedRespect = () => <Jorho s={F12.spec} />;
+export const NEON_F_RESPECT_MS = F12.total;
+
+const F13 = neonFeed({segs: [[244500, 245700], [225000, 226200], [230000, 232800], [242400, 245700], [246600, 257700, 1000]], top: 'N3on was WAY too excited for this class',
+  keys: ['strippers', 'thrown', 'excited', 'Pilates', '17', 'years', 'stripper', 'Hell', 'yeah'], fah: 257700, music: 'funk-do-balkan.mp3', from: 42000,
+  label: {src: 257700, text: 'way too excited'}, arrowAt: 242500,
+  flashes: [[230700, 'yellow'], [256300, 'red']], emojis: [[230700, '1f4b8'], [244800, '1f929'], [257400, '1f525']],
+  memes: [['ja-ding', 232800, 0.3, 1000], ['vine-boom', 245800, 0.26]]});
+export const NeonFeedExcited = () => <Jorho s={F13.spec} />;
+export const NEON_F_EXCITED_MS = F13.total;

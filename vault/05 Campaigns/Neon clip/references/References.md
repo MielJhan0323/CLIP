@@ -38,3 +38,11 @@ Approved template + the calm viral lessons: curiosity titles, dead-air trims, mu
 | `neon_spiderman_silks.mp4` (22.3 s) | silks: "wide, wide, legs… keep going, Spider-Man… oh my god" → "this is what you were best at all day" | "…little boop-de-doop sh*t" |
 | `neon_new_respect.mp4` (17.8 s) | "you're not looking at the actual technique… this is hard work, salute to you" | "especially him right there, my brother" |
 | `neon_too_excited.mp4` (21.9 s) | "throwing money at strippers? no money is gonna be thrown" → "more excited for this than Pilates" → "I have been a stripper" (freeze + fahhh) | "Hell yeah!" |
+
+## Feed edits (2026-11-15) — user: batch 3 was "hella boring, give me something you'd see on the feed and stay to watch"
+Web research (no N3on-specific breakdowns exist; general streamer-clip practice) agreed with our measured 500K edit: frequent pattern interrupts
+(speaker punch-ins / angle changes, flash cuts, motion blur), no dead air, meme overlays + sound hits on punchlines, readable on mute.
+`neonFeed()` in `neon.tsx`: WIDE ↔ FACE cut every ~1.5 s, whip-blur first frame, 2–3 colour flashes, iOS-emoji pops on key words, red *N3on*
+arrow once, louder meme SFX (still in speech gaps), fahhh freeze, VIRAL_WARM, loud ending after the last word.
+Files: `neon_feed_pilates_question`, `neon_feed_tuck_contest`, `neon_feed_spiderman_silks`, `neon_feed_new_respect`, `neon_feed_too_excited` (awaiting feedback;
+these replace the batch-3 calm versions).

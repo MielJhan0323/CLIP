@@ -15,7 +15,7 @@ import {B17Rookie, B17Playbook, B17Left, B17Gift, B17Jesus, B17Marino, B17Sweat,
 import {B16Signature, B16Rookie, B16Ant, B16Playbook, B16Left, B16_SIG_MS, B16_ROOKIE_MS, B16_ANT_MS, B16_PLAYBOOK_MS, B16_LEFT_MS, B16Davis, B16Gift, B16Jesus, B16Marino, B16Sweat, B16_DAVIS_MS, B16_GIFT_MS, B16_JESUS_MS, B16_MARINO_MS, B16_SWEAT_MS} from './jorho/batch16';
 import {B15Signature, B15Rookie, B15Ant, B15Playbook, B15Left, B15_SIG_MS, B15_ROOKIE_MS, B15_ANT_MS, B15_PLAYBOOK_MS, B15_LEFT_MS} from './jorho/batch15';
 import {B14Judge, B14Murakami, B14Randy, B14_JUDGE_MS, B14_MURA_MS, B14_RANDY_MS, B14Patch, B14Sweat, B14Marino, B14_PATCH_MS, B14_SWEAT_MS, B14_MARINO_MS, B14Rpa, B14_RPA_MS} from './jorho/batch14';
-import {NeonCalories, NeonObnoxious, NeonPole, NEON_CAL_MS, NEON_OB_MS, NEON_POLE_MS, NeonBet, NeonPilates, NeonHeadstand, NeonBathroom, NeonWax, NEON_BET_MS, NEON_PILATES_MS, NEON_HEADSTAND_MS, NEON_BATHROOM_MS, NEON_WAX_MS, NeonPilatesQ, NeonTuck, NeonSpider, NeonRespect, NeonExcited, NEON_PILATESQ_MS, NEON_TUCK_MS, NEON_SPIDER_MS, NEON_RESPECT_MS, NEON_EXCITED_MS} from './campaigns/neon_clip/neon';
+import {NeonCalories, NeonObnoxious, NeonPole, NEON_CAL_MS, NEON_OB_MS, NEON_POLE_MS, NeonBet, NeonPilates, NeonHeadstand, NeonBathroom, NeonWax, NEON_BET_MS, NEON_PILATES_MS, NEON_HEADSTAND_MS, NEON_BATHROOM_MS, NEON_WAX_MS, NeonPilatesQ, NeonTuck, NeonSpider, NeonRespect, NeonExcited, NEON_PILATESQ_MS, NEON_TUCK_MS, NEON_SPIDER_MS, NEON_RESPECT_MS, NEON_EXCITED_MS, NeonFeedPilatesQ, NeonFeedTuck, NeonFeedSpider, NeonFeedRespect, NeonFeedExcited, NEON_F_PILATESQ_MS, NEON_F_TUCK_MS, NEON_F_SPIDER_MS, NEON_F_RESPECT_MS, NEON_F_EXCITED_MS} from './campaigns/neon_clip/neon';
 import {FomoBowling, FomoChainlink, FomoLoss, FomoRansom, FomoReveal, FOMO_BOWLING_MS, FOMO_CHAINLINK_MS, FOMO_LOSS_MS, FOMO_RANSOM_MS, FOMO_REVEAL_MS, FomoIceBath, FomoYoungMaurits, FomoAvocado, FomoFlex, FOMO_FLEX_MS, FOMO_ICE_MS, FOMO_YOUNG_MS, FOMO_AVOCADO_MS} from './campaigns/fomo_clip/fomo';
 import {B13Artist, B13Cards, B13King, B13Rookie, B13Tiger, B13_ARTIST_MS, B13_CARDS_MS, B13_KING_MS, B13_ROOKIE_MS, B13_TIGER_MS} from './jorho/batch13';
 import {B12Davis, B12Josh, B12Lefty, B12Ticket, B12_DAVIS_MS, B12_JOSH_MS, B12_LEFTY_MS, B12_TICKET_MS} from './jorho/batch12';
@@ -116,6 +116,11 @@ export const RemotionRoot = () => (
   <Composition id="NeonSpider" component={NeonSpider} fps={30} width={1080} height={1920} durationInFrames={Math.round((NEON_SPIDER_MS / 1000) * 30)} />
   <Composition id="NeonRespect" component={NeonRespect} fps={30} width={1080} height={1920} durationInFrames={Math.round((NEON_RESPECT_MS / 1000) * 30)} />
   <Composition id="NeonExcited" component={NeonExcited} fps={30} width={1080} height={1920} durationInFrames={Math.round((NEON_EXCITED_MS / 1000) * 30)} />
+  <Composition id="NeonFeedPilatesQ" component={NeonFeedPilatesQ} fps={30} width={1080} height={1920} durationInFrames={Math.round((NEON_F_PILATESQ_MS / 1000) * 30)} />
+  <Composition id="NeonFeedTuck" component={NeonFeedTuck} fps={30} width={1080} height={1920} durationInFrames={Math.round((NEON_F_TUCK_MS / 1000) * 30)} />
+  <Composition id="NeonFeedSpider" component={NeonFeedSpider} fps={30} width={1080} height={1920} durationInFrames={Math.round((NEON_F_SPIDER_MS / 1000) * 30)} />
+  <Composition id="NeonFeedRespect" component={NeonFeedRespect} fps={30} width={1080} height={1920} durationInFrames={Math.round((NEON_F_RESPECT_MS / 1000) * 30)} />
+  <Composition id="NeonFeedExcited" component={NeonFeedExcited} fps={30} width={1080} height={1920} durationInFrames={Math.round((NEON_F_EXCITED_MS / 1000) * 30)} />
   <Composition id="FomoReveal" component={FomoReveal} fps={30} width={1080} height={1920} durationInFrames={Math.round((FOMO_REVEAL_MS / 1000) * 30)} />
   <Composition id="FomoBowling" component={FomoBowling} fps={30} width={1080} height={1920} durationInFrames={Math.round((FOMO_BOWLING_MS / 1000) * 30)} />
   <Composition id="FomoLoss" component={FomoLoss} fps={30} width={1080} height={1920} durationInFrames={Math.round((FOMO_LOSS_MS / 1000) * 30)} />
