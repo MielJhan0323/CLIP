@@ -57,3 +57,8 @@ swears, *ACTION* labels in gaps, green/red flashes held ~0.5 s (+ ding / shock p
 SFX (swoosh, typing, fahhh, huh, suspense, anime wow, correct, akward), client songs (wtf u tryna say, kai-cenat suspense, joyful chess,
 ts pmo, say goodbye at −10 dB for vocals), B&W push-in on the loss (tuck), finishing pass: hqdn3d noise reduction + unsharp sharpening.
 Files: `neon_full_pilates_question`, `neon_full_tuck_contest`, `neon_full_spiderman_silks`, `neon_full_new_respect`, `neon_full_too_excited` (awaiting feedback).
+
+## Video-reference style (2026-11-15) — src/campaigns/neon_clip/ref.tsx (RefClose / RefChatgpt / RefPole)
+User: "give me 3 neon clips from the new editing style". Letterbox Jorho Frame (black bars, white title + 💀), small one-word captions,
+full-height crop that only slides when the source shot changes (hand keys), *N3on* arrow once, 1 flash, SFX only on events, quiet bed.
+Fresh moments: 209–224 (103 vs 161 cal), 431–458 (pole cal → ChatGPT excuse → LeBron), 328–355 (first pole try → "stop me").
