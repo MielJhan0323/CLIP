@@ -46,3 +46,6 @@ Web research (no N3on-specific breakdowns exist; general streamer-clip practice)
 arrow once, louder meme SFX (still in speech gaps), fahhh freeze, VIRAL_WARM, loud ending after the last word.
 Files: `neon_feed_pilates_question`, `neon_feed_tuck_contest`, `neon_feed_spiderman_silks`, `neon_feed_new_respect`, `neon_feed_too_excited` (awaiting feedback;
 these replace the batch-3 calm versions).
+
+## External viral references (2026-11-15)
+The user's "Neon Ref" folder: [[Neon viral references]] (`external/`). New Neon clips copy THESE: full-screen 9:16, Anton captions (per-speaker colours), *ACTION* labels, green/red flashes held ~0.5 s, cuts on the speaker, a loud-ish music bed, B&W push-in on a loss.
