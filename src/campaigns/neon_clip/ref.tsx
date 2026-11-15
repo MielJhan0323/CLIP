@@ -10,10 +10,15 @@ import {BOX_H, BOX_TOP, Frame, OneWord, wordsFrom} from '../../jorho/kit';
 import {VIRAL_WARM} from '../../jorho/clips';
 import {MONT} from '../../e3/bars';
 import {tighten} from '../../jorho/tighten';
+import {applyHi, EmojiPop, type Hi} from '../../jorho/hi';
 import {speechDips} from './neon';
 import calWords from '../../plans/data/r3born_ep2_cal.words.json';
 import obWords from '../../plans/data/r3born_ep2_ob.words.json';
 import poleWords from '../../plans/data/r3born_ep2_pole.words.json';
+import restWords from '../../plans/data/r3born_ep2_rest.words.json';
+import moreWords from '../../plans/data/r3born_ep2_more.words.json';
+import fiveWords from '../../plans/data/r3born_ep2_five.words.json';
+import {HC} from '../../jorho/hi';
 
 type Raw = {text: string; startMs: number; endMs: number}[];
 const SRC = 'neon/r3born_ep2.mp4';
@@ -22,7 +27,7 @@ const TINT = {red: 'rgba(255,40,40,0.7)', green: 'rgba(80,255,60,0.6)'};
 const CW = (1080 * 1080) / BOX_H; // source width of a full-height crop in the band
 
 type Cfg = {raw: Raw; segs: [number, number, number?][]; title: string; keys: [sec: number, x: number][]; arrow: [ms: number, x: number, y: number];
-  flash?: [number, 'red' | 'green']; music: string; from: number; musicGain?: number; gain?: number; sfx?: (out: (s: number) => number) => Sfx[]};
+  flash?: [number, 'red' | 'green']; hi?: Hi; snap?: boolean; music: string; from: number; musicGain?: number; gain?: number; sfx?: (out: (s: number) => number) => Sfx[]};
 
 const make = (c: Cfg) => {
   const raw = c.raw.map((w) => ({...w, text: CENSOR.reduce((t, [re, r]) => (re.test(t) ? t.replace(re, r) : t), w.text)}))
@@ -38,7 +43,9 @@ const make = (c: Cfg) => {
     for (let i = hookN; i < segs.length; i++) if (src >= segs[i][0] && src <= segs[i][1]) return tl.segOut[i] + src - segs[i][0];
     return -1;
   };
-  const words = wordsFrom(raw, tl);
+  const words = applyHi(wordsFrom(raw, tl), c.hi);
+  const beats = words.filter((w) => Array.isArray(c.hi?.[w.text.toLowerCase().replace(/^[^a-z0-9$*]+|[^a-z0-9%*]+$/g, '')])).map((w) => w.at).filter((t, i, a) => i === 0 || t - a[i - 1] > 700);
+  const beatK = (o: number) => beats.reduce((k, t) => (o >= t && o < t + 260 ? Math.max(k, 1 - (o - t) / 260) : k), 0);
   const dips = speechDips(raw, tl);
   const end = tl.segOut[segs.length - 1] + spokeEnd - last[0];
   // crop centre x per source ms: hold a key, ease 350 ms into the next one (a slide only where the shot changes)
@@ -47,7 +54,8 @@ const make = (c: Cfg) => {
     const s = src / 1000;
     let i = ks.findIndex(([t]) => t > s); if (i < 0) i = ks.length; const prev = ks[Math.max(0, i - 1)];
     const nxt = ks[i]; if (!nxt) return prev[1];
-    const t = Math.min(1, Math.max(0, (s - (nxt[0] - 0.35)) / 0.35));
+    const win = c.snap ? 0.04 : 0.35; // snap = the source cuts every second → jump with the cut, no slide
+    const t = Math.min(1, Math.max(0, (s - (nxt[0] - win)) / win));
     return prev[1] + (nxt[1] - prev[1]) * (t * t * (3 - 2 * t));
   };
   const lo = Math.min(...c.segs.map((g) => g[0])), hi = Math.max(...c.segs.map((g) => g[1])) + 1500;
@@ -65,6 +73,7 @@ const make = (c: Cfg) => {
     sfx('mg-swoosh', arrowO, 0.14, 500),
     ...(flashO >= 0 ? [c.flash![1] === 'green' ? sfx('g-ding-sfx', flashO - 30, 0.18, 700) : sfx('g-shock-sfx', flashO - 40, 0.2, 900)] : []),
     ...(c.sfx?.(out) ?? []),
+    ...beats.filter((t) => t > 400).map((t) => sfx('jv2-pop-button', t, 0.07, 300)),
     sfx('bass-boosted-vine-boom', end + 40, 0.14, 900),
   ];
   const mg = c.musicGain ?? 1;
@@ -72,7 +81,8 @@ const make = (c: Cfg) => {
     const o = (useCurrentFrame() * 1000) / FPS;
     const whip = o < 180 ? 1 - o / 180 : 0;
     return <Frame o={o} top={c.title} over={<>
-      <OneWord o={o} words={words} y={1000} size={60} />
+      <OneWord o={o} words={words} y={1000} size={c.hi ? 66 : 60} />
+      <EmojiPop o={o} words={words} hi={c.hi} y={1000} />
       {arrowO >= 0 && o >= arrowO && o < arrowO + 1300 && <Arrow o={o - arrowO} x={ax} y={ay} />}
       <SpeechTrack src={SRC} tl={tl} gain={1.05 * (c.gain ?? 1)} />
       <Music file={c.music} songFrom={c.from} level={(t) => {
@@ -81,7 +91,7 @@ const make = (c: Cfg) => {
       }} />
       <SfxTrack list={list} />
     </>}>
-      <AbsoluteFill style={{transform: `translateX(${-whip * 120}px) scale(${1 + whip * 0.08})`, filter: whip ? `blur(${whip * 10}px)` : undefined}}><Cam c={cam} o={o} /></AbsoluteFill>
+      <AbsoluteFill style={{transform: `translateX(${-whip * 120}px) scale(${(1 + whip * 0.08) * (1 + beatK(o) * 0.045)})`, filter: whip ? `blur(${whip * 10}px)` : undefined}}><Cam c={cam} o={o} /></AbsoluteFill>
       {flashO >= 0 && o >= flashO && o < flashO + 450 && <AbsoluteFill style={{background: TINT[c.flash![1]], mixBlendMode: 'color',
         opacity: interpolate(o - flashO, [0, 60, 300, 450], [0, 1, 1, 0], clamp)}} />}
     </Frame>;
@@ -119,3 +129,35 @@ export const REF_POLE = make({raw: poleWords as Raw, title: 'N3on tried pole dan
   keys: [[327.9, 650], [330, 780], [333, 880], [335, 700], [337, 850], [340, 650], [341, 930], [349, 700], [350, 950], [352.5, 1450], [355.6, 1000]],
   arrow: [334600, 850, 230], flash: [353420, 'green'], music: 'kai-cenat-suspense.mp3', from: 0, musicGain: 1.2});
 export const RefClose = REF_CLOSE.Comp, RefChatgpt = REF_CHATGPT.Comp, RefPole = REF_POLE.Comp;
+
+// ---- BATCH 5 (2026-11-15): "5 high virality neon clips, maybe add color on the captions / highlight different words and emojis" ----
+// fresh moments (never cut before), same video-reference look + key-word colours / iOS emoji pops, one flash each
+const {green: G, yellow: Y, cyan: C, red: R, orange: O, pink: P} = HC;
+const REST = restWords as Raw;
+const FART_RAW = [...(fiveWords as Raw).filter((w) => w.startMs < 158000), ...(moreWords as Raw).filter((w) => w.startMs >= 158000 && w.startMs < 176000)]
+  .sort((a, b) => a.startMs - b.startMs).filter((w, i, a) => i === 0 || w.startMs - a[i - 1].startMs > 150 || w.text !== a[i - 1].text);
+export const REF_JOKE = make({raw: REST, title: "Are these 'women's exercises' a joke? N3on found out",
+  segs: [[7200, 8700], [0, 4900], [7200, 8700], [11800, 14500], [19200, 23500]], snap: true,
+  keys: [[0, 960], [3, 1040], [7, 960], [8, 800], [11.8, 960], [13, 1050], [19, 900], [20, 1100], [21, 960], [23, 960]],
+  arrow: [3300, 1040, 230], flash: [2500, 'red'], music: 'pixy-legacy.mp3', from: 0, musicGain: 0.5,
+  hi: {pilates: Y, pole: Y, dancing: Y, aerial: Y, yoga: Y, insane: [R, '1f631'], joke: [R, '1f602'], pants: [O, '1f633'], sarah: P, safari: P, calories: [G, '1f525'], fitness: C, bands: C, special: P}});
+export const REF_SLIP = make({raw: REST, title: "N3on's slip of the tongue at pole class",
+  segs: [[264900, 266600], [264000, 268000], [269500, 270500], [274800, 277200], [277700, 279800], [280700, 285500]],
+  keys: [[264, 1100]], arrow: [264300, 880, 230], flash: [264900, 'red'], music: 'Sneaky_Snitch.mp3', from: 0, musicGain: 0.8,
+  hi: {strip: [R, '1f633'], sorry: [Y, '1f62c'], pole: C, dancing: C, amazing: G, flexible: G, strength: G, camaraderie: C, everything: [Y, '1f92f'], intrigued: [O, '1f914'], interested: O, tough: [R, '1f480']}});
+export const REF_DOWN100 = make({raw: REST, title: 'N3on is down 100 calories… so now it\'s aerial silks',
+  segs: [[508200, 511000], [464100, 468900], [484100, 487700], [506500, 516200]],
+  keys: [[464, 640], [465.8, 541], [470, 960], [484, 914], [486, 1200], [488, 500], [506, 1000], [507.4, 1250], [512, 560], [515.5, 1000]],
+  arrow: [508300, 1536, 150], flash: [506800, 'red'], music: 'kai-cenat-suspense.mp3', from: 0, musicGain: 1.1,
+  hi: {aerial: C, silks: C, 'f*ck': R, idea: [Y, '1f914'], hundred: [R, '1f4c9'], calories: R, burn: G, smoked: [R, '1f480'], cirque: C, soleil: C, flippin: Y, splitting: Y}});
+export const REF_FART = make({raw: FART_RAW, title: 'Did N3on just fart in Pilates?', snap: true,
+  segs: [[166300, 166900], [152600, 160600], [163800, 170000]],
+  keys: [[152, 1000], [153, 920], [156, 1110], [157, 1260], [158, 770], [159, 560], [160, 770], [161, 1300], [162, 960], [163, 920], [164, 1230], [165, 1400], [166, 920], [167, 845], [168, 1000], [169, 450], [170, 614]],
+  arrow: [157500, 1267, 600], flash: [166600, 'red'], music: 'Fluffing_a_Duck.mp3', from: 0, musicGain: 0.8,
+  hi: {abs: [R, '1f525'], fire: R, baby: Y, inhale: C, exhale: C, lift: C, fart: [O, '1f922'], 'sh*t': R, nope: [R, '1f480'], five: Y, four: Y}});
+export const REF_HARD = make({raw: REST, title: 'Aerial silks humbled them FAST', snap: true,
+  segs: [[536000, 537400], [522000, 537600]],
+  keys: [[522, 1000], [524, 1150], [529, 700], [530, 600], [531, 1000], [532, 920], [533, 850], [534, 660], [535, 730], [536, 1000], [537, 620], [538, 920]],
+  arrow: [531200, 998, 260], flash: [537000, 'red'], music: 'zelda-ocarina.mp3', from: 0, musicGain: 0.9,
+  hi: {backbend: C, arch: C, hips: Y, rock: C, wrap: C, god: [Y, '1f631'], hard: [R, '1f62d'], seriously: R}});
+export const RefJoke = REF_JOKE.Comp, RefSlip = REF_SLIP.Comp, RefDown100 = REF_DOWN100.Comp, RefFart = REF_FART.Comp, RefHard = REF_HARD.Comp;

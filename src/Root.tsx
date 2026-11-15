@@ -13,9 +13,11 @@ import {Demo14, DEMO14_MS} from './jorho/demo14';
 import {Demo15, DEMO15_MS} from './jorho/demo15';
 import {FullPilatesQ, FullTuck, FullSpider, FullRespect, FullExcited, FULL_PILATESQ, FULL_TUCK, FULL_SPIDER, FULL_RESPECT, FULL_EXCITED} from './campaigns/neon_clip/full';
 import {RefClose, RefChatgpt, RefPole, REF_CLOSE, REF_CHATGPT, REF_POLE} from './campaigns/neon_clip/ref';
+import {RefJoke, RefSlip, RefDown100, RefFart, RefHard, REF_JOKE, REF_SLIP, REF_DOWN100, REF_FART, REF_HARD} from './campaigns/neon_clip/ref';
 import {B17Rookie, B17Playbook, B17Left, B17Gift, B17Jesus, B17Marino, B17Sweat, B17_ROOKIE_MS, B17_PLAYBOOK_MS, B17_LEFT_MS, B17_GIFT_MS, B17_JESUS_MS, B17_MARINO_MS, B17_SWEAT_MS} from './jorho/batch17';
 import {B18Fields, B18Josh, B18Presnap, B18_FIELDS_MS, B18_JOSH_MS, B18_PRESNAP_MS} from './jorho/batch18';
 import {B19Presnap, B19Coen, B19Gift, B19_PRESNAP_MS, B19_COEN_MS, B19_GIFT_MS} from './jorho/batch19';
+import {B20Playbook, B20Patch, B20Peyton, B20Golf, B20Marino, B20Ticket, B20Ant, B20Whacked, B20Celly, B20Neck, B20_MS} from './jorho/batch20';
 import {B16Signature, B16Rookie, B16Ant, B16Playbook, B16Left, B16_SIG_MS, B16_ROOKIE_MS, B16_ANT_MS, B16_PLAYBOOK_MS, B16_LEFT_MS, B16Davis, B16Gift, B16Jesus, B16Marino, B16Sweat, B16_DAVIS_MS, B16_GIFT_MS, B16_JESUS_MS, B16_MARINO_MS, B16_SWEAT_MS} from './jorho/batch16';
 import {B15Signature, B15Rookie, B15Ant, B15Playbook, B15Left, B15_SIG_MS, B15_ROOKIE_MS, B15_ANT_MS, B15_PLAYBOOK_MS, B15_LEFT_MS} from './jorho/batch15';
 import {B14Judge, B14Murakami, B14Randy, B14_JUDGE_MS, B14_MURA_MS, B14_RANDY_MS, B14Patch, B14Sweat, B14Marino, B14_PATCH_MS, B14_SWEAT_MS, B14_MARINO_MS, B14Rpa, B14_RPA_MS} from './jorho/batch14';
@@ -130,6 +132,11 @@ export const RemotionRoot = () => (
   <Composition id="RefClose" component={RefClose} fps={30} width={1080} height={1920} durationInFrames={Math.round((REF_CLOSE.total / 1000) * 30)} />
   <Composition id="RefChatgpt" component={RefChatgpt} fps={30} width={1080} height={1920} durationInFrames={Math.round((REF_CHATGPT.total / 1000) * 30)} />
   <Composition id="RefPole" component={RefPole} fps={30} width={1080} height={1920} durationInFrames={Math.round((REF_POLE.total / 1000) * 30)} />
+  <Composition id="RefJoke" component={RefJoke} fps={30} width={1080} height={1920} durationInFrames={Math.round((REF_JOKE.total / 1000) * 30)} />
+  <Composition id="RefSlip" component={RefSlip} fps={30} width={1080} height={1920} durationInFrames={Math.round((REF_SLIP.total / 1000) * 30)} />
+  <Composition id="RefDown100" component={RefDown100} fps={30} width={1080} height={1920} durationInFrames={Math.round((REF_DOWN100.total / 1000) * 30)} />
+  <Composition id="RefFart" component={RefFart} fps={30} width={1080} height={1920} durationInFrames={Math.round((REF_FART.total / 1000) * 30)} />
+  <Composition id="RefHard" component={RefHard} fps={30} width={1080} height={1920} durationInFrames={Math.round((REF_HARD.total / 1000) * 30)} />
   <Composition id="FullSpider" component={FullSpider} fps={30} width={1080} height={1920} durationInFrames={Math.round((FULL_SPIDER.total / 1000) * 30)} />
   <Composition id="FullRespect" component={FullRespect} fps={30} width={1080} height={1920} durationInFrames={Math.round((FULL_RESPECT.total / 1000) * 30)} />
   <Composition id="FullExcited" component={FullExcited} fps={30} width={1080} height={1920} durationInFrames={Math.round((FULL_EXCITED.total / 1000) * 30)} />
@@ -177,6 +184,16 @@ export const RemotionRoot = () => (
   <Composition id="B19Presnap" component={B19Presnap} fps={30} width={1080} height={1920} durationInFrames={Math.round((B19_PRESNAP_MS / 1000) * 30)} />
   <Composition id="B19Coen" component={B19Coen} fps={30} width={1080} height={1920} durationInFrames={Math.round((B19_COEN_MS / 1000) * 30)} />
   <Composition id="B19Gift" component={B19Gift} fps={30} width={1080} height={1920} durationInFrames={Math.round((B19_GIFT_MS / 1000) * 30)} />
+  <Composition id="B20Playbook" component={B20Playbook} fps={30} width={1080} height={1920} durationInFrames={Math.round((B20_MS.Playbook / 1000) * 30)} />
+  <Composition id="B20Patch" component={B20Patch} fps={30} width={1080} height={1920} durationInFrames={Math.round((B20_MS.Patch / 1000) * 30)} />
+  <Composition id="B20Peyton" component={B20Peyton} fps={30} width={1080} height={1920} durationInFrames={Math.round((B20_MS.Peyton / 1000) * 30)} />
+  <Composition id="B20Golf" component={B20Golf} fps={30} width={1080} height={1920} durationInFrames={Math.round((B20_MS.Golf / 1000) * 30)} />
+  <Composition id="B20Marino" component={B20Marino} fps={30} width={1080} height={1920} durationInFrames={Math.round((B20_MS.Marino / 1000) * 30)} />
+  <Composition id="B20Ticket" component={B20Ticket} fps={30} width={1080} height={1920} durationInFrames={Math.round((B20_MS.Ticket / 1000) * 30)} />
+  <Composition id="B20Ant" component={B20Ant} fps={30} width={1080} height={1920} durationInFrames={Math.round((B20_MS.Ant / 1000) * 30)} />
+  <Composition id="B20Whacked" component={B20Whacked} fps={30} width={1080} height={1920} durationInFrames={Math.round((B20_MS.Whacked / 1000) * 30)} />
+  <Composition id="B20Celly" component={B20Celly} fps={30} width={1080} height={1920} durationInFrames={Math.round((B20_MS.Celly / 1000) * 30)} />
+  <Composition id="B20Neck" component={B20Neck} fps={30} width={1080} height={1920} durationInFrames={Math.round((B20_MS.Neck / 1000) * 30)} />
   <Composition id="B13Cards" component={B13Cards} fps={30} width={1080} height={1920} durationInFrames={Math.round((B13_CARDS_MS / 1000) * 30)} />
   <Composition id="B13Tiger" component={B13Tiger} fps={30} width={1080} height={1920} durationInFrames={Math.round((B13_TIGER_MS / 1000) * 30)} />
   <Composition id="B13Rookie" component={B13Rookie} fps={30} width={1080} height={1920} durationInFrames={Math.round((B13_ROOKIE_MS / 1000) * 30)} />

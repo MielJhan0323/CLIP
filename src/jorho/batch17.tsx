@@ -12,11 +12,12 @@ import type {ReactNode} from 'react';
 import {AbsoluteFill, Img, interpolate, staticFile} from 'remotion';
 import {MONT} from '../e3/bars';
 import {Cam, clamp, ease, pop, sfx, timeline, type CamCfg, type Seg, type Sfx, type TL} from '../e3/kit';
-import {BOX_H, MemePop, wordsFrom} from './kit';
+import {BOX_H, HeadRing, MemePop, wordsFrom} from './kit';
 import {Jorho, VIRAL_WARM, type Spec} from './clips';
 import {TypedAction, YouTubeCard} from './v2';
 import {speechDips} from '../campaigns/neon_clip/neon';
 import {tighten} from './tighten';
+import {applyHi, EmojiPop, type Hi} from './hi';
 import peytonWords from '../plans/data/u4_peyton.words.json';
 import peytonTrack from '../plans/data/u4_peyton.seats.json';
 import pbWords from '../plans/data/u1_playbook.words.json';
@@ -44,6 +45,8 @@ type Cfg = {
   hookSeat: Seat; arrowAt: number; flash?: [src: number, color: 'red' | 'yellow' | 'green']; boards?: Board[];
   overlay?: (o: number, at: (src: number) => number) => ReactNode; inBox?: (o: number, at: (src: number) => number) => ReactNode;
   sfx?: (at: (src: number) => number) => Sfx[]; cutout?: {src: number; file: string; x?: number; y?: number; size?: number};
+  mark?: 'arrow' | 'circle'; // how Trevor is pointed out once (user: "the arrow or circle with trevor lawrence")
+  hi?: Hi; // key-word colours (+ iOS emoji); all other caption words white
   hook?: (o: number, end: number) => ReactNode; // a graphic over the cold open (end = output ms where the body starts)
   capsOff?: [number, number][]; // source ranges where captions hide (an overlay graphic owns the box)
   yt?: {title: string; a: number; b: number}; // YouTube watch-page card framing the question (source ms)
@@ -77,19 +80,25 @@ export const make = (c: Cfg) => {
   }
   shots.sort((x, y) => x[0] - y[0]); zooms.sort((x, y) => x[0] - y[0]);
   const zoomAt = (o: number) => Math.min(1.12, [...zooms].reverse().find(([t]) => o >= t)?.[1] ?? 1);
+  let beats: number[] = [];
   const dips = speechDips(c.raw, tl);
   const end = tl.segOut[segs.length - 1] + spokeEnd - last[0];
   const boards = (c.boards ?? []).map((bd) => ({...bd, oa: at(bd.a), ob: at(bd.b)}));
   const flashO = c.flash ? at(c.flash[0]) : -1;
   const arrow = at(c.arrowAt);
   const camCfg: CamCfg = {src: c.src, tl, track: c.track, grade: VIRAL_WARM, box: [1080, BOX_H], baseH: 640, faceY: 0.42, wideX: c.wideX, who: () => 'M'};
+  const capsOffList: [number, number][] = [...boards.map((bd) => [bd.oa + 150, bd.ob - 150] as [number, number]), ...(c.capsOff ?? []).map(([a, b]) => [at(a), at(b)] as [number, number]), ...(c.hook ? [[0, tl.segOut[hookN]] as [number, number]] : [])];
+  const capWords = applyHi(wordsFrom(c.raw, tl, {goaded: 'goated', fields: 'Fields'}), c.hi);
+  beats = capWords.filter((w) => { const h = c.hi?.[w.text.toLowerCase().replace(/^[^a-z0-9$*]+|[^a-z0-9%*]+$/g, '')]; return Array.isArray(h); }).map((w) => w.at)
+    .filter((t, i, a) => i === 0 || t - a[i - 1] > 700);
+  const beatK = (o: number) => beats.reduce((k, t) => (o >= t && o < t + 260 ? Math.max(k, 1 - (o - t) / 260) : k), 0);
   const spec: Spec = {
     tl, src: c.src, track: c.track, top: c.top, wordY: 1000, wideX: c.wideX, capSize: 60, grade: VIRAL_WARM,
-    words: wordsFrom(c.raw, tl, {goaded: 'goated', fields: 'Fields'}), shots, strobes: [], tints: [], swish: [],
-    capsOff: [...boards.map((bd) => [bd.oa + 150, bd.ob - 150] as [number, number]), ...(c.capsOff ?? []).map(([a, b]) => [at(a), at(b)] as [number, number]), ...(c.hook ? [[0, tl.segOut[hookN]] as [number, number]] : [])], // v2: captions off while a diagram owns the box
+    words: capWords, shots, strobes: [], tints: [], swish: [],
+    capsOff: capsOffList, // v2: captions off while a diagram owns the box
     camFx: (o) => {
       const whip = o < 180 ? 1 - o / 180 : 0;
-      return {transform: `translateX(${-whip * 140}px) scale(${zoomAt(o) * (1 + whip * 0.1)})`, transformOrigin: '50% 42%', filter: whip ? `blur(${whip * 12}px)` : undefined};
+      return {transform: `translateX(${-whip * 140}px) scale(${zoomAt(o) * (1 + whip * 0.1) * (1 + beatK(o) * 0.045)})`, transformOrigin: '50% 42%', filter: whip ? `blur(${whip * 12}px)` : undefined};
     },
     inBox: (o) => <>
       {boards.map((bd, i) => (o >= bd.oa && o < bd.ob ? <BoardShell key={i} o={o} a={bd.oa} b={bd.ob} cam={camCfg}>{bd.render(o, at)}</BoardShell> : null))}
@@ -102,9 +111,10 @@ export const make = (c: Cfg) => {
     overlay: (o, face) => {
       const f = face('M');
       return <>
-        {o >= arrow && o < arrow + 1300 && !boards.some((bd) => o >= bd.oa && o < bd.ob) && <ArrowName o={o - arrow} x={f.x} y={f.y} />}
+        {o >= arrow && o < arrow + 1300 && !boards.some((bd) => o >= bd.oa && o < bd.ob) && (c.mark === 'circle' ? <HeadRing o={o} a={arrow} b={arrow + 1500} x={f.x} y={f.y} k={1.25} label="Trevor Lawrence" /> : <ArrowName o={o - arrow} x={f.x} y={f.y} />)}
         {c.cutout && <MemePop o={o} at={at(c.cutout.src)} to={at(c.cutout.src) + 900} src={c.cutout.file} x={c.cutout.x ?? 560} y={c.cutout.y ?? 820} size={c.cutout.size ?? 440} />}
         {c.overlay?.(o, at)}
+        {!boards.some((bd) => o >= bd.oa && o < bd.ob) && !capsOffList.some(([x, y]) => o >= x && o < y) && <EmojiPop o={o} words={capWords} hi={c.hi} y={1000} />}
       </>;
     },
     music: {file: c.music, from: c.from, level: 0, gain: 1, floor: 0.55, ramp: 150, dips, start: tl.segOut[1], swell: [end, 3]},
@@ -116,6 +126,7 @@ export const make = (c: Cfg) => {
       ...boards.flatMap((bd) => [sfx('mg-swoosh2', bd.oa, 0.18, 500), sfx('mg-whoosh', bd.ob - 250, 0.14, 500)]),
       ...(c.cutout ? [sfx('jv2-pop-button', at(c.cutout.src), 0.18)] : []),
       ...(c.sfx?.(at) ?? []),
+      ...beats.filter((t) => t > 400).map((t) => sfx('jv2-pop-button', t, 0.07, 300)),
       sfx('bass-boosted-vine-boom', end + 40, 0.15, 900),
     ],
   };

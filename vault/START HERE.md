@@ -161,3 +161,7 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
   ("Watch a $20,000 card lose 97% of its value"): the graphic is drawn OVER the dimmed footage (ValueGraph), green→red tint on the key
   number, a typed *action* line, no YouTube card. In a batch use different formats per clip (overlay graph / YouTube card + board /
   plain with arrow), never the same recipe on all of them. (src/jorho/batch19.tsx shows all three side by side.)
+- 2026-11-15: EVERY CLIP (Jorho v2 + Neon) — (1) the first ~2 s must HOOK: open on the diagram / graphic over the cold-open line
+  (`hook` in batch17 make); (2) effects start to end, tied to words: every emoji key word = small punch-zoom + soft pop;
+  (3) diagrams in MOST clips (not all); (4) Trevor marked once with the red *Trevor Lawrence* arrow OR circle (`mark: 'circle'`);
+  (5) captions white with KEY WORDS colour-highlighted + iOS emoji pops (`hi` map, src/jorho/hi.tsx). User said: don't ask, just do it.
