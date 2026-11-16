@@ -34,7 +34,7 @@ export const AutoHook = ({o, end, text, emoji = '1f480', top = 330}: {o: number;
     <div style={{position: 'absolute', left: 50, right: 50, top, textAlign: 'center', fontFamily: MONT, fontWeight: 900, fontSize: 78, lineHeight: '90px', color: 'white',
       WebkitTextStroke: '6px #111', paintOrder: 'stroke fill'}}>
       {words.map((w, i) => (o >= i * step ? <span key={i} style={{display: 'inline-block', marginRight: 20, color: i === words.length - 1 ? '#F9FC35' : 'white',
-        transform: `scale(${pop(o, i * step, 10, 300)})`}}>{w}</span> : null))}
+        transform: `scale(${i === 0 ? 1 : pop(o, i * step, 10, 300)})`}}>{w}</span> : null))}
     </div>
     {o >= words.length * step && <div style={{position: 'absolute', left: 0, right: 0, top: top + 330, display: 'flex', justifyContent: 'center'}}>
       <Img src={staticFile(`emoji-ios/${emoji}.png`)} style={{width: 150, height: 150, transform: `scale(${pop(o, words.length * step, 9, 260)})`}} /></div>}

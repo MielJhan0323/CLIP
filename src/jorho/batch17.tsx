@@ -54,6 +54,8 @@ type Cfg = {
 };
 const TINT = {red: 'rgba(255,40,40,0.75)', yellow: 'rgba(240,255,60,0.7)', green: 'rgba(80,255,60,0.65)'};
 
+// hook graphics start HOOK_LEAD ms into their animation → frame 0 already shows the full hook (Shorts feed shows frame 0)
+const HOOK_LEAD = 600;
 export const make = (c: Cfg) => {
   const segs = tighten(c.segs, c.raw);
   const last = segs[segs.length - 1];
@@ -104,7 +106,7 @@ export const make = (c: Cfg) => {
     inBox: (o) => <>
       {boards.map((bd, i) => (o >= bd.oa && o < bd.ob ? <BoardShell key={i} o={o} a={bd.oa} b={bd.ob} cam={camCfg}>{bd.render(o, at)}</BoardShell> : null))}
       {c.inBox?.(o, at)}
-      {o < tl.segOut[hookN] && (c.hook ? c.hook(o, tl.segOut[hookN]) : <AutoHook o={o} end={tl.segOut[hookN]} text={c.top} />)}
+      {o < tl.segOut[hookN] && (c.hook ? c.hook(o + HOOK_LEAD, tl.segOut[hookN] + HOOK_LEAD) : <AutoHook o={o + HOOK_LEAD} end={tl.segOut[hookN] + HOOK_LEAD} text={c.top} />)}
       {c.yt && <YouTubeCard o={o} a={at(c.yt.a)} b={at(c.yt.b)} title={c.yt.title} cam={camCfg} startAt={c.yt.a} dur={tl.total + 20000} />}
       {flashO >= 0 && o >= flashO && o < flashO + 190 && <AbsoluteFill style={{background: TINT[c.flash![1]], mixBlendMode: 'color',
         opacity: interpolate(o - flashO, [0, 70, 190], [1, 1, 0], clamp)}} />}

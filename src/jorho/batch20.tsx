@@ -43,7 +43,7 @@ const {green: G, yellow: Y, cyan: C, red: R, orange: O} = HC;
 // ---------- overlay pieces (drawn over the dimmed footage) -------------------------------------------------------------------------
 const Over = ({o, a, b, children}: {o: number; a: number; b: number; children: ReactNode}) => {
   if (o < a || o >= b) return null;
-  return <AbsoluteFill style={{opacity: Math.min(ease(o, a, 220), 1 - ease(o, b - 220, 220)), background: 'rgba(8,10,14,0.64)'}}>{children}</AbsoluteFill>;
+  return <AbsoluteFill style={{opacity: Math.min(a <= 0 ? 1 : ease(o, a, 220), 1 - ease(o, b - 220, 220)), background: 'rgba(8,10,14,0.64)'}}>{children}</AbsoluteFill>;
 };
 const Big = ({text, color, at, o, top, size = 84}: {text: string; color: string; at: number; o: number; top: number; size?: number}) => (o < at ? null :
   <div style={{position: 'absolute', left: 0, right: 0, top, textAlign: 'center', fontFamily: MONT, fontWeight: 900, fontSize: size, color,
@@ -177,7 +177,7 @@ const ReactHook = ({o}: {o: number}) => <>
 
 // ================= O · OVERLAY FORMAT =============================================================================================
 const PLAYBOOK = make({src: 'pod2/u1_playbook.mp4', track: T(pbTrack), raw: pbWords as Raw, wideX: 960, top: 'How many plays an NFL QB has to know',
-  segs: [[51300, 54900], [0, 2600], [14200, 18000], [36800, 42800], [48800, 54900]], hookSeat: 'M', music: 'Jeopardy_Think.mp3', from: 0, arrowAt: 14300,
+  segs: [[51300, 54900], [0, 2600], [14200, 18000], [48800, 54900]], hookSeat: 'M', music: 'Jeopardy_Think.mp3', from: 0, arrowAt: 14300,
   shots: [[0, 'L'], [2600, 'W'], [14200, 'M'], [36800, 'M', 1.06], [48800, 'W'], [51000, 'M', 1.08]], flash: [52500, 'green'],
   hi: {playbook: [Y, '1f4da'], hundreds: [Y, '1f92f'], plays: C, inventory: C, entire: Y, eight: [G, '1f51f'], ten: G, week: G, new: G},
   hook: (o, end) => <Over o={o} a={0} b={end}><PlayDots o={o} fillAt={0} weekAt={500} /></Over>,
@@ -242,7 +242,7 @@ const ANT = make({src: 'pod/t1_tiger_auto_pen.mp4', track: T(antTrack), raw: ant
   sfx: (at) => [sfx('mg-swoosh', at(16300), 0.16, 500)]});
 
 const WHACKED = make({mark: 'circle', src: 'pod/t3_traveling_trevors.mp4', track: T(travTrack), raw: travWords as Raw, wideX: 960, top: "Trevor's first reaction to the Traveling Trevors",
-  segs: [[81300, 83500], [60100, 62800], [64300, 67200], [77500, 83500], [91600, 98600]], hookSeat: 'M', music: 'Monkeys_Spinning_Monkeys.mp3', from: 0, arrowAt: 64400,
+  segs: [[81300, 83500], [60100, 62800], [77500, 83500], [91600, 98600]], hookSeat: 'M', music: 'Monkeys_Spinning_Monkeys.mp3', from: 0, arrowAt: 64400,
   shots: [[60100, 'L'], [64300, 'M'], [77500, 'M'], [82900, 'R'], [91600, 'M'], [96000, 'W']], flash: [83000, 'red'],
   hi: {whacked: [R, '1f92f'], videos: Y, follow: C, funny: [G, '1f602'], playing: Y, second: C, first: C, trevers: C},
   hook: (o) => <Over o={o} a={0} b={1e9}><ReactHook o={o} /></Over>,

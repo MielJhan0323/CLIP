@@ -91,7 +91,7 @@ const make = (c: Cfg) => {
       <SfxTrack list={list} />
     </>}>
       <AbsoluteFill style={{transform: `translateX(${-whip * 120}px) scale(${(1 + whip * 0.08) * (1 + beatK(o) * 0.045)})`, filter: whip ? `blur(${whip * 10}px)` : undefined}}><Cam c={cam} o={o} /></AbsoluteFill>
-      <AutoHook o={o} end={tl.segOut[hookN]} text={c.title} emoji={c.hookEmoji} top={240} />
+      <AutoHook o={o + 450} end={tl.segOut[hookN] + 450} text={c.title} emoji={c.hookEmoji} top={240} />
       {flashO >= 0 && o >= flashO && o < flashO + 450 && <AbsoluteFill style={{background: TINT[c.flash![1]], mixBlendMode: 'color',
         opacity: interpolate(o - flashO, [0, 60, 300, 450], [0, 1, 1, 0], clamp)}} />}
     </Frame>;

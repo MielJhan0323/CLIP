@@ -20,7 +20,7 @@ type Raw = {text: string; startMs: number; endMs: number}[];
 const T = (x: unknown) => x as Track;
 const {green: G, yellow: Y, cyan: C, red: R, orange: O} = HC;
 const Over = ({o, a, b, children}: {o: number; a: number; b: number; children: ReactNode}) => (o < a || o >= b ? null :
-  <AbsoluteFill style={{opacity: Math.min(ease(o, a, 200), 1 - ease(o, b - 200, 200)), background: 'rgba(8,10,14,0.66)'}}>{children}</AbsoluteFill>);
+  <AbsoluteFill style={{opacity: Math.min(a <= 0 ? 1 : ease(o, a, 200), 1 - ease(o, b - 200, 200)), background: 'rgba(8,10,14,0.66)'}}>{children}</AbsoluteFill>);
 const Head = ({text, top = 110}: {text: string; top?: number}) => <div style={{position: 'absolute', left: 60, right: 60, top, fontFamily: MONT, fontWeight: 900, fontSize: 54, color: 'white', lineHeight: '62px'}}>{text}</div>;
 
 // Traveling Trevors vs "Rodgers' realm": crowd-noise bars at the Eagles game, then the Steelers matchup card
