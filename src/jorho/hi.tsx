@@ -13,13 +13,20 @@ export const applyHi = (words: Word[], hi?: Hi): Word[] => (hi ? words.map((w) =
   const h = hi[key(w.text)];
   return {...w, color: h ? (typeof h === 'string' ? h : h[0]) : '#FFFFFF'};
 }) : words);
+// user 2026-11-16: "some emojis appear glitchy" → each emoji holds a steady 900 ms from its word (not the word's own length), and a
+// new emoji can only start ≥ 1200 ms after the previous one — no flicker on/off between quick key words
+export const emojiTimes = (words: Word[], hi?: Hi) => {
+  const out: {at: number; code: string}[] = [];
+  if (!hi) return out;
+  for (const w of words) { const h = hi[key(w.text)]; if (Array.isArray(h) && (!out.length || w.at - out[out.length - 1].at >= 1200)) out.push({at: w.at, code: h[1]}); }
+  return out;
+};
 export const EmojiPop = ({o, words, hi, y}: {o: number; words: Word[]; hi?: Hi; y: number}) => {
-  if (!hi) return null;
-  const w = [...words].reverse().find((x) => o >= x.at && o < (x.end ?? x.at + 900));
-  const h = w && hi[key(w.text)];
-  if (!w || !h || typeof h === 'string') return null;
-  return <div style={{position: 'absolute', left: 0, right: 0, top: y - 190, display: 'flex', justifyContent: 'center'}}>
-    <Img src={staticFile(`emoji-ios/${h[1]}.png`)} style={{width: 110, height: 110, transform: `scale(${pop(o, w.at, 10, 260)})`}} />
+  const e = emojiTimes(words, hi).find((x) => o >= x.at && o < x.at + 900);
+  if (!e) return null;
+  const fade = Math.min(1, (e.at + 900 - o) / 120);
+  return <div style={{position: 'absolute', left: 0, right: 0, top: y - 190, display: 'flex', justifyContent: 'center', opacity: fade}}>
+    <Img src={staticFile(`emoji-ios/${e.code}.png`)} style={{width: 110, height: 110, transform: `scale(${Math.min(1, pop(o, e.at, 14, 220))})`}} />
   </div>;
 };
 

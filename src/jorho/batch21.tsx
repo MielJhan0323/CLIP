@@ -68,7 +68,7 @@ const SigCard = ({o, a, signAt}: {o: number; a: number; signAt: number}) => {
 
 // 1 · break table: the other team was louder at the Eagles game → "Traveling Trevor, Rodgers realm" for Steelers
 const ROGERS = make({mark: 'circle', src: 'b3/v_rogers_realm.mp4', track: T(rgTrack), raw: rgWords as Raw, wideX: 760, top: 'The Traveling Trevors vs Rodgers\' realm',
-  segs: [[17500, 20300], [0, 4300], [5300, 6000], [9200, 13400], [13500, 16800], [17500, 20300]], hookSeat: 'W', music: 'funk-abnormal.mp3', from: 0, arrowAt: 12900,
+  segs: [[17500, 20300], [0, 6000], [9200, 13400], [13500, 16800], [17500, 20300]], hookSeat: 'W', music: 'funk-abnormal.mp3', from: 0, arrowAt: 12900,
   shots: [[0, 'L'], [3800, 'M'], [5300, 'W'], [9200, 'L'], [12800, 'M', 1.06], [13500, 'R'], [17500, 'W']], flash: [12800, 'green'],
   fix: {Rogers: 'Rodgers'}, hi: {jags: C, eagles: [G, '1f4e3'], insane: [R, '1f92f'], nuts: R, steelers: Y, rodgers: [Y, '1f451'], realm: Y, traveling: C, trevor: C, box: [R, '1f94a'], happen: G},
   hook: (o) => <Over o={o} a={0} b={1e9}><FanBars o={o} a={-2000} vsAt={0} /></Over>, capsOff: [[1, 4300], [9200, 11400]],

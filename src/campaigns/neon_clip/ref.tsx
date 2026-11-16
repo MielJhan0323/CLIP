@@ -45,16 +45,18 @@ const make = (c: Cfg) => {
   };
   const words = applyHi(wordsFrom(raw, tl), c.hi);
   const beats = words.filter((w) => Array.isArray(c.hi?.[w.text.toLowerCase().replace(/^[^a-z0-9$*]+|[^a-z0-9%*]+$/g, '')])).map((w) => w.at).filter((t, i, a) => i === 0 || t - a[i - 1] > 700);
-  const beatK = (o: number) => beats.reduce((k, t) => (o >= t && o < t + 260 ? Math.max(k, 1 - (o - t) / 260) : k), 0);
   const dips = speechDips(raw, tl);
   const end = tl.segOut[segs.length - 1] + spokeEnd - last[0];
   // crop centre x per source ms: hold a key, ease 350 ms into the next one (a slide only where the shot changes)
-  const ks = [...c.keys].sort((a, b) => a[0] - b[0]);
+  // user 2026-11-16: "the camera for neon is too shaky and movy" → ignore small re-frames (< 250 px), only move on real shot changes
+  const ks: [number, number][] = [];
+  if (c.snap) ks.push([0, 960]); // source already cuts every ~1 s → a locked centre crop (fits both people) instead of chasing faces
+  else for (const k of [...c.keys].sort((a, b) => a[0] - b[0])) if (!ks.length || Math.abs(k[1] - ks[ks.length - 1][1]) >= 250) ks.push(k);
   const xAt = (src: number) => {
     const s = src / 1000;
     let i = ks.findIndex(([t]) => t > s); if (i < 0) i = ks.length; const prev = ks[Math.max(0, i - 1)];
     const nxt = ks[i]; if (!nxt) return prev[1];
-    const win = c.snap ? 0.04 : 0.35; // snap = the source cuts every second → jump with the cut, no slide
+    const win = c.snap ? 0.04 : 0.6; // snap = the source cuts every second → jump with the cut, no slide
     const t = Math.min(1, Math.max(0, (s - (nxt[0] - win)) / win));
     return prev[1] + (nxt[1] - prev[1]) * (t * t * (3 - 2 * t));
   };
@@ -90,7 +92,7 @@ const make = (c: Cfg) => {
       }} />
       <SfxTrack list={list} />
     </>}>
-      <AbsoluteFill style={{transform: `translateX(${-whip * 120}px) scale(${(1 + whip * 0.08) * (1 + beatK(o) * 0.045)})`, filter: whip ? `blur(${whip * 10}px)` : undefined}}><Cam c={cam} o={o} /></AbsoluteFill>
+      <AbsoluteFill style={{transform: `translateX(${-whip * 120}px) scale(${(1 + whip * 0.08)})`, filter: whip ? `blur(${whip * 10}px)` : undefined}}><Cam c={cam} o={o} /></AbsoluteFill>
       <AutoHook o={o + 450} end={tl.segOut[hookN] + 450} text={c.title} emoji={c.hookEmoji} top={240} />
       {flashO >= 0 && o >= flashO && o < flashO + 450 && <AbsoluteFill style={{background: TINT[c.flash![1]], mixBlendMode: 'color',
         opacity: interpolate(o - flashO, [0, 60, 300, 450], [0, 1, 1, 0], clamp)}} />}
@@ -100,15 +102,20 @@ const make = (c: Cfg) => {
 };
 
 // red curved arrow + red italic *N3on* (the reference sticker), drawn once
+// user 2026-11-16: "arrow doesn't point at neon and overlaps his face" → the tip stops BESIDE the face (≈130 px off, chin height),
+// coming from the side with more room; the label sits at the tail, never on the face
 const Arrow = ({o, x, y}: {o: number; x: number; y: number}) => {
   const p = interpolate(o, [0, 220], [0, 1], clamp), fade = interpolate(o, [1100, 1300], [1, 0], clamp);
-  const ax = Math.min(Math.max(x - 240, 40), 760), ay = Math.min(y + 170, 1330);
+  const side = x > 540 ? -1 : 1; // come from the left when he's on the right half, else from the right
+  const tx = x + side * 120, ty = y + 70; // tip: beside the face
+  const sx = Math.min(Math.max(tx + side * 260, 60), 1020), sy = Math.min(ty + 300, 1480); // tail
   return <div style={{position: 'absolute', inset: 0, opacity: fade, pointerEvents: 'none'}}>
     <svg width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
-      <path d={`M ${ax + 40} ${ay + 120} C ${ax - 40} ${ay + 40}, ${ax + 40} ${ay - 60}, ${x - 60} ${y + 50}`} fill="none" stroke="#E8261F" strokeWidth={14}
+      <path d={`M ${sx} ${sy} Q ${sx} ${ty + 20}, ${tx} ${ty}`} fill="none" stroke="#E8261F" strokeWidth={14}
         strokeLinecap="round" pathLength={1} strokeDasharray={1} strokeDashoffset={1 - p} style={{filter: 'drop-shadow(0 0 2px white)'}} />
+      {p > 0.95 && <path d={`M ${tx - side * 6 + 30 * -side} ${ty - 26} L ${tx} ${ty} L ${tx - side * 34} ${ty + 22}`} fill="none" stroke="#E8261F" strokeWidth={14} strokeLinecap="round" strokeLinejoin="round" />}
     </svg>
-    <div style={{position: 'absolute', left: ax - 60, top: ay + 130, fontFamily: MONT, fontWeight: 900, fontStyle: 'italic', fontSize: 52, color: '#E8261F',
+    <div style={{position: 'absolute', left: Math.min(Math.max(sx - 90, 20), 860), top: sy + 14, fontFamily: MONT, fontWeight: 900, fontStyle: 'italic', fontSize: 52, color: '#E8261F',
       WebkitTextStroke: '6px white', paintOrder: 'stroke fill', opacity: p, whiteSpace: 'nowrap'}}>*N3on*</div>
   </div>;
 };
@@ -139,25 +146,25 @@ const FART_RAW = [...(fiveWords as Raw).filter((w) => w.startMs < 158000), ...(m
 export const REF_JOKE = make({hookEmoji: '1f631', raw: REST, title: "Are these 'women's exercises' a joke? N3on found out",
   segs: [[7200, 8700], [0, 4900], [7200, 8700], [11800, 14500], [19200, 23500]], snap: true,
   keys: [[0, 960], [3, 1040], [7, 960], [8, 800], [11.8, 960], [13, 1050], [19, 900], [20, 1100], [21, 960], [23, 960]],
-  arrow: [3300, 1040, 230], flash: [2500, 'red'], music: 'pixy-legacy.mp3', from: 0, musicGain: 0.5,
+  arrow: [3300, 960, 240], flash: [2500, 'red'], music: 'pixy-legacy.mp3', from: 0, musicGain: 0.5,
   hi: {pilates: Y, pole: Y, dancing: Y, aerial: Y, yoga: Y, insane: [R, '1f631'], joke: [R, '1f602'], pants: [O, '1f633'], sarah: P, safari: P, calories: [G, '1f525'], fitness: C, bands: C, special: P}});
 export const REF_SLIP = make({hookEmoji: '1f633', raw: REST, title: "N3on's slip of the tongue at pole class",
-  segs: [[264900, 266600], [264000, 268000], [269500, 270500], [274800, 277200], [277700, 279800], [280700, 285500]],
-  keys: [[264, 1100]], arrow: [264300, 880, 230], flash: [264900, 'red'], music: 'Sneaky_Snitch.mp3', from: 0, musicGain: 0.8,
+  segs: [[264900, 266600], [264000, 268000], [274800, 277200], [277700, 279800], [280700, 285500]],
+  keys: [[264, 1100]], arrow: [264300, 900, 255], flash: [264900, 'red'], music: 'Sneaky_Snitch.mp3', from: 0, musicGain: 0.8,
   hi: {strip: [R, '1f633'], sorry: [Y, '1f62c'], pole: C, dancing: C, amazing: G, flexible: G, strength: G, camaraderie: C, everything: [Y, '1f92f'], intrigued: [O, '1f914'], interested: O, tough: [R, '1f480']}});
 export const REF_DOWN100 = make({hookEmoji: '1f4c9', raw: REST, title: 'N3on is down 100 calories… so now it\'s aerial silks',
   segs: [[508200, 511000], [464100, 468900], [484100, 487700], [506500, 516200]],
   keys: [[464, 640], [465.8, 541], [470, 960], [484, 914], [486, 1200], [488, 500], [506, 1000], [507.4, 1250], [512, 560], [515.5, 1000]],
-  arrow: [508300, 1536, 150], flash: [506800, 'red'], music: 'kai-cenat-suspense.mp3', from: 0, musicGain: 1.1,
+  arrow: [508300, 1455, 120], flash: [506800, 'red'], music: 'kai-cenat-suspense.mp3', from: 0, musicGain: 1.1,
   hi: {aerial: C, silks: C, 'f*ck': R, idea: [Y, '1f914'], hundred: [R, '1f4c9'], calories: R, burn: G, smoked: [R, '1f480'], cirque: C, soleil: C, flippin: Y, splitting: Y}});
 export const REF_FART = make({hookEmoji: '1f922', raw: FART_RAW, title: 'Did N3on just fart in Pilates?', snap: true,
-  segs: [[165600, 166900], [152600, 160600], [163800, 170000]],
+  segs: [[165600, 166900], [151100, 160600], [163800, 172600]],
   keys: [[152, 1000], [153, 920], [156, 1110], [157, 1260], [158, 770], [159, 560], [160, 770], [161, 1300], [162, 960], [163, 920], [164, 1230], [165, 1400], [166, 920], [167, 845], [168, 1000], [169, 450], [170, 614]],
-  arrow: [157500, 1267, 600], flash: [166600, 'red'], music: 'Fluffing_a_Duck.mp3', from: 0, musicGain: 0.8,
+  arrow: [157500, 1080, 555], flash: [166600, 'red'], music: 'Fluffing_a_Duck.mp3', from: 0, musicGain: 0.8,
   hi: {abs: [R, '1f525'], fire: R, baby: Y, inhale: C, exhale: C, lift: C, fart: [O, '1f922'], 'sh*t': R, nope: [R, '1f480'], five: Y, four: Y}});
 export const REF_HARD = make({hookEmoji: '1f62d', raw: REST, title: 'Aerial silks humbled them FAST', snap: true,
   segs: [[536000, 537400], [522000, 537600]],
   keys: [[522, 1000], [524, 1150], [529, 700], [530, 600], [531, 1000], [532, 920], [533, 850], [534, 660], [535, 730], [536, 1000], [537, 620], [538, 920]],
-  arrow: [531200, 998, 260], flash: [537000, 'red'], music: 'zelda-ocarina.mp3', from: 0, musicGain: 0.9,
+  arrow: [531200, 885, 120], flash: [537000, 'red'], music: 'zelda-ocarina.mp3', from: 0, musicGain: 0.9,
   hi: {backbend: C, arch: C, hips: Y, rock: C, wrap: C, god: [Y, '1f631'], hard: [R, '1f62d'], seriously: R}});
 export const RefJoke = REF_JOKE.Comp, RefSlip = REF_SLIP.Comp, RefDown100 = REF_DOWN100.Comp, RefFart = REF_FART.Comp, RefHard = REF_HARD.Comp;

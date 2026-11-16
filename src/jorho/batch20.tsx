@@ -215,8 +215,8 @@ const GOLF = make({mark: 'circle', src: 'pod/t2_dream_golf_four.mp4', track: T(g
   sfx: (at) => [sfx('ding-2', at(48000), 0.14)]});
 
 const MARINO = make({src: 'b3/v_nt_rip.mp4', track: T(ntTrack), raw: ntWords as Raw, wideX: 900, top: 'Is Dan Marino a top 10 QB? Trevor answered',
-  segs: [[65200, 65700], [55400, 73600]], hookSeat: 'M', music: 'tak-tak.mp3', from: 2000, arrowAt: 65300,
-  shots: [[55400, 'W'], [62000, 'L'], [65200, 'M'], [67000, 'L'], [69700, 'M', 1.06]],
+  segs: [[65200, 66600], [50000, 73600]], hookSeat: 'M', music: 'tak-tak.mp3', from: 2000, arrowAt: 65300,
+  shots: [[50000, 'W'], [62000, 'L'], [65200, 'M'], [67000, 'L'], [69700, 'M', 1.06]],
   yt: {title: 'Is Dan Marino a top 10 QB of all time?', a: 62000, b: 64900},
   hi: {marino: [C, '1f410'], top: Y, '10': [Y, '1f51f'], gotta: G, sling: O, rip: [R, '1f525'], trevor: C},
   hook: (o) => <Paper><Top10 o={o} checkAt={100} /></Paper>,
@@ -258,7 +258,7 @@ const CELLY = make({mark: 'circle', src: 'pod2/u2_psa10_celly.mp4', track: T(cel
   sfx: (at) => [sfx('mg-swoosh', at(22200), 0.16, 500), sfx('ding-2', at(22700), 0.12)]});
 
 const NECK = make({mark: 'circle', src: 'pod/t6_davis_mills_joke.mp4', track: T(neckTrack), raw: neckWords as Raw, wideX: 960, top: "Trevor's reaction to the Davis Mills card",
-  segs: [[9100, 10600], [2000, 16000]], hookSeat: 'L', music: 'Curb_Credits.mp3', from: 0, arrowAt: 11300,
+  segs: [[9100, 10600], [0, 16800]], hookSeat: 'L', music: 'Curb_Credits.mp3', from: 0, arrowAt: 11300,
   shots: [[2000, 'W'], [5800, 'M'], [9100, 'L'], [11200, 'M', 1.08], [14300, 'W']], flash: [6900, 'red'], cutout: {src: 10300, file: 'cutouts/glennon.png'},
   hi: {davis: C, 'mills': [C, '1f633'], ew: [R, '1f922'], neck: [Y, '1f992'], glennon: Y, longer: Y, trevor: C},
   hook: (o) => <Over o={o} a={0} b={1e9}><NeckChart o={o} a={0} /></Over>, capsOff: [[12000, 14200]],
