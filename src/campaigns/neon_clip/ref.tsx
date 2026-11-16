@@ -65,7 +65,7 @@ const make = (c: Cfg) => {
   for (let t = lo; t <= hi; t += 50) M.push([xAt(t), 540, 300]);
   const track = {stepMs: 50, fromMs: lo, L: M, M, R: M} as unknown as Track;
   const cam: CamCfg = {src: SRC, tl, track, grade: VIRAL_WARM, box: [1080, BOX_H], baseH: 1080, faceY: 0.5, wideX: 960, who: () => 'M'};
-  const arrowO = out(c.arrow[0]);
+  const arrowO = c.arrow[0] < 0 ? -1 : out(c.arrow[0]); // -1 = no arrow (no clean N3on shot to point at)
   // arrow target in band px: map the source face through the crop at that moment
   const ax = (() => { const cx = Math.min(Math.max(xAt(c.arrow[0]), CW / 2), 1920 - CW / 2); return (c.arrow[1] - (cx - CW / 2)) * (1080 / CW); })();
   const ay = BOX_TOP + c.arrow[2] * (BOX_H / 1080);
@@ -107,8 +107,8 @@ const make = (c: Cfg) => {
 const Arrow = ({o, x, y}: {o: number; x: number; y: number}) => {
   const p = interpolate(o, [0, 220], [0, 1], clamp), fade = interpolate(o, [1100, 1300], [1, 0], clamp);
   const side = x > 540 ? -1 : 1; // come from the left when he's on the right half, else from the right
-  const tx = x + side * 120, ty = y + 70; // tip: beside the face
-  const sx = Math.min(Math.max(tx + side * 260, 60), 1020), sy = Math.min(ty + 300, 1480); // tail
+  const tx = x + side * 60, ty = y + 120; // tip: just under/beside the chin, never on the face
+  const sx = Math.min(Math.max(tx + side * 150, 60), 1020), sy = Math.min(ty + 330, 1480); // tail below
   return <div style={{position: 'absolute', inset: 0, opacity: fade, pointerEvents: 'none'}}>
     <svg width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
       <path d={`M ${sx} ${sy} Q ${sx} ${ty + 20}, ${tx} ${ty}`} fill="none" stroke="#E8261F" strokeWidth={14}
@@ -149,7 +149,7 @@ export const REF_JOKE = make({hookEmoji: '1f631', raw: REST, title: "Are these '
   arrow: [3300, 960, 240], flash: [2500, 'red'], music: 'pixy-legacy.mp3', from: 0, musicGain: 0.5,
   hi: {pilates: Y, pole: Y, dancing: Y, aerial: Y, yoga: Y, insane: [R, '1f631'], joke: [R, '1f602'], pants: [O, '1f633'], sarah: P, safari: P, calories: [G, '1f525'], fitness: C, bands: C, special: P}});
 export const REF_SLIP = make({hookEmoji: '1f633', raw: REST, title: "N3on's slip of the tongue at pole class",
-  segs: [[264900, 266600], [264000, 268000], [274800, 277200], [277700, 279800], [280700, 285500]],
+  segs: [[264000, 266600], [264000, 268000], [274800, 277200], [277700, 279800], [280700, 285300]],
   keys: [[264, 1100]], arrow: [264300, 900, 255], flash: [264900, 'red'], music: 'Sneaky_Snitch.mp3', from: 0, musicGain: 0.8,
   hi: {strip: [R, '1f633'], sorry: [Y, '1f62c'], pole: C, dancing: C, amazing: G, flexible: G, strength: G, camaraderie: C, everything: [Y, '1f92f'], intrigued: [O, '1f914'], interested: O, tough: [R, '1f480']}});
 export const REF_DOWN100 = make({hookEmoji: '1f4c9', raw: REST, title: 'N3on is down 100 calories… so now it\'s aerial silks',
@@ -160,7 +160,7 @@ export const REF_DOWN100 = make({hookEmoji: '1f4c9', raw: REST, title: 'N3on is 
 export const REF_FART = make({hookEmoji: '1f922', raw: FART_RAW, title: 'Did N3on just fart in Pilates?', snap: true,
   segs: [[165600, 166900], [151100, 160600], [163800, 172600]],
   keys: [[152, 1000], [153, 920], [156, 1110], [157, 1260], [158, 770], [159, 560], [160, 770], [161, 1300], [162, 960], [163, 920], [164, 1230], [165, 1400], [166, 920], [167, 845], [168, 1000], [169, 450], [170, 614]],
-  arrow: [157500, 1080, 555], flash: [166600, 'red'], music: 'Fluffing_a_Duck.mp3', from: 0, musicGain: 0.8,
+  arrow: [-1, 0, 0], flash: [166600, 'red'], music: 'Fluffing_a_Duck.mp3', from: 0, musicGain: 0.8,
   hi: {abs: [R, '1f525'], fire: R, baby: Y, inhale: C, exhale: C, lift: C, fart: [O, '1f922'], 'sh*t': R, nope: [R, '1f480'], five: Y, four: Y}});
 export const REF_HARD = make({hookEmoji: '1f62d', raw: REST, title: 'Aerial silks humbled them FAST', snap: true,
   segs: [[536000, 537400], [522000, 537600]],
