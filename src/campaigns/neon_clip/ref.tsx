@@ -36,7 +36,7 @@ const make = (c: Cfg) => {
   const last = segs[segs.length - 1];
   const after = [...raw].sort((x, y) => x.startMs - y.startMs).find((w) => w.startMs >= last[1])?.startMs ?? Infinity;
   const spokeEnd = last[1];
-  segs[segs.length - 1] = [last[0], Math.max(last[1], Math.min(last[1] + 900, after - 60)), last[2] ?? 0];
+  segs[segs.length - 1] = [last[0], Math.max(last[1], Math.min(last[1] + 300, after - 60)), last[2] ?? 0];
   const tl = timeline(segs);
   const hookN = tighten([c.segs[0]] as never, raw).length;
   const out = (src: number) => {
@@ -74,12 +74,11 @@ const make = (c: Cfg) => {
     ...(flashO >= 0 ? [c.flash![1] === 'green' ? sfx('g-ding-sfx', flashO - 30, 0.18, 700) : sfx('g-shock-sfx', flashO - 40, 0.2, 900)] : []),
     ...(c.sfx?.(out) ?? []),
     ...beats.filter((t) => t > 400).map((t) => sfx('jv2-pop-button', t, 0.07, 300)),
-    sfx('bass-boosted-vine-boom', end + 40, 0.14, 900),
   ];
   const mg = c.musicGain ?? 1;
   const Comp = () => {
     const o = (useCurrentFrame() * 1000) / FPS;
-    const whip = o < 180 ? 1 - o / 180 : 0;
+    const whip = 0; // 2026-11-16: crisp first frame
     return <Frame o={o} top={c.title} over={<>
       {o >= tl.segOut[hookN] && <OneWord o={o} words={words} y={1000} size={c.hi ? 66 : 60} />}
       <EmojiPop o={o} words={words} hi={c.hi} y={1000} />

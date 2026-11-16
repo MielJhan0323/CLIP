@@ -59,7 +59,7 @@ export const make = (c: Cfg) => {
   const last = segs[segs.length - 1];
   const after = [...c.raw].sort((x, y) => x.startMs - y.startMs).find((w) => w.startMs >= last[1])?.startMs ?? Infinity;
   const spokeEnd = last[1];
-  segs[segs.length - 1] = [last[0], Math.max(last[1], Math.min(last[1] + 800, after - 60)), last[2] ?? 0];
+  segs[segs.length - 1] = [last[0], Math.max(last[1], Math.min(last[1] + 300, after - 60)), last[2] ?? 0];
   const tl: TL = timeline(segs);
   const hookN = tighten([c.segs[0]], c.raw).length;
   const at = (src: number) => { // body-first source→output
@@ -98,7 +98,7 @@ export const make = (c: Cfg) => {
     words: capWords, shots, strobes: [], tints: [], swish: [],
     capsOff: capsOffList, // v2: captions off while a diagram owns the box
     camFx: (o) => {
-      const whip = o < 180 ? 1 - o / 180 : 0;
+      const whip = 0; // 2026-11-16: crisp first frame
       return {transform: `translateX(${-whip * 140}px) scale(${zoomAt(o) * (1 + whip * 0.1) * (1 + beatK(o) * 0.045)})`, transformOrigin: '50% 42%', filter: whip ? `blur(${whip * 12}px)` : undefined};
     },
     inBox: (o) => <>
@@ -128,7 +128,6 @@ export const make = (c: Cfg) => {
       ...(c.cutout ? [sfx('jv2-pop-button', at(c.cutout.src), 0.18)] : []),
       ...(c.sfx?.(at) ?? []),
       ...beats.filter((t) => t > 400).map((t) => sfx('jv2-pop-button', t, 0.07, 300)),
-      sfx('bass-boosted-vine-boom', end + 40, 0.15, 900),
     ],
   };
   return {spec, total: tl.total};

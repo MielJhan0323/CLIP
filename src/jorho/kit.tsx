@@ -22,7 +22,9 @@ const msOf = (n: number) => (n * 1000) / FPS;
 const INTRO_F = [0, 3, 6, 9, 12, 15, 18, 21, 24];
 const INTRO_TOP = [609, 573, 537, 504, 474, 450, 432, 420, BOX_TOP];
 const INTRO_BOT = [1308, 1341, 1377, 1410, 1434, 1458, 1479, 1491, BOX_BOTTOM];
+export const NO_INTRO = true; // 2026-11-16: first frame must be the sharp hook (Shorts feed shows frame 0) — no blur/box reveal
 export const introFilter = (o: number) => {
+  if (NO_INTRO) return '';
   const f = fr(o);
   if (f > 18) return '';
   const blur = interpolate(f, [0, 6, 12, 18], [26, 14, 5, 0], clamp);
@@ -56,12 +58,12 @@ export const Frame = ({o, top, children, over, light}: {o: number; top: string; 
     </AbsoluteFill>;
   }
   const f = fr(o);
-  const t = interpolate(f, INTRO_F, INTRO_TOP, clamp);
-  const b = interpolate(f, INTRO_F, INTRO_BOT, clamp);
-  const smear = f < 16 ? interpolate(f, [0, 16], [70, 0], clamp) : 0;
+  const t = NO_INTRO ? BOX_TOP : interpolate(f, INTRO_F, INTRO_TOP, clamp);
+  const b = NO_INTRO ? BOX_BOTTOM : interpolate(f, INTRO_F, INTRO_BOT, clamp);
+  const smear = !NO_INTRO && f < 16 ? interpolate(f, [0, 16], [70, 0], clamp) : 0;
   return <AbsoluteFill style={{background: 'black'}}>
     <div style={{position: 'absolute', left: 0, top: BOX_TOP, width: W, height: BOX_H, overflow: 'hidden', clipPath: `inset(${t - BOX_TOP}px 0 ${BOX_BOTTOM - b}px 0)`}}>
-      <AbsoluteFill style={{transform: f < 19 ? `translateX(${smear}px) scale(1.12)` : undefined, filter: introFilter(o) || undefined}}>{children}</AbsoluteFill>
+      <AbsoluteFill style={{transform: !NO_INTRO && f < 19 ? `translateX(${smear}px) scale(1.12)` : undefined, filter: introFilter(o) || undefined}}>{children}</AbsoluteFill>
     </div>
     <div style={{position: 'absolute', left: 0, width: W, bottom: 1920 - t + 3, display: 'flex', justifyContent: 'center'}}>
       <div style={{fontFamily: MONT, fontWeight: 700, fontSize: 58, lineHeight: '65px', color: 'white', textAlign: 'center', maxWidth: 900}}>

@@ -170,3 +170,9 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
   the cold open — if a moment has no line like that, skip it. (2) BUILD: batch17 make + neon ref.tsx now ALWAYS render a hook graphic
   over the cold open — the clip's custom `hook` diagram, or the AutoHook fallback (title punched in word-by-word + emoji pop over
   dimmed footage, src/jorho/hi.tsx). Captions stay off under the hook. Hook ≥ 1.2 s so it can be read.
+- 2026-11-16: RETENTION / LOOP RULES (user: "videos that will guarantee 2k at least views on YT Shorts, US audience" — no view count can
+  be guaranteed; these maximise what the Shorts algorithm rewards: swipe-away rate in the first second, % viewed, loops/rewatches):
+  1. FRAME 0 = the sharp hook (NO_INTRO in jorho/kit.tsx: no blur / box reveal / whip on open). 2. END TIGHT on the last word (+300 ms,
+  no end boom) so the loop rolls straight back into the hook → rewatches. 3. 13–22 s. 4. Title ≤ 50 chars, plain US English, curiosity
+  ("THIS", a number, a name), 1 emoji; description = 1 line + 3–5 hashtags (#shorts + niche). 5. Post 12–3 pm or 7–10 pm ET, 1–2/day,
+  never two near-identical clips the same day. 6. Reply to early comments (own channel only — NOT on HardScope campaign videos).
