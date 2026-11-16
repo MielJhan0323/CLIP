@@ -165,3 +165,8 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
   (`hook` in batch17 make); (2) effects start to end, tied to words: every emoji key word = small punch-zoom + soft pop;
   (3) diagrams in MOST clips (not all); (4) Trevor marked once with the red *Trevor Lawrence* arrow OR circle (`mark: 'circle'`);
   (5) captions white with KEY WORDS colour-highlighted + iOS emoji pops (`hi` map, src/jorho/hi.tsx). User said: don't ask, just do it.
+- 2026-11-16: HOOK IS MANDATORY (user: "make sure the edits always have a hook … high retention and high virality" / "choose clips
+  that can hook the audience"). (1) MOMENT CHOICE: only pick moments whose strongest line (surprise / roast / number / payoff) can be
+  the cold open — if a moment has no line like that, skip it. (2) BUILD: batch17 make + neon ref.tsx now ALWAYS render a hook graphic
+  over the cold open — the clip's custom `hook` diagram, or the AutoHook fallback (title punched in word-by-word + emoji pop over
+  dimmed footage, src/jorho/hi.tsx). Captions stay off under the hook. Hook ≥ 1.2 s so it can be read.

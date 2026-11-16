@@ -17,7 +17,7 @@ import {Jorho, VIRAL_WARM, type Spec} from './clips';
 import {TypedAction, YouTubeCard} from './v2';
 import {speechDips} from '../campaigns/neon_clip/neon';
 import {tighten} from './tighten';
-import {applyHi, EmojiPop, type Hi} from './hi';
+import {applyHi, AutoHook, EmojiPop, type Hi} from './hi';
 import peytonWords from '../plans/data/u4_peyton.words.json';
 import peytonTrack from '../plans/data/u4_peyton.seats.json';
 import pbWords from '../plans/data/u1_playbook.words.json';
@@ -45,6 +45,7 @@ type Cfg = {
   hookSeat: Seat; arrowAt: number; flash?: [src: number, color: 'red' | 'yellow' | 'green']; boards?: Board[];
   overlay?: (o: number, at: (src: number) => number) => ReactNode; inBox?: (o: number, at: (src: number) => number) => ReactNode;
   sfx?: (at: (src: number) => number) => Sfx[]; cutout?: {src: number; file: string; x?: number; y?: number; size?: number};
+  fix?: Record<string, string>; // caption spelling fixes (transcript → correct name)
   mark?: 'arrow' | 'circle'; // how Trevor is pointed out once (user: "the arrow or circle with trevor lawrence")
   hi?: Hi; // key-word colours (+ iOS emoji); all other caption words white
   hook?: (o: number, end: number) => ReactNode; // a graphic over the cold open (end = output ms where the body starts)
@@ -87,8 +88,8 @@ export const make = (c: Cfg) => {
   const flashO = c.flash ? at(c.flash[0]) : -1;
   const arrow = at(c.arrowAt);
   const camCfg: CamCfg = {src: c.src, tl, track: c.track, grade: VIRAL_WARM, box: [1080, BOX_H], baseH: 640, faceY: 0.42, wideX: c.wideX, who: () => 'M'};
-  const capsOffList: [number, number][] = [...boards.map((bd) => [bd.oa + 150, bd.ob - 150] as [number, number]), ...(c.capsOff ?? []).map(([a, b]) => [at(a), at(b)] as [number, number]), ...(c.hook ? [[0, tl.segOut[hookN]] as [number, number]] : [])];
-  const capWords = applyHi(wordsFrom(c.raw, tl, {goaded: 'goated', fields: 'Fields'}), c.hi);
+  const capsOffList: [number, number][] = [...boards.map((bd) => [bd.oa + 150, bd.ob - 150] as [number, number]), ...(c.capsOff ?? []).map(([a, b]) => [at(a), at(b)] as [number, number]), [0, tl.segOut[hookN]] as [number, number]];
+  const capWords = applyHi(wordsFrom(c.raw, tl, {goaded: 'goated', fields: 'Fields', ...(c.fix ?? {})}), c.hi);
   beats = capWords.filter((w) => { const h = c.hi?.[w.text.toLowerCase().replace(/^[^a-z0-9$*]+|[^a-z0-9%*]+$/g, '')]; return Array.isArray(h); }).map((w) => w.at)
     .filter((t, i, a) => i === 0 || t - a[i - 1] > 700);
   const beatK = (o: number) => beats.reduce((k, t) => (o >= t && o < t + 260 ? Math.max(k, 1 - (o - t) / 260) : k), 0);
@@ -103,7 +104,7 @@ export const make = (c: Cfg) => {
     inBox: (o) => <>
       {boards.map((bd, i) => (o >= bd.oa && o < bd.ob ? <BoardShell key={i} o={o} a={bd.oa} b={bd.ob} cam={camCfg}>{bd.render(o, at)}</BoardShell> : null))}
       {c.inBox?.(o, at)}
-      {c.hook && o < tl.segOut[hookN] && c.hook(o, tl.segOut[hookN])}
+      {o < tl.segOut[hookN] && (c.hook ? c.hook(o, tl.segOut[hookN]) : <AutoHook o={o} end={tl.segOut[hookN]} text={c.top} />)}
       {c.yt && <YouTubeCard o={o} a={at(c.yt.a)} b={at(c.yt.b)} title={c.yt.title} cam={camCfg} startAt={c.yt.a} dur={tl.total + 20000} />}
       {flashO >= 0 && o >= flashO && o < flashO + 190 && <AbsoluteFill style={{background: TINT[c.flash![1]], mixBlendMode: 'color',
         opacity: interpolate(o - flashO, [0, 70, 190], [1, 1, 0], clamp)}} />}

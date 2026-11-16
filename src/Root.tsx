@@ -18,6 +18,7 @@ import {B17Rookie, B17Playbook, B17Left, B17Gift, B17Jesus, B17Marino, B17Sweat,
 import {B18Fields, B18Josh, B18Presnap, B18_FIELDS_MS, B18_JOSH_MS, B18_PRESNAP_MS} from './jorho/batch18';
 import {B19Presnap, B19Coen, B19Gift, B19_PRESNAP_MS, B19_COEN_MS, B19_GIFT_MS} from './jorho/batch19';
 import {B20Playbook, B20Patch, B20Peyton, B20Golf, B20Marino, B20Ticket, B20Ant, B20Whacked, B20Celly, B20Neck, B20_MS} from './jorho/batch20';
+import {B21Rogers, B21Lair, B21Sig, B21_MS} from './jorho/batch21';
 import {B16Signature, B16Rookie, B16Ant, B16Playbook, B16Left, B16_SIG_MS, B16_ROOKIE_MS, B16_ANT_MS, B16_PLAYBOOK_MS, B16_LEFT_MS, B16Davis, B16Gift, B16Jesus, B16Marino, B16Sweat, B16_DAVIS_MS, B16_GIFT_MS, B16_JESUS_MS, B16_MARINO_MS, B16_SWEAT_MS} from './jorho/batch16';
 import {B15Signature, B15Rookie, B15Ant, B15Playbook, B15Left, B15_SIG_MS, B15_ROOKIE_MS, B15_ANT_MS, B15_PLAYBOOK_MS, B15_LEFT_MS} from './jorho/batch15';
 import {B14Judge, B14Murakami, B14Randy, B14_JUDGE_MS, B14_MURA_MS, B14_RANDY_MS, B14Patch, B14Sweat, B14Marino, B14_PATCH_MS, B14_SWEAT_MS, B14_MARINO_MS, B14Rpa, B14_RPA_MS} from './jorho/batch14';
@@ -194,6 +195,9 @@ export const RemotionRoot = () => (
   <Composition id="B20Whacked" component={B20Whacked} fps={30} width={1080} height={1920} durationInFrames={Math.round((B20_MS.Whacked / 1000) * 30)} />
   <Composition id="B20Celly" component={B20Celly} fps={30} width={1080} height={1920} durationInFrames={Math.round((B20_MS.Celly / 1000) * 30)} />
   <Composition id="B20Neck" component={B20Neck} fps={30} width={1080} height={1920} durationInFrames={Math.round((B20_MS.Neck / 1000) * 30)} />
+  <Composition id="B21Rogers" component={B21Rogers} fps={30} width={1080} height={1920} durationInFrames={Math.round((B21_MS.Rogers / 1000) * 30)} />
+  <Composition id="B21Lair" component={B21Lair} fps={30} width={1080} height={1920} durationInFrames={Math.round((B21_MS.Lair / 1000) * 30)} />
+  <Composition id="B21Sig" component={B21Sig} fps={30} width={1080} height={1920} durationInFrames={Math.round((B21_MS.Sig / 1000) * 30)} />
   <Composition id="B13Cards" component={B13Cards} fps={30} width={1080} height={1920} durationInFrames={Math.round((B13_CARDS_MS / 1000) * 30)} />
   <Composition id="B13Tiger" component={B13Tiger} fps={30} width={1080} height={1920} durationInFrames={Math.round((B13_TIGER_MS / 1000) * 30)} />
   <Composition id="B13Rookie" component={B13Rookie} fps={30} width={1080} height={1920} durationInFrames={Math.round((B13_ROOKIE_MS / 1000) * 30)} />
