@@ -34,7 +34,7 @@ export const EmojiPop = ({o, words, hi, y}: {o: number; words: Word[]; hi?: Hi; 
 // cold open gets the title punched in word-by-word over the dimmed footage + an emoji pop, so nothing ever opens on plain footage.
 export const AutoHook = ({o, end, text, emoji = '1f480', top = 330}: {o: number; end: number; text: string; emoji?: string; top?: number}) => {
   if (o >= end) return null;
-  const words = text.toUpperCase().split(' ');
+  const words = text.replace(/[[\]]/g, '').toUpperCase().split(' ');
   const step = Math.min(110, (end * 0.55) / Math.max(1, words.length));
   const fade = Math.min(1, (end - o) / 160);
   return <AbsoluteFill style={{background: 'rgba(0,0,0,0.5)', opacity: fade}}>

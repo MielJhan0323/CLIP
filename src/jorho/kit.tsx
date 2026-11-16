@@ -15,6 +15,15 @@ export const BOX_TOP = 417;
 export const BOX_BOTTOM = 1494;
 export const BOX_H = BOX_BOTTOM - BOX_TOP;
 export const JORHO = {yellow: '#F9FC35', cyan: '#21F5E6', green: '#58EE28', white: '#FFFFFF'};
+// TOP TITLE HIGHLIGHTS (user 2026-11-16: "on the caption at the top add some diff color words to highlight the important words"):
+// wrap key words in [brackets] → each bracketed group gets the next colour (yellow, green, cyan); brackets are not shown
+const TOP_COLS = ['#F9FC35', '#58EE28', '#21F5E6'];
+export const plainTop = (t: string) => t.replace(/[[\]]/g, '');
+export const TopText = ({text}: {text: string}) => {
+  const parts = text.split(/(\[[^\]]+\])/g).filter(Boolean);
+  let k = 0;
+  return <>{parts.map((p, i) => (p.startsWith('[') ? <span key={i} style={{color: TOP_COLS[k++ % TOP_COLS.length]}}>{p.slice(1, -1)}</span> : <span key={i}>{p}</span>))}</>;
+};
 export const fr = (o: number) => Math.round((o * FPS) / 1000);
 const msOf = (n: number) => (n * 1000) / FPS;
 
@@ -48,7 +57,7 @@ export const Frame = ({o, top, children, over, light}: {o: number; top: string; 
       <div style={{position: 'absolute', left: 0, top: LIGHT.band[0], width: W, height: LIGHT.band[1] - LIGHT.band[0], background: 'white',
         display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
         <div style={{fontFamily: MONT, fontWeight: 800, fontSize: 60, lineHeight: '70px', color: '#111', textAlign: 'center', maxWidth: 940, textTransform: 'uppercase'}}>
-          {top}<Img src={staticFile('emoji-ios/1f480.png')} style={{width: 56, height: 56, verticalAlign: '-8px', marginLeft: 6}} /></div>
+          <TopText text={top} /><Img src={staticFile('emoji-ios/1f480.png')} style={{width: 56, height: 56, verticalAlign: '-8px', marginLeft: 6}} /></div>
       </div>
       <div style={{position: 'absolute', left: 0, top: LIGHT.box[0], width: W, height: bh, overflow: 'hidden'}}>
         <div style={{position: 'absolute', left: 0, top: -(BOX_H - bh) / 2, width: W, height: BOX_H}}>{children}</div>
@@ -67,7 +76,7 @@ export const Frame = ({o, top, children, over, light}: {o: number; top: string; 
     </div>
     <div style={{position: 'absolute', left: 0, width: W, bottom: 1920 - t + 3, display: 'flex', justifyContent: 'center'}}>
       <div style={{fontFamily: MONT, fontWeight: 700, fontSize: 58, lineHeight: '65px', color: 'white', textAlign: 'center', maxWidth: 900}}>
-        {top}<Img src={staticFile('emoji-ios/1f480.png')} style={{width: 50, height: 50, verticalAlign: '-6px', marginLeft: 4}} />
+        <TopText text={top} /><Img src={staticFile('emoji-ios/1f480.png')} style={{width: 50, height: 50, verticalAlign: '-6px', marginLeft: 4}} />
       </div>
     </div>
     {over}

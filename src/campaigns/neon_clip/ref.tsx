@@ -16,6 +16,7 @@ import calWords from '../../plans/data/r3born_ep2_cal.words.json';
 import obWords from '../../plans/data/r3born_ep2_ob.words.json';
 import poleWords from '../../plans/data/r3born_ep2_pole.words.json';
 import restWords from '../../plans/data/r3born_ep2_rest.words.json';
+import gapWords from '../../plans/data/r3born_ep2_gap.words.json';
 import moreWords from '../../plans/data/r3born_ep2_more.words.json';
 import fiveWords from '../../plans/data/r3born_ep2_five.words.json';
 import {HC} from '../../jorho/hi';
@@ -168,3 +169,28 @@ export const REF_HARD = make({hookEmoji: '1f62d', raw: REST, title: 'Aerial silk
   arrow: [531200, 885, 120], flash: [537000, 'red'], music: 'zelda-ocarina.mp3', from: 0, musicGain: 0.9,
   hi: {backbend: C, arch: C, hips: Y, rock: C, wrap: C, god: [Y, '1f631'], hard: [R, '1f62d'], seriously: R}});
 export const RefJoke = REF_JOKE.Comp, RefSlip = REF_SLIP.Comp, RefDown100 = REF_DOWN100.Comp, RefFart = REF_FART.Comp, RefHard = REF_HARD.Comp;
+
+// ---- BATCH 6 (2026-11-16): "give me 5 new neon" — fresh moments, locked steady crop, title key words highlighted with [brackets],
+// arrow only where N3on's face is clearly in shot (checked on a frame), every clip ≥ 15 s, no piece < 1.3 s
+const GAP = gapWords as Raw;
+const mergeRaw = (...lists: Raw[]) => lists.flat().sort((a, b) => a.startMs - b.startMs)
+  .filter((w, i, a) => i === 0 || w.startMs - a[i - 1].startMs > 150 || w.text.toLowerCase() !== a[i - 1].text.toLowerCase());
+const PIL = mergeRaw((fiveWords as Raw).filter((w) => w.startMs < 158000 || w.startMs >= 176000), (moreWords as Raw).filter((w) => w.startMs >= 158000 && w.startMs < 176000), GAP.filter((w) => w.startMs < 113000));
+export const REF_SLOWER = make({hookEmoji: '1f62d', raw: PIL, title: "N3on begged the Pilates teacher to go [slower]", snap: true,
+  segs: [[141000, 143700], [120900, 143700]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [138400, 'red'], music: 'Monkeys_Spinning_Monkeys.mp3', from: 0, musicGain: 0.7,
+  hi: {slide: C, push: C, small: Y, pulses: Y, right: R, legs: [R, '1f62d'], killing: R, million: [G, '1f60e'], smile: G, slower: [Y, '1f62e']}});
+export const REF_DREAM = make({hookEmoji: '1f62e', raw: PIL, title: "N3on called Pilates a [never-ending] dream", snap: true,
+  segs: [[186300, 188000], [170600, 191200]], keys: [[0, 960]], arrow: [186600, 1400, 300], flash: [176400, 'red'], music: 'interstellar-piano.mp3', from: 0, musicGain: 0.8,
+  hi: {ball: C, thigh: Y, muscles: Y, 'f*cking': R, hard: [R, '1f62d'], box: C, stop: R, hurry: R, dream: [P, '1f62e'], glad: [G, '1f64f'], over: G}});
+export const REF_SQUATS = make({hookEmoji: '1f633', raw: mergeRaw(REST, poleWords as Raw), title: "N3on vs [pole squats]: 'why is no one struggling?'", snap: true,
+  segs: [[311000, 312300], [298700, 302200], [303000, 307100], [310200, 312300], [318000, 321100], [327900, 329200], [331300, 333900]], keys: [[0, 960]],
+  arrow: [318700, 860, 220], music: 'Sneaky_Snitch.mp3', from: 0, musicGain: 0.8,
+  hi: {pole: C, squats: [Y, '1f4aa'], baby: [P, '1f476'], steps: P, struggling: [R, '1f633'], hand: Y, turn: G, manly: [O, '1f633'], window: O}});
+export const REF_WAX = make({hookEmoji: '1f62d', raw: mergeRaw((fiveWords as Raw).filter((w) => w.startMs < 766000), REST.filter((w) => w.startMs >= 766000)),
+  title: "N3on lost the bet… and got [waxed]", snap: true,
+  segs: [[768500, 771100], [753400, 771100]], keys: [[0, 960]], arrow: [770400, 1000, 220], flash: [763200, 'red'], music: 'say-goodbye-lodoni.mp3', from: 0, musicGain: 0.8,
+  hi: {wax: [Y, '1f62c'], follicle: Y, touch: R, ow: [R, '1f62d'], hurt: R, subscribe: [G, '1f514'], suffer: [R, '1f480']}});
+export const REF_SCAM = make({hookEmoji: '1f923', raw: fiveWords as Raw, title: "'I'm a [scammer], I'm a [cheater]' – N3on on silks", snap: true,
+  segs: [[650600, 652500], [650600, 656000], [660000, 662300], [667700, 676000]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [671000, 'green'], music: 'funk-do-balkan.mp3', from: 0, musicGain: 0.7,
+  hi: {scammer: [R, '1f921'], cheater: R, knee: C, tail: C, ankle: C, got: G, 'b*tch': [Y, '1f525'], yeah: G}});
+export const RefSlower = REF_SLOWER.Comp, RefDream = REF_DREAM.Comp, RefSquats = REF_SQUATS.Comp, RefWax = REF_WAX.Comp, RefScam = REF_SCAM.Comp;
