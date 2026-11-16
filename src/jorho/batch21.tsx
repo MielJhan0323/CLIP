@@ -68,7 +68,7 @@ const SigCard = ({o, a, signAt}: {o: number; a: number; signAt: number}) => {
 
 // 1 · break table: the other team was louder at the Eagles game → "Traveling Trevor, Rodgers realm" for Steelers
 const ROGERS = make({mark: 'circle', src: 'b3/v_rogers_realm.mp4', track: T(rgTrack), raw: rgWords as Raw, wideX: 760, top: 'The Traveling Trevors vs Rodgers\' realm',
-  segs: [[17500, 20300], [0, 4300], [5300, 6000], [9200, 13400], [13500, 16800], [17500, 20300]], hookSeat: 'W', music: 'funk-abnormal.mp3', from: 0, arrowAt: 3900,
+  segs: [[17500, 20300], [0, 4300], [5300, 6000], [9200, 13400], [13500, 16800], [17500, 20300]], hookSeat: 'W', music: 'funk-abnormal.mp3', from: 0, arrowAt: 12900,
   shots: [[0, 'L'], [3800, 'M'], [5300, 'W'], [9200, 'L'], [12800, 'M', 1.06], [13500, 'R'], [17500, 'W']], flash: [12800, 'green'],
   fix: {Rogers: 'Rodgers'}, hi: {jags: C, eagles: [G, '1f4e3'], insane: [R, '1f92f'], nuts: R, steelers: Y, rodgers: [Y, '1f451'], realm: Y, traveling: C, trevor: C, box: [R, '1f94a'], happen: G},
   hook: (o) => <Over o={o} a={0} b={1e9}><FanBars o={o} a={-2000} vsAt={0} /></Over>, capsOff: [[1, 4300], [9200, 11400]],
@@ -79,8 +79,8 @@ const LAIR = make({src: 'b3/v_lair.mp4', track: T(lrTrack), raw: lrWords as Raw,
   segs: [[14200, 16100], [3600, 5300], [5500, 9100], [10300, 13800], [14200, 17500], [17300, 19000]], hookSeat: 'M', music: 'joyful-chess-guide.mp3', from: 0, arrowAt: 14300,
   shots: [[3600, 'M'], [5500, 'L'], [9800, 'M'], [10300, 'L'], [14200, 'M'], [17300, 'W']], flash: [15400, 'green'],
   fix: {layer: 'lair'}, hi: {lair: [Y, '1f3dd-fe0f'], florida: O, fort: O, lauderdale: [O, '1f4cd'], rip: G, product: G, chill: [C, '1f60e'], awesome: [G, '1f525'], welcome: [G, '1f91d'], jacksonville: C, '100%': [G, '1f4af']},
-  hook: (o) => <Over o={o} a={0} b={1e9}><FloridaMap o={o} a={-1000} /></Over>, capsOff: [[5500, 13800]],
-  inBox: (o, at) => <Over o={o} a={at(5500)} b={at(13800)}><FloridaMap o={o} a={at(5500)} /></Over>,
+  hook: (o) => <Over o={o} a={0} b={1e9}><FloridaMap o={o} a={-1000} /></Over>, capsOff: [[5500, 9100]],
+  inBox: (o, at) => <Over o={o} a={at(5500)} b={at(9100)}><FloridaMap o={o} a={at(5500)} /></Over>,
   sfx: (at) => [sfx('mg-swoosh', at(5500), 0.14, 500), sfx('ding-2', at(10600), 0.12)]});
 // 3 · podcast: Peyton Manning told him a nice signature is a big deal
 const SIG = make({src: 'pod2/u4_peyton.mp4', track: T(pyTrack), raw: pyWords as Raw, wideX: 960, top: 'Peyton Manning told Trevor THIS about autographs',
