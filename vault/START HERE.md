@@ -176,3 +176,9 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
   no end boom) so the loop rolls straight back into the hook → rewatches. 3. 13–22 s. 4. Title ≤ 50 chars, plain US English, curiosity
   ("THIS", a number, a name), 1 emoji; description = 1 line + 3–5 hashtags (#shorts + niche). 5. Post 12–3 pm or 7–10 pm ET, 1–2/day,
   never two near-identical clips the same day. 6. Reply to early comments (own channel only — NOT on HardScope campaign videos).
+- 2026-11-16: GLITCH RULES (user: "camera for neon too shaky", "arrow doesn't point at neon and overlaps his face", "emojis glitchy",
+  "some scenes are 1 second long randomly", "BYB need at least 15 seconds"):
+  · no piece < 1.3 s — tighten.ts never splits a segment into a short piece; no hand segs < 1.3 s except the cold-open hook
+  · emoji pops hold a steady 0.9 s, ≥ 1.2 s apart (hi.tsx emojiTimes) · Neon: no punch-zoom beats, crop ignores re-frames < 250 px,
+    snap clips use a locked centre crop · Neon arrow tip stops BESIDE the face (check the face position on a frame first)
+  · every clip ≥ 15 s (BYB and Neon)
