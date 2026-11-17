@@ -93,7 +93,7 @@ const CLOSET = make({hookText: 'HIS MISSING [CHAMPIONSHIP] TICKET', src: 'pod/t4
   sfx: (at) => [sfx('mg-swoosh', at(53800), 0.14, 500), sfx('ding-2', at(55100), 0.1), sfx('ding-2', at(57200), 0.1)]});
 
 const DONTSHOW = make({hookText: '[EW]… PUT IT AWAY', src: 'b3/v_nt_rip.mp4', track: T(ntTrack), raw: ntWords as Raw, wideX: 900, top: "'[Ew]… don't show that, man'",
-  segs: [[79100, 82400], [77000, 84000], [84800, 86700], [88200, 90400]], hookSeat: 'W', music: 'Curb_Credits.mp3', from: 0, arrowAt: 83600,
+  segs: [[79100, 82400], [77000, 83900], [88200, 94200]], hookSeat: 'W', music: 'Curb_Credits.mp3', from: 0, arrowAt: 83600,
   shots: [[73800, 'W'], [77100, 'M'], [79100, 'W'], [83500, 'M', 1.06], [86400, 'W'], [89800, 'M']], flash: [78100, 'red'],
   hi: {ew: [R, '1f922'], show: R, away: [R, '1f648'], redemption: [C, '1f914'], cool: [G, '1f60e'], rod: Y, woodson: Y, okay: Y, no: R}});
 
@@ -104,9 +104,9 @@ const PEN = make({hookText: 'THE [GOATED PEN]', src: 'pod/t1_tiger_auto_pen.mp4'
   hook: (o) => <Over o={o} a={0} b={1e9}><SigStack o={o} a={-900} /></Over>, sfx: () => []});
 
 const PLAN = make({hookText: 'INSIDE AN NFL [GAME PLAN]', mark: 'circle', src: 'pod2/u1_playbook.mp4', track: T(pbTrack), raw: pbWords as Raw, wideX: 960, top: 'How an NFL [game plan] actually gets made',
-  segs: [[41900, 43300], [24400, 28700], [29200, 36000], [36800, 43000]], hookSeat: 'M', music: 'Investigations.mp3', from: 0, arrowAt: 24500,
+  segs: [[41900, 43300], [24400, 28650], [29250, 36000], [36800, 43000]], hookSeat: 'M', music: 'Investigations.mp3', from: 0, arrowAt: 24500,
   shots: [[24400, 'M'], [29300, 'M', 1.06], [36800, 'W'], [39500, 'M']],
-  hi: {training: Y, camp: Y, defense: [R, '1f6e1'], coaches: C, game: C, plan: [C, '1f4da'], attack: [R, '1f3af'], inventory: Y, plays: C, week: G, watching: [Y, '1f440']},
+  hi: {training: Y, camp: Y, defense: [R, '1f6e1'], coaches: C, game: C, plan: [C, '1f4da'], attack: [Y, '1f3af'], inventory: Y, plays: C, week: G, watching: [Y, '1f440']},
   hook: (o) => <Over o={o} a={0} b={1e9}><WeekCycle o={o} at={[-900, -700, -500, -300]} /></Over>, capsOff: [[29300, 35000]],
   inBox: (o, at) => <Over o={o} a={at(29300)} b={at(35000)}><WeekCycle o={o} at={[at(29300), at(30600), at(34000), 1e9]} /></Over>,
   sfx: (at) => [sfx('ding-2', at(30600), 0.1), sfx('ding-2', at(34000), 0.1), sfx('ding-2', at(41700), 0.12)]});
