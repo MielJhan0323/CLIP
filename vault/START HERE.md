@@ -182,3 +182,6 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
   · emoji pops hold a steady 0.9 s, ≥ 1.2 s apart (hi.tsx emojiTimes) · Neon: no punch-zoom beats, crop ignores re-frames < 250 px,
     snap clips use a locked centre crop · Neon arrow tip stops BESIDE the face (check the face position on a frame first)
   · every clip ≥ 15 s (BYB and Neon)
+- 2026-11-16: NO DIAGRAM IN THE OPENING (user: "don't put diagrams directly in the start, keep it semi simple"). Cold open = the strongest
+  line on its own footage + the title punched in (AutoHook, light 30 % dim). Diagrams only in the body where the topic comes up
+  (batch17 DIAGRAM_HOOKS = false). Still: hook visible on frame 0, coloured [title] key words.
