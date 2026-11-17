@@ -178,9 +178,9 @@ const ArrowName = ({o, x, y}: {o: number; x: number; y: number}) => {
   const ax = Math.min(Math.max(x - 260, 30), 700), ay = y + 150;
   return <div style={{position: 'absolute', left: 0, top: 0, width: 1080, height: 1920, opacity: fade, pointerEvents: 'none'}}>
     <svg width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
-      <path d={`M ${ax + 40} ${ay + 150} C ${ax - 40} ${ay + 60}, ${ax + 40} ${ay - 40}, ${x - 70} ${y + 40}`} fill="none" stroke="#E8261F" strokeWidth={14}
+      <path d={`M ${ax + 40} ${ay + 150} C ${ax - 40} ${ay + 60}, ${ax + 40} ${ay - 40}, ${x - 110} ${y + 130}`} fill="none" stroke="#E8261F" strokeWidth={14}
         strokeLinecap="round" pathLength={1} strokeDasharray={1} strokeDashoffset={1 - p} />
-      {p > 0.95 && <path d={`M ${x - 112} ${y + 30} L ${x - 66} ${y + 42} L ${x - 92} ${y + 82}`} fill="none" stroke="#E8261F" strokeWidth={14} strokeLinecap="round" strokeLinejoin="round" />}
+      {p > 0.95 && <path d={`M ${x - 152} ${y + 120} L ${x - 106} ${y + 132} L ${x - 132} ${y + 172}`} fill="none" stroke="#E8261F" strokeWidth={14} strokeLinecap="round" strokeLinejoin="round" />}
     </svg>
     <div style={{position: 'absolute', left: ax - 120, top: ay + 160, fontFamily: MONT, fontWeight: 900, fontStyle: 'italic', fontSize: 50, color: '#E8261F',
       WebkitTextStroke: '6px white', paintOrder: 'stroke fill', opacity: p, whiteSpace: 'nowrap'}}>*Trevor Lawrence*</div>

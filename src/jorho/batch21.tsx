@@ -68,24 +68,24 @@ const SigCard = ({o, a, signAt}: {o: number; a: number; signAt: number}) => {
 };
 
 // 1 · break table: the other team was louder at the Eagles game → "Traveling Trevor, Rodgers realm" for Steelers
-const ROGERS = make({hookText: '[STEELERS] WEEK IS WILD', mark: 'circle', src: 'b3/v_rogers_realm.mp4', track: T(rgTrack), raw: rgWords as Raw, wideX: 760, top: "The Traveling Trevors vs [Rodgers' realm]",
-  segs: [[17500, 20300], [0, 6000], [9200, 13400], [13500, 16800], [17500, 20300]], hookSeat: 'W', music: 'funk-abnormal.mp3', from: 0, arrowAt: 12900,
-  shots: [[0, 'L'], [3800, 'M'], [5300, 'W'], [9200, 'L'], [12800, 'M', 1.06], [13500, 'R'], [17500, 'W']], flash: [12800, 'green'],
+const ROGERS = make({hookText: '[STEELERS] WEEK IS WILD', mark: 'circle', src: 'b3/v_rogers_realm.mp4', track: T(rgTrack), raw: rgWords as Raw, wideX: 760, top: "Trevor hears about Traveling Trevor vs [Rodgers' realm]",
+  segs: [[17500, 20300], [0, 5200], [9200, 13400], [13500, 16800], [17500, 20300]], hookSeat: 'W', music: 'funk-abnormal.mp3', from: 0, arrowAt: 12900,
+  shots: [[0, 'L'], [3800, 'M'], [5300, 'W'], [9200, 'L'], [12800, 'M', 1.06], [17500, 'W']], flash: [12800, 'green'],
   fix: {Rogers: 'Rodgers'}, hi: {jags: C, eagles: [G, '1f4e3'], insane: [R, '1f92f'], nuts: R, steelers: Y, rodgers: [Y, '1f451'], realm: Y, traveling: C, trevor: C, box: [R, '1f94a'], happen: G},
-  hook: (o) => <Over o={o} a={0} b={1e9}><FanBars o={o} a={-2000} vsAt={0} /></Over>, capsOff: [[1, 4300], [9200, 11400]],
-  inBox: (o, at) => <><Over o={o} a={at(1)} b={at(4300)}><FanBars o={o} a={at(1)} vsAt={1e9} /></Over><Over o={o} a={at(9200)} b={at(11400)}><FanBars o={o} a={0} vsAt={at(9200)} /></Over></>,
+  hook: (o) => <Over o={o} a={0} b={1e9}><FanBars o={o} a={-2000} vsAt={0} /></Over>, capsOff: [[1, 2600], [9200, 11400]],
+  inBox: (o, at) => <><Over o={o} a={at(1)} b={at(2600)}><FanBars o={o} a={at(1)} vsAt={1e9} /></Over><Over o={o} a={at(9200)} b={at(11400)}><FanBars o={o} a={0} vsAt={at(9200)} /></Over></>,
   sfx: (at) => [sfx('mg-swoosh', at(1), 0.14, 500), sfx('mg-swoosh', at(9200), 0.14, 500)]});
 // 2 · break table: would you come back to the lair in the off-season → "you guys are always welcome"
 const LAIR = make({hookText: 'BACK TO THE [LAIR]?', src: 'b3/v_lair.mp4', track: T(lrTrack), raw: lrWords as Raw, wideX: 760, top: "Asked Trevor to come back to the [lair]",
-  segs: [[14200, 16100], [3600, 5300], [5500, 9100], [10300, 13800], [14200, 17500], [17300, 19000]], hookSeat: 'M', music: 'joyful-chess-guide.mp3', from: 0, arrowAt: 14300,
-  shots: [[3600, 'M'], [5500, 'L'], [9800, 'M'], [10300, 'L'], [14200, 'M'], [17300, 'W']], flash: [15400, 'green'],
+  segs: [[12400, 14700], [3600, 5300], [5500, 9100], [10300, 13800], [14200, 17500], [17300, 19000]], hookSeat: 'M', music: 'joyful-chess-guide.mp3', from: 0, arrowAt: 14300,
+  shots: [[3600, 'M'], [5500, 'L'], [9800, 'M'], [14200, 'M'], [17300, 'W']], flash: [15400, 'green'],
   fix: {layer: 'lair'}, hi: {lair: [Y, '1f3dd-fe0f'], florida: O, fort: O, lauderdale: [O, '1f4cd'], rip: G, product: G, chill: [C, '1f60e'], awesome: [G, '1f525'], welcome: [G, '1f91d'], jacksonville: C, '100%': [G, '1f4af']},
-  hook: (o) => <Over o={o} a={0} b={1e9}><FloridaMap o={o} a={-1000} /></Over>, capsOff: [[5500, 9100]],
-  inBox: (o, at) => <Over o={o} a={at(5500)} b={at(9100)}><FloridaMap o={o} a={at(5500)} /></Over>,
+  hook: (o) => <Over o={o} a={0} b={1e9}><FloridaMap o={o} a={-1000} /></Over>, capsOff: [[5500, 7500]],
+  inBox: (o, at) => <Over o={o} a={at(5500)} b={at(7500)}><FloridaMap o={o} a={at(5500)} /></Over>,
   sfx: (at) => [sfx('mg-swoosh', at(5500), 0.14, 500), sfx('ding-2', at(10600), 0.12)]});
 // 3 · podcast: Peyton Manning told him a nice signature is a big deal
 const SIG = make({hookText: 'PEYTON\'S [ADVICE]', src: 'pod2/u4_peyton.mp4', track: T(pyTrack), raw: pyWords as Raw, wideX: 960, top: "[Peyton Manning] told Trevor THIS about autographs",
-  segs: [[7700, 9900], [1100, 18900]], hookSeat: 'M', music: 'midnight-club.mp3', from: 30000, arrowAt: 2800,
+  segs: [[7700, 9900], [1100, 17700]], hookSeat: 'M', music: 'midnight-club.mp3', from: 30000, arrowAt: 2800,
   shots: [[1100, 'M'], [11300, 'L'], [13600, 'M'], [16500, 'M', 1.06]],
   hi: {peyton: [C, '1f410'], manning: C, signature: [Y, '270d'], 'signature.': Y, big: G, deal: G, nice: G, relationship: [C, '1f91d'], text: [Y, '1f4f1'], season: Y, cool: G},
   hook: (o) => <Over o={o} a={0} b={1e9}><SigCard o={o} a={0} signAt={500} /></Over>, capsOff: [[7700, 10300]],
