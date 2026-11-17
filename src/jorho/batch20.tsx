@@ -189,12 +189,12 @@ const PLAYBOOK = make({hookText: '[HUNDREDS] OF PLAYS?!', src: 'pod2/u1_playbook
   sfx: (at) => [sfx('mg-swoosh', at(16800), 0.16, 500), sfx('ding-2', at(52500), 0.14)]});
 
 const PATCH = make({hookText: '$15K… OR A [NAPKIN]?', mark: 'circle', src: 'b3/v_nt_rip.mp4', track: T(ntTrack), raw: ntWords as Raw, wideX: 900, top: "Why one [patch] makes a card worth $15,000+",
-  segs: [[8100, 9200], [0, 14700]], hookSeat: 'W', music: 'funk-sigilo.mp3', from: 30000, arrowAt: 12400,
+  segs: [[8100, 9200], [0, 6400], [6800, 14700]], hookSeat: 'W', music: 'funk-sigilo.mp3', from: 30000, arrowAt: 12400,
   shots: [[0, 'W'], [8100, 'W', 1.06], [12300, 'W']], flash: [2700, 'green'],
   hi: {'10': G, '000': G, '15': [G, '1f4b0'], plus: G, patch: Y, jaguars: C, napkin: [R, '1f62d'], nicer: [G, '1f525'], swoosh: C, nike: C},
   hook: (o, end) => <Over o={o} a={0} b={end}><PatchLadder o={o} topAt={0} nicerAt={-1} napkinAt={150} /></Over>,
-  capsOff: [[2600, 11800]],
-  inBox: (o, at) => <Over o={o} a={at(2600)} b={at(11800)}><PatchLadder o={o} topAt={at(2700)} napkinAt={at(8500)} nicerAt={at(10200)} /></Over>,
+  capsOff: [[2600, 4300]],
+  inBox: (o, at) => <Over o={o} a={at(2600)} b={at(4300)}><PatchLadder o={o} topAt={at(2700)} napkinAt={at(8500)} nicerAt={at(10200)} /></Over>,
   sfx: (at) => [sfx('ding-2', at(2800), 0.12), sfx('error', at(8600), 0.12), sfx('ding-2', at(10300), 0.12)]});
 
 const PEYTON = make({hookText: 'WHO HE [CALLED]…', src: 'pod2/u4_peyton.mp4', track: T(pyTrack), raw: pyWords as Raw, wideX: 960, top: "Who Trevor called when his [rookie year] went wrong",
@@ -203,12 +203,12 @@ const PEYTON = make({hookText: 'WHO HE [CALLED]…', src: 'pod2/u4_peyton.mp4', 
   hi: {peyton: [C, '1f410'], rookie: Y, well: [R, '1f972'], perspective: [G, '1f9e0'], challenges: R, indy: C, talked: Y},
   hook: (o, end) => <Over o={o} a={0} b={end}><CallLine o={o} beforeAt={0} duringAt={300} whyAt={1e9} /></Over>,
   capsOff: [[37600, 46300]],
-  inBox: (o, at) => <Over o={o} a={at(37600)} b={at(46300) + 300}><CallLine o={o} beforeAt={at(37700)} duringAt={at(40500)} whyAt={at(44400)} /></Over>,
+  inBox: (o, at) => <Over o={o} a={at(37600)} b={at(46300) + 300}><CallLine o={o} beforeAt={at(37700)} duringAt={at(38900)} whyAt={at(44400)} /></Over>,
   sfx: (at) => [sfx('ding-2', at(37700), 0.12), sfx('ding-2', at(40500), 0.12)]});
 
 // ================= Y · YOUTUBE CARD + BOARD ======================================================================================
 const GOLF = make({hookText: '[JESUS] IS IN', mark: 'circle', src: 'pod/t2_dream_golf_four.mp4', track: T(golfTrack), raw: golfWords as Raw, wideX: 720, top: "Trevor wants [Jesus] in his golf group",
-  segs: [[32600, 34100], [11280, 13800], [16700, 18300], [32200, 35500], [45400, 54200]], hookSeat: 'M', music: 'zelda-fairy-spring.mp3', from: 0, arrowAt: 32300,
+  segs: [[32600, 34100], [11280, 13800], [16700, 18300], [32200, 35500], [45400, 54150]], hookSeat: 'M', music: 'zelda-fairy-spring.mp3', from: 0, arrowAt: 32300,
   shots: [[11280, 'L'], [18000, 'W'], [32200, 'M'], [34780, 'L'], [45400, 'M'], [51000, 'M', 1.06]],
   hi: {jesus: [Y, '1f64f'], tiger: [O, '26f3'], goat: [G, '1f410'], dream: C, golf: C, humans: Y, anybody: Y},
   hook: (o) => <Paper><Foursome o={o} jesusAt={150} tigerAt={1e9} /></Paper>,
@@ -246,7 +246,7 @@ const WHACKED = make({hookText: '"THESE GUYS ARE [WACK]"', mark: 'circle', src: 
   sfx: (at) => [sfx('keyboard-typing', at(91600), 0.1, 900)]});
 
 const CELLY = make({hookText: 'THE [10/10] CELLY', mark: 'circle', src: 'pod2/u2_psa10_celly.mp4', track: T(cellyTrack), raw: cellyWords as Raw, wideX: 960, top: "Grant pitched Trevor a [touchdown celly]",
-  segs: [[27500, 29000], [2300, 8500], [12900, 15000], [20800, 28200], [28600, 30600]], hookSeat: 'M', music: 'funk-do-balkan.mp3', from: 0, arrowAt: 8550,
+  segs: [[27500, 29000], [2300, 5900], [6300, 8500], [12900, 15000], [20800, 28200], [28600, 30600]], hookSeat: 'M', music: 'funk-do-balkan.mp3', from: 0, arrowAt: 8550,
   shots: [[2300, 'L'], [8400, 'M'], [12900, 'M', 1.06], [18800, 'L'], [27000, 'M']], flash: [27600, 'green'],
   hi: {celly: [Y, '1f3c8'], selly: [Y, '1f3c8'], touchdown: G, choreographed: [R, '1f62c'], choreograph: R, psa: C, '1010': G, '10': [G, '1f51f'], best: G, easy: G, collectors: C},
   hook: (o) => <Over o={o} a={0} b={1e9}><Slab o={o} a={0} /></Over>, capsOff: [[22200, 25300]],
@@ -254,8 +254,8 @@ const CELLY = make({hookText: 'THE [10/10] CELLY', mark: 'circle', src: 'pod2/u2
   sfx: (at) => [sfx('mg-swoosh', at(22200), 0.16, 500), sfx('ding-2', at(22700), 0.12)]});
 
 const NECK = make({hookText: 'A [LONGER] NECK?!', src: 'pod/t6_davis_mills_joke.mp4', track: T(neckTrack), raw: neckWords as Raw, wideX: 960, top: "Trevor's reaction to the [Davis Mills] card",
-  segs: [[9100, 10600], [0, 15000]], hookSeat: 'L', music: 'Curb_Credits.mp3', from: 0, arrowAt: 11300,
-  shots: [[2000, 'W'], [5800, 'M'], [9100, 'L'], [11200, 'M', 1.08], [14300, 'W']], flash: [6900, 'red'], cutout: {src: 10300, file: 'cutouts/glennon.png'},
+  segs: [[9100, 10600], [0, 15000]], hookSeat: 'L', music: 'Curb_Credits.mp3', from: 0, arrowAt: 6000,
+  shots: [[2000, 'W'], [5800, 'M'], [9100, 'L'], [11200, 'M', 1.08]], flash: [6900, 'red'], cutout: {src: 10300, file: 'cutouts/glennon.png'},
   hi: {davis: C, 'mills': [C, '1f633'], ew: [R, '1f922'], neck: [Y, '1f992'], glennon: Y, longer: Y, trevor: C},
   hook: (o) => <Over o={o} a={0} b={1e9}><NeckChart o={o} a={0} /></Over>, capsOff: [[12000, 14200]],
   inBox: (o, at) => <Over o={o} a={at(12000)} b={at(14200)}><NeckChart o={o} a={at(12000)} /></Over>,
