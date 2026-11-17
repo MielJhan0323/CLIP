@@ -185,3 +185,5 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 - 2026-11-16: NO DIAGRAM IN THE OPENING (user: "don't put diagrams directly in the start, keep it semi simple"). Cold open = the strongest
   line on its own footage + the title punched in (AutoHook, light 30 % dim). Diagrams only in the body where the topic comes up
   (batch17 DIAGRAM_HOOKS = false). Still: hook visible on frame 0, coloured [title] key words.
+- 2026-11-17: OPENING TEXT TYPES OUT (user: "the on screen text should type out in the beginning"): AutoHook = typewriter (≤ 45 ms/char,
+  done by ~60 % of the cold open, cursor while typing, key words keep their colours, emoji pops when done) + soft keyboard-typing SFX.

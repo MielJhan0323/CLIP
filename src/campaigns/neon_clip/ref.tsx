@@ -10,7 +10,7 @@ import {BOX_H, BOX_TOP, Frame, OneWord, wordsFrom} from '../../jorho/kit';
 import {VIRAL_WARM} from '../../jorho/clips';
 import {MONT} from '../../e3/bars';
 import {tighten} from '../../jorho/tighten';
-import {applyHi, AutoHook, EmojiPop, type Hi} from '../../jorho/hi';
+import {applyHi, AutoHook, EmojiPop, hookTypeMs, type Hi} from '../../jorho/hi';
 import {speechDips} from './neon';
 import calWords from '../../plans/data/r3born_ep2_cal.words.json';
 import obWords from '../../plans/data/r3born_ep2_ob.words.json';
@@ -72,7 +72,7 @@ const make = (c: Cfg) => {
   const ay = BOX_TOP + c.arrow[2] * (BOX_H / 1080);
   const flashO = c.flash ? out(c.flash[0]) : -1;
   const list: Sfx[] = [
-    sfx('fast-whoosh', 0, 0.18, 400),
+    sfx('keyboard-typing', 0, 0.12, Math.max(300, hookTypeMs(c.title, tl.segOut[hookN] + 450) - 450)),
     sfx('mg-swoosh', arrowO, 0.14, 500),
     ...(flashO >= 0 ? [c.flash![1] === 'green' ? sfx('g-ding-sfx', flashO - 30, 0.18, 700) : sfx('g-shock-sfx', flashO - 40, 0.2, 900)] : []),
     ...(c.sfx?.(out) ?? []),

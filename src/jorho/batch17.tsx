@@ -17,7 +17,7 @@ import {Jorho, VIRAL_WARM, type Spec} from './clips';
 import {TypedAction, YouTubeCard} from './v2';
 import {speechDips} from '../campaigns/neon_clip/neon';
 import {tighten} from './tighten';
-import {applyHi, AutoHook, EmojiPop, type Hi} from './hi';
+import {applyHi, AutoHook, EmojiPop, hookTypeMs, type Hi} from './hi';
 import peytonWords from '../plans/data/u4_peyton.words.json';
 import peytonTrack from '../plans/data/u4_peyton.seats.json';
 import pbWords from '../plans/data/u1_playbook.words.json';
@@ -125,7 +125,7 @@ export const make = (c: Cfg) => {
     },
     music: {file: c.music, from: c.from, level: 0, gain: 1, floor: 0.55, ramp: 150, dips, start: tl.segOut[1], swell: [end, 3]},
     extraSfx: [
-      sfx('fast-whoosh', 0, 0.2, 400),
+      sfx('keyboard-typing', 0, 0.12, Math.max(300, hookTypeMs(c.top, tl.segOut[hookN] + HOOK_LEAD) - HOOK_LEAD)),
       sfx('record-scratch', tl.segOut[1] - 60, 0.16, 450),
       ...(flashO >= 0 ? [sfx('bass-boosted-vine-boom', flashO - 60, 0.07, 450)] : []),
       sfx('mg-swoosh', arrow, 0.16, 500),
