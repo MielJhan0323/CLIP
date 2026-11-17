@@ -25,7 +25,7 @@ import {HC} from '../../jorho/hi';
 
 type Raw = {text: string; startMs: number; endMs: number}[];
 const SRC = 'neon/r3born_ep2.mp4';
-const CENSOR: [RegExp, string][] = [[/^fuck/i, 'F*ck'], [/^shit/i, 'Sh*t'], [/^bitch/i, 'B*tch']];
+const CENSOR: [RegExp, string][] = [[/^Safari/, 'Saffari'], [/^fuck/i, 'F*ck'], [/^shit/i, 'Sh*t'], [/^bitch/i, 'B*tch']];
 const TINT = {red: 'rgba(255,40,40,0.7)', green: 'rgba(80,255,60,0.6)'};
 const CW = (1080 * 1080) / BOX_H; // source width of a full-height crop in the band
 
@@ -162,27 +162,27 @@ const {green: G, yellow: Y, cyan: C, red: R, orange: O, pink: P} = HC;
 const REST = restWords as Raw;
 const FART_RAW = [...(fiveWords as Raw).filter((w) => w.startMs < 158000), ...(moreWords as Raw).filter((w) => w.startMs >= 158000 && w.startMs < 176000)]
   .sort((a, b) => a.startMs - b.startMs).filter((w, i, a) => i === 0 || w.startMs - a[i - 1].startMs > 150 || w.text !== a[i - 1].text);
-export const REF_JOKE = make({hookText: "WOMEN'S WORKOUTS A [JOKE]?", hookEmoji: '1f631', raw: REST, title: "Are these 'women's exercises' a [joke]? N3on found out",
+export const REF_JOKE = make({hookText: "WOMEN'S WORKOUTS A [JOKE]?", hookEmoji: '1f631', raw: REST, title: "N3on vs '[women's] workouts': Pilates, pole and silks",
   segs: [[7200, 8700], [0, 4900], [7200, 8700], [11800, 14500], [19200, 23500]], snap: true,
   keys: [[0, 960], [3, 1040], [7, 960], [8, 800], [11.8, 960], [13, 1050], [19, 900], [20, 1100], [21, 960], [23, 960]],
   arrow: [3300, 960, 240], flash: [2500, 'red'], music: 'pixy-legacy.mp3', from: 0, musicGain: 0.5,
   hi: {pilates: Y, pole: Y, dancing: Y, aerial: Y, yoga: Y, insane: [R, '1f631'], joke: [R, '1f602'], pants: [O, '1f633'], sarah: P, safari: P, calories: [G, '1f525'], fitness: C, bands: C, special: P}});
 export const REF_SLIP = make({hookText: "WAIT… [STRIP]?!", hookEmoji: '1f633', raw: REST, title: "N3on's [slip of the tongue] at pole class",
-  segs: [[264000, 266600], [266700, 272600], [274800, 277200], [277700, 279800], [280700, 284050]],
+  segs: [[264000, 266600], [266700, 270800], [274800, 277200], [277700, 279800], [280700, 284050]],
   keys: [[264, 1100]], arrow: [264300, 900, 255], flash: [264900, 'red'], music: 'Sneaky_Snitch.mp3', from: 0, musicGain: 0.8,
   hi: {strip: [R, '1f633'], sorry: [Y, '1f62c'], pole: C, dancing: C, amazing: G, flexible: G, strength: G, camaraderie: C, everything: [Y, '1f92f'], intrigued: [O, '1f914'], interested: [O, '1f60f'], tough: [R, '1f480']}});
 export const REF_DOWN100 = make({hookText: "DOWN [100] CALORIES", hookEmoji: '1f4c9', raw: REST, title: 'N3on is down [100 calories]… so now it\'s aerial silks',
-  segs: [[508200, 511000], [464100, 468900], [484100, 487700], [506500, 516200]],
+  segs: [[508200, 511000], [464100, 468900], [484100, 487700], [506500, 511200]],
   keys: [[464, 640], [465.8, 541], [470, 960], [484, 914], [486, 1200], [488, 500], [506, 1000], [507.4, 1250], [512, 560], [515.5, 1000]],
   arrow: [508300, 1455, 120], flash: [506800, 'red'], music: 'kai-cenat-suspense.mp3', from: 0, musicGain: 1.1,
   hi: {aerial: C, silks: C, 'f*ck': R, idea: [Y, '1f914'], hundred: [R, '1f4c9'], calories: R, burn: G, smoked: [R, '1f480'], cirque: C, soleil: C, flippin: Y, splitting: Y}});
 export const REF_FART = make({hookText: "DID HE JUST [FART]?", hookEmoji: '1f922', raw: FART_RAW, title: 'Did N3on just [fart] in Pilates?', snap: true,
-  segs: [[165600, 166900], [151100, 160600], [163800, 172600]],
+  segs: [[165600, 166900], [151100, 160600], [163800, 170000]],
   keys: [[152, 1000], [153, 920], [156, 1110], [157, 1260], [158, 770], [159, 560], [160, 770], [161, 1300], [162, 960], [163, 920], [164, 1230], [165, 1400], [166, 920], [167, 845], [168, 1000], [169, 450], [170, 614]],
   arrow: [-1, 0, 0], flash: [166600, 'red'], music: 'Fluffing_a_Duck.mp3', from: 0, musicGain: 0.8,
   hi: {abs: [R, '1f525'], fire: R, baby: Y, inhale: C, exhale: C, lift: C, fart: [O, '1f922'], 'sh*t': R, nope: [R, '1f480'], five: Y, four: Y}});
 export const REF_HARD = make({hookText: "SILKS = [HUMBLED]", hookEmoji: '1f62d', raw: REST, title: 'Aerial silks [humbled] them FAST', snap: true,
-  segs: [[536000, 537400], [522000, 537600]],
+  segs: [[536000, 537400], [522000, 524500], [527200, 537600]],
   keys: [[522, 1000], [524, 1150], [529, 700], [530, 600], [531, 1000], [532, 920], [533, 850], [534, 660], [535, 730], [536, 1000], [537, 620], [538, 920]],
   arrow: [531200, 885, 120], flash: [537000, 'red'], music: 'zelda-ocarina.mp3', from: 0, musicGain: 0.9,
   hi: {backbend: C, arch: C, hips: Y, rock: C, wrap: C, god: [Y, '1f631'], hard: [R, '1f62d'], seriously: R}});

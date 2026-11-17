@@ -63,8 +63,7 @@ const SigCard = ({o, a, signAt}: {o: number; a: number; signAt: number}) => {
       <div style={{fontFamily: MONT, fontWeight: 900, fontSize: 46, color: '#111', textAlign: 'center', lineHeight: '56px'}}>"IT'S A BIG DEAL TO HAVE<br />A NICE SIGNATURE"</div>
       {o >= signAt && <div style={{fontFamily: '"Brush Script MT", cursive', fontSize: 110, color: '#1a3d8f', marginTop: 20, transform: `scale(${pop(o, signAt, 11, 240)}) rotate(-6deg)`}}>Trevor Lawrence</div>}
     </div>
-    {o >= signAt + 500 && <div style={{position: 'absolute', left: 0, right: 0, top: 790, textAlign: 'center', fontFamily: MONT, fontWeight: 900, fontSize: 56, color: G,
-      transform: `scale(${pop(o, signAt + 500, 10, 260)})`}}>= THE GOATED PEN <Img src={staticFile('emoji-ios/270d.png')} style={{width: 60, height: 60, verticalAlign: '-8px'}} /></div>}
+    
   </>;
 };
 

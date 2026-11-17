@@ -117,7 +117,7 @@ export const make = (c: Cfg) => {
     .filter((t, i, a) => i === 0 || t - a[i - 1] > 700);
   const beatK = (o: number) => beats.reduce((k, t) => (o >= t && o < t + 260 ? Math.max(k, 1 - (o - t) / 260) : k), 0);
   const spec: Spec = {
-    tl, src: c.src, track: c.track, top: c.top, wordY: 1000, wideX: c.wideX, capSize: 60, grade: VIRAL_WARM,
+    tl, src: c.src, track: c.track, top: c.top, wordY: 1230, /* below faces, on the hoodie (review r2: captions sat on chins) */ wideX: c.wideX, capSize: 60, grade: VIRAL_WARM,
     words: capWords, shots, strobes: [], tints: [], swish: [],
     capsOff: capsOffList, // v2: captions off while a diagram owns the box
     camFx: (o) => {
@@ -138,7 +138,7 @@ export const make = (c: Cfg) => {
         {o >= arrow && o < arrow + 1300 && !boards.some((bd) => o >= bd.oa && o < bd.ob) && (c.mark === 'circle' ? <HeadRing o={o} a={arrow} b={arrow + 1500} x={f.x} y={f.y} k={1.25} label="Trevor Lawrence" /> : <ArrowName o={o - arrow} x={f.x} y={f.y} />)}
         {c.cutout && <MemePop o={o} at={at(c.cutout.src)} to={at(c.cutout.src) + 900} src={c.cutout.file} x={c.cutout.x ?? 560} y={c.cutout.y ?? 820} size={c.cutout.size ?? 440} />}
         {c.overlay?.(o, at)}
-        {!boards.some((bd) => o >= bd.oa && o < bd.ob) && !capsOffList.some(([x, y]) => o >= x && o < y) && <EmojiPop o={o} words={capWords} hi={c.hi} y={1000} />}
+        {!boards.some((bd) => o >= bd.oa && o < bd.ob) && !capsOffList.some(([x, y]) => o >= x && o < y) && <EmojiPop o={o} words={capWords} hi={c.hi} y={1230} />}
       </>;
     },
     music: {file: c.music, from: c.from, level: 0, gain: 1, floor: 0.55, ramp: 150, dips, start: tl.segOut[1], swell: [end, 3]},
