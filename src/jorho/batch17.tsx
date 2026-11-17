@@ -89,11 +89,16 @@ export const make = (c: Cfg) => {
     plan.filter(([s]) => s > a && s < b).forEach(([s, seat, z]) => { shots.push([tl.segOut[i] + s - a, seat]); zooms.push([tl.segOut[i] + s - a, z ?? 1]); });
   }
   shots.sort((x, y) => x[0] - y[0]); zooms.sort((x, y) => x[0] - y[0]);
+  // reviewer 2026-11-17: "0.1–0.4 s flash shots" → an angle must hold ≥ 1.3 s; drop changes that come sooner (except at segment cuts)
+  const segStarts = new Set(tl.segOut.map((x) => Math.round(x)));
+  for (const arr of [shots, zooms] as [number, unknown][][]) {
+    for (let i = arr.length - 1; i > 0; i--) if (arr[i][0] - arr[i - 1][0] < 1300 && !segStarts.has(Math.round(arr[i][0]))) arr.splice(i, 1);
+  }
   const zoomAt = (o: number) => Math.min(1.12, [...zooms].reverse().find(([t]) => o >= t)?.[1] ?? 1);
   let beats: number[] = [];
   const dips = speechDips(c.raw, tl);
   const end = tl.segOut[segs.length - 1] + spokeEnd - last[0];
-  const boards = (c.boards ?? []).map((bd) => ({...bd, oa: at(bd.a), ob: at(bd.b)}));
+  const boards = (c.boards ?? []).map((bd) => ({...bd, oa: at(bd.a), ob: Math.min(at(bd.b), at(bd.a) + 3500)})); // boards ≤ 3.5 s (reviewer: diagrams covered the speaker 7–8 s)
   const flashO = c.flash ? at(c.flash[0]) : -1;
   const arrow = at(c.arrowAt);
   const camCfg: CamCfg = {src: c.src, tl, track: c.track, grade: VIRAL_WARM, box: [1080, BOX_H], baseH: 640, faceY: 0.42, wideX: c.wideX, who: () => 'M'};
@@ -113,7 +118,7 @@ export const make = (c: Cfg) => {
     inBox: (o) => <>
       {boards.map((bd, i) => (o >= bd.oa && o < bd.ob ? <BoardShell key={i} o={o} a={bd.oa} b={bd.ob} cam={camCfg}>{bd.render(o, at)}</BoardShell> : null))}
       {c.inBox?.(o, at)}
-      {o < tl.segOut[hookN] && (DIAGRAM_HOOKS && c.hook ? c.hook(o + HOOK_LEAD, tl.segOut[hookN] + HOOK_LEAD) : <AutoHook o={o + HOOK_LEAD} end={tl.segOut[hookN] + HOOK_LEAD} text={c.hookText ?? c.top} />)}
+      {o < tl.segOut[hookN] && (DIAGRAM_HOOKS && c.hook ? c.hook(o + HOOK_LEAD, tl.segOut[hookN] + HOOK_LEAD) : <AutoHook o={o + HOOK_LEAD} end={tl.segOut[hookN] + HOOK_LEAD} text={c.hookText ?? c.top} top={70} />)}
       {c.yt && <YouTubeCard o={o} a={at(c.yt.a)} b={at(c.yt.b)} title={c.yt.title} cam={camCfg} startAt={c.yt.a} dur={tl.total + 20000} />}
       {flashO >= 0 && o >= flashO && o < flashO + 190 && <AbsoluteFill style={{background: TINT[c.flash![1]], mixBlendMode: 'color',
         opacity: interpolate(o - flashO, [0, 70, 190], [1, 1, 0], clamp)}} />}

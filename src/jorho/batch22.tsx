@@ -23,8 +23,10 @@ type Track = Spec['track'];
 type Raw = {text: string; startMs: number; endMs: number}[];
 const T = (x: unknown) => x as Track;
 const {green: G, yellow: Y, cyan: C, red: R, orange: O} = HC;
-const Over = ({o, a, b, children}: {o: number; a: number; b: number; children: ReactNode}) => (o < a || o >= b ? null :
+const OverRaw = ({o, a, b, children}: {o: number; a: number; b: number; children: ReactNode}) => (o < a || o >= b ? null :
   <AbsoluteFill style={{opacity: Math.min(a <= 0 ? 1 : ease(o, a, 200), 1 - ease(o, b - 200, 200)), background: 'rgba(8,10,14,0.66)'}}>{children}</AbsoluteFill>);
+// reviewer 2026-11-17: overlays ≤ 3.5 s so the speaker comes back fast
+const Over = (p: {o: number; a: number; b: number; children: ReactNode}) => <OverRaw {...p} b={Math.min(p.b, p.a + 3500)} />;
 const Head = ({text}: {text: string}) => <div style={{position: 'absolute', left: 60, right: 60, top: 100, fontFamily: MONT, fontWeight: 900, fontSize: 52, color: 'white', lineHeight: '60px'}}>{text}</div>;
 const Emo = ({code, size = 64}: {code: string; size?: number}) => <Img src={staticFile(`emoji-ios/${code}.png`)} style={{width: size, height: size, verticalAlign: '-10px'}} />;
 const Row = ({o, at, y, label, done, col = G}: {o: number; at: number; y: number; label: string; done: boolean; col?: string}) => (o < at ? null :
