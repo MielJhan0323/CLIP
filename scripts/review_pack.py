@@ -18,6 +18,7 @@ vid = sys.argv[1]
 name = os.path.splitext(os.path.basename(vid))[0]
 out = sys.argv[2] if len(sys.argv) > 2 else os.path.join('review', name)
 os.makedirs(os.path.join(out, 'frames'), exist_ok=True)
+for old in os.listdir(os.path.join(out, 'frames')): os.remove(os.path.join(out, 'frames', old))  # no stale frames from earlier rounds
 
 dur = float(subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', vid], capture_output=True, text=True).stdout)
 times = [0.0, 0.3, 0.6, 1.0, 1.5, 2.0, 3.0]
