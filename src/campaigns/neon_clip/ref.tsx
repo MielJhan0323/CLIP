@@ -163,7 +163,7 @@ const REST = restWords as Raw;
 const FART_RAW = [...(fiveWords as Raw).filter((w) => w.startMs < 158000), ...(moreWords as Raw).filter((w) => w.startMs >= 158000 && w.startMs < 176000)]
   .sort((a, b) => a.startMs - b.startMs).filter((w, i, a) => i === 0 || w.startMs - a[i - 1].startMs > 150 || w.text !== a[i - 1].text);
 export const REF_JOKE = make({hookText: "WOMEN'S WORKOUTS A [JOKE]?", hookEmoji: '1f631', raw: REST, title: "N3on vs '[women's] workouts': Pilates, pole and silks",
-  segs: [[7200, 8700], [0, 4900], [7200, 8700], [12900, 14500], [19200, 23500]], capsOff: [[12900, 24000]], snap: true,
+  segs: [[7200, 8700], [0, 4900], [7200, 8700], [12900, 14500], [19200, 26300]], capsOff: [[12900, 27000]], snap: true,
   keys: [[0, 960], [3, 1040], [7, 960], [8, 800], [11.8, 960], [13, 1050], [19, 900], [20, 1100], [21, 960], [23, 960]],
   arrow: [3300, 960, 240], flash: [2500, 'red'], music: 'pixy-legacy.mp3', from: 0, musicGain: 0.5,
   hi: {pilates: Y, pole: Y, dancing: Y, aerial: Y, yoga: Y, insane: [R, '1f631'], joke: [R, '1f602'], pants: [O, '1f633'], sarah: P, safari: P, calories: [G, '1f525'], fitness: C, bands: C, special: P}});
