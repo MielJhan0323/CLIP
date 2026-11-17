@@ -12,11 +12,15 @@ d = np.abs(np.diff(f, axis=0)).mean(axis=(1, 2))
 ms = lambda i: round(i * 1000 / 30)
 cuts = [i + 1 for i, v in enumerate(d) if v > 22]
 skip = [[ms(a), ms(b)] for a, b in zip(cuts, cuts[1:]) if (b - a) * 1000 / 30 < 450]
-run = 0
-for i, v in enumerate(d):
-    run = run + 1 if v > 12 else 0
-    if run == 4: skip.append([ms(i - 4), None])
-    if run >= 4: skip[-1][1] = ms(i + 2)
+# whip-pan blur = a SHORT burst of strong motion (4–15 frames); longer motion is real action (spins, climbs) and stays
+i, n = 0, len(d)
+while i < n:
+    if d[i] > 18:
+        j = i
+        while j < n and d[j] > 14: j += 1
+        if 3 <= j - i <= 12: skip.append([ms(i), ms(j + 1)])
+        i = j
+    else: i += 1
 skip.sort()
 merged = []
 for a, b in skip:

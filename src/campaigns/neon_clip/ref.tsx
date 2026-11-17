@@ -206,9 +206,9 @@ export const REF_SQUATS = make({hookText: "WHY IS NO ONE [STRUGGLING]?", hookEmo
   hi: {pole: C, squats: [Y, '1f4aa'], baby: [P, '1f476'], steps: P, struggling: [R, '1f633'], hand: Y, turn: G, manly: [O, '1f633'], window: O}});
 export const REF_WAX = make({hookText: "N3ON GOT [WAXED]", hookEmoji: '1f62d', raw: mergeRaw((fiveWords as Raw).filter((w) => w.startMs < 766000), REST.filter((w) => w.startMs >= 766000)),
   title: "N3on got his leg [waxed]", snap: true,
-  segs: [[768500, 771100], [753400, 771100]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [763200, 'red'], music: 'say-goodbye-lodoni.mp3', from: 0, musicGain: 0.8,
+  segs: [[768500, 771100], [750500, 771100]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [763200, 'red'], music: 'say-goodbye-lodoni.mp3', from: 0, musicGain: 0.8,
   hi: {wax: [Y, '1f62c'], follicle: Y, touch: R, ow: [R, '1f62d'], hurt: R, subscribe: [G, '1f514'], suffer: [R, '1f480']}});
 export const REF_SCAM = make({hookText: "N3ON THE [SCAMMER]", hookEmoji: '1f923', raw: fiveWords as Raw, title: "'I'm a [scammer], I'm a [cheater]' – N3on", snap: true,
-  segs: [[650600, 652500], [652400, 656000], [660000, 662300], [667700, 676000]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [671000, 'green'], music: 'funk-do-balkan.mp3', from: 0, musicGain: 0.7,
+  segs: [[650600, 652500], [652400, 676000]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [671000, 'green'], music: 'funk-do-balkan.mp3', from: 0, musicGain: 0.7,
   hi: {scammer: [R, '1f921'], cheater: R, knee: C, tail: C, ankle: C, got: G, 'b*tch': [Y, '1f525'], yeah: G}});
 export const RefSlower = REF_SLOWER.Comp, RefDream = REF_DREAM.Comp, RefSquats = REF_SQUATS.Comp, RefWax = REF_WAX.Comp, RefScam = REF_SCAM.Comp;
