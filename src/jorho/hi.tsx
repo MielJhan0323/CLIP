@@ -53,9 +53,10 @@ export const AutoHook = ({o, end, text, emoji = '1f480', top = 330}: {o: number;
   return <AbsoluteFill style={{background: 'rgba(0,0,0,0.3)', opacity: fade}}>
     <div style={{position: 'absolute', left: 60, right: 60, top, textAlign: 'center', fontFamily: MONT, fontWeight: 900, fontSize: 72, lineHeight: '86px', color: 'white',
       WebkitTextStroke: '6px #111', paintOrder: 'stroke fill', textTransform: 'uppercase'}}>{shown}
-      {typing && Math.floor(o / 260) % 2 === 0 && <span style={{color: 'white'}}>|</span>}</div>
-    {!typing && <div style={{position: 'absolute', left: 0, right: 0, top: top + 300, display: 'flex', justifyContent: 'center'}}>
-      <Img src={staticFile(`emoji-ios/${emoji}.png`)} style={{width: 130, height: 130, transform: `scale(${Math.min(1, pop(o, plain.length * per, 12, 260))})`}} /></div>}
+      {typing && Math.floor(o / 260) % 2 === 0 && <span style={{color: 'white'}}>|</span>}
+      {!typing && <Img src={staticFile(`emoji-ios/${emoji}.png`)} style={{width: 76, height: 76, marginLeft: 12, verticalAlign: '-10px',
+        transform: `scale(${Math.min(1, pop(o, plain.length * per, 12, 260))})`}} />}{/* inline at the end of the line, never on a face (reviewer r2) */}</div>
+
   </AbsoluteFill>;
 };
 export const hookTypeMs = (text: string, end: number) => Math.min(text.replace(/[[\]]/g, '').length * 45, end * 0.6);
