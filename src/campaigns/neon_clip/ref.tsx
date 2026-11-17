@@ -150,9 +150,9 @@ export const REF_JOKE = make({hookText: "WOMEN'S WORKOUTS A [JOKE]?", hookEmoji:
   arrow: [3300, 960, 240], flash: [2500, 'red'], music: 'pixy-legacy.mp3', from: 0, musicGain: 0.5,
   hi: {pilates: Y, pole: Y, dancing: Y, aerial: Y, yoga: Y, insane: [R, '1f631'], joke: [R, '1f602'], pants: [O, '1f633'], sarah: P, safari: P, calories: [G, '1f525'], fitness: C, bands: C, special: P}});
 export const REF_SLIP = make({hookText: "WAIT… [STRIP]?!", hookEmoji: '1f633', raw: REST, title: "N3on's slip of the tongue at pole class",
-  segs: [[264000, 266600], [266700, 272600], [274800, 277200], [277700, 279800], [280700, 285300]],
+  segs: [[264000, 266600], [266700, 272600], [274800, 277200], [277700, 279800], [280700, 284050]],
   keys: [[264, 1100]], arrow: [264300, 900, 255], flash: [264900, 'red'], music: 'Sneaky_Snitch.mp3', from: 0, musicGain: 0.8,
-  hi: {strip: [R, '1f633'], sorry: [Y, '1f62c'], pole: C, dancing: C, amazing: G, flexible: G, strength: G, camaraderie: C, everything: [Y, '1f92f'], intrigued: [O, '1f914'], interested: O, tough: [R, '1f480']}});
+  hi: {strip: [R, '1f633'], sorry: [Y, '1f62c'], pole: C, dancing: C, amazing: G, flexible: G, strength: G, camaraderie: C, everything: [Y, '1f92f'], intrigued: [O, '1f914'], interested: [O, '1f60f'], tough: [R, '1f480']}});
 export const REF_DOWN100 = make({hookText: "DOWN [100] CALORIES", hookEmoji: '1f4c9', raw: REST, title: 'N3on is down 100 calories… so now it\'s aerial silks',
   segs: [[508200, 511000], [464100, 468900], [484100, 487700], [506500, 516200]],
   keys: [[464, 640], [465.8, 541], [470, 960], [484, 914], [486, 1200], [488, 500], [506, 1000], [507.4, 1250], [512, 560], [515.5, 1000]],
