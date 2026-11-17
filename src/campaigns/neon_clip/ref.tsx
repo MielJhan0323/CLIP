@@ -84,7 +84,7 @@ const make = (c: Cfg) => {
     const whip = 0; // 2026-11-16: crisp first frame
     return <Frame o={o} top={c.title} over={<>
       {o >= tl.segOut[hookN] && <OneWord o={o} words={words} y={1000} size={c.hi ? 66 : 60} />}
-      <EmojiPop o={o} words={words} hi={c.hi} y={1000} />
+      {o >= tl.segOut[hookN] && <EmojiPop o={o} words={words} hi={c.hi} y={1000} />}
       {arrowO >= 0 && o >= arrowO && o < arrowO + 1300 && <Arrow o={o - arrowO} x={ax} y={ay} />}
       <SpeechTrack src={SRC} tl={tl} gain={1.05 * (c.gain ?? 1)} />
       <Music file={c.music} songFrom={c.from} level={(t) => {
