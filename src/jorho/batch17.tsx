@@ -65,7 +65,10 @@ export const make = (c: Cfg) => {
   const last = segs[segs.length - 1];
   const after = [...c.raw].sort((x, y) => x.startMs - y.startMs).find((w) => w.startMs >= last[1])?.startMs ?? Infinity;
   const spokeEnd = last[1];
-  segs[segs.length - 1] = [last[0], Math.max(last[1], Math.min(last[1] + 300, after - 60)), last[2] ?? 0];
+  // reviewer 2026-11-17: "runs ~0.9 s past the last word" → end 350 ms after the last spoken word (tight loop), never past the seg end
+  const lastWordEnd = Math.max(...c.raw.filter((w) => w.startMs >= last[0] && w.startMs < last[1]).map((w) => w.endMs), last[0] + 500);
+  segs[segs.length - 1] = [last[0], Math.min(Math.max(last[1], Math.min(last[1] + 300, after - 60)), lastWordEnd + 350), last[2] ?? 0];
+  void spokeEnd;
   const tl: TL = timeline(segs);
   const hookN = tighten([c.segs[0]], c.raw).length;
   const at = (src: number) => { // body-first source→output
@@ -94,7 +97,7 @@ export const make = (c: Cfg) => {
   const flashO = c.flash ? at(c.flash[0]) : -1;
   const arrow = at(c.arrowAt);
   const camCfg: CamCfg = {src: c.src, tl, track: c.track, grade: VIRAL_WARM, box: [1080, BOX_H], baseH: 640, faceY: 0.42, wideX: c.wideX, who: () => 'M'};
-  const capsOffList: [number, number][] = [...boards.map((bd) => [bd.oa + 150, bd.ob - 150] as [number, number]), ...(c.capsOff ?? []).map(([a, b]) => [at(a), at(b)] as [number, number]), [0, tl.segOut[hookN]] as [number, number]];
+  const capsOffList: [number, number][] = [[at(c.arrowAt), at(c.arrowAt) + 1300], ...boards.map((bd) => [bd.oa + 150, bd.ob - 150] as [number, number]), ...(c.capsOff ?? []).map(([a, b]) => [at(a), at(b)] as [number, number]), [0, tl.segOut[hookN]] as [number, number]];
   const capWords = applyHi(wordsFrom(c.raw, tl, {goaded: 'goated', fields: 'Fields', ...(c.fix ?? {})}), c.hi);
   beats = capWords.filter((w) => { const h = c.hi?.[w.text.toLowerCase().replace(/^[^a-z0-9$*]+|[^a-z0-9%*]+$/g, '')]; return Array.isArray(h); }).map((w) => w.at)
     .filter((t, i, a) => i === 0 || t - a[i - 1] > 700);

@@ -17,6 +17,7 @@ import obWords from '../../plans/data/r3born_ep2_ob.words.json';
 import poleWords from '../../plans/data/r3born_ep2_pole.words.json';
 import restWords from '../../plans/data/r3born_ep2_rest.words.json';
 import gapWords from '../../plans/data/r3born_ep2_gap.words.json';
+import MICRO from '../../plans/data/r3born_ep2_micro.json';
 import moreWords from '../../plans/data/r3born_ep2_more.words.json';
 import fiveWords from '../../plans/data/r3born_ep2_five.words.json';
 import {HC} from '../../jorho/hi';
@@ -33,13 +34,21 @@ type Cfg = {raw: Raw; segs: [number, number, number?][]; title: string; keys: [s
 const make = (c: Cfg) => {
   const raw = c.raw.map((w) => ({...w, text: CENSOR.reduce((t, [re, r]) => (re.test(t) ? t.replace(re, r) : t), w.text)}))
     .filter((w, i, a) => i === 0 || !(w.startMs === a[i - 1].startMs && w.text.toLowerCase() === a[i - 1].text.toLowerCase())); // dedupe merged transcripts
-  const segs = tighten(c.segs as never, raw);
+  // reviewer 2026-11-17: the episode is cut with 0.1–0.3 s whip/flash transitions → skip every micro-shot (scripts/micro_shots.py)
+  const noMicro = (sg: [number, number, number?]): [number, number, number?][] => {
+    let out: [number, number, number?][] = [sg];
+    for (const [a, b] of MICRO) out = out.flatMap(([x, y, h]) => (b <= x || a >= y ? [[x, y, h] as [number, number, number?]]
+      : [...(a - x >= 400 ? [[x, a] as [number, number, number?]] : []), ...(y - b >= 400 ? [[b, y, h] as [number, number, number?]] : [])]));
+    return out;
+  };
+  const segs = tighten(c.segs.flatMap(noMicro) as never, raw);
   const last = segs[segs.length - 1];
   const after = [...raw].sort((x, y) => x.startMs - y.startMs).find((w) => w.startMs >= last[1])?.startMs ?? Infinity;
   const spokeEnd = last[1];
-  segs[segs.length - 1] = [last[0], Math.max(last[1], Math.min(last[1] + 300, after - 60)), last[2] ?? 0];
+  const lastWordEnd = Math.max(...raw.filter((w) => w.startMs >= last[0] && w.startMs < last[1]).map((w) => w.endMs), last[0] + 500);
+  segs[segs.length - 1] = [last[0], Math.min(Math.max(last[1], Math.min(last[1] + 300, after - 60)), lastWordEnd + 350), last[2] ?? 0]; // tight loop ending
   const tl = timeline(segs);
-  const hookN = tighten([c.segs[0]] as never, raw).length;
+  const hookN = tighten(noMicro(c.segs[0]) as never, raw).length;
   const out = (src: number) => {
     for (let i = hookN; i < segs.length; i++) if (src >= segs[i][0] && src <= segs[i][1]) return tl.segOut[i] + src - segs[i][0];
     return -1;
@@ -108,7 +117,7 @@ const make = (c: Cfg) => {
 const Arrow = ({o, x, y}: {o: number; x: number; y: number}) => {
   const p = interpolate(o, [0, 220], [0, 1], clamp), fade = interpolate(o, [1100, 1300], [1, 0], clamp);
   const side = x > 540 ? -1 : 1; // come from the left when he's on the right half, else from the right
-  const tx = x + side * 150, ty = y + 150; // tip: just under/beside the chin, never on the face
+  const tx = x + side * 90, ty = y + 190; // just below the shoulder line, close to him (reviewer: tip drifted onto the next person) // tip: just under/beside the chin, never on the face
   const sx = Math.min(Math.max(tx + side * 150, 60), 1020), sy = Math.min(ty + 330, 1480); // tail below
   return <div style={{position: 'absolute', inset: 0, opacity: fade, pointerEvents: 'none'}}>
     <svg width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
@@ -180,17 +189,17 @@ export const REF_SLOWER = make({hookText: "TOO FAST FOR [N3ON]", hookEmoji: '1f6
   segs: [[141000, 143700], [120900, 143700]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [138400, 'red'], music: 'Monkeys_Spinning_Monkeys.mp3', from: 0, musicGain: 0.7,
   hi: {slide: C, push: C, small: Y, pulses: Y, right: R, legs: [R, '1f62d'], killing: R, million: [G, '1f60e'], smile: G, slower: [Y, '1f62e']}});
 export const REF_DREAM = make({hookText: "PILATES = [NEVER-ENDING]", hookEmoji: '1f62e', raw: PIL, title: "N3on called Pilates a [never-ending] dream", snap: true,
-  segs: [[186300, 188000], [170600, 191200]], keys: [[0, 960]], arrow: [186600, 1400, 300], flash: [176400, 'red'], music: 'interstellar-piano.mp3', from: 0, musicGain: 0.8,
+  segs: [[186300, 188000], [170600, 182400], [185700, 191200]], keys: [[0, 960]], arrow: [186600, 1400, 300], flash: [176400, 'red'], music: 'interstellar-piano.mp3', from: 0, musicGain: 0.8,
   hi: {ball: C, thigh: Y, muscles: Y, 'f*cking': R, hard: [R, '1f62d'], box: C, stop: R, hurry: R, dream: [P, '1f62e'], glad: [G, '1f64f'], over: G}});
 export const REF_SQUATS = make({hookText: "WHY IS NO ONE [STRUGGLING]?", hookEmoji: '1f633', raw: mergeRaw(REST, poleWords as Raw), title: "N3on vs [pole squats]: 'why is no one struggling?'", snap: true,
   segs: [[311000, 312300], [298700, 302200], [303000, 307100], [310200, 312300], [318000, 321100], [327900, 329200], [331300, 333900]], keys: [[0, 960]],
-  arrow: [318700, 860, 220], music: 'Sneaky_Snitch.mp3', from: 0, musicGain: 0.8,
+  arrow: [318700, 820, 400], music: 'Sneaky_Snitch.mp3', from: 0, musicGain: 0.8,
   hi: {pole: C, squats: [Y, '1f4aa'], baby: [P, '1f476'], steps: P, struggling: [R, '1f633'], hand: Y, turn: G, manly: [O, '1f633'], window: O}});
 export const REF_WAX = make({hookText: "N3ON GOT [WAXED]", hookEmoji: '1f62d', raw: mergeRaw((fiveWords as Raw).filter((w) => w.startMs < 766000), REST.filter((w) => w.startMs >= 766000)),
-  title: "N3on lost the bet… and got [waxed]", snap: true,
-  segs: [[768500, 771100], [753400, 771100]], keys: [[0, 960]], arrow: [770400, 1000, 220], flash: [763200, 'red'], music: 'say-goodbye-lodoni.mp3', from: 0, musicGain: 0.8,
+  title: "N3on got his leg [waxed]", snap: true,
+  segs: [[768500, 771100], [753400, 771100]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [763200, 'red'], music: 'say-goodbye-lodoni.mp3', from: 0, musicGain: 0.8,
   hi: {wax: [Y, '1f62c'], follicle: Y, touch: R, ow: [R, '1f62d'], hurt: R, subscribe: [G, '1f514'], suffer: [R, '1f480']}});
 export const REF_SCAM = make({hookText: "N3ON THE [SCAMMER]", hookEmoji: '1f923', raw: fiveWords as Raw, title: "'I'm a [scammer], I'm a [cheater]' – N3on on silks", snap: true,
-  segs: [[650600, 652500], [650600, 656000], [660000, 662300], [667700, 676000]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [671000, 'green'], music: 'funk-do-balkan.mp3', from: 0, musicGain: 0.7,
+  segs: [[650600, 652500], [652400, 656000], [660000, 662300], [667700, 676000]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [671000, 'green'], music: 'funk-do-balkan.mp3', from: 0, musicGain: 0.7,
   hi: {scammer: [R, '1f921'], cheater: R, knee: C, tail: C, ankle: C, got: G, 'b*tch': [Y, '1f525'], yeah: G}});
 export const RefSlower = REF_SLOWER.Comp, RefDream = REF_DREAM.Comp, RefSquats = REF_SQUATS.Comp, RefWax = REF_WAX.Comp, RefScam = REF_SCAM.Comp;

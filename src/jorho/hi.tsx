@@ -25,7 +25,7 @@ export const EmojiPop = ({o, words, hi, y}: {o: number; words: Word[]; hi?: Hi; 
   const e = emojiTimes(words, hi).find((x) => o >= x.at && o < x.at + 900);
   if (!e) return null;
   const fade = Math.min(1, (e.at + 900 - o) / 120);
-  return <div style={{position: 'absolute', left: 0, right: 0, top: y - 190, display: 'flex', justifyContent: 'center', opacity: fade}}>
+  return <div style={{position: 'absolute', left: 0, right: 0, top: y + 70, display: 'flex', justifyContent: 'center', opacity: fade}}> {/* below the caption, never on a face (reviewer 2026-11-17) */}
     <Img src={staticFile(`emoji-ios/${e.code}.png`)} style={{width: 110, height: 110, transform: `scale(${Math.min(1, pop(o, e.at, 14, 220))})`}} />
   </div>;
 };
