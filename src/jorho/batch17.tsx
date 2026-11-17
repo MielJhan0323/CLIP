@@ -91,8 +91,17 @@ export const make = (c: Cfg) => {
   shots.sort((x, y) => x[0] - y[0]); zooms.sort((x, y) => x[0] - y[0]);
   // reviewer 2026-11-17: "0.1–0.4 s flash shots" → an angle must hold ≥ 1.3 s; drop changes that come sooner (except at segment cuts)
   const segStarts = new Set(tl.segOut.map((x) => Math.round(x)));
+  // a segment cut always wins: a planned angle change that lands < 1.3 s before it is dropped (it left 0.25 s slivers, review r2)
   for (const arr of [shots, zooms] as [number, unknown][][]) {
-    for (let i = arr.length - 1; i > 0; i--) if (arr[i][0] - arr[i - 1][0] < 1300 && !segStarts.has(Math.round(arr[i][0]))) arr.splice(i, 1);
+    const kept: [number, unknown][] = [];
+    for (const it of arr) {
+      const isSeg = segStarts.has(Math.round(it[0]));
+      const prev = kept[kept.length - 1];
+      if (!prev || it[0] - prev[0] >= 1300) kept.push(it);
+      else if (isSeg && !segStarts.has(Math.round(prev[0])) && kept.length > 1) kept[kept.length - 1] = it;
+      else if (isSeg) kept.push(it);
+    }
+    arr.splice(0, arr.length, ...kept);
   }
   const zoomAt = (o: number) => Math.min(1.12, [...zooms].reverse().find(([t]) => o >= t)?.[1] ?? 1);
   let beats: number[] = [];
@@ -148,7 +157,7 @@ export const make = (c: Cfg) => {
 };
 
 // the full cam shrinks into a corner face-cam (top-right) while a diagram owns the box, then grows back (no elastic: a light settle)
-const SH = 380, FC = 320;
+const SH = 1, FC = 320; // boards cut in/out hard — the growing picture-in-picture read as a glitch (review r2)
 const BoardShell = ({o, a, b, cam, children}: {o: number; a: number; b: number; cam: CamCfg; children: ReactNode}) => {
   const pin = Math.min(1, Math.max(0, (o - a) / SH)), pout = Math.min(1, Math.max(0, (o - (b - SH)) / SH));
   const t = (1 - (1 - pin) ** 3) - (pout > 0 ? 1 - (1 - pout) ** 3 : 0);

@@ -198,7 +198,7 @@ const PATCH = make({hookText: '$15K… OR A [NAPKIN]?', mark: 'circle', src: 'b3
   sfx: (at) => [sfx('ding-2', at(2800), 0.12), sfx('error', at(8600), 0.12), sfx('ding-2', at(10300), 0.12)]});
 
 const PEYTON = make({hookText: 'WHO HE [CALLED]…', src: 'pod2/u4_peyton.mp4', track: T(pyTrack), raw: pyWords as Raw, wideX: 960, top: "Who Trevor called when his [rookie year] went wrong",
-  segs: [[40000, 41500], [20500, 26300], [26400, 29000], [37600, 46300]], hookSeat: 'M', music: 'interstellar-piano.mp3', from: 0, arrowAt: 22950,
+  segs: [[40000, 41500], [20500, 22000], [25000, 26300], [26400, 29000], [37600, 46300]], hookSeat: 'M', music: 'interstellar-piano.mp3', from: 0, arrowAt: 22950,
   shots: [[20500, 'L'], [22900, 'M'], [26400, 'M'], [37600, 'M', 1.06]], cutout: {src: 25600, file: 'cutouts/peyton.png'},
   hi: {peyton: [C, '1f410'], rookie: Y, well: [R, '1f972'], perspective: [G, '1f9e0'], challenges: R, indy: C, talked: Y},
   hook: (o, end) => <Over o={o} a={0} b={end}><CallLine o={o} beforeAt={0} duringAt={300} whyAt={1e9} /></Over>,
@@ -208,27 +208,24 @@ const PEYTON = make({hookText: 'WHO HE [CALLED]…', src: 'pod2/u4_peyton.mp4', 
 
 // ================= Y · YOUTUBE CARD + BOARD ======================================================================================
 const GOLF = make({hookText: '[JESUS] IS IN', mark: 'circle', src: 'pod/t2_dream_golf_four.mp4', track: T(golfTrack), raw: golfWords as Raw, wideX: 720, top: "Trevor wants [Jesus] in his golf group",
-  segs: [[32600, 34100], [11280, 18300], [32200, 35500], [45400, 54200]], hookSeat: 'M', music: 'zelda-fairy-spring.mp3', from: 0, arrowAt: 32300,
+  segs: [[32600, 34100], [11280, 13800], [16700, 18300], [32200, 35500], [45400, 54200]], hookSeat: 'M', music: 'zelda-fairy-spring.mp3', from: 0, arrowAt: 32300,
   shots: [[11280, 'L'], [18000, 'W'], [32200, 'M'], [34780, 'L'], [45400, 'M'], [51000, 'M', 1.06]],
-  yt: {title: "Who's in Trevor Lawrence's dream golf foursome?", a: 11280, b: 18300},
   hi: {jesus: [Y, '1f64f'], tiger: [O, '26f3'], goat: [G, '1f410'], dream: C, golf: C, humans: Y, anybody: Y},
   hook: (o) => <Paper><Foursome o={o} jesusAt={150} tigerAt={1e9} /></Paper>,
   boards: [{a: 45400, b: 54200, render: (o, at) => <Foursome o={o} jesusAt={-1} tigerAt={at(48000)} />}],
   sfx: (at) => [sfx('ding-2', at(48000), 0.14)]});
 
 const MARINO = make({hookText: 'TOP [10] ALL-TIME?', src: 'b3/v_nt_rip.mp4', track: T(ntTrack), raw: ntWords as Raw, wideX: 900, top: "Trevor on Dan Marino: he could [rip it]",
-  segs: [[67000, 69100], [55400, 73600]], hookSeat: 'M', music: 'tak-tak.mp3', from: 2000, arrowAt: 65300,
+  segs: [[67000, 69100], [55400, 71000]], hookSeat: 'M', music: 'tak-tak.mp3', from: 2000, arrowAt: 65300,
   shots: [[50000, 'W'], [62000, 'L'], [65200, 'M'], [67000, 'L'], [69700, 'M', 1.06]],
-  yt: {title: 'Is Dan Marino a top 10 QB of all time?', a: 62000, b: 64900},
   hi: {marino: [C, '1f410'], top: Y, '10': [Y, '1f51f'], gotta: G, sling: O, rip: [R, '1f525'], trevor: C},
   hook: (o) => <Paper><Top10 o={o} checkAt={100} /></Paper>,
   boards: [{a: 65100, b: 67000, render: (o, at) => <Top10 o={o} checkAt={at(65300)} />}],
   sfx: (at) => [sfx('ding-2', at(65300), 0.14)]});
 
 const TICKET = make({hookText: 'A GIFT OF… [HIMSELF]', src: 'pod/t4_natty_ticket.mp4', track: T(tkTrack), raw: tkWords as Raw, wideX: 960, top: "Grant gifted Trevor a ticket to his OWN [natty]",
-  segs: [[15700, 17200], [9800, 17200], [21500, 33600]], hookSeat: 'M', music: 'jorho-lullaby.mp3', from: 150000, arrowAt: 15600,
+  segs: [[15700, 17200], [9800, 12200], [13700, 17200], [21500, 33600]], hookSeat: 'M', music: 'jorho-lullaby.mp3', from: 150000, arrowAt: 15600,
   shots: [[9800, 'L'], [15500, 'M'], [17500, 'L'], [29400, 'M'], [30480, 'W'], [32300, 'M', 1.06]],
-  yt: {title: 'What do you gift the guy who has everything?', a: 9800, b: 12400},
   hi: {gift: [G, '1f381'], gifting: G, ticket: [Y, '1f39f'], championship: Y, national: Y, mvp: C, signature: [C, '270d'], weird: [R, '1f62c'], thank: G},
   hook: (o) => <Paper><Ticket o={o} a={0} signAt={400} /></Paper>,
   boards: [{a: 21500, b: 29700, render: (o, at) => <Ticket o={o} a={at(21600)} signAt={at(27300)} />}],
@@ -238,13 +235,10 @@ const TICKET = make({hookText: 'A GIFT OF… [HIMSELF]', src: 'pod/t4_natty_tick
 const ANT = make({hookText: 'AUTO SIZE OF AN [ANT]', src: 'pod/t1_tiger_auto_pen.mp4', track: T(antTrack), raw: antWords as Raw, wideX: 760, top: "Bro said his autograph looks like an [ant]",
   segs: [[15300, 16300], [10400, 24900]], hookSeat: 'L', music: 'Sneaky_Snitch.mp3', from: 0, arrowAt: 19950,
   shots: [[10400, 'L'], [14600, 'M'], [15000, 'L'], [19900, 'M'], [20500, 'W'], [23000, 'M', 1.06]], cutout: {src: 13000, file: 'cutouts/richardson.png'},
-  hi: {ant: [R, '1f41c'], respect: Y, disrespect: R, beautiful: [G, '2728'], consistent: G, anthony: C, "richardson's": C, autos: Y, signatures: G},
-  hook: (o) => <Over o={o} a={0} b={1e9}><AutoCompare o={o} a={0} /></Over>, capsOff: [[16300, 19900]],
-  inBox: (o, at) => <Over o={o} a={at(16300)} b={at(19900)}><AutoCompare o={o} a={at(16300)} /></Over>,
-  sfx: (at) => [sfx('mg-swoosh', at(16300), 0.16, 500)]});
+  hi: {ant: [R, '1f41c'], respect: Y, disrespect: R, beautiful: [G, '2728'], consistent: G, anthony: C, "richardson's": C, autos: Y, signatures: G},});
 
 const WHACKED = make({hookText: '"THESE GUYS ARE [WACK]"', mark: 'circle', src: 'pod/t3_traveling_trevors.mp4', track: T(travTrack), raw: travWords as Raw, wideX: 960, top: "Trevor's first reaction to the [Traveling Trevors]",
-  segs: [[81300, 83500], [60100, 62800], [77500, 83500], [91600, 98600]], hookSeat: 'M', music: 'Monkeys_Spinning_Monkeys.mp3', from: 0, arrowAt: 64400,
+  segs: [[81300, 83500], [60100, 62800], [78600, 83500], [91600, 98600]], hookSeat: 'M', music: 'Monkeys_Spinning_Monkeys.mp3', from: 0, arrowAt: 64400,
   shots: [[60100, 'L'], [64300, 'M'], [77500, 'M'], [82900, 'R'], [91600, 'M'], [96000, 'W']], flash: [83000, 'red'],
   hi: {whacked: [R, '1f92f'], videos: Y, follow: C, funny: [G, '1f602'], playing: Y, second: C, first: C, trevers: C},
   hook: (o) => <Over o={o} a={0} b={1e9}><ReactHook o={o} /></Over>,
@@ -252,14 +246,14 @@ const WHACKED = make({hookText: '"THESE GUYS ARE [WACK]"', mark: 'circle', src: 
   sfx: (at) => [sfx('keyboard-typing', at(91600), 0.1, 900)]});
 
 const CELLY = make({hookText: 'THE [10/10] CELLY', mark: 'circle', src: 'pod2/u2_psa10_celly.mp4', track: T(cellyTrack), raw: cellyWords as Raw, wideX: 960, top: "Grant pitched Trevor a [touchdown celly]",
-  segs: [[27500, 29000], [2300, 8500], [12900, 15000], [18800, 28200], [28600, 31700]], hookSeat: 'M', music: 'funk-do-balkan.mp3', from: 0, arrowAt: 8550,
+  segs: [[27500, 29000], [2300, 8500], [12900, 15000], [20800, 28200], [28600, 30600]], hookSeat: 'M', music: 'funk-do-balkan.mp3', from: 0, arrowAt: 8550,
   shots: [[2300, 'L'], [8400, 'M'], [12900, 'M', 1.06], [18800, 'L'], [27000, 'M']], flash: [27600, 'green'],
   hi: {celly: [Y, '1f3c8'], selly: [Y, '1f3c8'], touchdown: G, choreographed: [R, '1f62c'], choreograph: R, psa: C, '1010': G, '10': [G, '1f51f'], best: G, easy: G, collectors: C},
   hook: (o) => <Over o={o} a={0} b={1e9}><Slab o={o} a={0} /></Over>, capsOff: [[22200, 25300]],
   inBox: (o, at) => <Over o={o} a={at(22200)} b={at(25300)}><Slab o={o} a={at(22200)} /></Over>,
   sfx: (at) => [sfx('mg-swoosh', at(22200), 0.16, 500), sfx('ding-2', at(22700), 0.12)]});
 
-const NECK = make({hookText: 'A [LONGER] NECK?!', mark: 'circle', src: 'pod/t6_davis_mills_joke.mp4', track: T(neckTrack), raw: neckWords as Raw, wideX: 960, top: "Trevor's reaction to the [Davis Mills] card",
+const NECK = make({hookText: 'A [LONGER] NECK?!', src: 'pod/t6_davis_mills_joke.mp4', track: T(neckTrack), raw: neckWords as Raw, wideX: 960, top: "Trevor's reaction to the [Davis Mills] card",
   segs: [[9100, 10600], [0, 15000]], hookSeat: 'L', music: 'Curb_Credits.mp3', from: 0, arrowAt: 11300,
   shots: [[2000, 'W'], [5800, 'M'], [9100, 'L'], [11200, 'M', 1.08], [14300, 'W']], flash: [6900, 'red'], cutout: {src: 10300, file: 'cutouts/glennon.png'},
   hi: {davis: C, 'mills': [C, '1f633'], ew: [R, '1f922'], neck: [Y, '1f992'], glennon: Y, longer: Y, trevor: C},
