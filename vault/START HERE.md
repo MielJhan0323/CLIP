@@ -187,3 +187,5 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
   (batch17 DIAGRAM_HOOKS = false). Still: hook visible on frame 0, coloured [title] key words.
 - 2026-11-17: OPENING TEXT TYPES OUT (user: "the on screen text should type out in the beginning"): AutoHook = typewriter (≤ 45 ms/char,
   done by ~60 % of the cold open, cursor while typing, key words keep their colours, emoji pops when done) + soft keyboard-typing SFX.
+- 2026-11-17: OPENING TEXT = SHORT SUMMARY (user: "in the neon clips too, the on screen text should be summarized and typed out"):
+  `hookText` (3–5 words, 1 [key word] coloured) types out over the cold open on BYB AND Neon; the full title stays in the top bar.

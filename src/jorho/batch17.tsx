@@ -47,6 +47,7 @@ type Cfg = {
   sfx?: (at: (src: number) => number) => Sfx[]; cutout?: {src: number; file: string; x?: number; y?: number; size?: number};
   fix?: Record<string, string>; // caption spelling fixes (transcript → correct name)
   mark?: 'arrow' | 'circle'; // how Trevor is pointed out once (user: "the arrow or circle with trevor lawrence")
+  hookText?: string; // short summary typed over the cold open (user 2026-11-17: "on screen text should be summarized and typed out")
   hi?: Hi; // key-word colours (+ iOS emoji); all other caption words white
   hook?: (o: number, end: number) => ReactNode; // a graphic over the cold open (end = output ms where the body starts)
   capsOff?: [number, number][]; // source ranges where captions hide (an overlay graphic owns the box)
@@ -109,7 +110,7 @@ export const make = (c: Cfg) => {
     inBox: (o) => <>
       {boards.map((bd, i) => (o >= bd.oa && o < bd.ob ? <BoardShell key={i} o={o} a={bd.oa} b={bd.ob} cam={camCfg}>{bd.render(o, at)}</BoardShell> : null))}
       {c.inBox?.(o, at)}
-      {o < tl.segOut[hookN] && (DIAGRAM_HOOKS && c.hook ? c.hook(o + HOOK_LEAD, tl.segOut[hookN] + HOOK_LEAD) : <AutoHook o={o + HOOK_LEAD} end={tl.segOut[hookN] + HOOK_LEAD} text={c.top} />)}
+      {o < tl.segOut[hookN] && (DIAGRAM_HOOKS && c.hook ? c.hook(o + HOOK_LEAD, tl.segOut[hookN] + HOOK_LEAD) : <AutoHook o={o + HOOK_LEAD} end={tl.segOut[hookN] + HOOK_LEAD} text={c.hookText ?? c.top} />)}
       {c.yt && <YouTubeCard o={o} a={at(c.yt.a)} b={at(c.yt.b)} title={c.yt.title} cam={camCfg} startAt={c.yt.a} dur={tl.total + 20000} />}
       {flashO >= 0 && o >= flashO && o < flashO + 190 && <AbsoluteFill style={{background: TINT[c.flash![1]], mixBlendMode: 'color',
         opacity: interpolate(o - flashO, [0, 70, 190], [1, 1, 0], clamp)}} />}
@@ -125,7 +126,7 @@ export const make = (c: Cfg) => {
     },
     music: {file: c.music, from: c.from, level: 0, gain: 1, floor: 0.55, ramp: 150, dips, start: tl.segOut[1], swell: [end, 3]},
     extraSfx: [
-      sfx('keyboard-typing', 0, 0.12, Math.max(300, hookTypeMs(c.top, tl.segOut[hookN] + HOOK_LEAD) - HOOK_LEAD)),
+      sfx('keyboard-typing', 0, 0.12, Math.max(300, hookTypeMs(c.hookText ?? c.top, tl.segOut[hookN] + HOOK_LEAD) - HOOK_LEAD)),
       sfx('record-scratch', tl.segOut[1] - 60, 0.16, 450),
       ...(flashO >= 0 ? [sfx('bass-boosted-vine-boom', flashO - 60, 0.07, 450)] : []),
       sfx('mg-swoosh', arrow, 0.16, 500),

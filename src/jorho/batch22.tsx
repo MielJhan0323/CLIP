@@ -74,7 +74,7 @@ const WeekCycle = ({o, at}: {o: number; at: number[]}) => {
       <span style={{fontFamily: MONT, fontWeight: 900, fontSize: 42, color: 'white'}}>{t}</span></div> : null))}</>;
 };
 
-const TIGER = make({mark: 'circle', src: 'pod/t2_dream_golf_four.mp4', track: T(golfTrack), raw: golfWords as Raw, wideX: 720, top: 'Grant gifted Trevor a [Tiger Woods] game-worn [patch auto]',
+const TIGER = make({hookText: 'A [TIGER WOODS] GIFT', mark: 'circle', src: 'pod/t2_dream_golf_four.mp4', track: T(golfTrack), raw: golfWords as Raw, wideX: 720, top: 'Grant gifted Trevor a [Tiger Woods] game-worn [patch auto]',
   segs: [[86100, 90000], [76800, 79400], [82000, 90600], [97600, 102600]], hookSeat: 'M', music: 'midnight-club.mp3', from: 30000, arrowAt: 88700,
   shots: [[76800, 'L'], [86100, 'W'], [88600, 'M'], [97600, 'L'], [100500, 'M', 1.06]], flash: [88800, 'green'],
   hi: {tiger: [O, '26f3'], exquisite: [G, '1f48e'], game: Y, worn: Y, patch: Y, auto: C, booklet: C, gifts: [G, '1f381'], shirt: Y, glove: Y, cap: Y, years: C},
@@ -82,7 +82,7 @@ const TIGER = make({mark: 'circle', src: 'pod/t2_dream_golf_four.mp4', track: T(
   inBox: (o, at) => <Over o={o} a={at(97600)} b={at(102600)}><TigerCard o={o} a={at(97600) - 600} itemsAt={[at(100500), at(100900), at(101700), at(102100)]} /></Over>,
   sfx: (at) => [sfx('mg-swoosh', at(97600), 0.14, 500), sfx('ding-2', at(100500), 0.1), sfx('ding-2', at(102100), 0.1)]});
 
-const CLOSET = make({src: 'pod/t4_natty_ticket.mp4', track: T(tkTrack), raw: tkWords as Raw, wideX: 960, top: "Trevor never kept his [national championship] ticket… until [now]",
+const CLOSET = make({hookText: 'HIS MISSING [TICKET]', src: 'pod/t4_natty_ticket.mp4', track: T(tkTrack), raw: tkWords as Raw, wideX: 960, top: "Trevor never kept his [national championship] ticket… until [now]",
   segs: [[66400, 68800], [37700, 42100], [50800, 61700], [66400, 69700]], hookSeat: 'M', music: 'jorho-lullaby.mp3', from: 150000, arrowAt: 53900,
   shots: [[37700, 'L'], [42300, 'M'], [50800, 'L'], [53800, 'M'], [66400, 'M', 1.06]],
   hi: {gifting: [G, '1f381'], weird: [R, '1f62c'], jerseys: Y, jersey: Y, college: C, nfl: C, closet: [Y, '1f3c8'], ticket: [Y, '1f39f'], championship: Y, sweet: [G, '1f525'], games: C},
@@ -90,12 +90,12 @@ const CLOSET = make({src: 'pod/t4_natty_ticket.mp4', track: T(tkTrack), raw: tkW
   inBox: (o, at) => <Over o={o} a={at(53800)} b={at(61700)}><Closet o={o} a={at(55000)} ticketAt={1e9} /></Over>,
   sfx: (at) => [sfx('mg-swoosh', at(53800), 0.14, 500), sfx('ding-2', at(55100), 0.1), sfx('ding-2', at(57200), 0.1)]});
 
-const DONTSHOW = make({mark: 'circle', src: 'b3/v_nt_rip.mp4', track: T(ntTrack), raw: ntWords as Raw, wideX: 900, top: "'[Ew]… don't show that, man' – the worst pull",
+const DONTSHOW = make({hookText: '[EW]… PUT IT AWAY', mark: 'circle', src: 'b3/v_nt_rip.mp4', track: T(ntTrack), raw: ntWords as Raw, wideX: 900, top: "'[Ew]… don't show that, man' – the worst pull",
   segs: [[79100, 82400], [73800, 90400]], hookSeat: 'W', music: 'Curb_Credits.mp3', from: 0, arrowAt: 83600,
   shots: [[73800, 'W'], [77100, 'M'], [79100, 'W'], [83500, 'M', 1.06], [86400, 'W'], [89800, 'M']], flash: [78100, 'red'],
   hi: {ew: [R, '1f922'], show: R, away: [R, '1f648'], redemption: [C, '1f914'], cool: [G, '1f60e'], rod: Y, woodson: Y, okay: Y, no: R}});
 
-const PEN = make({src: 'pod/t1_tiger_auto_pen.mp4', track: T(antTrack), raw: antWords as Raw, wideX: 760, top: "Why Trevor Lawrence has a [goated pen]",
+const PEN = make({hookText: 'THE [GOATED PEN]', src: 'pod/t1_tiger_auto_pen.mp4', track: T(antTrack), raw: antWords as Raw, wideX: 760, top: "Why Trevor Lawrence has a [goated pen]",
   segs: [[25500, 27400], [1100, 8600], [20500, 27400], [27900, 32300]], hookSeat: 'L', music: 'blue-yung-kai.mp3', from: 30000, arrowAt: 6300,
   shots: [[1100, 'L'], [6200, 'M'], [8200, 'L'], [20500, 'L'], [23500, 'M', 1.06], [27900, 'L']],
   hi: {goated: [G, '1f525'], pen: G, signature: [Y, '270d'], signatures: Y, sick: G, consistent: [C, '2705'], beautiful: [G, '2728'], peyton: [C, '1f410'], manning: C},
@@ -103,7 +103,7 @@ const PEN = make({src: 'pod/t1_tiger_auto_pen.mp4', track: T(antTrack), raw: ant
   inBox: (o, at) => <Over o={o} a={at(20500)} b={at(24900)}><SigStack o={o} a={at(20700)} /></Over>,
   sfx: (at) => [sfx('mg-swoosh', at(20500), 0.14, 500)]});
 
-const PLAN = make({mark: 'circle', src: 'pod2/u1_playbook.mp4', track: T(pbTrack), raw: pbWords as Raw, wideX: 960, top: 'How an NFL [game plan] actually gets made',
+const PLAN = make({hookText: 'HOW A [GAME PLAN] IS MADE', mark: 'circle', src: 'pod2/u1_playbook.mp4', track: T(pbTrack), raw: pbWords as Raw, wideX: 960, top: 'How an NFL [game plan] actually gets made',
   segs: [[41700, 43000], [24400, 36000], [36800, 43000]], hookSeat: 'M', music: 'Investigations.mp3', from: 0, arrowAt: 24500,
   shots: [[24400, 'M'], [29300, 'M', 1.06], [36800, 'W'], [39500, 'M']],
   hi: {training: Y, camp: Y, defense: [R, '1f6e1'], coaches: C, game: C, plan: [C, '1f4da'], attack: [R, '1f3af'], inventory: Y, plays: C, week: G, watching: [Y, '1f440']},
