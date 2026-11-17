@@ -189,3 +189,8 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
   done by ~60 % of the cold open, cursor while typing, key words keep their colours, emoji pops when done) + soft keyboard-typing SFX.
 - 2026-11-17: OPENING TEXT = SHORT SUMMARY (user: "in the neon clips too, the on screen text should be summarized and typed out"):
   `hookText` (3–5 words, 1 [key word] coloured) types out over the cold open on BYB AND Neon; the full title stays in the top bar.
+- 2026-11-17: REVIEW LOOP (user: "a separate part of you that reviews video and if it skips, re-edit"): after every render run
+  `python3 scripts/review_pack.py out/<clip>.mp4` (frames 0/0.3/0.6/1/1.5/2/3 s + every 1.5 s, loop frame, cuts, silent gaps, words) and
+  give the pack to the shorts-reviewer agent (.claude/agents/shorts-reviewer.md: 5-viewer US Shorts panel → swipe points + fixes +
+  PASS/REVISE JSON). REVISE → apply its fixes, re-render, re-review (max 2 rounds). It simulates viewers; real truth = YouTube Studio
+  audience-retention graphs (feed screenshots back to tune it).

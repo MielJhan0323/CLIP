@@ -94,7 +94,7 @@ const make = (c: Cfg) => {
       <SfxTrack list={list} />
     </>}>
       <AbsoluteFill style={{transform: `translateX(${-whip * 120}px) scale(${(1 + whip * 0.08)})`, filter: whip ? `blur(${whip * 10}px)` : undefined}}><Cam c={cam} o={o} /></AbsoluteFill>
-      <AutoHook o={o + 450} end={tl.segOut[hookN] + 450} text={c.hookText ?? c.title} emoji={c.hookEmoji} top={240} />
+      <AutoHook o={o + 450} end={tl.segOut[hookN] + 450} text={c.hookText ?? c.title} emoji={c.hookEmoji} top={50} />
       {flashO >= 0 && o >= flashO && o < flashO + 450 && <AbsoluteFill style={{background: TINT[c.flash![1]], mixBlendMode: 'color',
         opacity: interpolate(o - flashO, [0, 60, 300, 450], [0, 1, 1, 0], clamp)}} />}
     </Frame>;
@@ -108,7 +108,7 @@ const make = (c: Cfg) => {
 const Arrow = ({o, x, y}: {o: number; x: number; y: number}) => {
   const p = interpolate(o, [0, 220], [0, 1], clamp), fade = interpolate(o, [1100, 1300], [1, 0], clamp);
   const side = x > 540 ? -1 : 1; // come from the left when he's on the right half, else from the right
-  const tx = x + side * 60, ty = y + 120; // tip: just under/beside the chin, never on the face
+  const tx = x + side * 150, ty = y + 150; // tip: just under/beside the chin, never on the face
   const sx = Math.min(Math.max(tx + side * 150, 60), 1020), sy = Math.min(ty + 330, 1480); // tail below
   return <div style={{position: 'absolute', inset: 0, opacity: fade, pointerEvents: 'none'}}>
     <svg width={1080} height={1920} style={{position: 'absolute', inset: 0}}>
@@ -150,7 +150,7 @@ export const REF_JOKE = make({hookText: "WOMEN'S WORKOUTS A [JOKE]?", hookEmoji:
   arrow: [3300, 960, 240], flash: [2500, 'red'], music: 'pixy-legacy.mp3', from: 0, musicGain: 0.5,
   hi: {pilates: Y, pole: Y, dancing: Y, aerial: Y, yoga: Y, insane: [R, '1f631'], joke: [R, '1f602'], pants: [O, '1f633'], sarah: P, safari: P, calories: [G, '1f525'], fitness: C, bands: C, special: P}});
 export const REF_SLIP = make({hookText: "WAIT… [STRIP]?!", hookEmoji: '1f633', raw: REST, title: "N3on's slip of the tongue at pole class",
-  segs: [[264000, 266600], [264000, 268000], [274800, 277200], [277700, 279800], [280700, 285300]],
+  segs: [[264000, 266600], [266700, 272600], [274800, 277200], [277700, 279800], [280700, 285300]],
   keys: [[264, 1100]], arrow: [264300, 900, 255], flash: [264900, 'red'], music: 'Sneaky_Snitch.mp3', from: 0, musicGain: 0.8,
   hi: {strip: [R, '1f633'], sorry: [Y, '1f62c'], pole: C, dancing: C, amazing: G, flexible: G, strength: G, camaraderie: C, everything: [Y, '1f92f'], intrigued: [O, '1f914'], interested: O, tough: [R, '1f480']}});
 export const REF_DOWN100 = make({hookText: "DOWN [100] CALORIES", hookEmoji: '1f4c9', raw: REST, title: 'N3on is down 100 calories… so now it\'s aerial silks',
