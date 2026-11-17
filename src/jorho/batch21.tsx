@@ -76,8 +76,8 @@ const ROGERS = make({hookText: '[STEELERS] WEEK IS WILD', mark: 'circle', src: '
   inBox: (o, at) => <><Over o={o} a={at(1)} b={at(2600)}><FanBars o={o} a={at(1)} vsAt={1e9} /></Over><Over o={o} a={at(9200)} b={at(11400)}><FanBars o={o} a={0} vsAt={at(9200)} /></Over></>,
   sfx: (at) => [sfx('mg-swoosh', at(1), 0.14, 500), sfx('mg-swoosh', at(9200), 0.14, 500)]});
 // 2 · break table: would you come back to the lair in the off-season → "you guys are always welcome"
-const LAIR = make({hookText: 'BACK TO THE [LAIR]?', src: 'b3/v_lair.mp4', track: T(lrTrack), raw: lrWords as Raw, wideX: 760, top: "Asked Trevor to come back to the [lair]",
-  segs: [[12400, 14700], [3600, 5300], [5500, 9100], [10300, 13800], [14200, 17500], [17300, 19000]], hookSeat: 'M', music: 'joyful-chess-guide.mp3', from: 0, arrowAt: 14300,
+const LAIR = make({hookText: 'WILL [TREVOR] COME BACK?', src: 'b3/v_lair.mp4', track: T(lrTrack), raw: lrWords as Raw, wideX: 760, top: "Asked Trevor to come back to the [lair]",
+  segs: [[12400, 14700], [3600, 5300], [5500, 9100], [10300, 13800], [14200, 17500], [17700, 19000]], hookSeat: 'M', music: 'joyful-chess-guide.mp3', from: 0, arrowAt: 14300,
   shots: [[3600, 'M'], [5500, 'L'], [9800, 'M'], [14200, 'M'], [17300, 'W']], flash: [15400, 'green'],
   fix: {layer: 'lair'}, hi: {lair: [Y, '1f3dd-fe0f'], florida: O, fort: O, lauderdale: [O, '1f4cd'], rip: G, product: G, chill: [C, '1f60e'], awesome: [G, '1f525'], welcome: [G, '1f91d'], jacksonville: C, '100%': [G, '1f4af']},
   hook: (o) => <Over o={o} a={0} b={1e9}><FloridaMap o={o} a={-1000} /></Over>, capsOff: [[5500, 7500]],

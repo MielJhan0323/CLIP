@@ -12,13 +12,16 @@ d = np.abs(np.diff(f, axis=0)).mean(axis=(1, 2))
 ms = lambda i: round(i * 1000 / 30)
 cuts = [i + 1 for i, v in enumerate(d) if v > 22]
 skip = [[ms(a), ms(b)] for a, b in zip(cuts, cuts[1:]) if (b - a) * 1000 / 30 < 450]
-# whip-pan blur = a SHORT burst of strong motion (4–15 frames); longer motion is real action (spins, climbs) and stays
+# whip-pan transition = a burst of motion (diff 12–30, 4–24 frames) that touches a hard cut (≤ 3 frames away) on either side;
+# motion in the middle of a shot is real action and stays
+cutset = set(cuts)
+near = lambda k: any(abs(k - c) <= 3 for c in cutset)
 i, n = 0, len(d)
 while i < n:
-    if d[i] > 18:
+    if 12 < d[i] <= 30:
         j = i
-        while j < n and d[j] > 14: j += 1
-        if 3 <= j - i <= 12: skip.append([ms(i), ms(j + 1)])
+        while j < n and 12 < d[j] <= 30: j += 1
+        if 4 <= j - i <= 24 and (near(i) or near(j + 1)): skip.append([ms(i - 1), ms(j + 2)])
         i = j
     else: i += 1
 skip.sort()

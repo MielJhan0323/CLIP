@@ -181,7 +181,7 @@ export const REF_FART = make({hookText: "DID HE JUST [FART]?", hookEmoji: '1f922
   keys: [[152, 1000], [153, 920], [156, 1110], [157, 1260], [158, 770], [159, 560], [160, 770], [161, 1300], [162, 960], [163, 920], [164, 1230], [165, 1400], [166, 920], [167, 845], [168, 1000], [169, 450], [170, 614]],
   arrow: [-1, 0, 0], flash: [166600, 'red'], music: 'Fluffing_a_Duck.mp3', from: 0, musicGain: 0.8,
   hi: {abs: [R, '1f525'], fire: R, baby: Y, inhale: C, exhale: C, lift: C, fart: [O, '1f922'], 'sh*t': R, nope: [R, '1f480'], five: Y, four: Y}});
-export const REF_HARD = make({hookText: "N3ON VS AERIAL [SILKS]", hookEmoji: '1f62d', raw: REST, title: 'Aerial silks [humbled] them FAST', snap: true,
+export const REF_HARD = make({hookText: "AERIAL SILKS [HUMBLED] THEM", hookEmoji: '1f62d', raw: REST, title: 'Aerial silks [humbled] them FAST', snap: true,
   segs: [[536000, 537400], [522000, 524500], [527200, 537600]],
   keys: [[522, 1000], [524, 1150], [529, 700], [530, 600], [531, 1000], [532, 920], [533, 850], [534, 660], [535, 730], [536, 1000], [537, 620], [538, 920]],
   arrow: [531200, 885, 120], flash: [537000, 'red'], music: 'zelda-ocarina.mp3', from: 0, musicGain: 0.9,
@@ -206,7 +206,7 @@ export const REF_SQUATS = make({hookText: "WHY IS NO ONE [STRUGGLING]?", hookEmo
   hi: {pole: C, squats: [Y, '1f4aa'], baby: [P, '1f476'], steps: P, struggling: [R, '1f633'], hand: Y, turn: G, manly: [O, '1f633'], window: O}});
 export const REF_WAX = make({hookText: "N3ON GOT [WAXED]", hookEmoji: '1f62d', raw: mergeRaw((fiveWords as Raw).filter((w) => w.startMs < 766000), REST.filter((w) => w.startMs >= 766000)),
   title: "N3on got his leg [waxed]", snap: true,
-  segs: [[768500, 771100], [750500, 771100]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [763200, 'red'], music: 'say-goodbye-lodoni.mp3', from: 0, musicGain: 0.8,
+  segs: [[768500, 771000], [750500, 770950]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [763200, 'red'], music: 'say-goodbye-lodoni.mp3', from: 0, musicGain: 0.8,
   hi: {wax: [Y, '1f62c'], follicle: Y, touch: R, ow: [R, '1f62d'], hurt: R, subscribe: [G, '1f514'], suffer: [R, '1f480']}});
 export const REF_SCAM = make({hookText: "N3ON THE [SCAMMER]", hookEmoji: '1f923', raw: fiveWords as Raw, title: "'I'm a [scammer], I'm a [cheater]' – N3on", snap: true,
   segs: [[650600, 652500], [652400, 676000]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [671000, 'green'], music: 'funk-do-balkan.mp3', from: 0, musicGain: 0.7,

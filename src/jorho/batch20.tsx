@@ -190,7 +190,7 @@ const PLAYBOOK = make({hookText: '[HUNDREDS] OF PLAYS?!', src: 'pod2/u1_playbook
 
 const PATCH = make({hookText: '$15K… OR A [NAPKIN]?', mark: 'circle', src: 'b3/v_nt_rip.mp4', track: T(ntTrack), raw: ntWords as Raw, wideX: 900, top: "Why one [patch] makes a card worth $15,000+",
   segs: [[8100, 9200], [0, 6400], [6800, 14700]], hookSeat: 'W', music: 'funk-sigilo.mp3', from: 30000, arrowAt: 12400,
-  shots: [[0, 'W'], [8100, 'W', 1.06], [12300, 'W']], flash: [2700, 'green'],
+  shots: [[0, 'W'], [8100, 'W', 1.06], [11000, 'W', 1.07], [12300, 'W']], flash: [2700, 'green'],
   hi: {'10': G, '000': G, '15': [G, '1f4b0'], plus: G, patch: Y, jaguars: C, napkin: [R, '1f62d'], nicer: [G, '1f525'], swoosh: C, nike: C},
   hook: (o, end) => <Over o={o} a={0} b={end}><PatchLadder o={o} topAt={0} nicerAt={-1} napkinAt={150} /></Over>,
   capsOff: [[2600, 4300]],
@@ -198,7 +198,7 @@ const PATCH = make({hookText: '$15K… OR A [NAPKIN]?', mark: 'circle', src: 'b3
   sfx: (at) => [sfx('ding-2', at(2800), 0.12), sfx('error', at(8600), 0.12), sfx('ding-2', at(10300), 0.12)]});
 
 const PEYTON = make({hookText: 'WHO HE [CALLED]…', src: 'pod2/u4_peyton.mp4', track: T(pyTrack), raw: pyWords as Raw, wideX: 960, top: "Who Trevor called when his [rookie year] went wrong",
-  segs: [[40000, 41500], [20500, 22000], [25000, 26300], [26400, 29000], [37600, 46300]], hookSeat: 'M', music: 'interstellar-piano.mp3', from: 0, arrowAt: 22950,
+  segs: [[40000, 41500], [20500, 22000], [25000, 26300], [26400, 29000], [37600, 46300]], hookSeat: 'M', music: 'interstellar-piano.mp3', from: 0, arrowAt: 26500,
   shots: [[20500, 'L'], [22900, 'M'], [26400, 'M'], [37600, 'M', 1.06]], cutout: {src: 25600, file: 'cutouts/peyton.png'},
   hi: {peyton: [C, '1f410'], rookie: Y, well: [R, '1f972'], perspective: [G, '1f9e0'], challenges: R, indy: C, talked: Y},
   hook: (o, end) => <Over o={o} a={0} b={end}><CallLine o={o} beforeAt={0} duringAt={300} whyAt={1e9} /></Over>,
@@ -220,7 +220,7 @@ const MARINO = make({hookText: 'TOP [10] ALL-TIME?', src: 'b3/v_nt_rip.mp4', tra
   shots: [[50000, 'W'], [62000, 'L'], [65200, 'M'], [67000, 'L'], [69700, 'M', 1.06]],
   hi: {marino: [C, '1f410'], top: Y, '10': [Y, '1f51f'], gotta: G, sling: O, rip: [R, '1f525'], trevor: C},
   hook: (o) => <Paper><Top10 o={o} checkAt={100} /></Paper>,
-  boards: [{a: 65100, b: 67000, render: (o, at) => <Top10 o={o} checkAt={at(65300)} />}],
+  boards: [{a: 64600, b: 67000, render: (o, at) => <Top10 o={o} checkAt={at(65300)} />}],
   sfx: (at) => [sfx('ding-2', at(65300), 0.14)]});
 
 const TICKET = make({hookText: 'A GIFT OF… [HIMSELF]', src: 'pod/t4_natty_ticket.mp4', track: T(tkTrack), raw: tkWords as Raw, wideX: 960, top: "Grant gifted Trevor a ticket to his OWN [natty]",
@@ -238,7 +238,7 @@ const ANT = make({hookText: 'AUTO SIZE OF AN [ANT]', src: 'pod/t1_tiger_auto_pen
   hi: {ant: [R, '1f41c'], respect: Y, disrespect: R, beautiful: [G, '2728'], consistent: G, anthony: C, "richardson's": C, autos: Y, signatures: G},});
 
 const WHACKED = make({hookText: '"THESE GUYS ARE [WACK]"', mark: 'circle', src: 'pod/t3_traveling_trevors.mp4', track: T(travTrack), raw: travWords as Raw, wideX: 960, top: "Trevor's first reaction to the [Traveling Trevors]",
-  segs: [[81300, 83500], [60100, 62800], [78600, 83500], [91600, 98600]], hookSeat: 'M', music: 'Monkeys_Spinning_Monkeys.mp3', from: 0, arrowAt: 64400,
+  segs: [[81300, 83000], [60100, 62800], [78600, 83100], [91600, 98600]], hookSeat: 'M', music: 'Monkeys_Spinning_Monkeys.mp3', from: 0, arrowAt: 64400,
   shots: [[60100, 'L'], [64300, 'M'], [77500, 'M'], [82900, 'R'], [91600, 'M'], [96000, 'W']], flash: [83000, 'red'],
   hi: {whacked: [R, '1f92f'], videos: Y, follow: C, funny: [G, '1f602'], playing: Y, second: C, first: C, trevers: C},
   hook: (o) => <Over o={o} a={0} b={1e9}><ReactHook o={o} /></Over>,
@@ -254,8 +254,8 @@ const CELLY = make({hookText: 'THE [10/10] CELLY', mark: 'circle', src: 'pod2/u2
   sfx: (at) => [sfx('mg-swoosh', at(22200), 0.16, 500), sfx('ding-2', at(22700), 0.12)]});
 
 const NECK = make({hookText: 'A [LONGER] NECK?!', src: 'pod/t6_davis_mills_joke.mp4', track: T(neckTrack), raw: neckWords as Raw, wideX: 960, top: "Trevor's reaction to the [Davis Mills] card",
-  segs: [[9100, 10600], [0, 15000]], hookSeat: 'L', music: 'Curb_Credits.mp3', from: 0, arrowAt: 6000,
-  shots: [[2000, 'W'], [5800, 'M'], [9100, 'L'], [11200, 'M', 1.08]], flash: [6900, 'red'], cutout: {src: 10300, file: 'cutouts/glennon.png'},
+  segs: [[9100, 10600], [0, 15000]], hookSeat: 'W', music: 'Curb_Credits.mp3', from: 0, arrowAt: 6000,
+  shots: [[2000, 'W'], [3600, 'W', 1.06], [5800, 'M'], [9100, 'L'], [11200, 'M', 1.08]], flash: [6900, 'red'], cutout: {src: 10300, file: 'cutouts/glennon.png'},
   hi: {davis: C, 'mills': [C, '1f633'], ew: [R, '1f922'], neck: [Y, '1f992'], glennon: Y, longer: Y, trevor: C},
   hook: (o) => <Over o={o} a={0} b={1e9}><NeckChart o={o} a={0} /></Over>, capsOff: [[12000, 14200]],
   inBox: (o, at) => <Over o={o} a={at(12000)} b={at(14200)}><NeckChart o={o} a={at(12000)} /></Over>,
