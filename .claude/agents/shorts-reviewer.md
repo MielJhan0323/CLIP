@@ -42,3 +42,4 @@ Read ALL of them. Look at the frames themselves — never judge from pack.json a
 }
 PASS only if predicted_swipe_away_by_3s_pct ≤ 35, predicted_avg_view_pct ≥ 70, no glitches and no house-rule breaks.
 Be specific and honest; vague praise is useless. Give at most 5 fixes, most important first.
+Round cap: 3 reviews per clip. On round 3, PASS unless there is a real glitch or rule break — list remaining polish as notes, not blockers.

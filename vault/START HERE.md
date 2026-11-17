@@ -194,3 +194,7 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
   give the pack to the shorts-reviewer agent (.claude/agents/shorts-reviewer.md: 5-viewer US Shorts panel → swipe points + fixes +
   PASS/REVISE JSON). REVISE → apply its fixes, re-render, re-review (max 2 rounds). It simulates viewers; real truth = YouTube Studio
   audience-retention graphs (feed screenshots back to tune it).
+- 2026-11-17: REVIEW CAP (user: "you're wasting my usage… not just mindless reviews, add a round cap, give feedback so efficiency is maximized"):
+  max 3 review rounds per clip (round 1 → fix → round 2 → fix → round 3 = final). Batch clips into ONE reviewer call per round (≤ 10 clips).
+  Fix shared problems in the builders first (they fix many clips at once), per-clip only for what's left. After the cap: ship the clip
+  with the reviewer's remaining notes listed for the user — no extra rounds.
