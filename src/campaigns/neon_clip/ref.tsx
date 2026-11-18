@@ -4,7 +4,10 @@
 //  · small one-word captions (yellow / cyan / green / white), swears censored, gone when the word ends
 //  · RESTRAINT: a full-height crop that only moves when the source shot changes (hand keys, eased slide), no punch-in timer,
 //    max 1 colour flash, SFX only on real events, *N3on* red arrow once, warm grade, quiet bed that swells after the last word
-import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
+import type {ReactNode} from 'react';
+import {AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame} from 'remotion';
+import {TypedAction} from '../../jorho/v2';
+import {pop} from '../../e3/kit';
 import {Cam, FPS, Music, SfxTrack, SpeechTrack, clamp, sfx, timeline, type CamCfg, type Sfx, type Track} from '../../e3/kit';
 import {BOX_H, BOX_TOP, Frame, OneWord, wordsFrom} from '../../jorho/kit';
 import {VIRAL_WARM} from '../../jorho/clips';
@@ -30,7 +33,7 @@ const TINT = {red: 'rgba(255,40,40,0.7)', green: 'rgba(80,255,60,0.6)'};
 const CW = (1080 * 1080) / BOX_H; // source width of a full-height crop in the band
 
 type Cfg = {raw: Raw; segs: [number, number, number?][]; title: string; keys: [sec: number, x: number][]; arrow: [ms: number, x: number, y: number];
-  flash?: [number, 'red' | 'green']; hi?: Hi; snap?: boolean; hookEmoji?: string; hookText?: string; capsOff?: [number, number][]; /* source ranges with burned-in subtitles → our captions off */ music: string; from: number; musicGain?: number; gain?: number; sfx?: (out: (s: number) => number) => Sfx[]};
+  flash?: [number, 'red' | 'green']; hi?: Hi; snap?: boolean; hookEmoji?: string; hookText?: string; extra?: (o: number, out: (s: number) => number) => ReactNode; /* per-clip format element (card / typed action / burst) */ capsOff?: [number, number][]; /* source ranges with burned-in subtitles → our captions off */ music: string; from: number; musicGain?: number; gain?: number; sfx?: (out: (s: number) => number) => Sfx[]};
 
 const make = (c: Cfg) => {
   const raw = c.raw.map((w) => ({...w, text: CENSOR.reduce((t, [re, r]) => (re.test(t) ? t.replace(re, r) : t), w.text)}))
@@ -113,6 +116,7 @@ const make = (c: Cfg) => {
     </>}>
       <AbsoluteFill style={{transform: `translateX(${-whip * 120}px) scale(${(1 + whip * 0.08)})`, filter: whip ? `blur(${whip * 10}px)` : undefined}}><Cam c={cam} o={o} /></AbsoluteFill>
       <AutoHook o={o + 450} end={tl.segOut[hookN] + 450} text={c.hookText ?? c.title} emoji={c.hookEmoji} top={50} />
+      {c.extra?.(o, out)}
       {flashO >= 0 && o >= flashO && o < flashO + 450 && <AbsoluteFill style={{background: TINT[c.flash![1]], mixBlendMode: 'color',
         opacity: interpolate(o - flashO, [0, 60, 300, 450], [0, 1, 1, 0], clamp)}} />}
     </Frame>;
@@ -217,18 +221,36 @@ export const RefSlower = REF_SLOWER.Comp, RefDream = REF_DREAM.Comp, RefSquats =
 // re-edited in the current recipe; steady locked crop, typed summary hook, key-word colours, tight loop endings
 const EP = mergeRaw(fiveWords as Raw, (moreWords as Raw));
 export const REF_BET = make({hookText: "LOSER GETS [WAXED]", hookEmoji: '1f62c', raw: EP, title: "The loser of this workout gets their armpit [waxed]", snap: true,
-  segs: [[43300, 44510], [35520, 44510], [51800, 56050], [56120, 59040]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [43300, 'red'], music: 'kai-cenat-suspense.mp3', from: 0, musicGain: 0.8,
+  segs: [[43300, 44510], [35520, 44510], [51800, 56050], [56120, 59040]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [43300, 'red'], music: 'kai-cenat-suspense.mp3', from: 0, musicGain: 0.8, capsOff: [[38800, 42200]],
+  extra: (o, out) => <BetCard o={o} a={out(38800)} b={out(42200)} />,
   hi: {spicy: [O, '1f525'], wax: [Y, '1f62c'], waxing: Y, armpit: Y, skinny: C, fat: R, impressive: G, crips: R}});
 export const REF_TRUST = make({hookText: "HIS ONLY [FEAR]", hookEmoji: '1f633', raw: EP, title: "N3on's only [fear] during the headstand", snap: true,
   segs: [[385960, 389130], [359840, 361300], [382600, 389130], [392020, 395740], [399400, 402520], [409100, 412990]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [386500, 'red'], music: 'Sneaky_Snitch.mp3', from: 0, musicGain: 0.8,
+  extra: (o, out) => <TypedAction o={o} a={out(383000)} b={out(386000)} text="doesn't trust her" y={70} />,
   hi: {trust: [R, '1f928'], butt: [O, '1f633'], crack: O, nothing: Y, shaking: C, stripper: P, did: [G, '1f4aa']}});
 export const REF_SUE = make({hookText: "\"DON'T TOUCH ME, I'LL [SUE]\"", hookEmoji: '1f62d', raw: EP, title: "N3on took a 'bathroom break' to [win]", snap: true,
   segs: [[692000, 694200], [639720, 643960], [685100, 692600], [695200, 702090]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [693500, 'red'], music: 'Curb_Credits.mp3', from: 0, musicGain: 0.8,
+  extra: (o, out) => <TypedAction o={o} a={out(640000)} b={out(643800)} text='the "bathroom break"' y={70} color="#F9FC35" glow="rgba(249,252,53,0.5)" />,
   hi: {restroom: [C, '1f6bd'], calories: Y, sue: [R, '1f62d'], lost: R, pool: C, running: Y, burn: Y}});
 export const REF_ASKED = make({hookText: "HE REALLY [ASKED] THAT", hookEmoji: '1f480', raw: EP, title: "N3on asked the Pilates instructor [THIS]", snap: true,
   segs: [[80800, 83900], [61500, 66500], [78700, 84100], [90100, 94000]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [83100, 'red'], music: 'wtf-u-tryna-say.mp3', from: 0, musicGain: 0.6,
+  extra: (o, out) => <><TypedAction o={o} a={out(84100)} b={out(84100) + 3000} text="asked the real question" y={70} /><Burst o={o} at={out(83300)} c="1f914" /></>,
   hi: {pilates: Y, kidding: R, prison: [R, '1f480'], straight: C, glasses: [C, '1f913'], easy: G, losing: R}});
 export const REF_EXCITED = make({hookText: "WAY TOO [EXCITED]", hookEmoji: '1f929', raw: EP, title: "N3on was WAY too [excited] for this class", snap: true,
   segs: [[244500, 245700], [224900, 226300], [230000, 232800], [242400, 245700], [246600, 257700]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [256300, 'green'], music: 'say-goodbye-lodoni.mp3', from: 0, musicGain: 0.7,
+  extra: (o, out) => <Burst o={o} at={out(246700)} c="1f929" />,
   hi: {strippers: [P, '1f633'], stripper: P, excited: [Y, '1f929'], years: C, pilates: Y, hell: G, yeah: G}});
 export const RefBet = REF_BET.Comp, RefTrust = REF_TRUST.Comp, RefSue = REF_SUE.Comp, RefAsked = REF_ASKED.Comp, RefExcited = REF_EXCITED.Comp;
+
+// ---- batch-7 format pieces: each re-edit gets its OWN element so the 5 don't feel like one template (user: "like how you edit BYB") ----
+const EmoI = ({c, z = 70}: {c: string; z?: number}) => <Img src={staticFile(`emoji-ios/${c}.png`)} style={{width: z, height: z, verticalAlign: '-12px'}} />;
+const BetCard = ({o, a, b}: {o: number; a: number; b: number}) => (o < a || o >= b ? null :
+  <AbsoluteFill style={{background: 'rgba(8,10,14,0.62)', opacity: Math.min(1, (o - a) / 150, (b - o) / 150)}}>
+    <div style={{position: 'absolute', left: 70, right: 70, top: 230, borderRadius: 28, background: 'white', padding: '30px 40px', transform: `scale(${Math.min(1, pop(o, a, 12, 240))})`}}>
+      <div style={{fontFamily: MONT, fontWeight: 900, fontSize: 56, color: '#111', marginBottom: 18}}>THE BET</div>
+      <div style={{fontFamily: MONT, fontWeight: 900, fontSize: 44, color: '#E8261F', marginBottom: 14}}>LOSE → SPICY FOOD <EmoI c="1f336" /></div>
+      {o >= a + 900 && <div style={{fontFamily: MONT, fontWeight: 900, fontSize: 44, color: '#E8261F', transform: `scale(${Math.min(1, pop(o, a + 900, 12, 240))})`, transformOrigin: '0 50%'}}>LOSE → ARMPIT WAX <EmoI c="1fa92" /></div>}
+    </div></AbsoluteFill>);
+const Burst = ({o, at, c}: {o: number; at: number; c: string}) => (o < at || o > at + 1100 ? null : <>{[[180, 300], [760, 360], [470, 160], [300, 620], [700, 680]].map(([x, y], i) => (
+  <Img key={i} src={staticFile(`emoji-ios/${c}.png`)} style={{position: 'absolute', left: x - 60, top: y - 60, width: 120, height: 120,
+    opacity: Math.min(1, (at + 1100 - o) / 200), transform: `scale(${Math.min(1, pop(o, at + i * 70, 10, 260))}) rotate(${(i - 2) * 9}deg)`}} />))}</>);
