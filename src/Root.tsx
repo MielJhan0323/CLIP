@@ -12,6 +12,7 @@ import {Demo13, DEMO13_MS} from './jorho/demo13';
 import {Demo14, DEMO14_MS} from './jorho/demo14';
 import {Demo15, DEMO15_MS} from './jorho/demo15';
 import {FullPilatesQ, FullTuck, FullSpider, FullRespect, FullExcited, FULL_PILATESQ, FULL_TUCK, FULL_SPIDER, FULL_RESPECT, FULL_EXCITED} from './campaigns/neon_clip/full';
+import {RefBet, RefTrust, RefSue, RefAsked, RefExcited, REF_BET, REF_TRUST, REF_SUE, REF_ASKED, REF_EXCITED} from './campaigns/neon_clip/ref';
 import {RefClose, RefChatgpt, RefPole, REF_CLOSE, REF_CHATGPT, REF_POLE} from './campaigns/neon_clip/ref';
 import {RefSlower, RefDream, RefSquats, RefWax, RefScam, REF_SLOWER, REF_DREAM, REF_SQUATS, REF_WAX, REF_SCAM} from './campaigns/neon_clip/ref';
 import {RefJoke, RefSlip, RefDown100, RefFart, RefHard, REF_JOKE, REF_SLIP, REF_DOWN100, REF_FART, REF_HARD} from './campaigns/neon_clip/ref';
@@ -145,6 +146,11 @@ export const RemotionRoot = () => (
   <Composition id="RefSquats" component={RefSquats} fps={30} width={1080} height={1920} durationInFrames={Math.round((REF_SQUATS.total / 1000) * 30)} />
   <Composition id="RefWax" component={RefWax} fps={30} width={1080} height={1920} durationInFrames={Math.round((REF_WAX.total / 1000) * 30)} />
   <Composition id="RefScam" component={RefScam} fps={30} width={1080} height={1920} durationInFrames={Math.round((REF_SCAM.total / 1000) * 30)} />
+  <Composition id="RefBet" component={RefBet} fps={30} width={1080} height={1920} durationInFrames={Math.round((REF_BET.total / 1000) * 30)} />
+  <Composition id="RefTrust" component={RefTrust} fps={30} width={1080} height={1920} durationInFrames={Math.round((REF_TRUST.total / 1000) * 30)} />
+  <Composition id="RefSue" component={RefSue} fps={30} width={1080} height={1920} durationInFrames={Math.round((REF_SUE.total / 1000) * 30)} />
+  <Composition id="RefAsked" component={RefAsked} fps={30} width={1080} height={1920} durationInFrames={Math.round((REF_ASKED.total / 1000) * 30)} />
+  <Composition id="RefExcited" component={RefExcited} fps={30} width={1080} height={1920} durationInFrames={Math.round((REF_EXCITED.total / 1000) * 30)} />
   <Composition id="FullSpider" component={FullSpider} fps={30} width={1080} height={1920} durationInFrames={Math.round((FULL_SPIDER.total / 1000) * 30)} />
   <Composition id="FullRespect" component={FullRespect} fps={30} width={1080} height={1920} durationInFrames={Math.round((FULL_RESPECT.total / 1000) * 30)} />
   <Composition id="FullExcited" component={FullExcited} fps={30} width={1080} height={1920} durationInFrames={Math.round((FULL_EXCITED.total / 1000) * 30)} />

@@ -212,3 +212,23 @@ export const REF_SCAM = make({hookText: "N3ON THE [SCAMMER]", hookEmoji: '1f923'
   segs: [[650600, 652500], [652400, 676000]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [671000, 'green'], music: 'funk-do-balkan.mp3', from: 0, musicGain: 0.7,
   hi: {scammer: [R, '1f921'], cheater: R, knee: C, tail: C, ankle: C, got: G, 'b*tch': [Y, '1f525'], yeah: G}});
 export const RefSlower = REF_SLOWER.Comp, RefDream = REF_DREAM.Comp, RefSquats = REF_SQUATS.Comp, RefWax = REF_WAX.Comp, RefScam = REF_SCAM.Comp;
+
+// ---- BATCH 7 (2026-11-18): "5 viral neon clips, funny and capturing" — the episode's funniest moments (first cut in older styles)
+// re-edited in the current recipe; steady locked crop, typed summary hook, key-word colours, tight loop endings
+const EP = mergeRaw(fiveWords as Raw, (moreWords as Raw));
+export const REF_BET = make({hookText: "LOSER GETS [WAXED]", hookEmoji: '1f62c', raw: EP, title: "The loser of this workout gets their armpit [waxed]", snap: true,
+  segs: [[43300, 44510], [35520, 44510], [51800, 56050], [56120, 59040]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [43300, 'red'], music: 'kai-cenat-suspense.mp3', from: 0, musicGain: 0.8,
+  hi: {spicy: [O, '1f525'], wax: [Y, '1f62c'], waxing: Y, armpit: Y, skinny: C, fat: R, impressive: G, crips: R}});
+export const REF_TRUST = make({hookText: "HIS ONLY [FEAR]", hookEmoji: '1f633', raw: EP, title: "N3on's only [fear] during the headstand", snap: true,
+  segs: [[385960, 389130], [359840, 361300], [382600, 389130], [392020, 395740], [399400, 402520], [409100, 412990]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [386500, 'red'], music: 'Sneaky_Snitch.mp3', from: 0, musicGain: 0.8,
+  hi: {trust: [R, '1f928'], butt: [O, '1f633'], crack: O, nothing: Y, shaking: C, stripper: P, did: [G, '1f4aa']}});
+export const REF_SUE = make({hookText: "\"DON'T TOUCH ME, I'LL [SUE]\"", hookEmoji: '1f62d', raw: EP, title: "N3on took a 'bathroom break' to [win]", snap: true,
+  segs: [[692000, 694200], [639720, 643960], [685100, 692600], [695200, 702090]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [693500, 'red'], music: 'Curb_Credits.mp3', from: 0, musicGain: 0.8,
+  hi: {restroom: [C, '1f6bd'], calories: Y, sue: [R, '1f62d'], lost: R, pool: C, running: Y, burn: Y}});
+export const REF_ASKED = make({hookText: "HE REALLY [ASKED] THAT", hookEmoji: '1f480', raw: EP, title: "N3on asked the Pilates instructor [THIS]", snap: true,
+  segs: [[80800, 83900], [61500, 66500], [78700, 84100], [90100, 94000]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [83100, 'red'], music: 'wtf-u-tryna-say.mp3', from: 0, musicGain: 0.6,
+  hi: {pilates: Y, kidding: R, prison: [R, '1f480'], straight: C, glasses: [C, '1f913'], easy: G, losing: R}});
+export const REF_EXCITED = make({hookText: "WAY TOO [EXCITED]", hookEmoji: '1f929', raw: EP, title: "N3on was WAY too [excited] for this class", snap: true,
+  segs: [[244500, 245700], [224900, 226300], [230000, 232800], [242400, 245700], [246600, 257700]], keys: [[0, 960]], arrow: [-1, 0, 0], flash: [256300, 'green'], music: 'say-goodbye-lodoni.mp3', from: 0, musicGain: 0.7,
+  hi: {strippers: [P, '1f633'], stripper: P, excited: [Y, '1f929'], years: C, pilates: Y, hell: G, yeah: G}});
+export const RefBet = REF_BET.Comp, RefTrust = REF_TRUST.Comp, RefSue = REF_SUE.Comp, RefAsked = REF_ASKED.Comp, RefExcited = REF_EXCITED.Comp;
