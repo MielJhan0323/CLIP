@@ -12,7 +12,7 @@ import {Demo13, DEMO13_MS} from './jorho/demo13';
 import {Demo14, DEMO14_MS} from './jorho/demo14';
 import {Demo15, DEMO15_MS} from './jorho/demo15';
 import {FullPilatesQ, FullTuck, FullSpider, FullRespect, FullExcited, FULL_PILATESQ, FULL_TUCK, FULL_SPIDER, FULL_RESPECT, FULL_EXCITED} from './campaigns/neon_clip/full';
-import {KcScooter, KC_SCOOTER, KcSeaplane, KC_SEAPLANE, KcSwamp, KC_SWAMP, KcAlert, KC_ALERT, KcCountdown, KC_COUNTDOWN} from './campaigns/gaming/kc';
+import {KcScooter, KC_SCOOTER, KcSeaplane, KC_SEAPLANE, KcSwamp, KC_SWAMP, KcAlert, KC_ALERT, KcCountdown, KC_COUNTDOWN, KcAtv, KC_ATV, KcTiktok, KC_TIKTOK, KcBanned, KC_BANNED, KcSteal, KC_STEAL} from './campaigns/gaming/kc';
 import {RefBet, RefTrust, RefSue, RefAsked, RefExcited, REF_BET, REF_TRUST, REF_SUE, REF_ASKED, REF_EXCITED} from './campaigns/neon_clip/ref';
 import {RefClose, RefChatgpt, RefPole, REF_CLOSE, REF_CHATGPT, REF_POLE} from './campaigns/neon_clip/ref';
 import {RefSlower, RefDream, RefSquats, RefWax, RefScam, REF_SLOWER, REF_DREAM, REF_SQUATS, REF_WAX, REF_SCAM} from './campaigns/neon_clip/ref';
@@ -157,6 +157,10 @@ export const RemotionRoot = () => (
   <Composition id="KcSwamp" component={KcSwamp} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_SWAMP.total / 1000) * 30)} />
   <Composition id="KcAlert" component={KcAlert} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_ALERT.total / 1000) * 30)} />
   <Composition id="KcCountdown" component={KcCountdown} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_COUNTDOWN.total / 1000) * 30)} />
+  <Composition id="KcAtv" component={KcAtv} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_ATV.total / 1000) * 30)} />
+  <Composition id="KcTiktok" component={KcTiktok} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_TIKTOK.total / 1000) * 30)} />
+  <Composition id="KcBanned" component={KcBanned} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_BANNED.total / 1000) * 30)} />
+  <Composition id="KcSteal" component={KcSteal} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_STEAL.total / 1000) * 30)} />
   <Composition id="FullSpider" component={FullSpider} fps={30} width={1080} height={1920} durationInFrames={Math.round((FULL_SPIDER.total / 1000) * 30)} />
   <Composition id="FullRespect" component={FullRespect} fps={30} width={1080} height={1920} durationInFrames={Math.round((FULL_RESPECT.total / 1000) * 30)} />
   <Composition id="FullExcited" component={FullExcited} fps={30} width={1080} height={1920} durationInFrames={Math.round((FULL_EXCITED.total / 1000) * 30)} />
