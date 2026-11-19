@@ -14,6 +14,7 @@ const BOT_H = 1920 - TOP_H; // gameplay panel height
 export type GameCfg = {file: string; cam: [x: number, y: number, w: number, h: number]; gameX?: number; a: number; b: number;
   seam: string; emoji?: string; hi?: Hi; raw: Raw;
   // whop ai guideline effects (2026-11-19 "effects of the whop ai style, structure of gaming")
+  logo?: string; // campaign logo overlay — visible the WHOLE clip (KreekCraft brief: clips without it are rejected)
   music?: string; musicFrom?: number; flash?: [word: string, color: 'green' | 'red']};
 
 // one source video shown through a crop window: (sx, sy, sw, sh) of the source → (0, 0, w, h) of the panel
@@ -73,8 +74,9 @@ export const makeGaming = (c: GameCfg) => {
       <Seam o={o} text={c.seam} emoji={c.emoji} />
       <SfxTrack list={list} />
       {c.music && <Music file={c.music} songFrom={c.musicFrom ?? 0} level={(t) => 0.16 * (speaking(t) ? 0.5 : 1) * Math.min(1, t / 300) * Math.min(1, (total - t) / 400)} />}
-      <OneWord o={o} words={words} y={1640} size={62} />
-      <EmojiPop o={o} words={words} hi={c.hi} y={1640} />
+      <OneWord o={o} words={words} y={c.logo ? 1500 : 1640} size={62} />
+      {!c.logo && <EmojiPop o={o} words={words} hi={c.hi} y={1640} />}
+      {c.logo && <Img src={staticFile(c.logo)} style={{position: 'absolute', left: (1080 - 600) / 2, top: 1700, width: 600, height: 200, objectFit: 'contain'}} />}
     </AbsoluteFill>;
   };
   return {Comp, total};
