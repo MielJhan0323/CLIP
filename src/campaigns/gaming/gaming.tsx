@@ -15,11 +15,11 @@ export type GameCfg = {file: string; cam: [x: number, y: number, w: number, h: n
   seam: string; emoji?: string; hi?: Hi; raw: Raw;
   // whop ai guideline effects (2026-11-19 "effects of the whop ai style, structure of gaming")
   logo?: string; // campaign logo overlay — visible the WHOLE clip (KreekCraft brief: clips without it are rejected)
-  music?: string; musicFrom?: number; flash?: [word: string, color: 'green' | 'red'];
+  music?: string; musicFrom?: number; flash?: [word: string, color: 'green' | 'red' | 'yellow'];
   // extra meme hits (2026-11-19 "where are the flashes sound effects like akward ding and fahh"): [source sec, sfx file, tint?]
   // source went to a black "hidden" screen from this clip ms: show a blurred freeze of the last gameplay frame behind it (2026-11-19)
   blurFrom?: number; blurFreezeAt?: number;
-  hits?: [sec: number, file: string, color?: 'green' | 'red'][]};
+  hits?: [sec: number, file: string, color?: 'green' | 'red' | 'yellow'][]};
 
 // one source video shown through a crop window: (sx, sy, sw, sh) of the source → (0, 0, w, h) of the panel
 const Crop = ({file, a, sx, sy, sw, sh, w, h, muted}: {file: string; a: number; sx: number; sy: number; sw: number; sh: number; w: number; h: number; muted?: boolean}) => {
@@ -58,12 +58,12 @@ export const makeGaming = (c: GameCfg) => {
     .filter((t, i, a) => i === 0 || t - a[i - 1] > 900);
   const fw = c.flash ? words.find((w) => w.text.toLowerCase().includes(c.flash![0])) : undefined;
   const flashAt = fw ? fw.at : -1;
-  const hits = (c.hits ?? []).map(([sec, file, color]) => ({at: sec * 1000 - c.a, file, color})).filter((h) => h.at >= 0 && h.at < total);
+  const hits = (c.hits ?? []).map(([sec, file, color]) => ({at: sec * 1000 - c.a, file, color: color ?? (file.includes('akward') ? 'yellow' as const : undefined)})).filter((h) => h.at >= 0 && h.at < total);
   const flashes = [...(flashAt >= 0 ? [{at: flashAt, color: c.flash![1]}] : []), ...hits.filter((h) => h.color).map((h) => ({at: h.at, color: h.color!}))];
   const speaking = (t: number) => words.some((w) => t >= w.at - 100 && t < (w.end ?? w.at + 300));
-  const list = [sfx('fast-whoosh', 0, 0.2, 400), ...beats.filter((t) => t > 300).map((t) => sfx('jv2-pop-button', t, 0.08, 300)),
-    ...(flashAt >= 0 ? [c.flash![1] === 'green' ? sfx('g-ding-sfx', flashAt, 0.2, 700) : sfx('g-shock-sfx', flashAt, 0.2, 900)] : []),
-    ...hits.map((h) => sfx(h.file, h.at, 0.22, 1600))];
+  const list = [sfx('fast-whoosh', 0, 0.45, 400), ...beats.filter((t) => t > 300).map((t) => sfx('jv2-pop-button', t, 0.2, 300)),
+    ...(flashAt >= 0 ? [c.flash![1] === 'green' ? sfx('g-ding-sfx', flashAt, 0.6, 700) : sfx('g-shock-sfx', flashAt, 0.6, 900)] : []),
+    ...hits.map((h) => sfx(h.file, h.at, 0.65, 1600))];
   const Comp = () => {
     const o = (useCurrentFrame() * 1000) / FPS;
     const shake = flashes.reduce((k, x) => (x.color === 'red' && o >= x.at && o < x.at + 350 ? 1 - (o - x.at) / 350 : k), 0);
@@ -80,7 +80,7 @@ export const makeGaming = (c: GameCfg) => {
           <Crop file={c.file} a={c.a} sx={gx} sy={0} sw={gw} sh={SRC_H} w={1080} h={BOT_H} /></div>
       </div>
       <div style={{position: 'absolute', left: 0, right: 0, top: TOP_H - 3, height: 6, background: '#000'}} />
-      {flashes.map((x, i) => o >= x.at && o < x.at + 500 && <AbsoluteFill key={i} style={{background: x.color === 'green' ? 'rgba(60,230,40,0.5)' : 'rgba(240,30,30,0.5)',
+      {flashes.map((x, i) => o >= x.at && o < x.at + 500 && <AbsoluteFill key={i} style={{background: x.color === 'green' ? 'rgba(60,230,40,0.5)' : x.color === 'yellow' ? 'rgba(255,215,0,0.55)' : 'rgba(240,30,30,0.5)',
         mixBlendMode: 'color', opacity: Math.min(1, (o - x.at) / 60, (x.at + 500 - o) / 140)}} />)}
       <Seam o={o} text={c.seam} emoji={c.emoji} />
       <SfxTrack list={list} />
