@@ -1,7 +1,7 @@
 // GAMING style (2026-11-19, vault/02 Style Guide/Gaming/Gaming style.md): vertical STACK — streamer facecam on top, gameplay below,
 // one seam line where they meet (typed in at the start, stays), key-word captions on the gameplay, game audio only, tight loop ending.
 import {AbsoluteFill, OffthreadVideo, Sequence, staticFile, useCurrentFrame} from 'remotion';
-import {FPS} from '../../e3/kit';
+import {FPS, Music, SfxTrack, sfx, pop} from '../../e3/kit';
 import {MONT} from '../../e3/bars';
 import {OneWord, type Word} from '../../jorho/kit';
 import {applyHi, EmojiPop, type Hi} from '../../jorho/hi';
@@ -12,7 +12,9 @@ const SRC_W = 1280, SRC_H = 720; // 720p downloads
 const TOP_H = 760; // facecam panel height
 const BOT_H = 1920 - TOP_H; // gameplay panel height
 export type GameCfg = {file: string; cam: [x: number, y: number, w: number, h: number]; gameX?: number; a: number; b: number;
-  seam: string; emoji?: string; hi?: Hi; raw: Raw};
+  seam: string; emoji?: string; hi?: Hi; raw: Raw;
+  // whop ai guideline effects (2026-11-19 "effects of the whop ai style, structure of gaming")
+  music?: string; musicFrom?: number; flash?: [word: string, color: 'green' | 'red']};
 
 // one source video shown through a crop window: (sx, sy, sw, sh) of the source → (0, 0, w, h) of the panel
 const Crop = ({file, a, sx, sy, sw, sh, w, h, muted}: {file: string; a: number; sx: number; sy: number; sw: number; sh: number; w: number; h: number; muted?: boolean}) => {
@@ -46,17 +48,31 @@ export const makeGaming = (c: GameCfg) => {
   const [cx, cy, cw, ch] = c.cam;
   const gw = (BOT_H / SRC_H) > 0 ? (1080 * SRC_H) / BOT_H : SRC_W; // source width that fills the gameplay panel at full height
   const gx = Math.min(Math.max((c.gameX ?? 760) - gw / 2, 0), SRC_W - gw);
+  // effects: emoji key-word beats (punch-zoom + pop), one green/red flash on a word (ding / shock), music bed under the voice, whoosh in
+  const beats = words.filter((w) => Array.isArray(c.hi?.[w.text.toLowerCase().replace(/[^a-z0-9]/g, '')])).map((w) => w.at)
+    .filter((t, i, a) => i === 0 || t - a[i - 1] > 900);
+  const fw = c.flash ? words.find((w) => w.text.toLowerCase().includes(c.flash![0])) : undefined;
+  const flashAt = fw ? fw.at : -1;
+  const speaking = (t: number) => words.some((w) => t >= w.at - 100 && t < (w.end ?? w.at + 300));
+  const list = [sfx('fast-whoosh', 0, 0.2, 400), ...beats.filter((t) => t > 300).map((t) => sfx('jv2-pop-button', t, 0.08, 300)),
+    ...(flashAt >= 0 ? [c.flash![1] === 'green' ? sfx('g-ding-sfx', flashAt, 0.2, 700) : sfx('g-shock-sfx', flashAt, 0.2, 900)] : [])];
   const Comp = () => {
     const o = (useCurrentFrame() * 1000) / FPS;
+    const beatK = beats.reduce((k, t) => (o >= t && o < t + 260 ? Math.max(k, 1 - (o - t) / 260) : k), 0);
+    const push = 1 + 0.06 * (o / total) + 0.04 * beatK; // slow push-in (guideline: slow zoom while idle) + punch on key words
     return <AbsoluteFill style={{background: '#000'}}>
       <div style={{position: 'absolute', left: 0, top: 0, width: 1080, height: TOP_H, overflow: 'hidden'}}>
         <Crop file={c.file} a={c.a} sx={cx} sy={cy} sw={cw} sh={ch} w={1080} h={TOP_H} muted />
       </div>
-      <div style={{position: 'absolute', left: 0, top: TOP_H, width: 1080, height: BOT_H, overflow: 'hidden'}}>
+      <div style={{position: 'absolute', left: 0, top: TOP_H, width: 1080, height: BOT_H, overflow: 'hidden', transform: `scale(${push})`}}>
         <Crop file={c.file} a={c.a} sx={gx} sy={0} sw={gw} sh={SRC_H} w={1080} h={BOT_H} />
       </div>
       <div style={{position: 'absolute', left: 0, right: 0, top: TOP_H - 3, height: 6, background: '#000'}} />
+      {flashAt >= 0 && o >= flashAt && o < flashAt + 500 && <AbsoluteFill style={{background: c.flash![1] === 'green' ? 'rgba(60,230,40,0.5)' : 'rgba(240,30,30,0.5)',
+        mixBlendMode: 'color', opacity: Math.min(1, (o - flashAt) / 60, (flashAt + 500 - o) / 140)}} />}
       <Seam o={o} text={c.seam} emoji={c.emoji} />
+      <SfxTrack list={list} />
+      {c.music && <Music file={c.music} songFrom={c.musicFrom ?? 0} level={(t) => 0.16 * (speaking(t) ? 0.5 : 1) * Math.min(1, t / 300) * Math.min(1, (total - t) / 400)} />}
       <OneWord o={o} words={words} y={1640} size={62} />
       <EmojiPop o={o} words={words} hi={c.hi} y={1640} />
     </AbsoluteFill>;
