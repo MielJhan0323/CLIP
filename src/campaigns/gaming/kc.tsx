@@ -1,0 +1,15 @@
+import {makeGaming} from './gaming';
+import {HC} from '../../jorho/hi';
+const {yellow: Y, cyan: C, green: G, red: R} = HC;
+const CAM: [number, number, number, number] = [15, 100, 330, 232];
+import w_scooter from '../../../public/gaming/kc_scooter.words.json';
+import w_seaplane from '../../../public/gaming/kc_seaplane.words.json';
+import w_swamp from '../../../public/gaming/kc_swamp.words.json';
+import w_alert from '../../../public/gaming/kc_alert.words.json';
+import w_countdown from '../../../public/gaming/kc_countdown.words.json';
+export const KC_SCOOTER = makeGaming({file: 'gaming/kc_scooter.mp4', cam: CAM, a: 61260, b: 83730, seam: "[GRANNY] IS AFTER ME", emoji: '1f631', hi: {granny: [Y, '1f475'], drop: R, god: C, accelerate: G}, raw: w_scooter as never});
+export const KC_SEAPLANE = makeGaming({file: 'gaming/kc_seaplane.mp4', cam: CAM, a: 65770, b: 85000, seam: "HE HIT A [BIRD] MID-FLIGHT", emoji: '1f62d', hi: {bird: [Y, '1f426'], crashed: R, shoot: C}, raw: w_seaplane as never});
+export const KC_SWAMP = makeGaming({file: 'gaming/kc_swamp.mp4', cam: CAM, a: 62860, b: 82000, seam: "[GATOR] SWAMP IN GTA 6", emoji: '1f631', hi: {eaten: [R, '1f631'], chances: Y, doing: C}, raw: w_swamp as never});
+export const KC_ALERT = makeGaming({file: 'gaming/kc_alert.mp4', cam: CAM, a: 58540, b: 81810, seam: "THERE GOES MY [STREAM]", emoji: '1f480', hi: {cooked: [R, '1f480'], stream: Y, gone: R, dream: C}, raw: w_alert as never});
+export const KC_COUNTDOWN = makeGaming({file: 'gaming/kc_countdown.mp4', cam: CAM, a: 66680, b: 86000, seam: "GTA 6 IN [1 MINUTE]", emoji: '1f525', hi: {giveaway: [G, '1f381'], minute: Y, zero: R, joking: C}, raw: w_countdown as never});
+export const KcScooter = KC_SCOOTER.Comp, KcSeaplane = KC_SEAPLANE.Comp, KcSwamp = KC_SWAMP.Comp, KcAlert = KC_ALERT.Comp, KcCountdown = KC_COUNTDOWN.Comp;
