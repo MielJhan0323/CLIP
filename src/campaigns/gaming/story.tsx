@@ -13,7 +13,16 @@ type Key = [srcSec: number, zoom: number, fx?: number, fy?: number]; // fx/fy = 
 export type StoryCfg = {file: string; src: [number, number]; cam: [number, number, number, number]; gameX?: number;
   segs: [from: number, to: number][]; seam: string; emoji?: string; hi?: Hi; raw: Raw; logo?: string; music?: string; musicFrom?: number;
   hits?: [srcSec: number, sound: string, color?: 'green' | 'red' | 'yellow'][];
-  game?: Key[]; face?: Key[]};
+  game?: Key[]; face?: Key[];
+  // sad part (user 2026-11-20 "grey overlay with the raining on screen ... when he mentions"): [fromSec, toSec] source seconds
+  rain?: [number, number]; musicLevel?: number};
+// procedural rain: deterministic streaks falling diagonally (no stock file needed, renders the same every time)
+const DROPS = Array.from({length: 150}, (_, i) => ({x: (i * 7919) % 1180 - 50, off: (i * 104729) % 2200, v: 1.6 + ((i * 31) % 10) / 6, len: 40 + ((i * 17) % 50), w: 2 + (i % 3)}));
+const Rain = ({o, k}: {o: number; k: number}) => <AbsoluteFill style={{opacity: k, pointerEvents: 'none'}}>
+  <AbsoluteFill style={{background: 'rgba(55,62,72,0.28)'}} />
+  {DROPS.map((d, i) => { const y = ((o * d.v + d.off) % 2200) - 150; return <div key={i} style={{position: 'absolute', left: d.x + y * 0.12, top: y, width: d.w, height: d.len,
+    background: 'linear-gradient(rgba(220,230,240,0), rgba(220,230,240,0.55))', transform: 'rotate(-7deg)', borderRadius: 2}} />; })}
+</AbsoluteFill>;
 const f = (ms: number) => Math.round((ms / 1000) * FPS);
 const ease = (x: number) => (x < 0.5 ? 2 * x * x : 1 - (-2 * x + 2) ** 2 / 2);
 
@@ -35,7 +44,7 @@ export const makeStory = (c: StoryCfg) => {
     if (!B) return A; const p = ease(Math.min(1, (o - A.t) / Math.max(1, B.t - A.t)));
     return {z: A.z + (B.z - A.z) * p, fx: A.fx + (B.fx - A.fx) * p, fy: A.fy + (B.fy - A.fy) * p}; };
   const sc = c.src[0] / 1280; const [cx, cy, cw, ch] = c.cam.map((v) => v * sc);
-  const gw = (1080 * c.src[1]) / BOT_H; const gx = Math.min(Math.max((c.gameX ?? 760) * sc - gw / 2, 0), c.src[0] - gw);
+  const gw = (1080 * c.src[1]) / BOT_H; const gx = Math.min(Math.max((c.gameX ?? 640) * sc - gw / 2, 0), c.src[0] - gw);
   const speaking = (t: number) => words.some((w) => t >= w.at - 100 && t < (w.end ?? w.at + 300));
   const list = [sfx('fast-whoosh', 0, 0.45, 400), ...starts.slice(1).map((t) => sfx('mg-whoosh', t - 100, 0.3, 400)), ...hits.map((h) => sfx(h.sound, h.at, 0.65, 1800))];
   const Comp = () => {
@@ -44,6 +53,8 @@ export const makeStory = (c: StoryCfg) => {
     const hitK = hits.reduce((k, h) => (o >= h.at && o < h.at + 300 ? Math.max(k, 1 - (o - h.at) / 300) : k), 0);
     const cut = Math.max(0, 1 - inSeg / 220); // every cut lands with a small punch
     const g = cam(gk, o), fc = cam(fk, o);
+    const rf = c.rain ? at(c.rain[0]) : -1, rt = c.rain ? at(c.rain[1] - 0.01) : -1;
+    const rainK = rf >= 0 && rt >= 0 ? Math.max(0, Math.min(1, (o - rf) / 400, (rt - o) / 400)) : 0;
     const flash = hits.find((h) => h.color && o >= h.at && o < h.at + 500);
     const shake = flash?.color === 'red' ? Math.max(0, 1 - (o - flash.at) / 350) : 0;
     const panel = (top: number, h: number, z: number, fx: number, fy: number, child: (i: number) => React.ReactNode) =>
@@ -54,14 +65,17 @@ export const makeStory = (c: StoryCfg) => {
         </div>
       </div>;
     return <AbsoluteFill style={{background: '#000'}}>
+      <AbsoluteFill style={{filter: rainK > 0 ? `grayscale(${0.9 * rainK}) brightness(${1 - 0.15 * rainK})` : undefined}}>
       {panel(0, TOP_H, fc.z + 0.04 * cut + 0.05 * hitK, fc.fx, fc.fy, (i) => <Crop src={c.src} file={c.file} a={c.segs[i][0] * 1000} sx={cx} sy={cy} sw={cw} sh={ch} w={1080} h={TOP_H} muted />)}
       {panel(TOP_H, BOT_H, g.z + 0.05 * cut + 0.06 * hitK + 0.05 * shake, g.fx, g.fy, (i) => <Crop src={c.src} file={c.file} a={c.segs[i][0] * 1000} sx={gx} sy={0} sw={gw} sh={c.src[1]} w={1080} h={BOT_H} />)}
+      </AbsoluteFill>
+      {rainK > 0 && <Rain o={o} k={rainK} />}
       <div style={{position: 'absolute', left: 0, right: 0, top: TOP_H - 3, height: 6, background: '#000'}} />
       {flash && <AbsoluteFill style={{background: flash.color === 'green' ? 'rgba(60,230,40,0.45)' : flash.color === 'yellow' ? 'rgba(255,215,0,0.5)' : 'rgba(240,30,30,0.45)',
         mixBlendMode: 'color', opacity: Math.min(1, (o - flash.at) / 60, (flash.at + 500 - o) / 140)}} />}
       <Seam o={o} text={c.seam} emoji={c.emoji} />
       <SfxTrack list={list} />
-      {c.music && <Music file={c.music} songFrom={c.musicFrom ?? 0} level={(t) => 0.14 * (speaking(t) ? 0.5 : 1) * Math.min(1, t / 300) * Math.min(1, (total - t) / 400)} />}
+      {c.music && <Music file={c.music} songFrom={c.musicFrom ?? 0} level={(t) => (c.musicLevel ?? 0.14) * (speaking(t) ? 0.6 : 1) * Math.min(1, t / 300) * Math.min(1, (total - t) / 400)} />}
       <OneWord o={o} words={words} y={960} size={72} />
       {c.logo && <Img src={staticFile(c.logo)} style={{position: 'absolute', left: (1080 - 600) / 2, top: 1700, width: 600, height: 200, objectFit: 'contain'}} />}
     </AbsoluteFill>;
