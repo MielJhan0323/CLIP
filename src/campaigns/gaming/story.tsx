@@ -11,7 +11,7 @@ import {BOT_H, Crop, Seam, TOP_H} from './gaming';
 type Raw = {text: string; startMs: number; endMs: number}[];
 type Key = [srcSec: number, zoom: number, fx?: number, fy?: number]; // fx/fy = focus point in the panel, 0..1
 export type StoryCfg = {file: string; src: [number, number]; cam: [number, number, number, number]; gameX?: number;
-  segs: [from: number, to: number][]; seam: string; emoji?: string; hi?: Hi; raw: Raw; logo?: string; music?: string; musicFrom?: number;
+  segs: [from: number, to: number, file?: string, cam?: [number, number, number, number]][]; raws?: Record<string, Raw>; seam: string; emoji?: string; hi?: Hi; raw: Raw; logo?: string; music?: string; musicFrom?: number;
   hits?: [srcSec: number, sound: string, color?: 'green' | 'red' | 'yellow'][];
   game?: Key[]; face?: Key[];
   // sad part (user 2026-11-20 "grey overlay with the raining on screen ... when he mentions"): [fromSec, toSec] source seconds
@@ -30,10 +30,12 @@ export const makeStory = (c: StoryCfg) => {
   const starts: number[] = []; let acc = 0;
   for (const [a, b] of c.segs) { starts.push(acc); acc += (b - a) * 1000; }
   const total = acc;
-  const at = (sec: number) => { const i = c.segs.findIndex(([a, b]) => sec >= a && sec < b); return i < 0 ? -1 : starts[i] + (sec - c.segs[i][0]) * 1000; };
-  const words: Word[] = applyHi(c.raw.flatMap((w) => { const t = at(w.startMs / 1000); if (t < 0) return [];
-    const i = c.segs.findIndex(([a, b]) => w.startMs / 1000 >= a && w.startMs / 1000 < b);
-    return [{text: w.text.trim().replace(/^-+/, ''), at: t, end: Math.min(t + (w.endMs - w.startMs) + 180, starts[i] + (c.segs[i][1] - c.segs[i][0]) * 1000), color: '#FFFFFF'}]; })
+  // a source moment -> output ms; `file` picks which source (default: the main file)
+  const at = (sec: number, file = c.file) => { const i = c.segs.findIndex(([a, b, fl]) => (fl ?? c.file) === file && sec >= a && sec < b); return i < 0 ? -1 : starts[i] + (sec - c.segs[i][0]) * 1000; };
+  const rawOf = (fl: string) => (fl === c.file ? c.raw : c.raws?.[fl] ?? []);
+  const words: Word[] = applyHi(c.segs.flatMap(([a, b, fl], i) => rawOf(fl ?? c.file).filter((w) => w.startMs / 1000 >= a && w.startMs / 1000 < b).map((w) => {
+    const t = starts[i] + (w.startMs / 1000 - a) * 1000;
+    return {text: w.text.trim().replace(/^-+/, ''), at: t, end: Math.min(t + (w.endMs - w.startMs) + 180, starts[i] + (b - a) * 1000), color: '#FFFFFF'}; }))
     .sort((x, y) => x.at - y.at).map((w, i) => ({...w, color: ['#F9FC35', '#21F5E6', '#58EE28', '#FFFFFF'][i % 4]})), c.hi);
   const hits = (c.hits ?? []).map(([s, sound, color]) => ({at: at(s), sound, color: color ?? (sound.includes('akward') ? 'yellow' as const : undefined)})).filter((h) => h.at >= 0);
   const keys = (k: Key[] = []) => k.map(([s, z, fx = 0.5, fy = 0.5]) => ({t: at(s), z, fx, fy})).filter((x) => x.t >= 0).sort((a, b) => a.t - b.t);
@@ -43,7 +45,7 @@ export const makeStory = (c: StoryCfg) => {
     const j = k.findLastIndex((x) => x.t <= o); const A = k[j], B = k[j + 1];
     if (!B) return A; const p = ease(Math.min(1, (o - A.t) / Math.max(1, B.t - A.t)));
     return {z: A.z + (B.z - A.z) * p, fx: A.fx + (B.fx - A.fx) * p, fy: A.fy + (B.fy - A.fy) * p}; };
-  const sc = c.src[0] / 1280; const [cx, cy, cw, ch] = c.cam.map((v) => v * sc);
+  const sc = c.src[0] / 1280; const camOf = (i: number) => (c.segs[i][3] ?? c.cam).map((v) => v * sc);
   const gw = (1080 * c.src[1]) / BOT_H; const gx = Math.min(Math.max((c.gameX ?? 640) * sc - gw / 2, 0), c.src[0] - gw);
   const speaking = (t: number) => words.some((w) => t >= w.at - 100 && t < (w.end ?? w.at + 300));
   const list = [sfx('fast-whoosh', 0, 0.45, 400), ...starts.slice(1).map((t) => sfx('mg-whoosh', t - 100, 0.3, 400)), ...hits.map((h) => sfx(h.sound, h.at, 0.65, 1800))];
@@ -66,8 +68,8 @@ export const makeStory = (c: StoryCfg) => {
       </div>;
     return <AbsoluteFill style={{background: '#000'}}>
       <AbsoluteFill style={{filter: rainK > 0 ? `grayscale(${0.9 * rainK}) brightness(${1 - 0.15 * rainK})` : undefined}}>
-      {panel(0, TOP_H, fc.z + 0.04 * cut + 0.05 * hitK, fc.fx, fc.fy, (i) => <Crop src={c.src} file={c.file} a={c.segs[i][0] * 1000} sx={cx} sy={cy} sw={cw} sh={ch} w={1080} h={TOP_H} muted />)}
-      {panel(TOP_H, BOT_H, g.z + 0.05 * cut + 0.06 * hitK + 0.05 * shake, g.fx, g.fy, (i) => <Crop src={c.src} file={c.file} a={c.segs[i][0] * 1000} sx={gx} sy={0} sw={gw} sh={c.src[1]} w={1080} h={BOT_H} />)}
+      {panel(0, TOP_H, fc.z + 0.04 * cut + 0.05 * hitK, fc.fx, fc.fy, (i) => { const [cx, cy, cw, ch] = camOf(i); return <Crop src={c.src} file={c.segs[i][2] ?? c.file} a={c.segs[i][0] * 1000} sx={cx} sy={cy} sw={cw} sh={ch} w={1080} h={TOP_H} muted />; })}
+      {panel(TOP_H, BOT_H, g.z + 0.05 * cut + 0.06 * hitK + 0.05 * shake, g.fx, g.fy, (i) => <Crop src={c.src} file={c.segs[i][2] ?? c.file} a={c.segs[i][0] * 1000} sx={gx} sy={0} sw={gw} sh={c.src[1]} w={1080} h={BOT_H} />)}
       </AbsoluteFill>
       {rainK > 0 && <Rain o={o} k={rainK} />}
       <div style={{position: 'absolute', left: 0, right: 0, top: TOP_H - 3, height: 6, background: '#000'}} />

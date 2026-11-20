@@ -14,7 +14,7 @@ import {Demo15, DEMO15_MS} from './jorho/demo15';
 import {FullPilatesQ, FullTuck, FullSpider, FullRespect, FullExcited, FULL_PILATESQ, FULL_TUCK, FULL_SPIDER, FULL_RESPECT, FULL_EXCITED} from './campaigns/neon_clip/full';
 import {SegaDemo, SEGA_DEMO, SegaSonic, SEGA_SONIC, SegaJrpg, SEGA_JRPG, SegaStrat, SEGA_STRAT, SegaCount, SEGA_COUNT, SegaIntro, SEGA_INTRO} from './campaigns/sega/sega';
 import {KitTax, KIT_TAX, KitMom, KIT_MOM, KitLast, KIT_LAST} from './campaigns/kit/kits';
-import {KcScooter, KC_SCOOTER, KcSeaplane, KC_SEAPLANE, KcSwamp, KC_SWAMP, KcAlert, KC_ALERT, KcCountdown, KC_COUNTDOWN, KcAtv, KC_ATV, KcTiktok, KC_TIKTOK, KcBanned, KC_BANNED, KcSteal, KC_STEAL, KcDog, KC_DOG} from './campaigns/gaming/kc';
+import {KcScooter, KC_SCOOTER, KcSeaplane, KC_SEAPLANE, KcSwamp, KC_SWAMP, KcAlert, KC_ALERT, KcCountdown, KC_COUNTDOWN, KcAtv, KC_ATV, KcTiktok, KC_TIKTOK, KcBanned, KC_BANNED, KcSteal, KC_STEAL, KcDog, KC_DOG, KcLucia, KC_LUCIA, KcShark, KC_SHARK, KcDog2, KC_DOG2, KcShoe, KC_SHOE, KcDonate, KC_DONATE} from './campaigns/gaming/kc';
 import {RefBet, RefTrust, RefSue, RefAsked, RefExcited, REF_BET, REF_TRUST, REF_SUE, REF_ASKED, REF_EXCITED} from './campaigns/neon_clip/ref';
 import {RefClose, RefChatgpt, RefPole, REF_CLOSE, REF_CHATGPT, REF_POLE} from './campaigns/neon_clip/ref';
 import {RefSlower, RefDream, RefSquats, RefWax, RefScam, REF_SLOWER, REF_DREAM, REF_SQUATS, REF_WAX, REF_SCAM} from './campaigns/neon_clip/ref';
@@ -160,6 +160,11 @@ export const RemotionRoot = () => (
   <Composition id="KcAlert" component={KcAlert} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_ALERT.total / 1000) * 30)} />
   <Composition id="KcCountdown" component={KcCountdown} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_COUNTDOWN.total / 1000) * 30)} />
   <Composition id="KcDog" component={KcDog} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_DOG.total / 1000) * 30)} />
+  <Composition id="KcLucia" component={KcLucia} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_LUCIA.total / 1000) * 30)} />
+  <Composition id="KcShark" component={KcShark} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_SHARK.total / 1000) * 30)} />
+  <Composition id="KcDog2" component={KcDog2} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_DOG2.total / 1000) * 30)} />
+  <Composition id="KcShoe" component={KcShoe} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_SHOE.total / 1000) * 30)} />
+  <Composition id="KcDonate" component={KcDonate} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_DONATE.total / 1000) * 30)} />
   <Composition id="SegaDemo" component={SegaDemo} fps={30} width={1080} height={1920} durationInFrames={Math.round((SEGA_DEMO.total / 1000) * 30)} />
   <Composition id="SegaSonic" component={SegaSonic} fps={30} width={1080} height={1920} durationInFrames={Math.round((SEGA_SONIC.total / 1000) * 30)} />
   <Composition id="SegaJrpg" component={SegaJrpg} fps={30} width={1080} height={1920} durationInFrames={Math.round((SEGA_JRPG.total / 1000) * 30)} />

@@ -37,3 +37,44 @@ export const KC_DOG = makeStory({logo: 'gaming/kreekcraft_overlay.png', cam: CAM
   face: [[41.8, 1.0, 0.5, 0.45], [42.9, 1.0, 0.5, 0.45], [43.3, 1.3, 0.5, 0.45], [44.2, 1.3, 0.5, 0.45], [70.8, 1.0, 0.5, 0.45], [101.2, 1.05, 0.5, 0.45], [101.6, 1.3, 0.5, 0.45], [107.4, 1.0, 0.5, 0.45], [110.0, 1.05, 0.5, 0.45], [110.4, 1.3, 0.5, 0.45], [162.1, 1.0, 0.5, 0.45]],
   hits: [[42.9, 'g-sudden-suspense-sound-effect', 'red'], [101.5, 'spongebob-boowomp'], [110.2, 'g-studio-audience-awwww-sound-fx']]});
 export const KcDog = KC_DOG.Comp;
+// batch 3 (2026-11-20): found with the full-stream transcript + chat log; story cuts, pans/zooms, hook ACTION in 1-2 s.
+import w_lucia from '../../../public/gaming/kc_lucia_hq.words.json';
+import w_jlucia from '../../../public/gaming/kc_jlucia_hq.words.json';
+import w_shark from '../../../public/gaming/kc_shark_hq.words.json';
+import w_dog2 from '../../../public/gaming/kc_dog2_hq.words.json';
+import w_shoe from '../../../public/gaming/kc_shoe_hq.words.json';
+import w_donate from '../../../public/gaming/kc_donate_hq.words.json';
+const PRE: [number, number, number, number] = [0, 75, 280, 285]; // facecam box on the pre-game "playable in" screen
+const LOGO = 'gaming/kreekcraft_overlay.png', HQ: [number, number] = [1920, 1080];
+const LU = 'gaming/kc_lucia_hq.mp4', JL = 'gaming/kc_jlucia_hq.mp4';
+export const KC_LUCIA = makeStory({logo: LOGO, src: HQ, cam: PRE, file: LU, raw: w_lucia as never, raws: {[JL]: w_jlucia as never},
+  seam: '"LUCIA IS NOT [REAL]"', emoji: '1f440', music: 'Sneaky_Snitch.mp3', musicLevel: 0.25, hi: {lucia: Y, wife: C, cheat: R, cheating: R, girlfriend: G, real: R},
+  segs: [[24.4, 29.1], [31.1, 33.4], [34.9, 40.8], [43.5, 45.1], [52.6, 57.1], [51.2, 56.5, JL, CAM]],
+  game: [[24.4, 1.0], [57.0, 1.25]],
+  face: [[24.4, 1.0], [27.6, 1.0], [27.9, 1.25], [31.1, 1.0], [43.5, 1.0], [44.5, 1.0], [44.8, 1.3], [52.6, 1.0], [55.3, 1.0], [55.7, 1.3]],
+  hits: [[27.9, 'g-akward-sfx'], [44.6, 'g-sudden-suspense-sound-effect'], [55.6, 'bass-boosted-vine-boom']]});
+export const KC_SHARK = makeStory({logo: LOGO, src: HQ, cam: CAM, file: 'gaming/kc_shark_hq.mp4', raw: w_shark as never,
+  seam: "HE'S GONNA GET EATEN BY A [SHARK]", emoji: '1f988', music: 'kai-cenat-suspense.mp3', musicLevel: 0.3, hi: {shark: R, bleeding: R, got: G, shit: Y, fucking: Y},
+  segs: [[26.0, 32.9], [48.6, 53.4], [59.8, 65.8], [67.5, 72.3]],
+  game: [[26.0, 1.0], [32.8, 1.35], [48.6, 1.2], [53.3, 1.0], [59.8, 1.1], [64.9, 1.5], [67.5, 1.3], [72.2, 1.0]],
+  face: [[26.0, 1.0], [64.6, 1.0], [64.9, 1.35], [67.5, 1.0], [71.5, 1.0], [71.8, 1.3]],
+  hits: [[29.0, 'g-sudden-suspense-sound-effect', 'red'], [49.7, 'bass-boosted-vine-boom'], [64.9, 'g-anime-wow-sound-effect', 'green'], [71.7, 'g-fahhh-sfx']]});
+export const KC_DOG2 = makeStory({logo: LOGO, src: HQ, cam: CAM, file: 'gaming/kc_dog2_hq.mp4', raw: w_dog2 as never,
+  seam: 'HE HIT [ANOTHER] DOG', emoji: '1f62d', music: 'experience-einaudi.mp3', musicLevel: 0.3, rain: [58.6, 75.5], hi: {dog: R, sorry: C, mean: Y},
+  segs: [[44.6, 48.6], [58.6, 62.2], [71.0, 75.5], [91.9, 95.8], [100.4, 105.5]],
+  game: [[44.6, 1.0], [46.0, 1.5, 0.5, 0.6], [48.5, 1.6, 0.5, 0.6], [58.6, 1.0], [75.4, 1.25], [91.9, 1.0], [95.7, 1.15], [100.4, 1.0], [104.4, 1.2], [104.7, 1.5]],
+  face: [[44.6, 1.0], [46.1, 1.0], [46.4, 1.3], [58.6, 1.0], [74.0, 1.0], [74.3, 1.3], [91.9, 1.0], [92.2, 1.3], [100.4, 1.0], [104.5, 1.0], [104.8, 1.35]],
+  hits: [[45.9, 'g-sudden-suspense-sound-effect', 'red'], [74.1, 'g-studio-audience-awwww-sound-fx'], [92.2, 'spongebob-boowomp'], [104.7, 'g-akward-sfx']]});
+export const KC_SHOE = makeStory({logo: LOGO, src: HQ, cam: CAM, file: 'gaming/kc_shoe_hq.mp4', raw: w_shoe as never, raws: {[LU]: w_lucia as never, [JL]: w_jlucia as never},
+  seam: 'CHAT WANTED THE [SHOE STORE] FOR 11 HOURS', emoji: '1f460', music: 'pixy-legacy.mp3', musicLevel: 0.28, hi: {shoe: Y, store: Y, god: C, lucia: G},
+  segs: [[16.8, 20.1], [72.0, 75.7, LU, PRE], [30.8, 35.6, JL, CAM], [20.2, 24.7]],
+  game: [[16.8, 1.0], [20.0, 1.3], [20.2, 1.0], [24.6, 1.35]],
+  face: [[16.8, 1.25], [20.0, 1.0], [20.2, 1.2], [24.0, 1.2], [24.2, 1.4]],
+  hits: [[17.0, 'g-anime-wow-sound-effect', 'green'], [24.1, 'bass-boosted-vine-boom']]});
+export const KC_DONATE = makeStory({logo: LOGO, src: HQ, cam: PRE, file: 'gaming/kc_donate_hq.mp4', raw: w_donate as never,
+  seam: "HE WON'T STOP [DONATING]", emoji: '1f4b8', music: 'wtf-u-tryna-say.mp3', musicLevel: 0.25, hi: {donating: G, parents: R, kill: R, over: C, gta: Y},
+  segs: [[14.8, 18.6], [23.6, 30.0], [45.4, 53.3], [85.9, 88.1]],
+  game: [[14.8, 1.0], [88.0, 1.2]],
+  face: [[14.8, 1.0], [47.0, 1.0], [47.3, 1.3], [49.5, 1.0], [50.2, 1.0], [50.5, 1.35], [85.9, 1.0], [87.0, 1.0], [87.3, 1.35]],
+  hits: [[15.0, 'g-sudden-suspense-sound-effect'], [26.2, 'cha-ching', 'green'], [50.3, 'spongebob-boowomp'], [87.1, 'g-fahhh-sfx']]});
+export const KcLucia = KC_LUCIA.Comp, KcShark = KC_SHARK.Comp, KcDog2 = KC_DOG2.Comp, KcShoe = KC_SHOE.Comp, KcDonate = KC_DONATE.Comp;
