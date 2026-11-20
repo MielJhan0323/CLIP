@@ -61,8 +61,9 @@ export const makeStory = (c: StoryCfg) => {
     const shake = flash?.color === 'red' ? Math.max(0, 1 - (o - flash.at) / 350) : 0;
     const panel = (top: number, h: number, z: number, fx: number, fy: number, child: (i: number) => React.ReactNode) =>
       <div style={{position: 'absolute', left: 0, top, width: 1080, height: h, overflow: 'hidden'}}>
-        <div style={{position: 'absolute', inset: 0, transformOrigin: `${fx * 100}% ${fy * 100}%`,
-          transform: `scale(${z}) translate(${Math.sin(o / 17) * 14 * shake}px, ${Math.cos(o / 13) * 10 * shake}px)`}}>
+        {/* zoom AND pan: as the zoom grows, the focus point slides to the panel centre (so e.g. bottom-corner UI text comes into view) */}
+        <div style={{position: 'absolute', inset: 0, transformOrigin: '0 0',
+          transform: `translate(${540 + Math.sin(o / 17) * 14 * shake}px, ${h / 2 + Math.cos(o / 13) * 10 * shake}px) scale(${z}) translate(${-(0.5 + (fx - 0.5) * Math.min(1, Math.max(0, (z - 1) / 0.5))) * 1080}px, ${-(0.5 + (fy - 0.5) * Math.min(1, Math.max(0, (z - 1) / 0.5))) * h}px)`}}>
           {c.segs.map(([a, b], i) => <Sequence key={i} from={f(starts[i])} durationInFrames={Math.max(1, f(starts[i] + (b - a) * 1000) - f(starts[i]))}>{child(i)}</Sequence>)}
         </div>
       </div>;

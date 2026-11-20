@@ -78,3 +78,12 @@ export const KC_DONATE = makeStory({logo: LOGO, src: HQ, cam: PRE, file: 'gaming
   face: [[14.8, 1.0], [47.0, 1.0], [47.3, 1.3], [49.5, 1.0], [50.2, 1.0], [50.5, 1.35], [85.9, 1.0], [87.0, 1.0], [87.3, 1.35]],
   hits: [[15.0, 'g-sudden-suspense-sound-effect'], [26.2, 'cha-ching', 'green'], [50.3, 'spongebob-boowomp'], [87.1, 'g-fahhh-sfx']]});
 export const KcLucia = KC_LUCIA.Comp, KcShark = KC_SHARK.Comp, KcDog2 = KC_DOG2.Comp, KcShoe = KC_SHOE.Comp, KcDonate = KC_DONATE.Comp;
+// batch 4 (2026-11-20 "more engaging and hype, catch Kreek lacking / screaming / laughing"): picked by chat-reaction rate (OMG x7).
+import w_narr from '../../../public/gaming/kc_narr_hq.words.json';
+export const KC_NARR = makeStory({logo: LOGO, src: HQ, cam: PRE, gameX: 1280 /* right side: chat + the narration toggle */, file: 'gaming/kc_narr_hq.mp4', raw: w_narr as never,
+  seam: 'GTA 6 TURNED ON [SCREEN NARRATION]', emoji: '1f62d', music: 'tak-tak.mp3', musicLevel: 0.32, hi: {no: R, narration: Y, god: C, off: R},
+  segs: [[40.4, 48.0], [49.3, 56.1], [57.9, 63.0]],
+  game: [[40.4, 1.0, 0.7, 0.9], [42.4, 1.0, 0.7, 0.9], [42.8, 2.0, 0.72, 0.955], [47.9, 1.8, 0.72, 0.955], [49.3, 1.0, 0.7, 0.5], [51.4, 1.0, 0.7, 0.5], [51.8, 2.0, 0.72, 0.955], [56.0, 1.8, 0.72, 0.955], [57.9, 1.0], [63.0, 1.2]],
+  face: [[40.4, 1.0], [43.4, 1.0], [43.6, 1.3], [45.4, 1.3], [45.6, 1.45], [48.0, 1.2], [49.3, 1.0], [52.5, 1.0], [52.7, 1.4], [56.0, 1.2], [57.9, 1.0], [58.0, 1.35], [63.0, 1.15]],
+  hits: [[42.6, 'g-sudden-suspense-sound-effect', 'red'], [45.5, 'bruh'], [52.6, 'g-fahhh-sfx', 'red'], [55.6, 'bass-boosted-vine-boom'], [58.1, 'g-akward-sfx']]});
+export const KcNarr = KC_NARR.Comp;
