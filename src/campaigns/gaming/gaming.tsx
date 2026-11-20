@@ -8,10 +8,11 @@ import {applyHi, EmojiPop, type Hi} from '../../jorho/hi';
 import {Img, Freeze} from 'remotion';
 
 type Raw = {text: string; startMs: number; endMs: number}[];
-const SRC_W = 1280, SRC_H = 720; // 720p downloads
+// source size: 720p downloads by default; HQ (2026-11-20 "his camera is kinda low quality") = Twitch 'chunked' 1440p60 source
+const SRC_W = 1280, SRC_H = 720;
 const TOP_H = 760; // facecam panel height
 const BOT_H = 1920 - TOP_H; // gameplay panel height
-export type GameCfg = {file: string; cam: [x: number, y: number, w: number, h: number]; gameX?: number; a: number; b: number;
+export type GameCfg = {file: string; src?: [w: number, h: number]; cam: [x: number, y: number, w: number, h: number]; gameX?: number; a: number; b: number;
   seam: string; emoji?: string; hi?: Hi; raw: Raw;
   // whop ai guideline effects (2026-11-19 "effects of the whop ai style, structure of gaming")
   logo?: string; // campaign logo overlay — visible the WHOLE clip (KreekCraft brief: clips without it are rejected)
@@ -22,10 +23,10 @@ export type GameCfg = {file: string; cam: [x: number, y: number, w: number, h: n
   hits?: [sec: number, file: string, color?: 'green' | 'red' | 'yellow'][]};
 
 // one source video shown through a crop window: (sx, sy, sw, sh) of the source → (0, 0, w, h) of the panel
-const Crop = ({file, a, sx, sy, sw, sh, w, h, muted}: {file: string; a: number; sx: number; sy: number; sw: number; sh: number; w: number; h: number; muted?: boolean}) => {
+const Crop = ({file, a, sx, sy, sw, sh, w, h, muted, src = [SRC_W, SRC_H]}: {file: string; a: number; sx: number; sy: number; sw: number; sh: number; w: number; h: number; muted?: boolean; src?: [number, number]}) => {
   const k = Math.max(w / sw, h / sh);
   return <div style={{position: 'absolute', inset: 0, overflow: 'hidden'}}>
-    <div style={{position: 'absolute', left: -sx * k + (w - sw * k) / 2, top: -sy * k + (h - sh * k) / 2, width: SRC_W * k, height: SRC_H * k}}>
+    <div style={{position: 'absolute', left: -sx * k + (w - sw * k) / 2, top: -sy * k + (h - sh * k) / 2, width: src[0] * k, height: src[1] * k}}>
       <OffthreadVideo src={staticFile(file)} trimBefore={Math.round((a / 1000) * FPS)} muted={muted} style={{width: '100%', height: '100%'}} />
     </div>
   </div>;
@@ -50,9 +51,10 @@ export const makeGaming = (c: GameCfg) => {
   const total = c.b - c.a;
   const words: Word[] = applyHi(c.raw.filter((w) => w.startMs >= c.a && w.startMs < c.b).sort((x, y) => x.startMs - y.startMs).map((w, i) => ({
     text: w.text.trim().replace(/^-+/, ''), at: w.startMs - c.a, end: Math.min(w.endMs - c.a + 180, total), color: ['#F9FC35', '#21F5E6', '#58EE28', '#FFFFFF'][i % 4]})), c.hi);
-  const [cx, cy, cw, ch] = c.cam;
-  const gw = (BOT_H / SRC_H) > 0 ? (1080 * SRC_H) / BOT_H : SRC_W; // source width that fills the gameplay panel at full height
-  const gx = Math.min(Math.max((c.gameX ?? 760) - gw / 2, 0), SRC_W - gw);
+  const src: [number, number] = c.src ?? [1280, 720]; const sc = src[0] / 1280; // cam / gameX are given in 720p coordinates
+  const [cx, cy, cw, ch] = c.cam.map((v) => v * sc);
+  const gw = (1080 * src[1]) / BOT_H; // source width that fills the gameplay panel at full height
+  const gx = Math.min(Math.max((c.gameX ?? 760) * sc - gw / 2, 0), src[0] - gw);
   // effects: emoji key-word beats (punch-zoom + pop), one green/red flash on a word (ding / shock), music bed under the voice, whoosh in
   const beats = words.filter((w) => Array.isArray(c.hi?.[w.text.toLowerCase().replace(/[^a-z0-9]/g, '')])).map((w) => w.at)
     .filter((t, i, a) => i === 0 || t - a[i - 1] > 900);
@@ -71,13 +73,13 @@ export const makeGaming = (c: GameCfg) => {
     const push = 1 + 0.06 * (o / total) + 0.04 * beatK; // slow push-in (guideline: slow zoom while idle) + punch on key words
     return <AbsoluteFill style={{background: '#000'}}>
       <div style={{position: 'absolute', left: 0, top: 0, width: 1080, height: TOP_H, overflow: 'hidden'}}>
-        <Crop file={c.file} a={c.a} sx={cx} sy={cy} sw={cw} sh={ch} w={1080} h={TOP_H} muted />
+        <Crop src={src} file={c.file} a={c.a} sx={cx} sy={cy} sw={cw} sh={ch} w={1080} h={TOP_H} muted />
       </div>
       <div style={{position: 'absolute', left: 0, top: TOP_H, width: 1080, height: BOT_H, overflow: 'hidden', transform: `scale(${push + 0.05 * shake}) translate(${Math.sin(o / 17) * 14 * shake}px, ${Math.cos(o / 13) * 10 * shake}px)`}}>
         {c.blurFrom !== undefined && o >= c.blurFrom && <div style={{position: 'absolute', inset: -40, filter: 'blur(28px) brightness(0.8)'}}>
-          <Freeze frame={Math.round(((c.blurFreezeAt ?? c.blurFrom - 400) / 1000) * FPS)}><Crop file={c.file} a={c.a} sx={gx} sy={0} sw={gw} sh={SRC_H} w={1160} h={BOT_H + 80} muted /></Freeze></div>}
+          <Freeze frame={Math.round(((c.blurFreezeAt ?? c.blurFrom - 400) / 1000) * FPS)}><Crop src={src} file={c.file} a={c.a} sx={gx} sy={0} sw={gw} sh={src[1]} w={1160} h={BOT_H + 80} muted /></Freeze></div>}
         <div style={{position: 'absolute', inset: 0, mixBlendMode: c.blurFrom !== undefined && o >= c.blurFrom ? 'screen' : 'normal'}}>
-          <Crop file={c.file} a={c.a} sx={gx} sy={0} sw={gw} sh={SRC_H} w={1080} h={BOT_H} /></div>
+          <Crop src={src} file={c.file} a={c.a} sx={gx} sy={0} sw={gw} sh={src[1]} w={1080} h={BOT_H} /></div>
       </div>
       <div style={{position: 'absolute', left: 0, right: 0, top: TOP_H - 3, height: 6, background: '#000'}} />
       {flashes.map((x, i) => o >= x.at && o < x.at + 500 && <AbsoluteFill key={i} style={{background: x.color === 'green' ? 'rgba(60,230,40,0.5)' : x.color === 'yellow' ? 'rgba(255,215,0,0.55)' : 'rgba(240,30,30,0.5)',
