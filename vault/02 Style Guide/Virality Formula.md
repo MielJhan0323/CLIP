@@ -63,3 +63,15 @@ Sources: user feedback across sessions, reference Shorts the user sent, campaign
 | 11-20 | kc_banned | talk | no | dread | yes | no | no | no | 15 s | 5 | | |
 | 11-20 | kc_steal | fail | no | annoyed | yes | no | no | no | 20 s | 4 | | |
 | 11-20 | kc_dog | kill + mourn | **yes** | grief | yes (RIP spam) | no | **yes** | **yes** | 19 s | 9 | | |
+| 11-20 | kc_shark | chaos + kill + swears | yes (shark panic) | panic → triumph | n/a | **yes** (heavy) | yes | no | 22.5 s | 9 | | |
+| 11-20 | kc_dog2 (another dog) | kill + mourn (sequel) | yes (hit ~1.3 s) | grief → absurd ("dolphins… I hit a dog") | yes | no | yes | yes | 21 s | 9 | | |
+| 11-20 | kc_lucia (wife vs Lucia) | story talk | speech only (pre-game screen) | playful | yes ("shoe store" spam) | no | face punches | no | 24 s | 7 | | |
+| 11-20 | kc_shoe (11-hour callback) | callback / chat meme | payoff first (cold open) | hype | yes | yes ("shit") | yes | no | 16 s | 7 | | |
+| 11-20 | kc_donate (viewer won't stop) | stream culture | speech only | disbelief | yes (F spam) | no | face punches | no | 20 s | 6 | | |
+
+### Lessons from batch 3 (2026-11-20)
+- The full transcript finds the best stuff (sequels, callbacks, talk) that loudness never finds. Always run it on a new VOD.
+- **Sequels work**: same moment type twice (dog → another dog) — post the second one ~1-2 days after the first.
+- **Cold open with the payoff** when the setup is slow (shoe store): payoff 0-3 s → flashback → payoff again.
+- Pre-game / menu screens make a weak bottom panel → keep those clips talk-driven with face punch-ins, or skip them.
+- Many swears in GTA come from NPC cutscenes — keep only the streamer's own voice (check context in the transcript).
