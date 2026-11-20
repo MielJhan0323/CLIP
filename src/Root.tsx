@@ -12,6 +12,7 @@ import {Demo13, DEMO13_MS} from './jorho/demo13';
 import {Demo14, DEMO14_MS} from './jorho/demo14';
 import {Demo15, DEMO15_MS} from './jorho/demo15';
 import {FullPilatesQ, FullTuck, FullSpider, FullRespect, FullExcited, FULL_PILATESQ, FULL_TUCK, FULL_SPIDER, FULL_RESPECT, FULL_EXCITED} from './campaigns/neon_clip/full';
+import {SegaDemo, SEGA_DEMO} from './campaigns/sega/sega';
 import {KitTax, KIT_TAX, KitMom, KIT_MOM, KitLast, KIT_LAST} from './campaigns/kit/kits';
 import {KcScooter, KC_SCOOTER, KcSeaplane, KC_SEAPLANE, KcSwamp, KC_SWAMP, KcAlert, KC_ALERT, KcCountdown, KC_COUNTDOWN, KcAtv, KC_ATV, KcTiktok, KC_TIKTOK, KcBanned, KC_BANNED, KcSteal, KC_STEAL} from './campaigns/gaming/kc';
 import {RefBet, RefTrust, RefSue, RefAsked, RefExcited, REF_BET, REF_TRUST, REF_SUE, REF_ASKED, REF_EXCITED} from './campaigns/neon_clip/ref';
@@ -158,6 +159,7 @@ export const RemotionRoot = () => (
   <Composition id="KcSwamp" component={KcSwamp} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_SWAMP.total / 1000) * 30)} />
   <Composition id="KcAlert" component={KcAlert} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_ALERT.total / 1000) * 30)} />
   <Composition id="KcCountdown" component={KcCountdown} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_COUNTDOWN.total / 1000) * 30)} />
+  <Composition id="SegaDemo" component={SegaDemo} fps={30} width={1080} height={1920} durationInFrames={Math.round((SEGA_DEMO.total / 1000) * 30)} />
   <Composition id="KitTax" component={KitTax} fps={30} width={1080} height={1920} durationInFrames={Math.round((KIT_TAX.total / 1000) * 30)} />
   <Composition id="KitMom" component={KitMom} fps={30} width={1080} height={1920} durationInFrames={Math.round((KIT_MOM.total / 1000) * 30)} />
   <Composition id="KitLast" component={KitLast} fps={30} width={1080} height={1920} durationInFrames={Math.round((KIT_LAST.total / 1000) * 30)} />
