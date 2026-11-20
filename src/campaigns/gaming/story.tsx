@@ -15,7 +15,9 @@ export type StoryCfg = {file: string; src: [number, number]; cam: [number, numbe
   hits?: [srcSec: number, sound: string, color?: 'green' | 'red' | 'yellow'][];
   game?: Key[]; face?: Key[];
   // sad part (user 2026-11-20 "grey overlay with the raining on screen ... when he mentions"): [fromSec, toSec] source seconds
-  rain?: [number, number]; musicLevel?: number};
+  rain?: [number, number]; musicLevel?: number;
+  // censor: [fromSec, toSec] of the MAIN file where the gameplay panel is fully blurred (nudity the streamer didn't hide) 2026-11-20
+  censor?: [number, number][]};
 // procedural rain: deterministic streaks falling diagonally (no stock file needed, renders the same every time)
 const DROPS = Array.from({length: 150}, (_, i) => ({x: (i * 7919) % 1180 - 50, off: (i * 104729) % 2200, v: 1.6 + ((i * 31) % 10) / 6, len: 40 + ((i * 17) % 50), w: 2 + (i % 3)}));
 const Rain = ({o, k}: {o: number; k: number}) => <AbsoluteFill style={{opacity: k, pointerEvents: 'none'}}>
@@ -57,6 +59,7 @@ export const makeStory = (c: StoryCfg) => {
     const g = cam(gk, o), fc = cam(fk, o);
     const rf = c.rain ? at(c.rain[0]) : -1, rt = c.rain ? at(c.rain[1] - 0.01) : -1;
     const rainK = rf >= 0 && rt >= 0 ? Math.max(0, Math.min(1, (o - rf) / 400, (rt - o) / 400)) : 0;
+    const censored = (c.censor ?? []).some(([a, b]) => { const x = at(a), y = at(b - 0.01); return x >= 0 && y >= 0 ? o >= x && o <= y : c.segs.some(([s0, s1, fl], i) => !fl && s0 < b && s1 > a && o >= starts[i] + Math.max(0, a - s0) * 1000 && o <= starts[i] + (Math.min(b, s1) - s0) * 1000); });
     const flash = hits.find((h) => h.color && o >= h.at && o < h.at + 500);
     const shake = flash?.color === 'red' ? Math.max(0, 1 - (o - flash.at) / 350) : 0;
     const panel = (top: number, h: number, z: number, fx: number, fy: number, child: (i: number) => React.ReactNode) =>
@@ -70,7 +73,9 @@ export const makeStory = (c: StoryCfg) => {
     return <AbsoluteFill style={{background: '#000'}}>
       <AbsoluteFill style={{filter: rainK > 0 ? `grayscale(${0.9 * rainK}) brightness(${1 - 0.15 * rainK})` : undefined}}>
       {panel(0, TOP_H, fc.z + 0.04 * cut + 0.05 * hitK, fc.fx, fc.fy, (i) => { const [cx, cy, cw, ch] = camOf(i); return <Crop src={c.src} file={c.segs[i][2] ?? c.file} a={c.segs[i][0] * 1000} sx={cx} sy={cy} sw={cw} sh={ch} w={1080} h={TOP_H} muted />; })}
+      <div style={{filter: censored ? 'blur(45px) brightness(0.7)' : undefined}}>
       {panel(TOP_H, BOT_H, g.z + 0.05 * cut + 0.06 * hitK + 0.05 * shake, g.fx, g.fy, (i) => <Crop src={c.src} file={c.segs[i][2] ?? c.file} a={c.segs[i][0] * 1000} sx={gx} sy={0} sw={gw} sh={c.src[1]} w={1080} h={BOT_H} />)}
+      </div>
       </AbsoluteFill>
       {rainK > 0 && <Rain o={o} k={rainK} />}
       <div style={{position: 'absolute', left: 0, right: 0, top: TOP_H - 3, height: 6, background: '#000'}} />

@@ -13,9 +13,10 @@ import {Demo14, DEMO14_MS} from './jorho/demo14';
 import {Demo15, DEMO15_MS} from './jorho/demo15';
 import {FullPilatesQ, FullTuck, FullSpider, FullRespect, FullExcited, FULL_PILATESQ, FULL_TUCK, FULL_SPIDER, FULL_RESPECT, FULL_EXCITED} from './campaigns/neon_clip/full';
 import {SegaDemo, SEGA_DEMO, SegaSonic, SEGA_SONIC, SegaJrpg, SEGA_JRPG, SegaStrat, SEGA_STRAT, SegaCount, SEGA_COUNT, SegaIntro, SEGA_INTRO} from './campaigns/sega/sega';
-import {WaHeat, WA_HEAT} from './campaigns/wa/wa';
+import {WaHeat, WA_HEAT, WaLegend, WA_LEGEND, WaVinyl, WA_VINYL, WaMatthew, WA_MATTHEW} from './campaigns/wa/wa';
+import {YlaAura, YLA_AURA, YlaBank, YLA_BANK, YlaJohnny, YLA_JOHNNY, YlaCheck, YLA_CHECK, YlaLate, YLA_LATE, YlaMarlin, YLA_MARLIN, YlaJay, YLA_JAY} from './campaigns/yla/yla';
 import {KitTax, KIT_TAX, KitMom, KIT_MOM, KitLast, KIT_LAST} from './campaigns/kit/kits';
-import {KcScooter, KC_SCOOTER, KcSeaplane, KC_SEAPLANE, KcSwamp, KC_SWAMP, KcAlert, KC_ALERT, KcCountdown, KC_COUNTDOWN, KcAtv, KC_ATV, KcTiktok, KC_TIKTOK, KcBanned, KC_BANNED, KcSteal, KC_STEAL, KcDog, KC_DOG, KcLucia, KC_LUCIA, KcShark, KC_SHARK, KcDog2, KC_DOG2, KcShoe, KC_SHOE, KcDonate, KC_DONATE, KcNarr, KC_NARR} from './campaigns/gaming/kc';
+import {KcScooter, KC_SCOOTER, KcSeaplane, KC_SEAPLANE, KcSwamp, KC_SWAMP, KcAlert, KC_ALERT, KcCountdown, KC_COUNTDOWN, KcAtv, KC_ATV, KcTiktok, KC_TIKTOK, KcBanned, KC_BANNED, KcSteal, KC_STEAL, KcDog, KC_DOG, KcLucia, KC_LUCIA, KcShark, KC_SHARK, KcDog2, KC_DOG2, KcShoe, KC_SHOE, KcDonate, KC_DONATE, KcNarr, KC_NARR, KcBath, KC_BATH, KcClub, KC_CLUB, KcDudes, KC_DUDES, KcNakedw, KC_NAKEDW, KcWife, KC_WIFE, KcBanned2, KC_BANNED2} from './campaigns/gaming/kc';
 import {RefBet, RefTrust, RefSue, RefAsked, RefExcited, REF_BET, REF_TRUST, REF_SUE, REF_ASKED, REF_EXCITED} from './campaigns/neon_clip/ref';
 import {RefClose, RefChatgpt, RefPole, REF_CLOSE, REF_CHATGPT, REF_POLE} from './campaigns/neon_clip/ref';
 import {RefSlower, RefDream, RefSquats, RefWax, RefScam, REF_SLOWER, REF_DREAM, REF_SQUATS, REF_WAX, REF_SCAM} from './campaigns/neon_clip/ref';
@@ -160,8 +161,24 @@ export const RemotionRoot = () => (
   <Composition id="KcSwamp" component={KcSwamp} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_SWAMP.total / 1000) * 30)} />
   <Composition id="KcAlert" component={KcAlert} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_ALERT.total / 1000) * 30)} />
   <Composition id="KcCountdown" component={KcCountdown} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_COUNTDOWN.total / 1000) * 30)} />
+  <Composition id="YlaAura" component={YlaAura} fps={30} width={1080} height={1920} durationInFrames={Math.round((YLA_AURA.total / 1000) * 30)} />
+  <Composition id="YlaBank" component={YlaBank} fps={30} width={1080} height={1920} durationInFrames={Math.round((YLA_BANK.total / 1000) * 30)} />
+  <Composition id="YlaJohnny" component={YlaJohnny} fps={30} width={1080} height={1920} durationInFrames={Math.round((YLA_JOHNNY.total / 1000) * 30)} />
+  <Composition id="YlaCheck" component={YlaCheck} fps={30} width={1080} height={1920} durationInFrames={Math.round((YLA_CHECK.total / 1000) * 30)} />
+  <Composition id="YlaLate" component={YlaLate} fps={30} width={1080} height={1920} durationInFrames={Math.round((YLA_LATE.total / 1000) * 30)} />
+  <Composition id="YlaMarlin" component={YlaMarlin} fps={30} width={1080} height={1920} durationInFrames={Math.round((YLA_MARLIN.total / 1000) * 30)} />
+  <Composition id="YlaJay" component={YlaJay} fps={30} width={1080} height={1920} durationInFrames={Math.round((YLA_JAY.total / 1000) * 30)} />
   <Composition id="WaHeat" component={WaHeat} fps={30} width={1080} height={1920} durationInFrames={Math.round((WA_HEAT.total / 1000) * 30)} />
+  <Composition id="WaLegend" component={WaLegend} fps={30} width={1080} height={1920} durationInFrames={Math.round((WA_LEGEND.total / 1000) * 30)} />
+  <Composition id="WaVinyl" component={WaVinyl} fps={30} width={1080} height={1920} durationInFrames={Math.round((WA_VINYL.total / 1000) * 30)} />
+  <Composition id="WaMatthew" component={WaMatthew} fps={30} width={1080} height={1920} durationInFrames={Math.round((WA_MATTHEW.total / 1000) * 30)} />
   <Composition id="KcDog" component={KcDog} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_DOG.total / 1000) * 30)} />
+  <Composition id="KcBath" component={KcBath} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_BATH.total / 1000) * 30)} />
+  <Composition id="KcClub" component={KcClub} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_CLUB.total / 1000) * 30)} />
+  <Composition id="KcDudes" component={KcDudes} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_DUDES.total / 1000) * 30)} />
+  <Composition id="KcNakedw" component={KcNakedw} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_NAKEDW.total / 1000) * 30)} />
+  <Composition id="KcWife" component={KcWife} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_WIFE.total / 1000) * 30)} />
+  <Composition id="KcBanned2" component={KcBanned2} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_BANNED2.total / 1000) * 30)} />
   <Composition id="KcNarr" component={KcNarr} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_NARR.total / 1000) * 30)} />
   <Composition id="KcLucia" component={KcLucia} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_LUCIA.total / 1000) * 30)} />
   <Composition id="KcShark" component={KcShark} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_SHARK.total / 1000) * 30)} />

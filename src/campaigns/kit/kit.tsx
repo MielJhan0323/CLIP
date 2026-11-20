@@ -14,7 +14,9 @@ type Pill = [file: string, srcSec: number, durMs: number, text: string];
 // optional word captions (2026-11-20, Wa-Chaa): words per source file, a spelling fix map, caption y; hook highlight colour
 type Raw = {text: string; startMs: number; endMs: number}[];
 export type KitCfg = {segs: Seg[]; hook: string; emoji?: string; hits?: Hit[]; pills?: Pill[]; words?: Record<string, Raw>; fix?: Record<string, string>; capY?: number; hl?: string;
-  typeMs?: number; typeLead?: number; noSfx?: boolean}; // noSfx: original audio only (Wa-Chaa 2026-11-20 "can you not add sfx") // hook typing speed (ms per letter) and head start; Wa-Chaa 2026-11-20 "the top text should type out"
+  typeMs?: number; typeLead?: number; noSfx?: boolean;
+  // wide: 16:9 source shown full-width (x this zoom) in the middle over a blurred fill (YoungLA interviews 2026-11-20); hookTop: hook y
+  wide?: number; hookTop?: number}; // noSfx: original audio only (Wa-Chaa 2026-11-20 "can you not add sfx") // hook typing speed (ms per letter) and head start; Wa-Chaa 2026-11-20 "the top text should type out"
 
 const f = (ms: number) => Math.round((ms / 1000) * FPS);
 
@@ -51,13 +53,17 @@ export const makeKit = (c: KitCfg) => {
     return <AbsoluteFill style={{background: '#000'}}>
       <AbsoluteFill style={{transform: `scale(${scale})`}}>
         {c.segs.map(([fl, a, b], i) => <Sequence key={i} from={f(starts[i])} durationInFrames={Math.max(1, f(starts[i] + (b - a) * 1000) - f(starts[i]))}>
-          <OffthreadVideo src={staticFile(fl)} trimBefore={Math.round(a * FPS)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />
+          {c.wide ? <AbsoluteFill>
+            <AbsoluteFill style={{filter: 'blur(40px) brightness(0.55)', transform: 'scale(1.2)'}}><OffthreadVideo src={staticFile(fl)} trimBefore={Math.round(a * FPS)} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} /></AbsoluteFill>
+            <div style={{position: 'absolute', left: (1080 - 1080 * c.wide) / 2, top: 960 - (607.5 * c.wide) / 2, width: 1080 * c.wide, height: 607.5 * c.wide}}>
+              <OffthreadVideo src={staticFile(fl)} trimBefore={Math.round(a * FPS)} style={{width: '100%', height: '100%'}} /></div>
+          </AbsoluteFill> : <OffthreadVideo src={staticFile(fl)} trimBefore={Math.round(a * FPS)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />}
         </Sequence>)}
       </AbsoluteFill>
       {flash && <AbsoluteFill style={{background: flash.color === 'green' ? 'rgba(60,230,40,0.45)' : flash.color === 'yellow' ? 'rgba(255,215,0,0.5)' : 'rgba(240,30,30,0.45)',
         mixBlendMode: 'color', opacity: Math.min(1, (o - flash.at) / 60, (flash.at + 500 - o) / 140)}} />}
       {/* typed hook, stays the whole clip */}
-      <div style={{position: 'absolute', left: 50, right: 50, top: 70, display: 'flex', justifyContent: 'center'}}>
+      <div style={{position: 'absolute', left: 50, right: 50, top: c.hookTop ?? 70, display: 'flex', justifyContent: 'center'}}>
         <div style={{fontFamily: MONT, fontWeight: 900, fontSize: 56, lineHeight: '66px', color: 'white', textAlign: 'center', WebkitTextStroke: '7px #111',
           paintOrder: 'stroke fill', textShadow: '0 4px 14px rgba(0,0,0,0.6)'}}>
           {c.hook.split(/(\[[^\]]+\])/g).filter(Boolean).map((p, i) => { const hl = p.startsWith('['); const body = hl ? p.slice(1, -1) : p; const t = body.slice(0, Math.max(0, left)); left -= body.length;
