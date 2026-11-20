@@ -198,3 +198,5 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
   max 3 review rounds per clip (round 1 → fix → round 2 → fix → round 3 = final). Batch clips into ONE reviewer call per round (≤ 10 clips).
   Fix shared problems in the builders first (they fix many clips at once), per-clip only for what's left. After the cap: ship the clip
   with the reviewer's remaining notes listed for the user — no extra rounds.
+
+- 2026-11-20 (Gaming/KreekCraft): the KEY ACTION (the hit, the fail, the payoff) must be on screen in the first 1-2 s, not just the hook text. Story cuts use pans + zooms (src/campaigns/gaming/story.tsx); sad parts get grey + rain; music ~0.3 under the voice; gameplay centred (gameX 640); light finish only (GAME=1, no heavy filters). Swearing is OK for KreekCraft only.
