@@ -84,7 +84,7 @@ export const KC_NARR = makeStory({logo: LOGO, src: HQ, cam: PRE, gameX: 1280 /* 
   // v2 (user 2026-11-20 "no context, no center or focus, over stim, no purpose"): setup (countdown + "GTA 6 here we go") → problem (narration
   // turns on) → panic → payoff (intro finally plays). ONE steady focus per part, one SFX hit + one flash, steady facecam, music low.
   seam: 'GTA 6 FINALLY LAUNCHED AND…', music: 'tak-tak.mp3', musicLevel: 0.18, hi: {narration: Y, no: R},
-  segs: [[0.6, 4.6], [40.4, 48.0], [52.0, 56.1], [57.9, 63.0]],
+  segs: [[53.0, 55.4], [0.6, 4.6], [40.4, 48.0], [52.0, 56.1], [57.9, 63.0]],
   game: [[0.6, 1.8, 0.58, 0.86], [4.5, 1.8, 0.58, 0.86], [40.4, 1.9, 0.72, 0.955], [56.0, 1.9, 0.72, 0.955], [57.9, 1.0], [63.0, 1.1]],
   face: [[0.6, 1.1, 0.5, 0.45], [63.0, 1.1, 0.5, 0.45]],
   hits: [[42.6, 'g-sudden-suspense-sound-effect', 'red']]});
@@ -101,33 +101,33 @@ import w_tw from '../../../public/gaming/kc_tw_hq.words.json';
 const calm = {logo: LOGO, src: HQ, cam: CAM, musicLevel: 0.2} as const;
 export const KC_BATH = makeStory({...calm, file: 'gaming/kc_bath_hq.mp4', raw: w_bath as never, music: 'Sneaky_Snitch.mp3',
   seam: "PROVING HE'S NOT A [GOONER]", emoji: '1f62d', hi: {shower: C, camera: Y, gooners: R, hide: G, thumbnail: R},
-  segs: [[26.3, 30.7], [40.1, 44.4], [77.8, 84.1], [102.5, 108.3], [115.8, 118.5], [126.4, 128.4], [132.0, 137.3]],
+  segs: [[133.9, 135.2], [115.8, 118.5], [26.3, 30.7], [40.1, 44.4], [77.8, 84.1], [102.5, 108.3], [126.4, 128.4], [132.0, 137.3]],
   face: [[26.3, 1.1], [77.8, 1.1], [78.0, 1.3], [84.0, 1.2], [132.0, 1.1], [134.1, 1.1], [134.3, 1.35]],
   hits: [[78.0, 'g-sudden-suspense-sound-effect'], [134.2, 'g-akward-sfx']]});
 export const KC_CLUB = makeStory({...calm, file: 'gaming/kc_club_hq.mp4', raw: w_club as never, music: 'Sneaky_Snitch.mp3',
   seam: '"THE BIGGEST [GOONER] GAME OF ALL TIME"', emoji: '1f480', hi: {look: R, banned: R, gooner: Y, youtube: C},
-  segs: [[147.8, 149.6], [17.4, 30.1], [35.5, 40.9], [151.7, 154.3], [161.0, 168.7]],
+  segs: [[147.8, 149.6], [17.4, 30.1], [35.5, 40.9], [151.7, 154.3], [161.0, 168.7]], censor: [[140, 170]],
   face: [[147.8, 1.25], [17.4, 1.1], [35.5, 1.1], [37.9, 1.1], [38.1, 1.3], [161.0, 1.15]],
   hits: [[148.4, 'g-akward-sfx'], [37.9, 'g-sudden-suspense-sound-effect']]});
 export const KC_DUDES = makeStory({...calm, file: 'gaming/kc_dudes_hq.mp4', raw: w_dudes as never, music: 'experience-einaudi.mp3',
   seam: 'THE WORST DAY OF HIS LIFE', emoji: '1f62d', hi: {girls: Y, dudes: R, worst: R, banned: C, women: Y},
-  segs: [[20.4, 23.0], [31.8, 45.6], [47.7, 52.4]], rain: [41.5, 45.6],
+  segs: [[41.6, 43.0], [20.4, 23.0], [31.8, 45.6], [47.7, 52.4]], rain: [41.5, 45.6],
   face: [[20.4, 1.1], [41.6, 1.1], [41.8, 1.35], [45.5, 1.2], [47.7, 1.1]],
   hits: [[34.5, 'g-akward-sfx'], [41.8, 'spongebob-boowomp']]});
 export const KC_NAKEDW = makeStory({...calm, file: 'gaming/kc_nakedw_hq.mp4', raw: w_nakedw as never, music: 'Sneaky_Snitch.mp3',
   seam: 'HIS FIRST TIME AT THE [SHOE STORE]', emoji: '1f460', hi: {shoe: Y, store: Y, naked: R, poles: R, told: C},
-  segs: [[11.0, 20.6], [25.7, 28.1], [37.8, 42.6], [52.0, 56.9]],
+  segs: [[37.8, 40.1], [11.0, 20.6], [25.7, 28.1], [37.8, 42.6], [52.0, 56.9]],
   face: [[11.0, 1.1], [27.2, 1.1], [27.4, 1.3], [37.8, 1.15], [52.0, 1.1], [55.4, 1.1], [55.6, 1.3]],
   hits: [[27.4, 'g-akward-sfx'], [55.5, 'bruh']]});
 export const KC_WIFE = makeStory({...calm, file: 'gaming/kc_wife_hq.mp4', raw: w_wife as never, music: 'Sneaky_Snitch.mp3',
   seam: "HE DIDN'T MEAN IT [LIKE THAT]", emoji: '1f62d', hi: {wife: R, bad: R, canceled: Y, mean: C},
-  segs: [[21.6, 23.4], [32.2, 36.7], [37.4, 51.4], [58.6, 62.7]],
+  segs: [[33.5, 36.7], [21.6, 23.4], [37.4, 51.4], [58.6, 62.7]],
   face: [[21.6, 1.1], [42.0, 1.1], [42.2, 1.35], [51.1, 1.2], [58.6, 1.1]],
   hits: [[42.3, 'g-sudden-suspense-sound-effect', 'red'], [51.2, 'g-akward-sfx']]});
 const TW = 'gaming/kc_tw_hq.mp4';
 export const KC_BANNED2 = makeStory({...calm, file: 'gaming/kc_yt_hq.mp4', raw: w_yt as never, raws: {[TW]: w_tw as never}, music: 'kai-cenat-suspense.mp3',
   seam: 'IN TROUBLE WITH [YOUTUBE]… AND TWITTER', emoji: '1f480', hi: {youtube: R, trouble: Y, nudity: R, twitter: C, banned: R},
-  segs: [[9.3, 24.7], [30.0, 36.7], [15.2, 19.3, TW, CAM], [50.3, 52.6, TW, CAM]],
+  segs: [[30.0, 31.6], [9.3, 24.7], [33.0, 36.7], [15.2, 19.3, TW, CAM], [50.3, 52.6, TW, CAM]],
   face: [[9.3, 1.1], [30.0, 1.1], [30.5, 1.3], [36.6, 1.15]],
   hits: [[11.3, 'g-sudden-suspense-sound-effect'], [30.6, 'bruh']]});
 export const KcBath = KC_BATH.Comp, KcClub = KC_CLUB.Comp, KcDudes = KC_DUDES.Comp, KcNakedw = KC_NAKEDW.Comp, KcWife = KC_WIFE.Comp, KcBanned2 = KC_BANNED2.Comp;

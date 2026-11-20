@@ -208,3 +208,5 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 - 2026-11-20 (Wa-Chaa / brand clips): no added SFX unless asked; original audio only.
 
 - 2026-11-20: user does NOT want blur on game nudity the stream showed (warned: platforms remove nudity). `censor` stays available but off by default.
+
+- 2026-11-20: **The hook (strongest line / moment) must land in the first 1-3 s of EVERY clip** → cold open with the payoff, then the setup. Blur game nudity only when asked (bath clip: user wants it unblurred; club clip: blurred).

@@ -21,8 +21,8 @@ export const WA_LEGEND = makeKit({...waBase, hook: 'ONLY ONE [PEANUT] CARRIED HI
   segs: [[R9, 15.8, 18.8], [R9, 1.3, 5.4], [R9, 12.9, 15.6], [R9, 20.0, 28.2], [R9, 28.5, 37.5]]});
 // the vinyl: The RZA shows it, then the animated zoetrope record spinning
 export const WA_VINYL = makeKit({...waBase, hook: 'THESE PEANUTS COME WITH A [VINYL]', emoji: '1f95c', words: {[F]: wF as never}, fix: {watch: 'WA-CHAA,'},
-  segs: [[F, 3.0, 7.6], [Z, 0.0, 6.0], [Z, 11.5, 18.0]]});
+  segs: [[Z, 8.0, 10.2], [F, 3.0, 7.6], [Z, 0.0, 6.0], [Z, 11.5, 18.0]]});
 // a fan's first try (organic: his "click the link" lines are cut)
 export const WA_MATTHEW = makeKit({...waBase, hook: '"SO FAR IT\'S [FINE]"', emoji: '1f336', words: {[M]: wM as never},
-  segs: [[M, 2.0, 6.3], [M, 10.7, 13.6], [M, 16.1, 27.7], [M, 54.1, 59.4], [M, 33.5, 37.3]]});
+  segs: [[M, 24.7, 27.7], [M, 2.0, 6.3], [M, 10.7, 13.6], [M, 16.1, 24.6], [M, 54.1, 59.4], [M, 33.5, 37.3]]});
 export const WaLegend = WA_LEGEND.Comp, WaVinyl = WA_VINYL.Comp, WaMatthew = WA_MATTHEW.Comp;
