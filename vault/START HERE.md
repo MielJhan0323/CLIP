@@ -202,3 +202,5 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 - 2026-11-20 (Gaming/KreekCraft): the KEY ACTION (the hit, the fail, the payoff) must be on screen in the first 1-2 s, not just the hook text. Story cuts use pans + zooms (src/campaigns/gaming/story.tsx); sad parts get grey + rain; music ~0.3 under the voice; gameplay centred (gameX 640); light finish only (GAME=1, no heavy filters). Swearing is OK for KreekCraft only.
 
 - 2026-11-20: **Read vault/02 Style Guide/Virality Formula.md before every edit** and log each new edit in its table (score, choices; views when known).
+
+- 2026-11-20: product/brand clips: NO white "pop-up" label pills (user: they look AI). Captions centred. Hook text visibly types out (≈55 ms/letter with a blinking cursor).
