@@ -10,8 +10,8 @@ import {Img, Freeze} from 'remotion';
 type Raw = {text: string; startMs: number; endMs: number}[];
 // source size: 720p downloads by default; HQ (2026-11-20 "his camera is kinda low quality") = Twitch 'chunked' 1440p60 source
 const SRC_W = 1280, SRC_H = 720;
-const TOP_H = 760; // facecam panel height
-const BOT_H = 1920 - TOP_H; // gameplay panel height
+export const TOP_H = 760; // facecam panel height
+export const BOT_H = 1920 - TOP_H; // gameplay panel height
 export type GameCfg = {file: string; src?: [w: number, h: number]; cam: [x: number, y: number, w: number, h: number]; gameX?: number; a: number; b: number;
   seam: string; emoji?: string; hi?: Hi; raw: Raw;
   // whop ai guideline effects (2026-11-19 "effects of the whop ai style, structure of gaming")
@@ -23,7 +23,7 @@ export type GameCfg = {file: string; src?: [w: number, h: number]; cam: [x: numb
   hits?: [sec: number, file: string, color?: 'green' | 'red' | 'yellow'][]};
 
 // one source video shown through a crop window: (sx, sy, sw, sh) of the source → (0, 0, w, h) of the panel
-const Crop = ({file, a, sx, sy, sw, sh, w, h, muted, src = [SRC_W, SRC_H]}: {file: string; a: number; sx: number; sy: number; sw: number; sh: number; w: number; h: number; muted?: boolean; src?: [number, number]}) => {
+export const Crop = ({file, a, sx, sy, sw, sh, w, h, muted, src = [SRC_W, SRC_H]}: {file: string; a: number; sx: number; sy: number; sw: number; sh: number; w: number; h: number; muted?: boolean; src?: [number, number]}) => {
   const k = Math.max(w / sw, h / sh);
   return <div style={{position: 'absolute', inset: 0, overflow: 'hidden'}}>
     <div style={{position: 'absolute', left: -sx * k + (w - sw * k) / 2, top: -sy * k + (h - sh * k) / 2, width: src[0] * k, height: src[1] * k}}>
@@ -32,7 +32,7 @@ const Crop = ({file, a, sx, sy, sw, sh, w, h, muted, src = [SRC_W, SRC_H]}: {fil
   </div>;
 };
 
-const Seam = ({o, text, emoji}: {o: number; text: string; emoji?: string}) => {
+export const Seam = ({o, text, emoji}: {o: number; text: string; emoji?: string}) => {
   const plain = text.replace(/[[\]]/g, '');
   const n = Math.min(plain.length, Math.floor((o + 300) / 40)); // typed fast; frame 0 already shows the first letters
   const parts = text.split(/(\[[^\]]+\])/g).filter(Boolean);

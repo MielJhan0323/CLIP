@@ -27,3 +27,13 @@ export const KC_BANNED = makeGaming({logo: 'gaming/kreekcraft_overlay.png', cam:
 export const KC_STEAL = makeGaming({logo: 'gaming/kreekcraft_overlay.png', cam: CAM, src: [1920, 1080], file: 'gaming/kc_t1158_hq.mp4', a: 37600, b: 57890, seam: "GTA 6 WON'T LET HIM [STEAL] IT", emoji: '1f697', flash: ['won', 'red'], music: 'kai-cenat-suspense.mp3',
   hits: [[44.4,'error'],[48.3,'bruh'],[52.0,'g-akward-sfx']], hi: {steal: [Y, '1f697'], back: C, car: G}, raw: w_t1158 as never});
 export const KcAtv = KC_ATV.Comp, KcTiktok = KC_TIKTOK.Comp, KcBanned = KC_BANNED.Comp, KcSteal = KC_STEAL.Comp;
+// story cuts with pans + zooms (2026-11-20, ref Kreek "SADDEST MOMENT in GTA 6!"): src/campaigns/gaming/story.tsx
+import {makeStory} from './story';
+import w_dog from '../../../public/gaming/kc_dog_hq.words.json';
+export const KC_DOG = makeStory({logo: 'gaming/kreekcraft_overlay.png', cam: CAM, src: [1920, 1080], file: 'gaming/kc_dog_hq.mp4', raw: w_dog as never,
+  seam: "HE DIDN'T SEE THE [DOG]", emoji: '1f62d', music: 'experience-einaudi.mp3', hi: {dog: R, dead: R, sorry: C, see: Y},
+  segs: [[39.0, 44.3], [70.8, 76.5], [98.8, 102.0], [107.4, 112.3], [162.1, 164.4]],
+  game: [[39.0, 1.0, 0.5, 0.5], [42.6, 1.55, 0.45, 0.55], [44.2, 1.65, 0.45, 0.55], [70.8, 1.75, 0.5, 0.5], [76.4, 1.3, 0.5, 0.5], [98.8, 1.0], [101.9, 1.2], [107.4, 1.15], [112.2, 1.4, 0.5, 0.45], [162.1, 1.0], [164.3, 1.3]],
+  face: [[39.0, 1.0, 0.5, 0.45], [42.9, 1.0, 0.5, 0.45], [43.3, 1.3, 0.5, 0.45], [44.2, 1.3, 0.5, 0.45], [70.8, 1.0, 0.5, 0.45], [101.2, 1.05, 0.5, 0.45], [101.6, 1.3, 0.5, 0.45], [107.4, 1.0, 0.5, 0.45], [110.0, 1.05, 0.5, 0.45], [110.4, 1.3, 0.5, 0.45], [162.1, 1.0, 0.5, 0.45]],
+  hits: [[42.9, 'g-sudden-suspense-sound-effect', 'red'], [101.5, 'spongebob-boowomp'], [110.2, 'g-studio-audience-awwww-sound-fx']]});
+export const KcDog = KC_DOG.Comp;
