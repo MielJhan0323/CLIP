@@ -49,8 +49,8 @@ export const makeKit = (c: KitCfg) => {
       {flash && <AbsoluteFill style={{background: flash.color === 'green' ? 'rgba(60,230,40,0.45)' : flash.color === 'yellow' ? 'rgba(255,215,0,0.5)' : 'rgba(240,30,30,0.45)',
         mixBlendMode: 'color', opacity: Math.min(1, (o - flash.at) / 60, (flash.at + 500 - o) / 140)}} />}
       {/* typed hook, stays the whole clip */}
-      <div style={{position: 'absolute', left: 50, right: 50, top: 150, display: 'flex', justifyContent: 'center'}}>
-        <div style={{fontFamily: MONT, fontWeight: 900, fontSize: 64, lineHeight: '76px', color: 'white', textAlign: 'center', WebkitTextStroke: '7px #111',
+      <div style={{position: 'absolute', left: 50, right: 50, top: 70, display: 'flex', justifyContent: 'center'}}>
+        <div style={{fontFamily: MONT, fontWeight: 900, fontSize: 56, lineHeight: '66px', color: 'white', textAlign: 'center', WebkitTextStroke: '7px #111',
           paintOrder: 'stroke fill', textShadow: '0 4px 14px rgba(0,0,0,0.6)'}}>
           {c.hook.split(/(\[[^\]]+\])/g).filter(Boolean).map((p, i) => { const hl = p.startsWith('['); const body = hl ? p.slice(1, -1) : p; const t = body.slice(0, Math.max(0, left)); left -= body.length;
             return t ? <span key={i} style={{color: hl ? '#FF4FA3' : 'white'}}>{t}</span> : null; })}
