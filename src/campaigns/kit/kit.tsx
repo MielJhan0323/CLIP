@@ -13,7 +13,8 @@ type Hit = [file: string, srcSec: number, sound: string, color?: 'green' | 'red'
 type Pill = [file: string, srcSec: number, durMs: number, text: string];
 // optional word captions (2026-11-20, Wa-Chaa): words per source file, a spelling fix map, caption y; hook highlight colour
 type Raw = {text: string; startMs: number; endMs: number}[];
-export type KitCfg = {segs: Seg[]; hook: string; emoji?: string; hits?: Hit[]; pills?: Pill[]; words?: Record<string, Raw>; fix?: Record<string, string>; capY?: number; hl?: string};
+export type KitCfg = {segs: Seg[]; hook: string; emoji?: string; hits?: Hit[]; pills?: Pill[]; words?: Record<string, Raw>; fix?: Record<string, string>; capY?: number; hl?: string;
+  typeMs?: number; typeLead?: number}; // hook typing speed (ms per letter) and head start; Wa-Chaa 2026-11-20 "the top text should type out"
 
 const f = (ms: number) => Math.round((ms / 1000) * FPS);
 
@@ -45,7 +46,7 @@ export const makeKit = (c: KitCfg) => {
     const scale = 1 + 0.05 * Math.max(0, 1 - inSeg / 220) + 0.04 * (inSeg / Math.max(segLen, 1)) + 0.07 * hitK;
     const flash = hits.find((h) => h.color && o >= h.at && o < h.at + 500);
     const plain = c.hook.replace(/[[\]]/g, '');
-    const n = Math.min(plain.length, Math.floor((o + 400) / 38));
+    const n = Math.min(plain.length, Math.max(1, Math.floor((o + (c.typeLead ?? 400)) / (c.typeMs ?? 38))));
     let left = n;
     return <AbsoluteFill style={{background: '#000'}}>
       <AbsoluteFill style={{transform: `scale(${scale})`}}>
@@ -61,6 +62,7 @@ export const makeKit = (c: KitCfg) => {
           paintOrder: 'stroke fill', textShadow: '0 4px 14px rgba(0,0,0,0.6)'}}>
           {c.hook.split(/(\[[^\]]+\])/g).filter(Boolean).map((p, i) => { const hl = p.startsWith('['); const body = hl ? p.slice(1, -1) : p; const t = body.slice(0, Math.max(0, left)); left -= body.length;
             return t ? <span key={i} style={{color: hl ? (c.hl ?? '#FF4FA3') : 'white'}}>{t}</span> : null; })}
+          {n < plain.length && <span style={{color: 'white', opacity: Math.floor(o / 120) % 2 ? 0.2 : 1}}>|</span>}
           {n >= plain.length && c.emoji && <Img src={staticFile(`emoji-ios/${c.emoji}.png`)} style={{width: 70, height: 70, marginLeft: 12, verticalAlign: '-12px'}} />}
         </div>
       </div>
