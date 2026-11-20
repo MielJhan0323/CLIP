@@ -75,3 +75,17 @@ Sources: user feedback across sessions, reference Shorts the user sent, campaign
 - **Cold open with the payoff** when the setup is slow (shoe store): payoff 0-3 s → flashback → payoff again.
 - Pre-game / menu screens make a weak bottom panel → keep those clips talk-driven with face punch-ins, or skip them.
 - Many swears in GTA come from NPC cutscenes — keep only the streamer's own voice (check context in the transcript).
+| 11-20 | kc_narr v2 (screen narration) | caught lacking | yes | panic | yes (OMG x7) | no | 1 steady focus | no | 19.5 s | 8 | | |
+| 11-20 | kc_bath (not a gooner) | refuses to look | speech | flustered | — | no | face only | no (blur) | ~30 s | 8 | | |
+| 11-20 | kc_club (gooner game) | refuses to look | quote cold open | flustered | — | no | face only | no (blur) | 30 s | 8 | | |
+| 11-20 | kc_dudes (worst day) | talk twist | speech | despair (comic) | — | no | face | short rain | 21 s | 7 | | |
+| 11-20 | kc_nakedw (shoe store) | talk twist | speech | deadpan | — | no | face | no | 21 s | 7 | | |
+| 11-20 | kc_wife (didn't mean it) | caught lacking | speech | panic | yes (x10) | no | face | no | 24 s | 8 | | |
+| 11-20 | kc_banned2 (YT + Twitter) | stream drama | speech | disbelief | — | no | face | no | 28 s | 6 | | |
+
+### Lessons from batch 5 (2026-11-20, user feedback on the narration clip: "no context, no centre or focus, over stim, no purpose")
+- **Every clip = one topic + a context beat first + a payoff.** If a viewer can't say what it's about in 5 words, recut it.
+- **Calm > busy**: 1–2 effects max, a steady camera holding ONE focus, music ~0.2. Over-stimulation reads as AI/spam.
+- **Running bits beat one-offs**: his "don't look / I ain't getting banned" moments recur all stream → a series (bath, club, worst day, shoe store). "Gooner" works as a trigger word **because he says it himself**.
+- **Rank moments by chat reaction rate (reaction words per 30 s ÷ local mean)**, not audio loudness (stream audio is normalised, peaks are flat).
+- Nudity the stream showed → blur the gameplay panel (`censor`), never reveal it.
