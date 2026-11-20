@@ -14,7 +14,7 @@ type Pill = [file: string, srcSec: number, durMs: number, text: string];
 // optional word captions (2026-11-20, Wa-Chaa): words per source file, a spelling fix map, caption y; hook highlight colour
 type Raw = {text: string; startMs: number; endMs: number}[];
 export type KitCfg = {segs: Seg[]; hook: string; emoji?: string; hits?: Hit[]; pills?: Pill[]; words?: Record<string, Raw>; fix?: Record<string, string>; capY?: number; hl?: string;
-  typeMs?: number; typeLead?: number}; // hook typing speed (ms per letter) and head start; Wa-Chaa 2026-11-20 "the top text should type out"
+  typeMs?: number; typeLead?: number; noSfx?: boolean}; // noSfx: original audio only (Wa-Chaa 2026-11-20 "can you not add sfx") // hook typing speed (ms per letter) and head start; Wa-Chaa 2026-11-20 "the top text should type out"
 
 const f = (ms: number) => Math.round((ms / 1000) * FPS);
 
@@ -73,7 +73,7 @@ export const makeKit = (c: KitCfg) => {
             boxShadow: '0 8px 24px rgba(0,0,0,0.35)', border: '5px solid #FF4FA3'}}>{p.text}</div>
         </div>; })}
       {capWords.length > 0 && <OneWord o={o} words={capWords} y={c.capY ?? 1300} size={78} />}
-      <SfxTrack list={list} />
+      {!c.noSfx && <SfxTrack list={list} />}
     </AbsoluteFill>;
   };
   return {Comp, total};

@@ -204,3 +204,5 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 - 2026-11-20: **Read vault/02 Style Guide/Virality Formula.md before every edit** and log each new edit in its table (score, choices; views when known).
 
 - 2026-11-20: product/brand clips: NO white "pop-up" label pills (user: they look AI). Captions centred. Hook text visibly types out (≈30 ms/letter with a blinking cursor; 55 was too slow).
+
+- 2026-11-20 (Wa-Chaa / brand clips): no added SFX unless asked; original audio only.
