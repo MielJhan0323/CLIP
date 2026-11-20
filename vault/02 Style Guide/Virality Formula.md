@@ -1,0 +1,65 @@
+# Virality Formula (living doc, started 2026-11-20)
+
+**Read this before every edit.** Every new edit is logged at the bottom with its choices; when stats come in, fill the
+`views / eng` columns and update the weights. The goal: a formula that raises the chance a Short blows up.
+Sources: user feedback across sessions, reference Shorts the user sent, campaign briefs, chat-log + transcript analysis.
+
+## 1. The formula (score each candidate clip before editing; edit only ≥ 7/10)
+
+| # | Factor | Points | How to check |
+|---|---|---|---|
+| 1 | **The key action is ON SCREEN in the first 1–2 s** (the hit, the fail, the payoff), not just hook text | 2 | first 60 frames |
+| 2 | **Strong emotion from the streamer**: shock, grief/mourning, panic, laughing fit | 2 | facecam + voice |
+| 3 | **One of the proven moment types** (see §2) | 2 | |
+| 4 | **Chat exploded** (reaction rate ≥ 7× the local average, or F / RIP / LMAO spam) | 1 | chat log |
+| 5 | **Self-contained story** in 12–22 s: setup → moment → reaction → button line | 1 | |
+| 6 | **Clear swear or meme-able line** (KreekCraft only, briefs permitting) | 1 | transcript |
+| 7 | **Loopable end** (ends on the punchline / reaction, flows back into frame 0) | 1 | |
+
+## 2. Proven moment types (ranked by what the user / references say blows up)
+1. **Accidental kill + mourning** (hits a dog, a bird, a gator → "I didn't see him… I'm so sorry"). Ref: Kreek "SADDEST MOMENT in GTA 6!" (youtube.com/shorts/aWOeLHVXTsw).
+2. **Clear swearing bursts** ("oh fuck fuck fuck… shit… god damn it"). User 2026-11-20: "clips of kreekcraft swearing clearly seem to blow up".
+3. **Relationship / story talk with a twist** ("I would never cheat on my wife with Lucia… Lucia is not real… with that being said…"). Ref: Kreek "Doing WHAT With Lucia?!" (youtube.com/shorts/9fnp4itHQaA).
+4. **Chaos / fail with a big reaction** (granny chase, bird strike, crocodile bet, stream almost banned).
+5. Avoid: giveaway admin, menus, slow walking with no talk, sexual content (campaigns reject it), anything the streamer hid.
+
+## 3. How to FIND moments in a long VOD (fast → slow)
+1. **Chat log** (TwitchDownloaderCLI `chatdownload --id <vod> -o chat.json`, user runs it on their Mac, uploads to Drive):
+   drop `!command` giveaway spam first, then count reaction words per 15 s (lol/lmao/kekw/omg/wtf/nah/💀/😭) vs the 20-min local mean;
+   also keyword spikes: "RIP", "F", "dog", "killed", "NOOO". Chat lags the action by 5–15 s.
+2. **Full transcript** of the VOD audio (audio_only HLS → opus per hour → faster-whisper base.en): grep for
+   mourning ("didn't see him", "he's dead", "so sorry", "rip"), swears, story names (Lucia, Jason, girlfriend, wife).
+   Cutscene NPC dialogue also contains swears → always read the context to keep only the streamer's own voice.
+3. **Loudness peaks** (first pass only; finds shouting, misses talk-driven gold).
+4. Screenshot sheets (1 frame / 2–3 s) to confirm what's on screen before downloading HQ.
+
+## 4. Edit recipe (Gaming stack, src/campaigns/gaming/story.tsx)
+- **Source quality**: always the Twitch `chunked` rendition (1440p60) → downscale to 1080p30, keyframe every 1 s (Remotion chokes on 1440p60 long-GOP). Facecam is a small corner, so source resolution matters most.
+- Layout: facecam top (760 px), gameplay bottom, **gameplay centred** (gameX 640), campaign logo the whole clip when required.
+- **Cut into a story** from several pieces (`segs`), every cut lands with a small punch-in + whoosh.
+- **Pans + zooms** (`game` / `face` keyframes): push in on the hit, start tight on the result and pull back, punch his face on the key lines.
+- Captions: centred (y 960), big, one word at a time, coloured key words. Hook typed on the seam (frame 0 shows it).
+- Sound: meme SFX loud (0.65): fahhh / vine boom / awkward (with yellow flash) / boowomp / aww / suspense. Music clearly audible (~0.3), ducks to 60 % under speech.
+- Sad part: **grey + rain overlay** (`rain: [from, to]`) with sad piano (experience-einaudi).
+- Flashes: red = fail, green = win, yellow = awkward. Red also shakes.
+- Finish: **light only** (`GAME=1 scripts/finish_4k.sh`: small gamma lift + sharpen, no saturation/contrast push, no glow). User: "chill out on the filters".
+- If the streamer hid the screen: blurred freeze of the last frame behind his overlay, never reveal what he hid.
+
+## 5. Campaign rules that limit the formula
+- KreekCraft: official logo whole clip, caption "Watch KreekCraft on YouTube and Twitch" + #GTA6 #KreekCraft #GrandTheftAutoVI, ≤ 5 near-identical posts, swearing allowed.
+- SEGA: NO added music/SFX, NO AI voice, only official prices on screen, #Ad first hashtag. → visual-only edits.
+- Kitsch: product on screen every clip, Nic in a good light, no raw reposts, never guess the "special someone".
+
+## 6. Edit log (fill views / engagement when known; that is what tunes the weights)
+| Date | Clip | Type | Action in 1–2 s | Emotion | Chat spike | Swear | Pans/zooms | Rain | Length | Score | Views | Eng % |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 11-19 | kc_scooter (granny) | chaos | partial | panic | yes | yes ("drop, bitch") | no | no | 22 s | 7 | | |
+| 11-19 | kc_seaplane (bird) | kill | yes | shock | n/a | no | no | no | 19 s | 7 | | |
+| 11-19 | kc_swamp (croc bet) | chaos | no | relief | yes | yes ("oh shit") | no | no | 19 s | 6 | | |
+| 11-19 | kc_alert (stream) | chaos | no | panic | yes | no | no | no | 23 s | 6 | | |
+| 11-19 | kc_countdown | hype | no | hype | yes | no | no | no | 19 s | 5 | | |
+| 11-20 | kc_atv (gator) | kill | partial | shock | yes | no | no | no | 18 s | 6 | | |
+| 11-20 | kc_tiktok | talk | no | amused | yes | no | no | no | 22 s | 5 | | |
+| 11-20 | kc_banned | talk | no | dread | yes | no | no | no | 15 s | 5 | | |
+| 11-20 | kc_steal | fail | no | annoyed | yes | no | no | no | 20 s | 4 | | |
+| 11-20 | kc_dog | kill + mourn | **yes** | grief | yes (RIP spam) | no | **yes** | **yes** | 19 s | 9 | | |
