@@ -8,7 +8,7 @@ import {FPS} from '../../e3/kit';
 import {MONT} from '../../e3/bars';
 
 type Seg = [from: number, to: number];
-export type SegaCfg = {file: string; segs: Seg[]; audioFrom: number; hook: string; footer?: [atMs: number, text: string]};
+export type SegaCfg = {file: string; segs: Seg[]; audioFrom?: number; hook: string; footer?: [atMs: number, text: string]};
 const f = (ms: number) => Math.round((ms / 1000) * FPS);
 
 export const makeSega = (c: SegaCfg) => {
@@ -31,7 +31,7 @@ export const makeSega = (c: SegaCfg) => {
           <OffthreadVideo src={staticFile(c.file)} trimBefore={Math.round(a * FPS)} muted style={{width: '100%', height: '100%'}} />
         </Sequence>)}
       </AbsoluteFill>
-      <Audio src={staticFile(c.file)} trimBefore={Math.round(c.audioFrom * FPS)} volume={(fr) => Math.min(1, (f(total) - fr) / 6)} />
+      <Audio src={staticFile(c.file)} trimBefore={Math.round((c.audioFrom ?? Math.max(0, 30 - total / 1000)) * FPS)} volume={(fr) => Math.min(1, (f(total) - fr) / 6)} />
       {flash > 0 && <AbsoluteFill style={{background: 'white', opacity: flash}} />}
       <div style={{position: 'absolute', left: 40, right: 40, top: 95, display: 'flex', justifyContent: 'center'}}>
         <div style={{fontFamily: MONT, fontWeight: 900, fontSize: 60, lineHeight: '70px', color: 'white', textAlign: 'center', WebkitTextStroke: '6px #0b0b2e',
@@ -55,3 +55,16 @@ export const SEGA_DEMO = makeSega({file: 'sega/sega_set1.mp4', audioFrom: 12.7,
   segs: [[27.0, 28.5], [19.7, 22.6], [9.05, 11.25], [6.1, 7.8], [12.1, 14.4], [16.4, 18.2], [23.6, 25.9], [27.4, 30.0]],
   footer: [14700, 'LIMITED TIME ONLY']});
 export const SegaDemo = SEGA_DEMO.Comp;
+
+// 5 more edits (2026-11-20 "give me more videos like 5"). Each one a different angle + on-screen text (brief: no same video twice).
+// audioFrom omitted = the official music's last N seconds, so its ending lands on the end card.
+const S1 = 'sega/sega_set1.mp4', S2 = 'sega/sega_set2.mp4';
+const end = (t: number): [number, string] => [t, 'LIMITED TIME ONLY'];
+const mk = (file: string, hook: string, segs: Seg[]) => { const tot = segs.reduce((a, [x, y]) => a + (y - x) * 1000, 0);
+  return makeSega({file, hook, segs, footer: end(tot - (segs[segs.length - 1][1] - segs[segs.length - 1][0]) * 1000)}); };
+export const SEGA_SONIC = mk(S1, '[SONIC] GAMES ARE ON SALE ON STEAM', [[27.0, 28.4], [6.75, 8.9], [15.3, 19.5], [27.4, 30.0]]);
+export const SEGA_JRPG = mk(S2, '[JRPG] FANS, SEGA HAS DEALS ON STEAM', [[27.0, 28.4], [9.05, 11.95], [12.05, 15.2], [27.2, 30.0]]);
+export const SEGA_STRAT = mk(S1, '[STRATEGY] FANS, CHECK THESE STEAM DEALS', [[27.0, 28.4], [19.65, 22.65], [22.75, 26.0], [27.2, 30.0]]);
+export const SEGA_COUNT = mk(S1, 'SAVING THE [BIGGEST] SEGA DEAL FOR LAST', [[27.0, 28.4], [23.6, 25.4], [16.4, 18.2], [12.1, 13.9], [6.9, 8.6], [9.05, 10.85], [19.7, 22.6], [27.4, 30.0]]);
+export const SEGA_INTRO = mk(S2, "SEGA'S BLACK FRIDAY SALE IS ON [STEAM]", [[0, 5.5], [6.9, 8.6], [9.05, 10.6], [12.1, 13.6], [16.4, 17.9], [19.7, 21.2], [23.6, 25.1], [27.2, 30.0]]);
+export const SegaSonic = SEGA_SONIC.Comp, SegaJrpg = SEGA_JRPG.Comp, SegaStrat = SEGA_STRAT.Comp, SegaCount = SEGA_COUNT.Comp, SegaIntro = SEGA_INTRO.Comp;

@@ -12,7 +12,7 @@ import {Demo13, DEMO13_MS} from './jorho/demo13';
 import {Demo14, DEMO14_MS} from './jorho/demo14';
 import {Demo15, DEMO15_MS} from './jorho/demo15';
 import {FullPilatesQ, FullTuck, FullSpider, FullRespect, FullExcited, FULL_PILATESQ, FULL_TUCK, FULL_SPIDER, FULL_RESPECT, FULL_EXCITED} from './campaigns/neon_clip/full';
-import {SegaDemo, SEGA_DEMO} from './campaigns/sega/sega';
+import {SegaDemo, SEGA_DEMO, SegaSonic, SEGA_SONIC, SegaJrpg, SEGA_JRPG, SegaStrat, SEGA_STRAT, SegaCount, SEGA_COUNT, SegaIntro, SEGA_INTRO} from './campaigns/sega/sega';
 import {KitTax, KIT_TAX, KitMom, KIT_MOM, KitLast, KIT_LAST} from './campaigns/kit/kits';
 import {KcScooter, KC_SCOOTER, KcSeaplane, KC_SEAPLANE, KcSwamp, KC_SWAMP, KcAlert, KC_ALERT, KcCountdown, KC_COUNTDOWN, KcAtv, KC_ATV, KcTiktok, KC_TIKTOK, KcBanned, KC_BANNED, KcSteal, KC_STEAL} from './campaigns/gaming/kc';
 import {RefBet, RefTrust, RefSue, RefAsked, RefExcited, REF_BET, REF_TRUST, REF_SUE, REF_ASKED, REF_EXCITED} from './campaigns/neon_clip/ref';
@@ -160,6 +160,11 @@ export const RemotionRoot = () => (
   <Composition id="KcAlert" component={KcAlert} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_ALERT.total / 1000) * 30)} />
   <Composition id="KcCountdown" component={KcCountdown} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_COUNTDOWN.total / 1000) * 30)} />
   <Composition id="SegaDemo" component={SegaDemo} fps={30} width={1080} height={1920} durationInFrames={Math.round((SEGA_DEMO.total / 1000) * 30)} />
+  <Composition id="SegaSonic" component={SegaSonic} fps={30} width={1080} height={1920} durationInFrames={Math.round((SEGA_SONIC.total / 1000) * 30)} />
+  <Composition id="SegaJrpg" component={SegaJrpg} fps={30} width={1080} height={1920} durationInFrames={Math.round((SEGA_JRPG.total / 1000) * 30)} />
+  <Composition id="SegaStrat" component={SegaStrat} fps={30} width={1080} height={1920} durationInFrames={Math.round((SEGA_STRAT.total / 1000) * 30)} />
+  <Composition id="SegaCount" component={SegaCount} fps={30} width={1080} height={1920} durationInFrames={Math.round((SEGA_COUNT.total / 1000) * 30)} />
+  <Composition id="SegaIntro" component={SegaIntro} fps={30} width={1080} height={1920} durationInFrames={Math.round((SEGA_INTRO.total / 1000) * 30)} />
   <Composition id="KitTax" component={KitTax} fps={30} width={1080} height={1920} durationInFrames={Math.round((KIT_TAX.total / 1000) * 30)} />
   <Composition id="KitMom" component={KitMom} fps={30} width={1080} height={1920} durationInFrames={Math.round((KIT_MOM.total / 1000) * 30)} />
   <Composition id="KitLast" component={KitLast} fps={30} width={1080} height={1920} durationInFrames={Math.round((KIT_LAST.total / 1000) * 30)} />
