@@ -33,6 +33,8 @@ type Track = Spec['track'];
 type Raw = {text: string; startMs: number; endMs: number}[];
 const T = (x: unknown) => x as Track;
 const R = (x: unknown) => x as Raw;
+// keep reaction pauses (laughs, suspense) that the dead-air trimmer would cut: silent filler "words" every 300 ms (no caption text)
+const keep = (x: unknown, spans: [number, number][]): Raw => [...(x as Raw), ...spans.flatMap(([a, b]) => Array.from({length: Math.ceil((b - a) / 300)}, (_, i) => ({text: '', startMs: a + i * 300, endMs: a + i * 300 + 280})))];
 const {green: G, yellow: Y, cyan: C, red: RD} = HC;
 
 // one diagram (≤ 3.5 s): the redemption price drop
@@ -56,15 +58,15 @@ const REDEEM = make({hookText: '$20K → [$500]', src: 'pod2/u3_redemptions.mp4'
   shots: [[1100, 'W'], [7000, 'L'], [13300, 'M', 1.06], [17200, 'L'], [24300, 'W']], capsOff: [[1100, 5800]],
   hi: {redeem: [C, '1f4e8'], dislike: [RD, '1f620'], hobby: Y, time: Y, players: C, sign: G}, inBox: inDrop,
   sfx: (at) => [sfx('ding-2', at(26000), 0.1)]});
-const GOAT = make({hookText: 'HIS NBA [GOAT] IS…', src: 'pod/nba_goat.mp4', track: T(goatT), raw: R(goatW), wideX: 960, top: "Trevor's NBA [GOAT] is… [Matthew Dellavedova]",
-  segs: [[13200, 15100], [2200, 7100], [13200, 18300]], hookSeat: 'M', music: 'du-bist-gut-genug.mp3', from: 40000, arrowAt: 13300, flash: [15600, 'yellow'],
+const GOAT = make({hookText: 'HIS NBA [GOAT] IS…', src: 'pod/nba_goat.mp4', track: T(goatT), raw: keep(goatW, [[7100, 13200]]), wideX: 960, top: "Trevor's NBA [GOAT] is… [Matthew Dellavedova]",
+  segs: [[13200, 15100], [2200, 13200], [13200, 18300]], hookSeat: 'M', music: 'du-bist-gut-genug.mp3', from: 40000, arrowAt: 13300, flash: [15600, 'yellow'],
   shots: [[2200, 'W'], [13200, 'M', 1.06], [15500, 'W']], fix: {delavedova: 'Dellavedova,'},
   hi: {goat: [Y, '1f410'], dellavedova: [G, '1f3c0'], no: RD, tension: [RD, '1f62c'], nba: C}});
 const ANT = make({hookText: 'HIS AUTO LOOKS LIKE AN [ANT]', src: 'pod/t1_tiger_auto_pen.mp4', track: T(antT), raw: R(antW), wideX: 760, top: "Grant on [Anthony Richardson's] autograph",
-  segs: [[15000, 16500], [9300, 14800], [15000, 20100]], hookSeat: 'L', music: 'du-bist-gut-genug.mp3', from: 60000, arrowAt: 14700,
+  segs: [[15000, 16500], [1100, 8600], [9300, 14800], [15000, 20100]], hookSeat: 'L', music: 'du-bist-gut-genug.mp3', from: 60000, arrowAt: 14700,
   shots: [[9300, 'L'], [14500, 'M', 1.06], [16500, 'L']],
   hi: {ant: [RD, '1f41c'], respect: Y, richardson: C, anthony: C, disrespect: RD, big: Y}});
-const MILLS = make({hookText: '[EW]… DAVIS MILLS', src: 'pod/t6_davis_mills_joke.mp4', track: T(millsT), raw: R(millsW), wideX: 960, top: 'Grant pulled [Davis Mills] in front of Trevor',
+const MILLS = make({hookText: '[EW]… DAVIS MILLS', src: 'pod/t6_davis_mills_joke.mp4', track: T(millsT), raw: keep(millsW, [[7000, 9200], [11900, 14300]]), wideX: 960, top: 'Grant pulled [Davis Mills] in front of Trevor',
   segs: [[5700, 7400], [2100, 16700]], hookSeat: 'W', music: 'Curb_Credits.mp3', from: 0, arrowAt: 11300, flash: [6900, 'red'],
   shots: [[2100, 'W'], [9200, 'L'], [11200, 'M', 1.06], [14200, 'W']],
   hi: {ew: [RD, '1f922'], neck: [Y, '1f992'], glennon: C, mills: C, davis: C, trevor: G}});
