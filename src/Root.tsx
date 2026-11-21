@@ -26,6 +26,7 @@ import {B18Fields, B18Josh, B18Presnap, B18_FIELDS_MS, B18_JOSH_MS, B18_PRESNAP_
 import {B19Presnap, B19Coen, B19Gift, B19_PRESNAP_MS, B19_COEN_MS, B19_GIFT_MS} from './jorho/batch19';
 import {B20Playbook, B20Patch, B20Peyton, B20Golf, B20Marino, B20Ticket, B20Ant, B20Whacked, B20Celly, B20Neck, B20_MS} from './jorho/batch20';
 import {B21Rogers, B21Lair, B21Sig, B21_MS} from './jorho/batch21';
+import {B23Packs, B23Redeem, B23Goat, B23Ant, B23Mills, B23Exmate, B23Lair, B23Rogers, B23Coen, B23Celly, B23_MS} from './jorho/batch23';
 import {B22Tiger, B22Closet, B22Dontshow, B22Pen, B22Plan, B22_MS} from './jorho/batch22';
 import {B16Signature, B16Rookie, B16Ant, B16Playbook, B16Left, B16_SIG_MS, B16_ROOKIE_MS, B16_ANT_MS, B16_PLAYBOOK_MS, B16_LEFT_MS, B16Davis, B16Gift, B16Jesus, B16Marino, B16Sweat, B16_DAVIS_MS, B16_GIFT_MS, B16_JESUS_MS, B16_MARINO_MS, B16_SWEAT_MS} from './jorho/batch16';
 import {B15Signature, B15Rookie, B15Ant, B15Playbook, B15Left, B15_SIG_MS, B15_ROOKIE_MS, B15_ANT_MS, B15_PLAYBOOK_MS, B15_LEFT_MS} from './jorho/batch15';
@@ -258,6 +259,16 @@ export const RemotionRoot = () => (
   <Composition id="B21Rogers" component={B21Rogers} fps={30} width={1080} height={1920} durationInFrames={Math.round((B21_MS.Rogers / 1000) * 30)} />
   <Composition id="B21Lair" component={B21Lair} fps={30} width={1080} height={1920} durationInFrames={Math.round((B21_MS.Lair / 1000) * 30)} />
   <Composition id="B21Sig" component={B21Sig} fps={30} width={1080} height={1920} durationInFrames={Math.round((B21_MS.Sig / 1000) * 30)} />
+  <Composition id="B23Packs" component={B23Packs} fps={30} width={1080} height={1920} durationInFrames={Math.round((B23_MS.Packs / 1000) * 30)} />
+  <Composition id="B23Redeem" component={B23Redeem} fps={30} width={1080} height={1920} durationInFrames={Math.round((B23_MS.Redeem / 1000) * 30)} />
+  <Composition id="B23Goat" component={B23Goat} fps={30} width={1080} height={1920} durationInFrames={Math.round((B23_MS.Goat / 1000) * 30)} />
+  <Composition id="B23Ant" component={B23Ant} fps={30} width={1080} height={1920} durationInFrames={Math.round((B23_MS.Ant / 1000) * 30)} />
+  <Composition id="B23Mills" component={B23Mills} fps={30} width={1080} height={1920} durationInFrames={Math.round((B23_MS.Mills / 1000) * 30)} />
+  <Composition id="B23Exmate" component={B23Exmate} fps={30} width={1080} height={1920} durationInFrames={Math.round((B23_MS.Exmate / 1000) * 30)} />
+  <Composition id="B23Lair" component={B23Lair} fps={30} width={1080} height={1920} durationInFrames={Math.round((B23_MS.Lair / 1000) * 30)} />
+  <Composition id="B23Rogers" component={B23Rogers} fps={30} width={1080} height={1920} durationInFrames={Math.round((B23_MS.Rogers / 1000) * 30)} />
+  <Composition id="B23Coen" component={B23Coen} fps={30} width={1080} height={1920} durationInFrames={Math.round((B23_MS.Coen / 1000) * 30)} />
+  <Composition id="B23Celly" component={B23Celly} fps={30} width={1080} height={1920} durationInFrames={Math.round((B23_MS.Celly / 1000) * 30)} />
   <Composition id="B22Tiger" component={B22Tiger} fps={30} width={1080} height={1920} durationInFrames={Math.round((B22_MS.Tiger / 1000) * 30)} />
   <Composition id="B22Closet" component={B22Closet} fps={30} width={1080} height={1920} durationInFrames={Math.round((B22_MS.Closet / 1000) * 30)} />
   <Composition id="B22Dontshow" component={B22Dontshow} fps={30} width={1080} height={1920} durationInFrames={Math.round((B22_MS.Dontshow / 1000) * 30)} />
