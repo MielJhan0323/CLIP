@@ -55,7 +55,9 @@ type Cfg = {
   // v3 = the client's whop-ai Drive template (2026-11-21, refs: 41 BYB Shorts + EDITING RESOURCES): frame 0 = lime flash + red arrow
   // *Trevor Lawrence*; full-band cutaways (player photos / BYB scream clips) on the punchline; the client's sticker PNGs; money-fall overlay
   v3?: {arrowStart?: boolean; green?: boolean; cuts?: {src: number; dur: number; file: string; from?: number}[];
-    stickers?: [src: number, file: string][]; money?: number[]};
+    stickers?: [src: number, file: string][]; money?: number[];
+    push?: boolean; // 2026-11-22 "use panning and zooming": every shot slowly pushes in on the speaker (+7 % over 4 s) after landing
+    musicGain?: number; musicFloor?: number}; // "where tf is the music": bed was -27.5 LUFS ducked to 0.55 → inaudible
 };
 const TINT = {red: 'rgba(255,40,40,0.75)', yellow: 'rgba(240,255,60,0.7)', green: 'rgba(80,255,60,0.65)'};
 
@@ -108,6 +110,8 @@ export const make = (c: Cfg) => {
     arr.splice(0, arr.length, ...kept);
   }
   const zoomAt = (o: number) => Math.min(1.12, [...zooms].reverse().find(([t]) => o >= t)?.[1] ?? 1);
+  const shotStart = (o: number) => [...zooms].reverse().find(([t]) => o >= t)?.[0] ?? 0;
+  const pushK = (o: number) => (c.v3?.push ? 1 + 0.07 * Math.min(1, (o - shotStart(o)) / 4000) : 1);
   let beats: number[] = [];
   const dips = speechDips(c.raw, tl);
   const end = tl.segOut[segs.length - 1] + spokeEnd - last[0];
@@ -127,7 +131,7 @@ export const make = (c: Cfg) => {
     capsOff: capsOffList, // v2: captions off while a diagram owns the box
     camFx: (o) => {
       const whip = 0; // 2026-11-16: crisp first frame
-      return {transform: `translateX(${-whip * 140}px) scale(${zoomAt(o) * (1 + whip * 0.1) * (1 + beatK(o) * 0.045)})`, transformOrigin: '50% 42%', filter: whip ? `blur(${whip * 12}px)` : undefined};
+      return {transform: `translateX(${-whip * 140}px) scale(${zoomAt(o) * pushK(o) * (1 + whip * 0.1) * (1 + beatK(o) * 0.045)})`, transformOrigin: '50% 42%', filter: whip ? `blur(${whip * 12}px)` : undefined};
     },
     inBox: (o) => <>
       {boards.map((bd, i) => (o >= bd.oa && o < bd.ob ? <BoardShell key={i} o={o} a={bd.oa} b={bd.ob} cam={camCfg}>{bd.render(o, at)}</BoardShell> : null))}
@@ -156,7 +160,7 @@ export const make = (c: Cfg) => {
         {!boards.some((bd) => o >= bd.oa && o < bd.ob) && !capsOffList.some(([x, y]) => o >= x && o < y) && <EmojiPop o={o} words={capWords} hi={c.hi} y={1230} />}
       </>;
     },
-    music: {file: c.music, from: c.from, level: 0, gain: 1, floor: 0.55, ramp: 150, dips, start: tl.segOut[1], swell: [end, 3]},
+    music: {file: c.music, from: c.from, level: 0, gain: c.v3?.musicGain ?? 1, floor: c.v3?.musicFloor ?? 0.55, ramp: 150, dips, start: tl.segOut[1], swell: [end, 3]},
     extraSfx: [
       sfx('keyboard-typing', 0, 0.12, Math.max(300, hookTypeMs(c.hookText ?? c.top, tl.segOut[hookN] + HOOK_LEAD) - HOOK_LEAD)),
       sfx('record-scratch', tl.segOut[1] - 60, 0.16, 450),
