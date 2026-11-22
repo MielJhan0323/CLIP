@@ -17,7 +17,7 @@ import {WaHeat, WA_HEAT, WaLegend, WA_LEGEND, WaVinyl, WA_VINYL, WaMatthew, WA_M
 import {YlaAura, YLA_AURA, YlaBank, YLA_BANK, YlaJohnny, YLA_JOHNNY, YlaCheck, YLA_CHECK, YlaLate, YLA_LATE, YlaMarlin, YLA_MARLIN, YlaJay, YLA_JAY} from './campaigns/yla/yla';
 import {JoJoseph, JO_JOSEPH, JoFred, JO_FRED, JoBlue, JO_BLUE, JoDeer, JO_DEER, JoTitle, JO_TITLE} from './campaigns/jo/jo';
 import {KitTax, KIT_TAX, KitMom, KIT_MOM, KitLast, KIT_LAST} from './campaigns/kit/kits';
-import {KcScooter, KC_SCOOTER, KcSeaplane, KC_SEAPLANE, KcSwamp, KC_SWAMP, KcAlert, KC_ALERT, KcCountdown, KC_COUNTDOWN, KcAtv, KC_ATV, KcTiktok, KC_TIKTOK, KcBanned, KC_BANNED, KcSteal, KC_STEAL, KcDog, KC_DOG, KcLucia, KC_LUCIA, KcShark, KC_SHARK, KcDog2, KC_DOG2, KcShoe, KC_SHOE, KcDonate, KC_DONATE, KcNarr, KC_NARR, KcBath, KC_BATH, KcClub, KC_CLUB, KcDudes, KC_DUDES, KcNakedw, KC_NAKEDW, KcWife, KC_WIFE, KcBanned2, KC_BANNED2} from './campaigns/gaming/kc';
+import {KcScooter, KC_SCOOTER, KcSeaplane, KC_SEAPLANE, KcSwamp, KC_SWAMP, KcAlert, KC_ALERT, KcCountdown, KC_COUNTDOWN, KcAtv, KC_ATV, KcTiktok, KC_TIKTOK, KcBanned, KC_BANNED, KcSteal, KC_STEAL, KcDog, KC_DOG, KcLucia, KC_LUCIA, KcShark, KC_SHARK, KcDog2, KC_DOG2, KcShoe, KC_SHOE, KcDonate, KC_DONATE, KcNarr, KC_NARR, KcRob, KC_ROB, KcBath, KC_BATH, KcClub, KC_CLUB, KcDudes, KC_DUDES, KcNakedw, KC_NAKEDW, KcWife, KC_WIFE, KcBanned2, KC_BANNED2} from './campaigns/gaming/kc';
 import {RefBet, RefTrust, RefSue, RefAsked, RefExcited, REF_BET, REF_TRUST, REF_SUE, REF_ASKED, REF_EXCITED} from './campaigns/neon_clip/ref';
 import {RefClose, RefChatgpt, RefPole, REF_CLOSE, REF_CHATGPT, REF_POLE} from './campaigns/neon_clip/ref';
 import {RefSlower, RefDream, RefSquats, RefWax, RefScam, REF_SLOWER, REF_DREAM, REF_SQUATS, REF_WAX, REF_SCAM} from './campaigns/neon_clip/ref';
@@ -183,6 +183,7 @@ export const RemotionRoot = () => (
   <Composition id="WaVinyl" component={WaVinyl} fps={30} width={1080} height={1920} durationInFrames={Math.round((WA_VINYL.total / 1000) * 30)} />
   <Composition id="WaMatthew" component={WaMatthew} fps={30} width={1080} height={1920} durationInFrames={Math.round((WA_MATTHEW.total / 1000) * 30)} />
   <Composition id="KcDog" component={KcDog} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_DOG.total / 1000) * 30)} />
+  <Composition id="KcRob" component={KcRob} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_ROB.total / 1000) * 30)} />
   <Composition id="KcBath" component={KcBath} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_BATH.total / 1000) * 30)} />
   <Composition id="KcClub" component={KcClub} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_CLUB.total / 1000) * 30)} />
   <Composition id="KcDudes" component={KcDudes} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_DUDES.total / 1000) * 30)} />

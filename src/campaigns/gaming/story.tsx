@@ -17,7 +17,7 @@ export type StoryCfg = {file: string; src: [number, number]; cam: [number, numbe
   // sad part (user 2026-11-20 "grey overlay with the raining on screen ... when he mentions"): [fromSec, toSec] source seconds
   rain?: [number, number]; musicLevel?: number;
   // censor: [fromSec, toSec] of the MAIN file where the gameplay panel is fully blurred (nudity the streamer didn't hide) 2026-11-20
-  censor?: [number, number][]};
+  censor?: [number, number][]; fix?: Record<string, string>}; // fix: caption spelling (transcript word → shown word)
 // procedural rain: deterministic streaks falling diagonally (no stock file needed, renders the same every time)
 const DROPS = Array.from({length: 150}, (_, i) => ({x: (i * 7919) % 1180 - 50, off: (i * 104729) % 2200, v: 1.6 + ((i * 31) % 10) / 6, len: 40 + ((i * 17) % 50), w: 2 + (i % 3)}));
 const Rain = ({o, k}: {o: number; k: number}) => <AbsoluteFill style={{opacity: k, pointerEvents: 'none'}}>
@@ -37,7 +37,7 @@ export const makeStory = (c: StoryCfg) => {
   const rawOf = (fl: string) => (fl === c.file ? c.raw : c.raws?.[fl] ?? []);
   const words: Word[] = applyHi(c.segs.flatMap(([a, b, fl], i) => rawOf(fl ?? c.file).filter((w) => w.startMs / 1000 >= a && w.startMs / 1000 < b).map((w) => {
     const t = starts[i] + (w.startMs / 1000 - a) * 1000;
-    return {text: w.text.trim().replace(/^-+/, ''), at: t, end: Math.min(t + (w.endMs - w.startMs) + 180, starts[i] + (b - a) * 1000), color: '#FFFFFF'}; }))
+    const raw = w.text.trim().replace(/^-+/, ''); return {text: c.fix?.[raw.toLowerCase().replace(/[^a-z']/g, '')] ?? raw, at: t, end: Math.min(t + (w.endMs - w.startMs) + 180, starts[i] + (b - a) * 1000), color: '#FFFFFF'}; }))
     .sort((x, y) => x.at - y.at).map((w, i) => ({...w, color: ['#F9FC35', '#21F5E6', '#58EE28', '#FFFFFF'][i % 4]})), c.hi);
   const hits = (c.hits ?? []).map(([s, sound, color]) => ({at: at(s), sound, color: color ?? (sound.includes('akward') ? 'yellow' as const : undefined)})).filter((h) => h.at >= 0);
   const keys = (k: Key[] = []) => k.map(([s, z, fx = 0.5, fy = 0.5]) => ({t: at(s), z, fx, fy})).filter((x) => x.t >= 0).sort((a, b) => a.t - b.t);

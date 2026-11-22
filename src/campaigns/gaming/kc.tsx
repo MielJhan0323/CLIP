@@ -131,3 +131,14 @@ export const KC_BANNED2 = makeStory({...calm, file: 'gaming/kc_yt_hq.mp4', raw: 
   face: [[9.3, 1.1], [30.0, 1.1], [30.5, 1.3], [36.6, 1.15]],
   hits: [[11.3, 'g-sudden-suspense-sound-effect'], [30.6, 'bruh']]});
 export const KcBath = KC_BATH.Comp, KcClub = KC_CLUB.Comp, KcDudes = KC_DUDES.Comp, KcNakedw = KC_NAKEDW.Comp, KcWife = KC_WIFE.Comp, KcBanned2 = KC_BANNED2.Comp;
+// the GTA 6 trailer robbery, live (2026-11-22, user ref: viral "GTA VI is so realistic" reel → same edit, non-racial caption).
+// kc_rob_edit.mp4 is pre-cut with ffmpeg: speech pitched up ×1.12 (nightcore), the outrageous lines slowed ×0.7 / ×0.65 (deeper)
+// out 11.07–15.79 = "Will you be spittin' teeth in those waffles…" slowed · 23.91–24.99 = "You wanna get shot?" slowed. Chat: x10.7.
+import w_rob from '../../../public/gaming/kc_rob_edit.words.json';
+export const KC_ROB = makeStory({logo: LOGO, src: HQ, cam: CAM, file: 'gaming/kc_rob_edit.mp4', raw: w_rob as never, music: 'kai-cenat-suspense.mp3', musicLevel: 0.16,
+  seam: "HE'S WATCHING THE [TRAILER] SCENE LIVE", emoji: '1f62d', hi: {trailer: Y, robbing: R, hurt: R, shot: R, waffles: Y}, fix: {robert: 'Robbery!', robin: 'Robbing'},
+  segs: [[0, 28.83]],
+  game: [[0, 1.0], [7.2, 1.0], [11.07, 1.1, 0.5, 0.45], [15.7, 1.55, 0.5, 0.45], [15.8, 1.0], [23.9, 1.1, 0.5, 0.45], [24.98, 1.6, 0.5, 0.45], [25.0, 1.0]],
+  face: [[0, 1.15, 0.5, 0.45], [4.0, 1.0], [11.07, 1.0], [11.2, 1.25, 0.5, 0.45], [15.7, 1.25], [15.8, 1.0], [24.0, 1.3, 0.5, 0.45], [25.0, 1.0]],
+  hits: [[7.25, 'g-sudden-suspense-sound-effect'], [11.1, 'bass-boosted-vine-boom', 'red'], [23.95, 'g-shock-sfx', 'red']]});
+export const KcRob = KC_ROB.Comp;
