@@ -29,8 +29,8 @@ const V3 = {push: true, musicGain: 1.8, musicFloor: 0.6};
 // diagrams
 const B_WHACK = (o: number, at: (s: number) => number) => <><DT t="TREVOR'S REVIEW" />
   <Rw o={o} at={at(92000)} i={0} label={'VIDEO 1: "WHACKED"'} ok={false} /><Rw o={o} at={at(97580)} i={1} label={'VIDEO 2: "PRETTY FUNNY"'} ok hl /></>;
-const B_FIELDS = (o: number, at: (s: number) => number) => <><DT t="JUSTIN FIELDS TRUE RPA" />
-  <Rw o={o} at={at(128400)} i={0} label="2021: $20,000" ok /><Rw o={o} at={at(131440)} i={1} label="NOW: ~$500" ok={false} hl /></>;
+const B_FIELDS = (o: number, at: (s: number) => number) => <><DT t="CARD VALUE" />
+  <Rw o={o} at={at(129150)} i={0} label="2021: $20,000" ok /><Rw o={o} at={at(129450)} i={1} label="NOW: ~$500" ok={false} hl /></>;
 // the slab sits under the corner camera, so nudge it down/left
 const B_SLAB = (o: number, at: (s: number) => number) => <AbsoluteFill style={{transform: 'translate(-70px, 130px) scale(0.92)'}}><Slab o={o} a={at(22500)} /></AbsoluteFill>;
 const B_TOP10 = (o: number, at: (s: number) => number) => <AbsoluteFill style={{transform: 'translateY(40px) scale(0.95)'}}><Top10 o={o} checkAt={at(65560)} /></AbsoluteFill>;
@@ -64,14 +64,14 @@ const CELLY = make({hookText: 'THE [PSA 10] CELLY', src: 'pod2/u2_psa10_celly.mp
   sfx: (at) => [sfx('g-akward-sfx', at(13720), 0.35, 1500), sfx('g-riser-sfx', at(27580) - 2000, 0.3, 2100), sfx('bass-boosted-vine-boom', at(27580), 0.34, 1200), sfx('g-anime-wow-sound-effect', at(31920), 0.36, 1800)],
   boards: [{a: 22400, b: 25700, render: B_SLAB}], v3: V3});
 
-const FIELDS = make({hookText: '$20,000 → [$500]', src: 'b3/v_nt_rip.mp4', track: T(ntT), raw: keep(ntW, [[129300, 131400]]), wideX: 900, top: "The card that went from [$20,000] to [$500]",
+const FIELDS = make({hookText: '$20,000 TO [$500]', src: 'b3/v_nt_rip.mp4', track: T(ntT), raw: keep(ntW, [[129300, 131400]]), wideX: 900, top: "The card that went from [$20,000] to [$500]",
   segs: [[122120, 123700], [103080, 105400], [119440, 132600]], hookSeat: 'W', music: 'Jeopardy_Think.mp3', from: 0, arrowAt: 120400, flash: [131440, 'red'],
   shots: [[103080, 'W'], [119440, 'M'], [122120, 'M', 1.1], [124480, 'W'], [129300, 'M', 1.06]],
   hi: {fields: [C, '1f62e'], justin: C, rpa: Y, chase: Y, '20000': [G, '1f4b0'], '500': [RD, '1f4c9'], bucks: RD, god: Y},
   fix: {'000': '$20,000.', '20': ''},
   cutout: {src: 122300, file: 'img/jorho/fields.png', x: 640, y: 760, size: 500, dur: 1600},
   sfx: (at) => [sfx('g-riser-sfx', at(122120) - 2000, 0.3, 2100), sfx('g-anime-wow-sound-effect', at(122120), 0.4, 1800), sfx('g-sudden-suspense-sound-effect', at(129300), 0.3, 1400), sfx('g-fahhh-sfx', at(131600), 0.36, 1800)],
-  boards: [{a: 128300, b: 131800, render: B_FIELDS}], v3: V3});
+  boards: [{a: 129100, b: 132600, render: B_FIELDS}], v3: V3});
 
 const EW = make({hookText: '[EW]… PUT IT AWAY', src: 'b3/v_nt_rip.mp4', track: T(ntT), raw: R(ntW), wideX: 900, top: "Trevor saw ONE card and said '[Ew]'",
   segs: [[78180, 80400], [62060, 70900], [73380, 83400]], hookSeat: 'M', music: 'Curb_Credits.mp3', from: 20000, arrowAt: 62400, flash: [78180, 'red'],
