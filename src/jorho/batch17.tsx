@@ -44,7 +44,7 @@ type Cfg = {
   shots: [src: number, seat: Seat, zoom?: number][]; // the camera plan, in source time (applies in the body; the cold open uses its first entry)
   hookSeat: Seat; arrowAt: number; flash?: [src: number, color: 'red' | 'yellow' | 'green']; boards?: Board[];
   overlay?: (o: number, at: (src: number) => number) => ReactNode; inBox?: (o: number, at: (src: number) => number) => ReactNode;
-  sfx?: (at: (src: number) => number) => Sfx[]; cutout?: {src: number; file: string; x?: number; y?: number; size?: number};
+  sfx?: (at: (src: number) => number) => Sfx[]; cutout?: {src: number; file: string; x?: number; y?: number; size?: number; dur?: number};
   fix?: Record<string, string>; // caption spelling fixes (transcript → correct name)
   mark?: 'arrow' | 'circle'; // how Trevor is pointed out once (user: "the arrow or circle with trevor lawrence")
   hookText?: string; // short summary typed over the cold open (user 2026-11-17: "on screen text should be summarized and typed out")
@@ -152,7 +152,7 @@ export const make = (c: Cfg) => {
       const f = face('M');
       return <>
         {o >= arrow && o < arrow + 1300 && !boards.some((bd) => o >= bd.oa && o < bd.ob) && (c.mark === 'circle' ? <HeadRing o={o} a={arrow} b={arrow + 1500} x={f.x} y={f.y} k={1.25} label="Trevor Lawrence" /> : <ArrowName o={o - arrow} x={f.x} y={f.y} />)}
-        {c.cutout && <MemePop o={o} at={at(c.cutout.src)} to={at(c.cutout.src) + 900} src={c.cutout.file} x={c.cutout.x ?? 560} y={c.cutout.y ?? 820} size={c.cutout.size ?? 440} />}
+        {c.cutout && <MemePop o={o} at={at(c.cutout.src)} to={at(c.cutout.src) + (c.cutout.dur ?? 900)} src={c.cutout.file} x={c.cutout.x ?? 560} y={c.cutout.y ?? 820} size={c.cutout.size ?? 440} />}
         {c.overlay?.(o, at)}
         {(c.v3?.stickers ?? []).map(([s0, file], i) => <MemePop key={i} o={o} at={at(s0)} to={at(s0) + 1000} src={file} x={760} y={980} size={300} />)}
         {(c.v3?.money ?? []).map((s0, i) => { const m = at(s0); return o >= m && o < m + 1750 ? <AbsoluteFill key={i} style={{mixBlendMode: 'screen'}}>

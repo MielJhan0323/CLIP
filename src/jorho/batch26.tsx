@@ -57,15 +57,15 @@ const PACKS = make({hookText: 'A [T-LAW] PACK?!', src: 'pod3/w2_backyard_packs.m
   hi: {pack: [Y, '1f4e6'], trevor: C, lawrence: C, weird: [RD, '1f62c'], card: Y, shipped: G, house: G},
   v3: {push: true, musicGain: 1.8, musicFloor: 0.6}});
 const GOAT = make({hookText: 'HIS NBA [GOAT] IS…', src: 'pod/nba_goat.mp4', track: T(goatT), raw: keep(goatW, [[7100, 13200]]), wideX: 960, top: "Bro is the first person to have a [Dellavedova] goat",
-  segs: [[13200, 15100], [2200, 13200], [13200, 18300]], hookSeat: 'M', music: 'jorho-qkthr.mp3', from: 40000, arrowAt: 13300, flash: [15600, 'yellow'],
+  segs: [[13200, 15100], [2200, 13200], [13200, 18300]], hookSeat: 'M', music: 'jorho-qkthr.mp3', from: 40000, arrowAt: 4500, flash: [15600, 'yellow'],
   shots: [[2200, 'L'], [4400, 'M'], [5700, 'L'], [7300, 'M', 1.04], [13200, 'M', 1.1], [15500, 'L'], [17200, 'M', 1.06]], fix: {delavedova: 'Dellavedova,'},
   hi: {goat: [Y, '1f410'], dellavedova: [G, '1f3c0'], no: RD, tension: [RD, '1f62c'], nba: C},
-  cutout: {src: 13900, file: 'img/jorho/dellavedova.png', x: 640, y: 760, size: 460}, v3: {push: true, musicGain: 1.8, musicFloor: 0.6}});
+  cutout: {src: 13900, file: 'img/jorho/dellavedova.png', x: 640, y: 760, size: 520, dur: 1600}, v3: {push: true, musicGain: 1.8, musicFloor: 0.6}});
 const ANT = make({hookText: 'HIS AUTO LOOKS LIKE AN [ANT]', src: 'pod/t1_tiger_auto_pen.mp4', track: T(antT), raw: R(antW), wideX: 760, top: "Grant said his autograph looks like an [ANT]",
   segs: [[15000, 16500], [6200, 8600], [9300, 14800], [15000, 20100]], hookSeat: 'R', music: 'Fluffing_a_Duck.mp3', from: 60000, arrowAt: 14700,
   shots: [[1100, 'L'], [6200, 'M', 1.06], [9300, 'R'], [15000, 'R', 1.1], [16600, 'M'], [18000, 'R']],
   hi: {ant: [RD, '1f41c'], respect: Y, richardson: C, anthony: C, disrespect: RD, big: Y},
-  cutout: {src: 15900, file: 'img/jorho/richardson.png', x: 660, y: 780, size: 440}, v3: {push: true, musicGain: 1.8, musicFloor: 0.6}});
+  cutout: {src: 15900, file: 'img/jorho/richardson.png', x: 660, y: 780, size: 480, dur: 1600}, v3: {push: true, musicGain: 1.8, musicFloor: 0.6}});
 const MILLS = make({hookText: '[EW]… DAVIS MILLS', src: 'pod/t6_davis_mills_joke.mp4', track: T(millsT), raw: keep(millsW, [[7000, 9200], [11900, 14300]]), wideX: 960, top: "The [longest neck] in the world",
   segs: [[5700, 7400], [2100, 16700]], hookSeat: 'L', music: 'Curb_Credits.mp3', from: 0, arrowAt: 11300, flash: [6900, 'red'],
   shots: [[2100, 'L'], [6900, 'L', 1.1], [9200, 'L'], [11200, 'M', 1.1], [13300, 'W']],
@@ -75,7 +75,7 @@ const EXMATE = make({hookText: 'THE REAL [JOSH ALLEN]', src: 'pod/t5_ex_teammate
   segs: [[12600, 14400], [5400, 12500], [15100, 24400]], hookSeat: 'M', music: 'jorho-lullaby.mp3', from: 0, arrowAt: 12700, flash: [12600, 'green'],
   shots: [[1700, 'M'], [6200, 'L'], [8000, 'R'], [11000, 'M'], [12500, 'L', 1.08], [17000, 'M', 1.1], [21000, 'L']],
   hi: {gold: [Y, '1f947'], allen: C, heinz: [G, '1f92f'], rookie: Y, fire: [RD, '1f525'], glove: Y}, sfx: (at) => [sfx('ding-2', at(12700), 0.1)],
-  cutout: {src: 22300, file: 'img/jorho/hines_allen.png', x: 660, y: 780, size: 440}, v3: {push: true, musicGain: 1.8, musicFloor: 0.6}});
+  cutout: {src: 22300, file: 'img/jorho/hines_allen.png', x: 660, y: 780, size: 480, dur: 1600}, v3: {push: true, musicGain: 1.8, musicFloor: 0.6}});
 
 const C5 = {Packs: PACKS, Goat: GOAT, Ant: ANT, Mills: MILLS, Exmate: EXMATE};
 export const B26Packs = () => <Jorho s={PACKS.spec} />, B26Goat = () => <Jorho s={GOAT.spec} />, B26Ant = () => <Jorho s={ANT.spec} />,
