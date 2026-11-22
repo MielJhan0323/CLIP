@@ -16,7 +16,10 @@ type Raw = {text: string; startMs: number; endMs: number}[];
 export type KitCfg = {segs: Seg[]; hook: string; emoji?: string; hits?: Hit[]; pills?: Pill[]; words?: Record<string, Raw>; fix?: Record<string, string>; capY?: number; hl?: string;
   typeMs?: number; typeLead?: number; noSfx?: boolean;
   // wide: 16:9 source shown full-width (x this zoom) in the middle over a blurred fill (YoungLA interviews 2026-11-20); hookTop: hook y
-  wide?: number; hookTop?: number}; // noSfx: original audio only (Wa-Chaa 2026-11-20 "can you not add sfx") // hook typing speed (ms per letter) and head start; Wa-Chaa 2026-11-20 "the top text should type out"
+  wide?: number; hookTop?: number;
+  // comedy-clip look (Jo Koy 2026-11-22, ref Comedy AEPP short): tight crop zoom, moody grade + vignette, no on-screen hook, plain captions
+  zoom?: number; zoomY?: number; grade?: string; vignette?: boolean; capSize?: number;
+  faceX?: Record<string, [number, number][]>}; // per-file face x-track (0..1 over source sec): the 9:16 crop pans to keep the speaker centred // noSfx: original audio only (Wa-Chaa 2026-11-20 "can you not add sfx") // hook typing speed (ms per letter) and head start; Wa-Chaa 2026-11-20 "the top text should type out"
 
 const f = (ms: number) => Math.round((ms / 1000) * FPS);
 
@@ -51,17 +54,23 @@ export const makeKit = (c: KitCfg) => {
     const n = Math.min(plain.length, Math.max(1, Math.floor((o + (c.typeLead ?? 400)) / (c.typeMs ?? 38))));
     let left = n;
     return <AbsoluteFill style={{background: '#000'}}>
-      <AbsoluteFill style={{transform: `scale(${scale})`}}>
+      <AbsoluteFill style={{transform: `scale(${scale * (c.zoom ?? 1)})`, transformOrigin: `50% ${c.zoomY ?? 50}%`, filter: c.grade}}>
         {c.segs.map(([fl, a, b], i) => <Sequence key={i} from={f(starts[i])} durationInFrames={Math.max(1, f(starts[i] + (b - a) * 1000) - f(starts[i]))}>
           {c.wide ? <AbsoluteFill>
             <AbsoluteFill style={{filter: 'blur(40px) brightness(0.55)', transform: 'scale(1.2)'}}><OffthreadVideo src={staticFile(fl)} trimBefore={Math.round(a * FPS)} muted style={{width: '100%', height: '100%', objectFit: 'cover'}} /></AbsoluteFill>
             <div style={{position: 'absolute', left: (1080 - 1080 * c.wide) / 2, top: 960 - (607.5 * c.wide) / 2, width: 1080 * c.wide, height: 607.5 * c.wide}}>
               <OffthreadVideo src={staticFile(fl)} trimBefore={Math.round(a * FPS)} style={{width: '100%', height: '100%'}} /></div>
-          </AbsoluteFill> : <OffthreadVideo src={staticFile(fl)} trimBefore={Math.round(a * FPS)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />}
+          </AbsoluteFill> : c.faceX?.[fl] ? (() => { const tr = c.faceX![fl]; const t = a + Math.max(0, o - starts[i]) / 1000;
+              const j = tr.findIndex(([x]) => x > t); const A = tr[Math.max(0, j - 1)] ?? tr[0], B = j < 0 ? tr[tr.length - 1] : tr[j];
+              const fx = !A ? 0.5 : B[0] === A[0] ? A[1] : A[1] + (B[1] - A[1]) * Math.min(1, Math.max(0, (t - A[0]) / (B[0] - A[0])));
+              const W = 1920 * 16 / 9, left = Math.min(0, Math.max(1080 - W, 540 - fx * W));
+              return <div style={{position: 'absolute', left, top: 0, width: W, height: 1920}}><OffthreadVideo src={staticFile(fl)} trimBefore={Math.round(a * FPS)} style={{width: '100%', height: '100%'}} /></div>; })()
+          : <OffthreadVideo src={staticFile(fl)} trimBefore={Math.round(a * FPS)} style={{width: '100%', height: '100%', objectFit: 'cover'}} />}
         </Sequence>)}
       </AbsoluteFill>
       {flash && <AbsoluteFill style={{background: flash.color === 'green' ? 'rgba(60,230,40,0.45)' : flash.color === 'yellow' ? 'rgba(255,215,0,0.5)' : 'rgba(240,30,30,0.45)',
         mixBlendMode: 'color', opacity: Math.min(1, (o - flash.at) / 60, (flash.at + 500 - o) / 140)}} />}
+      {c.vignette && <AbsoluteFill style={{background: 'radial-gradient(ellipse at 50% 42%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.72) 100%)'}} />}
       {/* typed hook, stays the whole clip */}
       <div style={{position: 'absolute', left: 50, right: 50, top: c.hookTop ?? 70, display: 'flex', justifyContent: 'center'}}>
         <div style={{fontFamily: MONT, fontWeight: 900, fontSize: 56, lineHeight: '66px', color: 'white', textAlign: 'center', WebkitTextStroke: '7px #111',
@@ -78,7 +87,7 @@ export const makeKit = (c: KitCfg) => {
           <div style={{transform: `scale(${k})`, background: 'white', color: '#111', fontFamily: MONT, fontWeight: 900, fontSize: 46, padding: '14px 34px', borderRadius: 60,
             boxShadow: '0 8px 24px rgba(0,0,0,0.35)', border: '5px solid #FF4FA3'}}>{p.text}</div>
         </div>; })}
-      {capWords.length > 0 && <OneWord o={o} words={capWords} y={c.capY ?? 1300} size={78} />}
+      {capWords.length > 0 && <OneWord o={o} words={capWords} y={c.capY ?? 1300} size={c.capSize ?? 78} />}
       {!c.noSfx && <SfxTrack list={list} />}
     </AbsoluteFill>;
   };
