@@ -6,7 +6,7 @@ import w04 from '../../../public/jo/jo_04.words.json';
 import w11 from '../../../public/jo/jo_11.words.json';
 import w12 from '../../../public/jo/jo_12.words.json';
 import w07 from '../../../public/jo/jo_07.words.json';
-import wV from '../../../public/jo/jo_00_variety.words.json';
+import wV from '../../../public/jo/jo_vtitle.words.json'; // 480–525 s of the Variety interview, cut out (seeking 8 min in failed)
 const P = (n: string) => `jo/jo_${n}.mp4`;
 const base: Partial<KitCfg> = {noSfx: true, typeMs: 30, typeLead: 0, capY: 1340, hl: '#4FB3FF'};
 const mk = (n: string, w: unknown, hook: string, segs: [number, number][], extra: Partial<KitCfg> = {}) =>
@@ -20,5 +20,5 @@ export const JO_BLUE = mk('12', w12, 'WHERE "[BLUE IN THE FACE]" CAME FROM', [[2
 // 4 · Kingston the runaway: "It's a deer, asshole"
 export const JO_DEER = mk('07', w07, 'HIS DOG CAME BACK WITH [A STORY]', [[272.1, 279.9], [286.9, 291.7], [320.8, 324.0], [341.7, 352.5]], {fix: {joe: 'Jo,'}});
 // 5 · Variety: how he named the special
-export const JO_TITLE = mk('00_variety', wV, 'HOW JO KOY NAMED [BLUE IN THE FACE]', [[506.0, 510.0], [491.2, 497.0], [498.1, 505.9], [510.3, 518.3]], {wide: 1.0, hookTop: 300, capY: 1430});
+export const JO_TITLE = mk('vtitle', wV, 'HOW JO KOY NAMED [BLUE IN THE FACE]', [[26.0, 30.0], [11.2, 17.0], [18.1, 25.9], [30.3, 38.3]], {wide: 1.0, hookTop: 300, capY: 1430});
 export const JoJoseph = JO_JOSEPH.Comp, JoFred = JO_FRED.Comp, JoBlue = JO_BLUE.Comp, JoDeer = JO_DEER.Comp, JoTitle = JO_TITLE.Comp;
