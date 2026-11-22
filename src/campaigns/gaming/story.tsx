@@ -17,7 +17,9 @@ export type StoryCfg = {file: string; src: [number, number]; cam: [number, numbe
   // sad part (user 2026-11-20 "grey overlay with the raining on screen ... when he mentions"): [fromSec, toSec] source seconds
   rain?: [number, number]; musicLevel?: number;
   // censor: [fromSec, toSec] of the MAIN file where the gameplay panel is fully blurred (nudity the streamer didn't hide) 2026-11-20
-  censor?: [number, number][]; fix?: Record<string, string>}; // fix: caption spelling (transcript word → shown word)
+  censor?: [number, number][]; fix?: Record<string, string>;
+  // local blur patches in OUTPUT time + frame px (2026-11-22 "blur the ass crack so I can upload it"): [fromMs, toMs, x, y, w, h]
+  blurBoxes?: [number, number, number, number, number, number][]}; // fix: caption spelling (transcript word → shown word)
 // procedural rain: deterministic streaks falling diagonally (no stock file needed, renders the same every time)
 const DROPS = Array.from({length: 150}, (_, i) => ({x: (i * 7919) % 1180 - 50, off: (i * 104729) % 2200, v: 1.6 + ((i * 31) % 10) / 6, len: 40 + ((i * 17) % 50), w: 2 + (i % 3)}));
 const Rain = ({o, k}: {o: number; k: number}) => <AbsoluteFill style={{opacity: k, pointerEvents: 'none'}}>
@@ -81,6 +83,8 @@ export const makeStory = (c: StoryCfg) => {
       <div style={{position: 'absolute', left: 0, right: 0, top: TOP_H - 3, height: 6, background: '#000'}} />
       {flash && <AbsoluteFill style={{background: flash.color === 'green' ? 'rgba(60,230,40,0.45)' : flash.color === 'yellow' ? 'rgba(255,215,0,0.5)' : 'rgba(240,30,30,0.45)',
         mixBlendMode: 'color', opacity: Math.min(1, (o - flash.at) / 60, (flash.at + 500 - o) / 140)}} />}
+      {(c.blurBoxes ?? []).filter(([f0, t0]) => o >= f0 && o < t0).map(([, , x, y, w, h], i) => <div key={i} style={{position: 'absolute', left: x, top: y, width: w, height: h,
+        borderRadius: 60, backdropFilter: 'blur(38px)', WebkitBackdropFilter: 'blur(38px)', background: 'rgba(120,100,80,0.18)'}} />)}
       <Seam o={o} text={c.seam} emoji={c.emoji} />
       <SfxTrack list={list} />
       {c.music && <Music file={c.music} songFrom={c.musicFrom ?? 0} level={(t) => (c.musicLevel ?? 0.14) * (speaking(t) ? 0.6 : 1) * Math.min(1, t / 300) * Math.min(1, (total - t) / 400)} />}

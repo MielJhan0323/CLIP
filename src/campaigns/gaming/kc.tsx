@@ -101,6 +101,7 @@ import w_tw from '../../../public/gaming/kc_tw_hq.words.json';
 const calm = {logo: LOGO, src: HQ, cam: CAM, musicLevel: 0.2} as const;
 export const KC_BATH = makeStory({...calm, file: 'gaming/kc_bath_hq.mp4', raw: w_bath as never, music: 'Sneaky_Snitch.mp3',
   seam: "PROVING HE'S NOT A [GOONER]", emoji: '1f62d', hi: {shower: C, camera: Y, gooners: R, hide: G, thumbnail: R},
+  blurBoxes: [[0, 5000, 300, 1380, 500, 540], [15300, 24700, 300, 1380, 500, 540], [25300, 29000, 290, 1330, 520, 590], [28900, 30800, 30, 1330, 560, 590]],
   segs: [[77.8, 81.9], [115.8, 118.5], [26.3, 30.7], [40.1, 44.4], [82.0, 84.1], [102.5, 108.3], [126.4, 128.4], [132.0, 137.3]], // opens on the bathing shot (user 2026-11-22), not the sink
   face: [[26.3, 1.1], [77.8, 1.1], [78.0, 1.3], [84.0, 1.2], [132.0, 1.1], [134.1, 1.1], [134.3, 1.35]],
   hits: [[78.0, 'g-sudden-suspense-sound-effect'], [134.2, 'g-akward-sfx']]});
