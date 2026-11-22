@@ -56,8 +56,8 @@ const PACKS = make({hookText: 'A [T-LAW] PACK?!', src: 'pod3/w2_backyard_packs.m
   v3: {arrowStart: true, green: true, cuts: [{src: 23000, dur: 1200, file: 'byb/memes/byb-trip__mind_boggling.mp4', from: 20.7}], stickers: [[26800, 'byb/stk/laugh.png']], money: [5000]}});
 const REDEEM = make({hookText: '$20K → [$500]', src: 'pod2/u3_redemptions.mp4', track: T(redT), raw: R(redW), wideX: 960, top: "This $20,000 card is now worth [$500]",
   segs: [[1100, 5800], [7000, 16000], [17200, 27700]], hookSeat: 'W', music: 'Investigations.mp3', from: 0, arrowAt: 15000, 
-  shots: [[1100, 'W'], [7000, 'L'], [13300, 'M', 1.06], [17200, 'L'], [24300, 'W']], capsOff: [[1100, 5800]],
-  hi: {redeem: [C, '1f4e8'], dislike: [RD, '1f620'], hobby: Y, time: Y, players: C, sign: G}, inBox: inDrop,
+  shots: [[1100, 'W'], [7000, 'L'], [13300, 'M', 1.06], [17200, 'L'], [24300, 'W']], 
+  hi: {redeem: [C, '1f4e8'], dislike: [RD, '1f620'], hobby: Y, time: Y, players: C, sign: G},
   sfx: (at) => [sfx('ding-2', at(26000), 0.1)],
   v3: {arrowStart: true, green: true, cuts: [{src: 4300, dur: 1100, file: 'byb/memes/byb-it_burns.mp4', from: 22.3}], stickers: [[26000, 'byb/stk/crying.png']]}});
 const GOAT = make({hookText: 'HIS NBA [GOAT] IS…', src: 'pod/nba_goat.mp4', track: T(goatT), raw: keep(goatW, [[7100, 13200]]), wideX: 960, top: "Bro is the first person to have a [Dellavedova] goat",
