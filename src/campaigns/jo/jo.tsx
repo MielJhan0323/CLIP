@@ -49,3 +49,19 @@ export const JO_TEETH = mk('03', w03, '', [[9.01, 22.93], [35.95, 39.55], [185.8
 // 5 · adopt, don't shop
 export const JO_SHELTER = mk('07', w07, '', [[1.17, 10.49], [22.27, 50.5]], {fix: {joe: 'Jo,'}});
 export const JoNuggets = JO_NUGGETS.Comp, JoLie = JO_LIE.Comp, JoMom = JO_MOM.Comp, JoTeeth = JO_TEETH.Comp, JoShelter = JO_SHELTER.Comp;
+
+// ---- batch 3 (2026-11-22, "5 more that everyone can relate and laugh and comment to"): comment-bait topics
+// (first paycheck, the shelter's disclaimer, "what mix is your dog", first big check, Mom's hard love).
+import {makeKit as mkKit} from '../kit/kit';
+// 1 · first job at 15½: Mom signs the waiver ("take advantage of my son, where do I sign") → $3.85/hr math → $6 a day
+export const JO_PAY = mk('04', w04, '', [[240.45, 244.4], [233.5, 244.4], [246.7, 287.55]]);
+// 2 · "a bit of a runaway": the shelter lady's disclaimer AFTER the papers are signed → 12 years of prison breaks
+export const JO_RUNAWAY = mk('07', w07, '', [[194.23, 198.15], [167.63, 173.85], [177.87, 190.21], [194.23, 213.6], [215.69, 228.7]], {fix: {joe: 'Jo,'}});
+// 3 · "what do you mean, a mix?": describing his shelter dog (low rider, lion's mane)
+export const JO_MIX = mk('07', w07, '', [[75.75, 81.0], [86.45, 88.81], [99.69, 130.8]], {fix: {joe: 'Jo,'}});
+// 4 · first big check: "a bacon western cheeseburger every day, I'm good for 100,000 days"
+export const JO_BURGER = mk('03', w03, '', [[108.19, 118.9], [91.4, 136.33]]);
+// 5 · Mom's hard love: "I can always count on my mom to destroy that idea" → "don't floss, get a good job and buy your teeth"
+export const JO_HARDLOVE = mkKit({...base, hook: '', words: {[P('03')]: w03 as never, [P('04')]: w04 as never},
+  segs: [[P('03'), 275.25, 282.53], [P('04'), 139.55, 164.21]]} as KitCfg);
+export const JoPay = JO_PAY.Comp, JoRunaway = JO_RUNAWAY.Comp, JoMix = JO_MIX.Comp, JoBurger = JO_BURGER.Comp, JoHardlove = JO_HARDLOVE.Comp;

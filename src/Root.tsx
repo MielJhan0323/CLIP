@@ -15,7 +15,7 @@ import {FullPilatesQ, FullTuck, FullSpider, FullRespect, FullExcited, FULL_PILAT
 import {SegaDemo, SEGA_DEMO, SegaSonic, SEGA_SONIC, SegaJrpg, SEGA_JRPG, SegaStrat, SEGA_STRAT, SegaCount, SEGA_COUNT, SegaIntro, SEGA_INTRO} from './campaigns/sega/sega';
 import {WaHeat, WA_HEAT, WaLegend, WA_LEGEND, WaVinyl, WA_VINYL, WaMatthew, WA_MATTHEW} from './campaigns/wa/wa';
 import {YlaAura, YLA_AURA, YlaBank, YLA_BANK, YlaJohnny, YLA_JOHNNY, YlaCheck, YLA_CHECK, YlaLate, YLA_LATE, YlaMarlin, YLA_MARLIN, YlaJay, YLA_JAY} from './campaigns/yla/yla';
-import {JoJoseph, JO_JOSEPH, JoFred, JO_FRED, JoBlue, JO_BLUE, JoDeer, JO_DEER, JoTitle, JO_TITLE, JoNuggets, JO_NUGGETS, JoLie, JO_LIE, JoMom, JO_MOM, JoTeeth, JO_TEETH, JoShelter, JO_SHELTER} from './campaigns/jo/jo';
+import {JoJoseph, JO_JOSEPH, JoFred, JO_FRED, JoBlue, JO_BLUE, JoDeer, JO_DEER, JoTitle, JO_TITLE, JoNuggets, JO_NUGGETS, JoLie, JO_LIE, JoMom, JO_MOM, JoTeeth, JO_TEETH, JoShelter, JO_SHELTER, JoPay, JO_PAY, JoRunaway, JO_RUNAWAY, JoMix, JO_MIX, JoBurger, JO_BURGER, JoHardlove, JO_HARDLOVE} from './campaigns/jo/jo';
 import {KitTax, KIT_TAX, KitMom, KIT_MOM, KitLast, KIT_LAST} from './campaigns/kit/kits';
 import {KcScooter, KC_SCOOTER, KcSeaplane, KC_SEAPLANE, KcSwamp, KC_SWAMP, KcAlert, KC_ALERT, KcCountdown, KC_COUNTDOWN, KcAtv, KC_ATV, KcTiktok, KC_TIKTOK, KcBanned, KC_BANNED, KcSteal, KC_STEAL, KcDog, KC_DOG, KcLucia, KC_LUCIA, KcShark, KC_SHARK, KcDog2, KC_DOG2, KcShoe, KC_SHOE, KcDonate, KC_DONATE, KcNarr, KC_NARR, KcRob, KC_ROB, KcBath, KC_BATH, KcClub, KC_CLUB, KcDudes, KC_DUDES, KcNakedw, KC_NAKEDW, KcWife, KC_WIFE, KcBanned2, KC_BANNED2} from './campaigns/gaming/kc';
 import {RefBet, RefTrust, RefSue, RefAsked, RefExcited, REF_BET, REF_TRUST, REF_SUE, REF_ASKED, REF_EXCITED} from './campaigns/neon_clip/ref';
@@ -176,6 +176,11 @@ export const RemotionRoot = () => (
   <Composition id="JoMom" component={JoMom} fps={30} width={1080} height={1920} durationInFrames={Math.round((JO_MOM.total / 1000) * 30)} />
   <Composition id="JoTeeth" component={JoTeeth} fps={30} width={1080} height={1920} durationInFrames={Math.round((JO_TEETH.total / 1000) * 30)} />
   <Composition id="JoShelter" component={JoShelter} fps={30} width={1080} height={1920} durationInFrames={Math.round((JO_SHELTER.total / 1000) * 30)} />
+  <Composition id="JoPay" component={JoPay} fps={30} width={1080} height={1920} durationInFrames={Math.round((JO_PAY.total / 1000) * 30)} />
+  <Composition id="JoRunaway" component={JoRunaway} fps={30} width={1080} height={1920} durationInFrames={Math.round((JO_RUNAWAY.total / 1000) * 30)} />
+  <Composition id="JoMix" component={JoMix} fps={30} width={1080} height={1920} durationInFrames={Math.round((JO_MIX.total / 1000) * 30)} />
+  <Composition id="JoBurger" component={JoBurger} fps={30} width={1080} height={1920} durationInFrames={Math.round((JO_BURGER.total / 1000) * 30)} />
+  <Composition id="JoHardlove" component={JoHardlove} fps={30} width={1080} height={1920} durationInFrames={Math.round((JO_HARDLOVE.total / 1000) * 30)} />
   <Composition id="JoTitle" component={JoTitle} fps={30} width={1080} height={1920} durationInFrames={Math.round((JO_TITLE.total / 1000) * 30)} />
   <Composition id="YlaAura" component={YlaAura} fps={30} width={1080} height={1920} durationInFrames={Math.round((YLA_AURA.total / 1000) * 30)} />
   <Composition id="YlaBank" component={YlaBank} fps={30} width={1080} height={1920} durationInFrames={Math.round((YLA_BANK.total / 1000) * 30)} />
