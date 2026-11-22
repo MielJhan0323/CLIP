@@ -36,7 +36,7 @@ type Raw = {text: string; startMs: number; endMs: number}[];
 const T = (x: unknown) => x as Track;
 const R = (x: unknown) => x as Raw;
 // keep reaction pauses (laughs, suspense) that the dead-air trimmer would cut: silent filler "words" every 300 ms (no caption text)
-const keep = (x: unknown, spans: [number, number][]): Raw => [...(x as Raw), ...spans.flatMap(([a, b]) => Array.from({length: Math.ceil((b - a) / 300)}, (_, i) => ({text: '', startMs: a + i * 300, endMs: a + i * 300 + 280})))];
+export const keep = (x: unknown, spans: [number, number][]): Raw => [...(x as Raw), ...spans.flatMap(([a, b]) => Array.from({length: Math.ceil((b - a) / 300)}, (_, i) => ({text: '', startMs: a + i * 300, endMs: a + i * 300 + 280})))];
 const {green: G, yellow: Y, cyan: C, red: RD} = HC;
 
 // one diagram (≤ 3.5 s): the redemption price drop
@@ -53,8 +53,8 @@ const inDrop = (o: number, at: (s: number) => number): ReactNode => <Drop o={o} 
 
 
 // ---- one Jorho v2 diagram per clip (user 2026-11-22: "they need the diagrams that make jorho v2 shine, not too much"): ≤ 3.5 s, body only
-const DT = ({t}: {t: string}) => <div style={{position: 'absolute', left: 50, top: 70, fontFamily: MONT, fontWeight: 900, fontSize: 60, color: '#111'}}>{t}</div>;
-const Rw = ({o, at, i, label, ok, hl, img}: {o: number; at: number; i: number; label: string; ok?: boolean; hl?: boolean; img?: string}) => (o < at ? null :
+export const DT = ({t}: {t: string}) => <div style={{position: 'absolute', left: 50, top: 70, fontFamily: MONT, fontWeight: 900, fontSize: 60, color: '#111'}}>{t}</div>;
+export const Rw = ({o, at, i, label, ok, hl, img}: {o: number; at: number; i: number; label: string; ok?: boolean; hl?: boolean; img?: string}) => (o < at ? null :
   <div style={{position: 'absolute', left: 70, right: 70, top: 385 + i * 165, height: 135, borderRadius: 24, background: hl ? '#dff7c8' : 'white', border: `5px solid ${hl ? '#3aa30f' : '#222'}`,
     display: 'flex', alignItems: 'center', gap: 24, padding: '0 30px', fontFamily: MONT, fontWeight: 900, fontSize: 46, color: '#111', transform: `scale(${Math.min(1, pop(o, at, 12, 240))})`}}>
     <span style={{color: '#888'}}>{i + 1}</span>{img && <Img src={staticFile(img)} style={{height: 158, width: 170, objectFit: 'contain', objectPosition: '50% 100%', alignSelf: 'flex-end', marginTop: -28, filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.3))'}} />}<span style={{flex: 1}}>{label}</span>{ok !== undefined && <Img src={staticFile(`emoji-ios/${ok ? '2705' : '274c'}.png`)} style={{width: 66, height: 66}} />}</div>);

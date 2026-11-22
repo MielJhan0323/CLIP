@@ -96,7 +96,7 @@ const CallLine = ({o, beforeAt, duringAt, whyAt}: {o: number; beforeAt: number; 
 // ---------- boards (face-cam layout; also used opaque as the cold-open hook) -------------------------------------------------------
 const Paper = ({children}: {children: ReactNode}) => <AbsoluteFill style={{background: '#f4f1ea'}}>{children}</AbsoluteFill>;
 const BTitle = ({text}: {text: string}) => <div style={{position: 'absolute', left: 50, top: 70, width: 640, fontFamily: MONT, fontWeight: 900, fontSize: 56, lineHeight: '64px', color: '#111'}}>{text}</div>;
-const Foursome = ({o, jesusAt, tigerAt}: {o: number; jesusAt: number; tigerAt: number}) => {
+export const Foursome = ({o, jesusAt, tigerAt}: {o: number; jesusAt: number; tigerAt: number}) => {
   const slot = (i: number, name: string, at: number, emo: string, col: string) => {
     const on = name && o >= at;
     return <div key={i} style={{width: 440, height: 250, borderRadius: 26, border: `6px ${on ? 'solid' : 'dashed'} ${on ? col : '#bbb'}`, background: on ? 'white' : 'transparent',
@@ -111,7 +111,7 @@ const Foursome = ({o, jesusAt, tigerAt}: {o: number; jesusAt: number; tigerAt: n
       {slot(0, 'TREVOR', -5000, '1f3c8', '#0b6b6b')}{slot(1, 'JESUS', jesusAt, '1f64f', '#c99a00')}{slot(2, 'TIGER', tigerAt, '26f3', '#e07a00')}{slot(3, '', 0, '', '')}
     </div></>;
 };
-const Top10 = ({o, checkAt}: {o: number; checkAt: number}) => <><BTitle text="TOP 10 QBs OF ALL TIME?" />
+export const Top10 = ({o, checkAt}: {o: number; checkAt: number}) => <><BTitle text="TOP 10 QBs OF ALL TIME?" />
   <div style={{position: 'absolute', left: 80, top: 330, width: 920}}>
     {Array.from({length: 10}, (_, i) => <div key={i} style={{height: 64, marginBottom: 12, borderRadius: 14, background: i === 6 && o >= checkAt ? '#d8f7cf' : '#e6e1d6',
       display: 'flex', alignItems: 'center', padding: '0 24px', fontFamily: MONT, fontWeight: 900, fontSize: 36, color: '#111'}}>
@@ -120,7 +120,7 @@ const Top10 = ({o, checkAt}: {o: number; checkAt: number}) => <><BTitle text="TO
         <Img src={staticFile('emoji-ios/2705.png')} style={{width: 50, height: 50}} /><span style={{fontSize: 28, color: '#1f8f12'}}>"GOTTA BE"</span></span>}
     </div>)}
   </div></>;
-const Ticket = ({o, a, signAt}: {o: number; a: number; signAt: number}) => {
+export const Ticket = ({o, a, signAt}: {o: number; a: number; signAt: number}) => {
   const p = ease(o, a, 500);
   return <><BTitle text="THE GIFT" />
     <div style={{position: 'absolute', left: 90, top: 380, width: 900, height: 420, borderRadius: 30, background: 'linear-gradient(135deg, #f56600, #522d80)', transform: `rotate(${-4 + p * 2}deg) translateY(${(1 - p) * 80}px)`,
@@ -148,7 +148,7 @@ const AutoCompare = ({o, a}: {o: number; a: number}) => {
     {card(580, 350, 'TREVOR AUTO', <span style={{fontFamily: '"Brush Script MT", cursive', fontSize: 110, color: '#1a3d8f'}}>Trevor L.</span>, 'GOATED PEN', '#1f8f12')}
     {o >= a + 700 && <Img src={staticFile('emoji-ios/1f41c.png')} style={{position: 'absolute', left: 250, top: 600, width: 70, height: 70, transform: `scale(${pop(o, a + 700, 9, 260)})`}} />}</>;
 };
-const Slab = ({o, a}: {o: number; a: number}) => {
+export const Slab = ({o, a}: {o: number; a: number}) => {
   const p = ease(o, a, 400);
   return <><div style={{position: 'absolute', left: 300, top: 150, width: 480, height: 760, borderRadius: 24, background: 'linear-gradient(160deg, #f8f8f8, #d9dde3)', border: '8px solid #c8102e',
     transform: `scale(${0.8 + 0.2 * p}) rotate(${-3 * (1 - p)}deg)`, opacity: p, boxShadow: '0 20px 50px rgba(0,0,0,0.45)'}}>
