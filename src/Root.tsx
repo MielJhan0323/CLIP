@@ -15,6 +15,7 @@ import {FullPilatesQ, FullTuck, FullSpider, FullRespect, FullExcited, FULL_PILAT
 import {SegaDemo, SEGA_DEMO, SegaSonic, SEGA_SONIC, SegaJrpg, SEGA_JRPG, SegaStrat, SEGA_STRAT, SegaCount, SEGA_COUNT, SegaIntro, SEGA_INTRO} from './campaigns/sega/sega';
 import {WaHeat, WA_HEAT, WaLegend, WA_LEGEND, WaVinyl, WA_VINYL, WaMatthew, WA_MATTHEW} from './campaigns/wa/wa';
 import {YlaAura, YLA_AURA, YlaBank, YLA_BANK, YlaJohnny, YLA_JOHNNY, YlaCheck, YLA_CHECK, YlaLate, YLA_LATE, YlaMarlin, YLA_MARLIN, YlaJay, YLA_JAY} from './campaigns/yla/yla';
+import {JoJoseph, JO_JOSEPH, JoFred, JO_FRED, JoBlue, JO_BLUE, JoDeer, JO_DEER, JoTitle, JO_TITLE} from './campaigns/jo/jo';
 import {KitTax, KIT_TAX, KitMom, KIT_MOM, KitLast, KIT_LAST} from './campaigns/kit/kits';
 import {KcScooter, KC_SCOOTER, KcSeaplane, KC_SEAPLANE, KcSwamp, KC_SWAMP, KcAlert, KC_ALERT, KcCountdown, KC_COUNTDOWN, KcAtv, KC_ATV, KcTiktok, KC_TIKTOK, KcBanned, KC_BANNED, KcSteal, KC_STEAL, KcDog, KC_DOG, KcLucia, KC_LUCIA, KcShark, KC_SHARK, KcDog2, KC_DOG2, KcShoe, KC_SHOE, KcDonate, KC_DONATE, KcNarr, KC_NARR, KcBath, KC_BATH, KcClub, KC_CLUB, KcDudes, KC_DUDES, KcNakedw, KC_NAKEDW, KcWife, KC_WIFE, KcBanned2, KC_BANNED2} from './campaigns/gaming/kc';
 import {RefBet, RefTrust, RefSue, RefAsked, RefExcited, REF_BET, REF_TRUST, REF_SUE, REF_ASKED, REF_EXCITED} from './campaigns/neon_clip/ref';
@@ -165,6 +166,11 @@ export const RemotionRoot = () => (
   <Composition id="KcSwamp" component={KcSwamp} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_SWAMP.total / 1000) * 30)} />
   <Composition id="KcAlert" component={KcAlert} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_ALERT.total / 1000) * 30)} />
   <Composition id="KcCountdown" component={KcCountdown} fps={30} width={1080} height={1920} durationInFrames={Math.round((KC_COUNTDOWN.total / 1000) * 30)} />
+  <Composition id="JoJoseph" component={JoJoseph} fps={30} width={1080} height={1920} durationInFrames={Math.round((JO_JOSEPH.total / 1000) * 30)} />
+  <Composition id="JoFred" component={JoFred} fps={30} width={1080} height={1920} durationInFrames={Math.round((JO_FRED.total / 1000) * 30)} />
+  <Composition id="JoBlue" component={JoBlue} fps={30} width={1080} height={1920} durationInFrames={Math.round((JO_BLUE.total / 1000) * 30)} />
+  <Composition id="JoDeer" component={JoDeer} fps={30} width={1080} height={1920} durationInFrames={Math.round((JO_DEER.total / 1000) * 30)} />
+  <Composition id="JoTitle" component={JoTitle} fps={30} width={1080} height={1920} durationInFrames={Math.round((JO_TITLE.total / 1000) * 30)} />
   <Composition id="YlaAura" component={YlaAura} fps={30} width={1080} height={1920} durationInFrames={Math.round((YLA_AURA.total / 1000) * 30)} />
   <Composition id="YlaBank" component={YlaBank} fps={30} width={1080} height={1920} durationInFrames={Math.round((YLA_BANK.total / 1000) * 30)} />
   <Composition id="YlaJohnny" component={YlaJohnny} fps={30} width={1080} height={1920} durationInFrames={Math.round((YLA_JOHNNY.total / 1000) * 30)} />
