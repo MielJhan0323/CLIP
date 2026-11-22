@@ -54,24 +54,42 @@ const inDrop = (o: number, at: (s: number) => number): ReactNode => <Drop o={o} 
 
 // ---- one Jorho v2 diagram per clip (user 2026-11-22: "they need the diagrams that make jorho v2 shine, not too much"): ≤ 3.5 s, body only
 const DT = ({t}: {t: string}) => <div style={{position: 'absolute', left: 50, top: 70, fontFamily: MONT, fontWeight: 900, fontSize: 60, color: '#111'}}>{t}</div>;
-const Rw = ({o, at, i, label, ok, hl}: {o: number; at: number; i: number; label: string; ok?: boolean; hl?: boolean}) => (o < at ? null :
-  <div style={{position: 'absolute', left: 70, right: 70, top: 220 + i * 165, height: 135, borderRadius: 24, background: hl ? '#dff7c8' : 'white', border: `5px solid ${hl ? '#3aa30f' : '#222'}`,
+const Rw = ({o, at, i, label, ok, hl, img}: {o: number; at: number; i: number; label: string; ok?: boolean; hl?: boolean; img?: string}) => (o < at ? null :
+  <div style={{position: 'absolute', left: 70, right: 70, top: 385 + i * 165, height: 135, borderRadius: 24, background: hl ? '#dff7c8' : 'white', border: `5px solid ${hl ? '#3aa30f' : '#222'}`,
     display: 'flex', alignItems: 'center', gap: 24, padding: '0 30px', fontFamily: MONT, fontWeight: 900, fontSize: 46, color: '#111', transform: `scale(${Math.min(1, pop(o, at, 12, 240))})`}}>
-    <span style={{color: '#888'}}>{i + 1}</span><span style={{flex: 1}}>{label}</span>{ok !== undefined && <Img src={staticFile(`emoji-ios/${ok ? '2705' : '274c'}.png`)} style={{width: 66, height: 66}} />}</div>);
+    <span style={{color: '#888'}}>{i + 1}</span>{img && <Img src={staticFile(img)} style={{height: 158, width: 170, objectFit: 'contain', objectPosition: '50% 100%', alignSelf: 'flex-end', marginTop: -28, filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.3))'}} />}<span style={{flex: 1}}>{label}</span>{ok !== undefined && <Img src={staticFile(`emoji-ios/${ok ? '2705' : '274c'}.png`)} style={{width: 66, height: 66}} />}</div>);
 const Bar = ({o, at, i, label, w, emoji}: {o: number; at: number; i: number; label: string; w: number; emoji: string}) => { const p = Math.min(1, Math.max(0, (o - at) / 700));
   return o < at ? null : <div style={{position: 'absolute', left: 70, top: 260 + i * 260}}>
     <div style={{fontFamily: MONT, fontWeight: 900, fontSize: 44, color: '#111'}}>{label}</div>
     <div style={{marginTop: 14, height: 90, width: 120 + (w - 120) * (1 - (1 - p) ** 3), borderRadius: 18, background: i ? '#E8261F' : '#2b6fe0', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 14}}>
       <Img src={staticFile(`emoji-ios/${emoji}.png`)} style={{width: 70, height: 70}} /></div></div>; };
 const B_GOAT = (o: number, at: (s: number) => number) => <><DT t="THE NBA GOAT LIST" />
-  <Rw o={o} at={at(5700)} i={0} label="MICHAEL JORDAN" /><Rw o={o} at={at(6300)} i={1} label="LEBRON JAMES" /><Rw o={o} at={at(6900)} i={2} label="KOBE BRYANT" />
+  <Rw o={o} at={at(5700)} i={0} label="MICHAEL JORDAN" img="img/jorho/jordan.png" /><Rw o={o} at={at(6300)} i={1} label="LEBRON JAMES" img="img/jorho/lebron.png" /><Rw o={o} at={at(6900)} i={2} label="KOBE BRYANT" img="img/jorho/kobe.png" />
   <Rw o={o} at={at(7600)} i={3} label="??? (TREVOR'S PICK)" hl /></>;
 const B_PACK = (o: number, at: (s: number) => number) => <><DT t="A T-LAW PACK" />
   <Rw o={o} at={at(3600)} i={0} label="RIP IT ONLINE" ok /><Rw o={o} at={at(5600)} i={1} label="SHIPPED TO YOUR HOUSE" ok /><Rw o={o} at={at(6600)} i={2} label="EVERY CARD = TREVOR" hl /></>;
 const B_ANT = (o: number, at: (s: number) => number) => <><DT t="AUTOGRAPH CHECK" />
   <Rw o={o} at={at(17300)} i={0} label="TREVOR: FULL SIGNATURE" ok /><Rw o={o} at={at(17900)} i={1} label={"RICHARDSON: \"A\" + \"R\""} ok={false} hl /></>;
-const B_NECK = (o: number, at: (s: number) => number) => <><DT t="NECK LENGTH (APPROX.)" />
-  <Bar o={o} at={at(10300)} i={0} label="MIKE GLENNON" w={600} emoji="1f9cd" /><Bar o={o} at={at(10700)} i={1} label="DAVIS MILLS" w={900} emoji="1f992" /></>;
+// neck chart v2 (user 2026-11-22: "a graph with x y regular graph and the indicator is their heads and a stretched out neck")
+const NeckCol = ({o, at, x, h, head, name, cx = 0.5}: {o: number; at: number; x: number; h: number; head: string; name: string; cx?: number}) => {
+  const p = Math.min(1, Math.max(0, (o - at) / 900)), e = 1 - (1 - p) ** 3, nh = 40 + (h - 40) * e, base = 930;
+  return o < at ? null : <>
+    <div style={{position: 'absolute', left: x - 34, top: base - nh, width: 68, height: nh, borderRadius: 34,
+      background: 'linear-gradient(90deg, #c98d64, #f0c19a 45%, #c98d64)', boxShadow: 'inset 0 0 0 3px rgba(0,0,0,0.12)'}} />
+    <Img src={staticFile(head)} style={{position: 'absolute', left: x - cx * 260, top: base - nh - 215, width: 260, height: 260, objectFit: 'contain',
+      filter: 'drop-shadow(0 6px 10px rgba(0,0,0,0.35))'}} />
+    <div style={{position: 'absolute', left: x - 180, width: 360, top: base + 20, textAlign: 'center', fontFamily: MONT, fontWeight: 900, fontSize: 36, color: '#111'}}>{name}</div></>;
+};
+const B_NECK = (o: number, at: (s: number) => number) => <><DT t="NECK LENGTH" />
+  <svg width={1080} height={1080} style={{position: 'absolute', inset: 0}}>
+    <line x1={130} y1={930} x2={1000} y2={930} stroke="#111" strokeWidth={8} strokeLinecap="round" />
+    <line x1={130} y1={930} x2={130} y2={170} stroke="#111" strokeWidth={8} strokeLinecap="round" />
+    {[0, 1, 2, 3].map((i) => <line key={i} x1={120} y1={930 - (i + 1) * 180} x2={1000} y2={930 - (i + 1) * 180} stroke="#bbb" strokeWidth={3} strokeDasharray="12 12" />)}
+    <polygon points="130,150 112,185 148,185" fill="#111" /><polygon points="1020,930 985,912 985,948" fill="#111" />
+  </svg>
+  <div style={{position: 'absolute', left: 40, top: 560, transform: 'rotate(-90deg)', transformOrigin: 'left top', fontFamily: MONT, fontWeight: 900, fontSize: 30, color: '#555'}}>NECK LENGTH →</div>
+  <NeckCol o={o} at={at(10300)} x={300} h={230} cx={0.48} head="img/jorho/glennon_head.png" name="MIKE GLENNON" />
+  <NeckCol o={o} at={at(10700)} x={640} h={540} cx={0.72} head="img/jorho/mills_head.png" name="DAVIS MILLS" /></>;
 const B_NAME = (o: number, at: (s: number) => number) => <><DT t="SAME GUY?" />
   <Rw o={o} at={at(19300)} i={0} label="JOSH ALLEN (BILLS QB)" ok={false} /><Rw o={o} at={at(20800)} i={1} label="JOSH HINES-ALLEN (JAGS)" ok hl /></>;
 
