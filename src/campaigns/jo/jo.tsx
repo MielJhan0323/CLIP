@@ -30,3 +30,22 @@ export const JO_DEER = mk('07', w07, 'HIS DOG CAME BACK WITH [A STORY]', [[272.1
 // 5 · Variety: how he named the special
 export const JO_TITLE = mk('vtitle', wV, 'HOW JO KOY NAMED [BLUE IN THE FACE]', [[26.0, 30.0], [11.2, 17.0], [18.1, 25.9], [30.3, 38.3]], {wide: 1.0, zoom: 1, hookTop: 300, capY: 1430});
 export const JoJoseph = JO_JOSEPH.Comp, JoFred = JO_FRED.Comp, JoBlue = JO_BLUE.Comp, JoDeer = JO_DEER.Comp, JoTitle = JO_TITLE.Comp;
+
+// ---- batch 2 (2026-11-22, "5 jo koy clips … topics that relate to the general audience"): first job, lying to Mom, Mom fighting
+// for you, teeth insecurity, adopt-don't-shop. Same comedy-clip look (face-tracked crop, no hook text, plain captions, original audio).
+import w03 from '../../../public/jo/jo_03.words.json';
+import w05 from '../../../public/jo/jo_05.words.json';
+import f03 from '../../../public/jo/jo_03.facex.json';
+import f05 from '../../../public/jo/jo_05.facex.json';
+faceX[P('03')] = f03 as [number, number][]; faceX[P('05')] = f05 as [number, number][];
+// 1 · first job: fired from McDonald's for stealing nuggets (cold open = the confession)
+export const JO_NUGGETS = mk('05', w05, '', [[0.73, 7.41], [12.81, 23.6], [43.19, 54.6], [70.31, 74.29], [81.53, 87.79]]);
+// 2 · cold open "Are you telling me the truth?" → lying to Mom about why he got fired → her cross-examination → "get in the goddamn car"
+export const JO_LIE = mk('05', w05, '', [[193.95, 197.9], [139.19, 149.95], [152.83, 167.19], [171.53, 174.63], [177.83, 185.43], [193.95, 201.05], [208.17, 216.2]]);
+// 3 · part 2: Mom storms into McDonald's to defend him… and comes out knowing the truth
+export const JO_MOM = mk('05', w05, '', [[210.05, 216.2], [242.37, 247.81], [254.27, 263.39], [266.09, 274.5], [297.81, 311.99]]);
+// 4 · teeth insecurity: covering his smile on stage → the $100,000 dentist quote
+export const JO_TEETH = mk('03', w03, '', [[9.01, 22.93], [35.95, 39.55], [185.89, 200.27], [230.71, 238.55], [242.47, 253.39]]);
+// 5 · adopt, don't shop
+export const JO_SHELTER = mk('07', w07, '', [[1.17, 10.49], [22.27, 50.5]], {fix: {joe: 'Jo,'}});
+export const JoNuggets = JO_NUGGETS.Comp, JoLie = JO_LIE.Comp, JoMom = JO_MOM.Comp, JoTeeth = JO_TEETH.Comp, JoShelter = JO_SHELTER.Comp;
