@@ -9,9 +9,9 @@
 //  · each clip its own mix: 0–1 colour flash, its own SFX set, its own music; kept from the 500K recipe: dead-air trims, warm grade,
 //    one-word captions, *Trevor Lawrence* arrow once, bed from the first cut swelling on a reaction tail after the last word
 import type {ReactNode} from 'react';
-import {AbsoluteFill, Img, interpolate, staticFile} from 'remotion';
+import {AbsoluteFill, Img, interpolate, OffthreadVideo, Sequence, staticFile} from 'remotion';
 import {MONT} from '../e3/bars';
-import {Cam, clamp, ease, pop, sfx, timeline, type CamCfg, type Seg, type Sfx, type TL} from '../e3/kit';
+import {Cam, clamp, ease, FPS, pop, sfx, timeline, type CamCfg, type Seg, type Sfx, type TL} from '../e3/kit';
 import {BOX_H, HeadRing, MemePop, wordsFrom} from './kit';
 import {Jorho, VIRAL_WARM, type Spec} from './clips';
 import {TypedAction, YouTubeCard} from './v2';
@@ -52,6 +52,10 @@ type Cfg = {
   hook?: (o: number, end: number) => ReactNode; // a graphic over the cold open (end = output ms where the body starts)
   capsOff?: [number, number][]; // source ranges where captions hide (an overlay graphic owns the box)
   yt?: {title: string; a: number; b: number}; // YouTube watch-page card framing the question (source ms)
+  // v3 = the client's whop-ai Drive template (2026-11-21, refs: 41 BYB Shorts + EDITING RESOURCES): frame 0 = lime flash + red arrow
+  // *Trevor Lawrence*; full-band cutaways (player photos / BYB scream clips) on the punchline; the client's sticker PNGs; money-fall overlay
+  v3?: {arrowStart?: boolean; green?: boolean; cuts?: {src: number; dur: number; file: string; from?: number}[];
+    stickers?: [src: number, file: string][]; money?: number[]};
 };
 const TINT = {red: 'rgba(255,40,40,0.75)', yellow: 'rgba(240,255,60,0.7)', green: 'rgba(80,255,60,0.65)'};
 
@@ -109,9 +113,10 @@ export const make = (c: Cfg) => {
   const end = tl.segOut[segs.length - 1] + spokeEnd - last[0];
   const boards = (c.boards ?? []).map((bd) => ({...bd, oa: at(bd.a), ob: Math.min(at(bd.b), at(bd.a) + 3500)})); // boards ≤ 3.5 s (reviewer: diagrams covered the speaker 7–8 s)
   const flashO = c.flash ? at(c.flash[0]) : -1;
-  const arrow = at(c.arrowAt);
+  const arrow = c.v3?.arrowStart ? 0 : at(c.arrowAt);
+  const cuts = (c.v3?.cuts ?? []).map((k) => ({...k, oa: at(k.src)}));
   const camCfg: CamCfg = {src: c.src, tl, track: c.track, grade: VIRAL_WARM, box: [1080, BOX_H], baseH: 640, faceY: 0.42, wideX: c.wideX, who: () => 'M'};
-  const capsOffList: [number, number][] = [[at(c.arrowAt), at(c.arrowAt) + 1300], ...boards.map((bd) => [bd.oa, bd.ob] as [number, number]), ...(c.capsOff ?? []).map(([a, b]) => [at(a), at(b)] as [number, number]), [0, tl.segOut[hookN]] as [number, number]];
+  const capsOffList: [number, number][] = [[arrow, arrow + 1300], ...cuts.map((k) => [k.oa, k.oa + k.dur] as [number, number]), ...boards.map((bd) => [bd.oa, bd.ob] as [number, number]), ...(c.capsOff ?? []).map(([a, b]) => [at(a), at(b)] as [number, number]), [0, tl.segOut[hookN]] as [number, number]];
   const capWords = applyHi(wordsFrom(c.raw, tl, {goaded: 'goated', fields: 'Fields', ...(c.fix ?? {})}), c.hi);
   beats = capWords.filter((w) => { const h = c.hi?.[w.text.toLowerCase().replace(/^[^a-z0-9$*]+|[^a-z0-9%*]+$/g, '')]; return Array.isArray(h); }).map((w) => w.at)
     .filter((t, i, a) => i === 0 || t - a[i - 1] > 700);
@@ -127,6 +132,13 @@ export const make = (c: Cfg) => {
     inBox: (o) => <>
       {boards.map((bd, i) => (o >= bd.oa && o < bd.ob ? <BoardShell key={i} o={o} a={bd.oa} b={bd.ob} cam={camCfg}>{bd.render(o, at)}</BoardShell> : null))}
       {c.inBox?.(o, at)}
+      {c.v3?.green && o < 900 && <AbsoluteFill style={{background: '#8BE612', mixBlendMode: 'color', opacity: interpolate(o, [0, 500, 900], [0.85, 0.85, 0], clamp)}} />}
+      {cuts.map((k, i) => (o >= k.oa && o < k.oa + k.dur ? <AbsoluteFill key={i} style={{background: '#000', overflow: 'hidden'}}>
+        {/\.(png|jpe?g)$/i.test(k.file)
+          ? <Img src={staticFile(k.file)} style={{width: '100%', height: '100%', objectFit: 'cover', transform: `scale(${1.04 + 0.08 * ((o - k.oa) / k.dur)})`}} />
+          : <Sequence from={Math.round((k.oa / 1000) * FPS)} durationInFrames={Math.round((k.dur / 1000) * FPS)} layout="none">
+              <OffthreadVideo src={staticFile(k.file)} trimBefore={Math.round((k.from ?? 0) * FPS)} volume={0.9} style={{width: '100%', height: '100%', objectFit: 'cover'}} /></Sequence>}
+      </AbsoluteFill> : null))}
       {o < tl.segOut[hookN] && (DIAGRAM_HOOKS && c.hook ? c.hook(o + HOOK_LEAD, tl.segOut[hookN] + HOOK_LEAD) : <AutoHook o={o + HOOK_LEAD} end={tl.segOut[hookN] + HOOK_LEAD} text={c.hookText ?? c.top} top={70} />)}
       {c.yt && <YouTubeCard o={o} a={at(c.yt.a)} b={at(c.yt.b)} title={c.yt.title} cam={camCfg} startAt={c.yt.a} dur={tl.total + 20000} />}
       {flashO >= 0 && o >= flashO && o < flashO + 190 && <AbsoluteFill style={{background: TINT[c.flash![1]], mixBlendMode: 'color',
@@ -138,6 +150,9 @@ export const make = (c: Cfg) => {
         {o >= arrow && o < arrow + 1300 && !boards.some((bd) => o >= bd.oa && o < bd.ob) && (c.mark === 'circle' ? <HeadRing o={o} a={arrow} b={arrow + 1500} x={f.x} y={f.y} k={1.25} label="Trevor Lawrence" /> : <ArrowName o={o - arrow} x={f.x} y={f.y} />)}
         {c.cutout && <MemePop o={o} at={at(c.cutout.src)} to={at(c.cutout.src) + 900} src={c.cutout.file} x={c.cutout.x ?? 560} y={c.cutout.y ?? 820} size={c.cutout.size ?? 440} />}
         {c.overlay?.(o, at)}
+        {(c.v3?.stickers ?? []).map(([s0, file], i) => <MemePop key={i} o={o} at={at(s0)} to={at(s0) + 1000} src={file} x={760} y={980} size={300} />)}
+        {(c.v3?.money ?? []).map((s0, i) => { const m = at(s0); return o >= m && o < m + 1750 ? <AbsoluteFill key={i} style={{mixBlendMode: 'screen'}}>
+          <Sequence from={Math.round((m / 1000) * FPS)} durationInFrames={Math.round(1.75 * FPS)} layout="none"><OffthreadVideo src={staticFile('byb/ov/ov-money_cash_falling.mp4')} muted style={{width: '100%', height: '100%'}} /></Sequence></AbsoluteFill> : null; })}
         {!boards.some((bd) => o >= bd.oa && o < bd.ob) && !capsOffList.some(([x, y]) => o >= x && o < y) && <EmojiPop o={o} words={capWords} hi={c.hi} y={1230} />}
       </>;
     },
@@ -149,6 +164,7 @@ export const make = (c: Cfg) => {
       sfx('mg-swoosh', arrow, 0.16, 500),
       ...boards.flatMap((bd) => [sfx('mg-swoosh2', bd.oa, 0.18, 500), sfx('mg-whoosh', bd.ob - 250, 0.14, 500)]),
       ...(c.cutout ? [sfx('jv2-pop-button', at(c.cutout.src), 0.18)] : []),
+      ...cuts.map((k) => sfx('mg-whoosh', k.oa - 120, 0.14, 400)), ...(c.v3?.money ?? []).map((s0) => sfx('cha-ching', at(s0), 0.18)),
       ...(c.sfx?.(at) ?? []),
       ...beats.filter((t) => t > 400).map((t) => sfx('jv2-pop-button', t, 0.07, 300)),
     ],
