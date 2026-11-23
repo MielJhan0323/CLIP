@@ -35,11 +35,11 @@ const B_PEY = (o: number, at: At) => <><DT t="PEYTON EARLY ON" />
 const B_ROG = (o: number, at: At) => <><DT t="STEELERS GAME" />
   <Rw o={o} at={at(11260)} i={0} label="TRAVELING TREVORS" ok /><Rw o={o} at={at(11640)} i={1} label="vs ROGERS REALM" hl /></>;
 const B_LAIR = (o: number, at: At) => <><DT t="THE INVITE" />
-  <Rw o={o} at={at(5020)} i={0} label="ENJOYED IT? HONESTLY DID" ok /><Rw o={o} at={at(6440)} i={1} label="COME BACK TO THE LAIR?" hl /></>;
+  <Rw o={o} at={at(5020)} i={0} label="ENJOYED IT? HONESTLY DID" ok /><Rw o={o} at={at(5560)} i={1} label="COME BACK TO THE LAIR?" hl /></>;
 const B_ONE = (o: number, at: At) => <><DT t="1-OF-1 VALUE" />
-  <Rw o={o} at={at(76240)} i={0} label="CLEMSON: ~$2,000" ok /><Rw o={o} at={at(78700)} i={1} label="NFL: $500K – $1M" ok hl /></>;
+  <Rw o={o} at={at(76240)} i={0} label="CLEMSON: ~$2,000" ok /><Rw o={o} at={at(77640)} i={1} label="NFL: $500K TO $1M" ok hl /></>;
 const B_PB = (o: number, at: At) => <><DT t="THE PLAYBOOK" />
-  <Rw o={o} at={at(49580)} i={0} label="INSTALLED: HUNDREDS" ok /><Rw o={o} at={at(52580)} i={1} label="NEW EACH WEEK: 8–10" ok hl /></>;
+  <Rw o={o} at={at(49580)} i={0} label="INSTALLED: HUNDREDS" ok /><Rw o={o} at={at(51160)} i={1} label="NEW EACH WEEK: 8 TO 10" ok hl /></>;
 const B_COEN = (o: number, at: At) => <><DT t="BEFORE vs COEN" />
   <Rw o={o} at={at(30880)} i={0} label="DEFENSIVE RECOGNITION?" ok={false} /><Rw o={o} at={at(33200)} i={1} label="COEN: TAUGHT HIM MORE" ok hl /></>;
 
@@ -77,7 +77,7 @@ const CLOSET = make({hookText: '$2K vs [$1 MILLION]', src: 'pod/t4_natty_ticket.
   shots: [[50860, 'L'], [59380, 'M', 1.06], [71840, 'L'], [76200, 'L', 1.08], [79500, 'W']],
   hi: {closet: Y, jersey: C, college: C, nfl: G, clemson: [Y, '1f3c6'], million: [G, '1f4b0'], '2': Y, '000': Y, '500': G},
   sfx: (at) => [sfx('cha-ching', at(76240), 0.3, 900), sfx('g-riser-sfx', at(80420) - 2000, 0.28, 2100), sfx('g-anime-wow-sound-effect', at(80420), 0.38, 1800)],
-  boards: [{a: 75600, b: 79100, render: B_ONE}], v3: V3});
+  boards: [{a: 76000, b: 79500, render: B_ONE}], v3: V3});
 
 const PLAYBOOK = make({hookText: '[HUNDREDS] OF PLAYS', src: 'pod2/u1_playbook.mp4', track: T(pbT), raw: R(pbW), wideX: 960, top: "How many plays Trevor has to [memorize]",
   segs: [[16780, 18000], [0, 2600], [14260, 23800], [49220, 54900]], hookSeat: 'M', music: 'Investigations.mp3', from: 0, arrowAt: 3300,
