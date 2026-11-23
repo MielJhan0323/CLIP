@@ -31,7 +31,7 @@ type At = (s: number) => number;
 const B_LEFT = (o: number, at: At) => <><DT t="ROLLOUTS" />
   <Rw o={o} at={at(34440)} i={0} label="COACHES: ROLL RIGHT" ok={false} /><Rw o={o} at={at(35540)} i={1} label="TREVOR: GOES LEFT" ok hl /></>;
 const B_PEY = (o: number, at: At) => <><DT t="PEYTON EARLY ON" />
-  <Rw o={o} at={at(48740)} i={0} label="LED THE LEAGUE IN INTs" ok={false} /><Rw o={o} at={at(51140)} i={1} label="ROUGH YEARS → LEGEND" ok hl /></>;
+  <Rw o={o} at={at(48740)} i={0} label="LED THE LEAGUE IN INTs" ok={false} /><Rw o={o} at={at(50100)} i={1} label="STILL BECAME A LEGEND" ok hl /></>;
 const B_ROG = (o: number, at: At) => <><DT t="STEELERS GAME" />
   <Rw o={o} at={at(11260)} i={0} label="TRAVELING TREVORS" ok /><Rw o={o} at={at(11640)} i={1} label="vs ROGERS REALM" hl /></>;
 const B_LAIR = (o: number, at: At) => <><DT t="THE INVITE" />
