@@ -65,3 +65,19 @@ export const JO_BURGER = mk('03', w03, '', [[108.19, 118.9], [91.4, 136.33]]);
 export const JO_HARDLOVE = mkKit({...base, hook: '', words: {[P('03')]: w03 as never, [P('04')]: w04 as never},
   segs: [[P('03'), 275.25, 282.53], [P('04'), 139.55, 164.21]]} as KitCfg);
 export const JoPay = JO_PAY.Comp, JoRunaway = JO_RUNAWAY.Comp, JoMix = JO_MIX.Comp, JoBurger = JO_BURGER.Comp, JoHardlove = JO_HARDLOVE.Comp;
+
+// ---- batch 4 (2026-11-24, "10 jo koy clips, relatively simple … that the general audience can relate to, even someone random just
+// scrolling by"): short single-idea cuts (17–45 s), the relatable line first, no setup a stranger would need.
+export const JO_S = {
+  Nug: mk('05', w05, '', [[0.73, 7.41], [12.63, 23.81], [43.19, 54.69]]), // stole nuggets at his first job
+  Lie: mk('05', w05, '', [[152.59, 166.96], [171.27, 174.63], [193.95, 201.21]]), // the fastest lie to Mom + her cross-exam
+  Car: mk('05', w05, '', [[266.09, 274.57], [297.81, 311.99]]), // Mom walks into McDonald's… "get out of the car"
+  Cher: mk('03', w03, '', [[8.81, 22.93], [35.73, 39.55]]), // covering his teeth when he laughed
+  Vicks: mk('03', w03, '', [[185.73, 201.13], [230.71, 238.55]]), // the dentist's reaction + the quote
+  Oprah: mk('03', w03, '', [[42.31, 57.45], [60.69, 64.43]]), // "you get a tooth, you get a tooth"
+  Gucci: mk('07', w07, '', [[5.47, 10.49], [12.15, 34.19]], {fix: {joe: 'Jo,'}}), // stop buying name-brand dogs
+  Prison: mk('07', w07, '', [[218.0, 262.6]], {fix: {joe: 'Jo,'}}), // the dog that escapes every day
+  Six: mk('04', w04, '', [[255.95, 287.55]]), // $3.85 an hour → $6 a day
+  Floss: mk('04', w04, '', [[139.55, 164.0]]), // "don't floss, get a good job and buy your teeth"
+};
+export const JoS = Object.fromEntries(Object.entries(JO_S).map(([k, v]) => [k, v.Comp])) as Record<keyof typeof JO_S, (typeof JO_S)[keyof typeof JO_S]["Comp"]>;
