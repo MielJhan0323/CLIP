@@ -63,7 +63,7 @@ const Bar = ({o, at, i, label, w, emoji}: {o: number; at: number; i: number; lab
     <div style={{fontFamily: MONT, fontWeight: 900, fontSize: 44, color: '#111'}}>{label}</div>
     <div style={{marginTop: 14, height: 90, width: 120 + (w - 120) * (1 - (1 - p) ** 3), borderRadius: 18, background: i ? '#E8261F' : '#2b6fe0', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingRight: 14}}>
       <Img src={staticFile(`emoji-ios/${emoji}.png`)} style={{width: 70, height: 70}} /></div></div>; };
-const B_GOAT = (o: number, at: (s: number) => number) => <><DT t="THE NBA GOAT LIST" />
+export const B_GOAT = (o: number, at: (s: number) => number) => <><DT t="THE NBA GOAT LIST" />
   <Rw o={o} at={at(5700)} i={0} label="MICHAEL JORDAN" img="img/jorho/jordan.png" /><Rw o={o} at={at(6300)} i={1} label="LEBRON JAMES" img="img/jorho/lebron.png" /><Rw o={o} at={at(6900)} i={2} label="KOBE BRYANT" img="img/jorho/kobe.png" />
   <Rw o={o} at={at(7600)} i={3} label="??? (TREVOR'S PICK)" hl /></>;
 const B_PACK = (o: number, at: (s: number) => number) => <><DT t="A T-LAW PACK" />
@@ -80,7 +80,7 @@ const NeckCol = ({o, at, x, h, head, name, cx = 0.5}: {o: number; at: number; x:
       filter: 'drop-shadow(0 6px 10px rgba(0,0,0,0.35))'}} />
     <div style={{position: 'absolute', left: x - 180, width: 360, top: base + 20, textAlign: 'center', fontFamily: MONT, fontWeight: 900, fontSize: 36, color: '#111'}}>{name}</div></>;
 };
-const B_NECK = (o: number, at: (s: number) => number) => <><DT t="NECK LENGTH" />
+export const B_NECK = (o: number, at: (s: number) => number) => <><DT t="NECK LENGTH" />
   <svg width={1080} height={1080} style={{position: 'absolute', inset: 0}}>
     <line x1={130} y1={930} x2={1000} y2={930} stroke="#111" strokeWidth={8} strokeLinecap="round" />
     <line x1={130} y1={930} x2={130} y2={170} stroke="#111" strokeWidth={8} strokeLinecap="round" />

@@ -27,7 +27,7 @@ const {green: G, yellow: Y, cyan: C, red: RD} = HC;
 const V3 = {push: true, musicGain: 1.8, musicFloor: 0.6};
 
 // diagrams
-const B_WHACK = (o: number, at: (s: number) => number) => <><DT t="TREVOR'S REVIEW" />
+export const B_WHACK = (o: number, at: (s: number) => number) => <><DT t="TREVOR'S REVIEW" />
   <Rw o={o} at={at(92000)} i={0} label={'VIDEO 1: "WHACKED"'} ok={false} /><Rw o={o} at={at(97580)} i={1} label={'VIDEO 2: "PRETTY FUNNY"'} ok hl /></>;
 const B_FIELDS = (o: number, at: (s: number) => number) => <><DT t="CARD VALUE" />
   <Rw o={o} at={at(129150)} i={0} label="2021: $20,000" ok /><Rw o={o} at={at(129450)} i={1} label="NOW: ~$500" ok={false} hl /></>;

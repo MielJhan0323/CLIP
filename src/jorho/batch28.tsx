@@ -28,11 +28,11 @@ const {green: G, yellow: Y, cyan: C, red: RD} = HC;
 const V3 = {push: true, musicGain: 1.8, musicFloor: 0.6};
 type At = (s: number) => number;
 
-const B_LEFT = (o: number, at: At) => <><DT t="ROLLOUTS" />
+export const B_LEFT = (o: number, at: At) => <><DT t="ROLLOUTS" />
   <Rw o={o} at={at(34440)} i={0} label="COACHES: ROLL RIGHT" ok={false} /><Rw o={o} at={at(35540)} i={1} label="TREVOR: GOES LEFT" ok hl /></>;
-const B_PEY = (o: number, at: At) => <><DT t="PEYTON EARLY ON" />
+export const B_PEY = (o: number, at: At) => <><DT t="PEYTON EARLY ON" />
   <Rw o={o} at={at(48740)} i={0} label="LED THE LEAGUE IN INTs" ok={false} /><Rw o={o} at={at(50100)} i={1} label="STILL BECAME A LEGEND" ok hl /></>;
-const B_ROG = (o: number, at: At) => <><DT t="STEELERS GAME" />
+export const B_ROG = (o: number, at: At) => <><DT t="STEELERS GAME" />
   <Rw o={o} at={at(11260)} i={0} label="TRAVELING TREVORS" ok /><Rw o={o} at={at(11640)} i={1} label="vs ROGERS REALM" hl /></>;
 const B_LAIR = (o: number, at: At) => <><DT t="THE INVITE" />
   <Rw o={o} at={at(5020)} i={0} label="ENJOYED IT? HONESTLY DID" ok /><Rw o={o} at={at(5560)} i={1} label="COME BACK TO THE LAIR?" hl /></>;
@@ -40,7 +40,7 @@ const B_ONE = (o: number, at: At) => <><DT t="1-OF-1 VALUE" />
   <Rw o={o} at={at(76240)} i={0} label="CLEMSON: ~$2,000" ok /><Rw o={o} at={at(77640)} i={1} label="NFL: $500K TO $1M" ok hl /></>;
 const B_PB = (o: number, at: At) => <><DT t="THE PLAYBOOK" />
   <Rw o={o} at={at(49580)} i={0} label="INSTALLED: HUNDREDS" ok /><Rw o={o} at={at(51160)} i={1} label="NEW EACH WEEK: 8 TO 10" ok hl /></>;
-const B_COEN = (o: number, at: At) => <><DT t="BEFORE vs COEN" />
+export const B_COEN = (o: number, at: At) => <><DT t="BEFORE vs COEN" />
   <Rw o={o} at={at(30880)} i={0} label="DEFENSIVE RECOGNITION?" ok={false} /><Rw o={o} at={at(33200)} i={1} label="COEN: TAUGHT HIM MORE" ok hl /></>;
 
 const LEFTY = make({hookText: 'HE THROWS BETTER GOING [LEFT]', src: 'pod/t3_traveling_trevors.mp4', track: T(travT), raw: R(travW), wideX: 960, top: "Why Trevor throws better rolling [left]",
