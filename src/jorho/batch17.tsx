@@ -11,7 +11,6 @@
 import type {ReactNode} from 'react';
 import {AbsoluteFill, Img, interpolate, OffthreadVideo, Sequence, staticFile} from 'remotion';
 import {MONT} from '../e3/bars';
-import LUFS from './music_lufs.json';
 import {Cam, clamp, ease, FPS, pop, sfx, timeline, type CamCfg, type Seg, type Sfx, type TL} from '../e3/kit';
 import {BOX_H, HeadRing, MemePop, wordsFrom} from './kit';
 import {Jorho, VIRAL_WARM, type Spec} from './clips';
@@ -68,9 +67,6 @@ const HOOK_LEAD = 600;
 // user 2026-11-16: "don't put diagrams directly in the start, keep it semi simple" → the cold open is the footage + the punched-in title
 // (AutoHook); `hook` diagrams are ignored, diagrams live in the body only
 const DIAGRAM_HOOKS = false;
-// 2026-11-25 "music of some is too loud": songs are mastered from -22 to +1.5 LUFS (phonk/funk ~10–15 dB hotter than the batch 26
-// songs the user liked at ~-14). Turn anything louder than -14 LUFS down to it (never up); table from ffmpeg ebur128, first 60 s.
-const loudTrim = (file: string) => { const l = (LUFS as Record<string, number | null>)[file]; return l == null ? 1 : Math.min(1, 10 ** ((-14 - l) / 20)); };
 export const make = (c: Cfg) => {
   const segs = tighten(c.segs, c.raw);
   const last = segs[segs.length - 1];
@@ -166,7 +162,7 @@ export const make = (c: Cfg) => {
         {!boards.some((bd) => o >= bd.oa && o < bd.ob) && !capsOffList.some(([x, y]) => o >= x && o < y) && <EmojiPop o={o} words={capWords} hi={c.hi} y={1230} />}
       </>;
     },
-    music: {file: c.music, from: c.from, level: 0, gain: (c.v3?.musicGain ?? 1) * loudTrim(c.music), floor: c.v3?.musicFloor ?? 0.55, ramp: 150, dips, start: tl.segOut[1], swell: [end, 3]},
+    music: {file: c.music, from: c.from, level: 0, gain: c.v3?.musicGain ?? 1, floor: c.v3?.musicFloor ?? 0.55, ramp: 150, dips, start: tl.segOut[1], swell: [end, 3]},
     extraSfx: [
       sfx('keyboard-typing', 0, 0.12, Math.max(300, hookTypeMs(c.hookText ?? c.top, tl.segOut[hookN] + HOOK_LEAD) - HOOK_LEAD)),
       sfx('record-scratch', tl.segOut[1] - 60, 0.16, 450),
