@@ -39,7 +39,7 @@ const BW = 1080;
 const Emo = ({code, size}: {code: string; size: number}) => <Img src={staticFile(`emoji-ios/${code}.png`)} style={{width: size, height: size}} />;
 
 type Board = {a: number; b: number; render: (o: number, at: (src: number) => number) => ReactNode}; // a/b in SOURCE ms
-type Cfg = {
+export type Cfg = {
   src: string; track: Track; raw: Raw; segs: Seg[]; top: string; wideX: number; music: string; from: number;
   shots: [src: number, seat: Seat, zoom?: number][]; // the camera plan, in source time (applies in the body; the cold open uses its first entry)
   hookSeat: Seat; arrowAt: number; flash?: [src: number, color: 'red' | 'yellow' | 'green']; boards?: Board[];
@@ -47,6 +47,7 @@ type Cfg = {
   sfx?: (at: (src: number) => number) => Sfx[]; cutout?: {src: number; file: string; x?: number; y?: number; size?: number; dur?: number};
   fix?: Record<string, string>; // caption spelling fixes (transcript → correct name)
   mark?: 'arrow' | 'circle'; // how Trevor is pointed out once (user: "the arrow or circle with trevor lawrence")
+  cta?: string; // end card (2026-11-25 "HOOK → make viewers stay → ENGAGE: like, comment, subscribe"): comment prompt + like/subscribe, plus a watch-progress bar
   hookText?: string; // short summary typed over the cold open (user 2026-11-17: "on screen text should be summarized and typed out")
   hi?: Hi; // key-word colours (+ iOS emoji); all other caption words white
   hook?: (o: number, end: number) => ReactNode; // a graphic over the cold open (end = output ms where the body starts)
@@ -154,6 +155,7 @@ export const make = (c: Cfg) => {
         {o >= arrow && o < arrow + 1300 && !boards.some((bd) => o >= bd.oa && o < bd.ob) && (c.mark === 'circle' ? <HeadRing o={o} a={arrow} b={arrow + 1500} x={f.x} y={f.y} k={1.25} label="Trevor Lawrence" /> : <ArrowName o={o - arrow} x={f.x} y={f.y} />)}
         {c.cutout && <MemePop o={o} at={at(c.cutout.src)} to={at(c.cutout.src) + (c.cutout.dur ?? 900)} src={c.cutout.file} x={c.cutout.x ?? 560} y={c.cutout.y ?? 820} size={c.cutout.size ?? 440} />}
         {c.overlay?.(o, at)}
+        {c.cta && <EndCta o={o} total={tl.total} text={c.cta} />}
         {(c.v3?.stickers ?? []).map(([s0, file], i) => <MemePop key={i} o={o} at={at(s0)} to={at(s0) + 1000} src={file} x={760} y={980} size={300} />)}
         {(c.v3?.money ?? []).map((s0, i) => { const m = at(s0); return o >= m && o < m + 1750 ? <AbsoluteFill key={i} style={{mixBlendMode: 'screen'}}>
           <Sequence from={Math.round((m / 1000) * FPS)} durationInFrames={Math.round(1.75 * FPS)} layout="none"><OffthreadVideo src={staticFile('byb/ov/ov-money_cash_falling.mp4')} muted style={{width: '100%', height: '100%'}} /></Sequence></AbsoluteFill> : null; })}
@@ -406,3 +408,24 @@ const SWEAT = make({src: 'b3/v_nt_rip.mp4', track: T(ntTrack), raw: ntWords as R
   sfx: (at) => [sfx('ding-2', at(35600), 0.14), sfx('ding-2', at(40500), 0.14), sfx('ding-2', at(43800), 0.14), sfx('keyboard-typing', at(17400), 0.1, 800)]});
 export const B17Sweat = () => <Jorho s={SWEAT.spec} />;
 export const B17_SWEAT_MS = SWEAT.total;
+
+// end card (2026-11-25): last 2.8 s = comment prompt (the clip's own question) + LIKE / SUBSCRIBE; thin progress bar the whole clip
+// so viewers see how little is left (retention). Icons are the iOS emoji PNGs in public/emoji-ios.
+const EndCta = ({o, total, text}: {o: number; total: number; text: string}) => {
+  const a = total - 2800, k = o >= a ? Math.min(1, pop(o, a, 11, 260)) : 0, k2 = o >= a + 450 ? Math.min(1, pop(o, a + 450, 11, 260)) : 0;
+  const tap = o >= a + 1300 ? Math.min(1, (o - a - 1300) / 250) : 0;
+  return <>
+    <div style={{position: 'absolute', left: 0, bottom: 0, width: 1080 * Math.min(1, o / total), height: 12, background: '#FFD400'}} />
+    {o >= a && <div style={{position: 'absolute', left: 0, right: 0, top: 1420, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 26}}>
+      <div style={{transform: `scale(${k})`, background: 'white', color: '#111', fontFamily: MONT, fontWeight: 900, fontSize: 50, padding: '18px 34px', borderRadius: 26,
+        boxShadow: '0 10px 30px rgba(0,0,0,0.45)', display: 'flex', alignItems: 'center', gap: 16, maxWidth: 960, textAlign: 'center'}}>
+        <Img src={staticFile('emoji-ios/1f4e3.png')} style={{width: 60, height: 60}} />{text}</div>
+      <div style={{transform: `scale(${k2})`, display: 'flex', gap: 22, alignItems: 'center'}}>
+        <div style={{background: '#fff', color: '#111', fontFamily: MONT, fontWeight: 900, fontSize: 40, padding: '14px 28px', borderRadius: 40}}>LIKE</div>
+        <div style={{background: tap ? '#606060' : '#E8261F', color: 'white', fontFamily: MONT, fontWeight: 900, fontSize: 40, padding: '14px 30px', borderRadius: 40,
+          display: 'flex', alignItems: 'center', gap: 12, transform: `scale(${1 - 0.08 * Math.sin(Math.PI * Math.min(1, tap))})`}}>
+          {tap ? 'SUBSCRIBED' : 'SUBSCRIBE'}<Img src={staticFile('emoji-ios/1f514.png')} style={{width: 44, height: 44}} /></div>
+      </div>
+    </div>}
+  </>;
+};

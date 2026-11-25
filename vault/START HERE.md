@@ -212,3 +212,5 @@ Edit podcast/streamer clips into viral vertical Shorts in a **meme / brainrot cl
 - 2026-11-20: **The hook (strongest line / moment) must land in the first 1-3 s of EVERY clip** → cold open with the payoff, then the setup. Blur game nudity only when asked (bath clip: user wants it unblurred; club clip: blurred).
 
 - 2026-11-22 (BYB/Jorho): SFX on story beats: riser (g-riser-sfx 2 s / g-riser-sound-effect-free 5.3 s) ENDING exactly on the reveal while tension builds; g-anime-wow-sound-effect on the reveal; vine boom / fahhh on punchlines & roasts; g-akward-sfx on awkward lines; g-sudden-suspense on the setup question; ding on wins; cha-ching on money. ~0.3–0.4 vol. Back to the batch 19–22 recipe (no BYB scream cutaways in Trevor clips, no stickers, no lime flash); real background-removed cut-outs (rembg u2net_human_seg).
+
+- **2026-11-25 standing rule:** every video must HOOK, make viewers STAY to the end, then ENGAGE (like, comment, subscribe). BYB text: PS5 / GTA 6 jokes ("Bro could've bought 20 PS5 Pros with this card 💀"). See Virality Formula.md. (HOOK → STAY → ENGAGE)

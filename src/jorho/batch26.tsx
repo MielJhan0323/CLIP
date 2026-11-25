@@ -8,7 +8,7 @@ import {AbsoluteFill, Img, staticFile} from 'remotion';
 import {MONT} from '../e3/bars';
 import {ease, pop, sfx} from '../e3/kit';
 import {Jorho, type Spec} from './clips';
-import {make} from './batch17';
+import {make, type Cfg} from './batch17';
 import {HC} from './hi';
 import packsW from '../plans/data/w2_backyard_packs.words.json';
 import packsT from '../plans/data/w2_backyard_packs.seats.json';
@@ -93,41 +93,46 @@ export const B_NECK = (o: number, at: (s: number) => number) => <><DT t="NECK LE
 const B_NAME = (o: number, at: (s: number) => number) => <><DT t="SAME GUY?" />
   <Rw o={o} at={at(19300)} i={0} label="JOSH ALLEN (BILLS QB)" ok={false} /><Rw o={o} at={at(20800)} i={1} label="JOSH HINES-ALLEN (JAGS)" ok hl /></>;
 
-const PACKS = make({hookText: 'A [T-LAW] PACK?!', src: 'pod3/w2_backyard_packs.mp4', track: T(packsT), raw: R(packsW), wideX: 960, top: "Imagine pulling [YOURSELF] in every pack",
+export const PACKS_C: Cfg = {hookText: 'A [T-LAW] PACK?!', src: 'pod3/w2_backyard_packs.mp4', track: T(packsT), raw: R(packsW), wideX: 960, top: "Imagine pulling [YOURSELF] in every pack",
   segs: [[19200, 22100], [2600, 9400], [15700, 23100], [22700, 25800]], hookSeat: 'M', music: 'blue-yung-kai.mp3', from: 20000, arrowAt: 22800, 
   shots: [[0, 'L'], [19200, 'L', 1.05], [22700, 'M', 1.1], [25000, 'L']], fix: {backyardpacks: 'BackyardPacks'},
   hi: {pack: [Y, '1f4e6'], trevor: C, lawrence: C, weird: [RD, '1f62c'], card: Y, shipped: G, house: G},
   sfx: (at) => [sfx('g-riser-sfx', at(20800) - 2000, 0.32, 2100), sfx('g-anime-wow-sound-effect', at(20800), 0.4, 1800), sfx('g-akward-sfx', at(23000), 0.4, 1500), sfx('cha-ching', at(5300), 0.3, 900)],
   boards: [{a: 3400, b: 6900, render: B_PACK}],
-  v3: {push: true, musicGain: 1.8, musicFloor: 0.6}});
-const GOAT = make({hookText: 'HIS NBA [GOAT] IS…', src: 'pod/nba_goat.mp4', track: T(goatT), raw: keep(goatW, [[7100, 13200]]), wideX: 960, top: "Bro is the first person to have a [Dellavedova] goat",
+  v3: {push: true, musicGain: 1.8, musicFloor: 0.6}};
+const PACKS = make(PACKS_C);
+export const GOAT_C: Cfg = {hookText: 'HIS NBA [GOAT] IS…', src: 'pod/nba_goat.mp4', track: T(goatT), raw: keep(goatW, [[7100, 13200]]), wideX: 960, top: "Bro is the first person to have a [Dellavedova] goat",
   segs: [[13200, 15100], [2200, 13200], [13200, 18300]], hookSeat: 'M', music: 'jorho-qkthr.mp3', from: 40000, arrowAt: 4500, flash: [15600, 'yellow'],
   shots: [[2200, 'L'], [4400, 'M'], [5700, 'L'], [7300, 'M', 1.04], [13200, 'M', 1.1], [15500, 'L'], [17200, 'M', 1.06]], fix: {delavedova: 'Dellavedova,'},
   hi: {goat: [Y, '1f410'], dellavedova: [G, '1f3c0'], no: RD, tension: [RD, '1f62c'], nba: C},
   cutout: {src: 13900, file: 'img/jorho/dellavedova.png', x: 640, y: 760, size: 520, dur: 1600}, sfx: (at) => [sfx('g-riser-sound-effect-free', at(13200) - 5300, 0.32, 5400), sfx('g-sudden-suspense-sound-effect', at(2400), 0.3, 1400), sfx('g-anime-wow-sound-effect', at(13850), 0.4, 1800), sfx('g-fahhh-sfx', at(15700), 0.35, 1800)],
   boards: [{a: 5600, b: 9000, render: B_GOAT}],
-  v3: {push: true, musicGain: 1.8, musicFloor: 0.6}});
-const ANT = make({hookText: 'HIS AUTO LOOKS LIKE AN [ANT]', src: 'pod/t1_tiger_auto_pen.mp4', track: T(antT), raw: R(antW), wideX: 760, top: "Grant said his autograph looks like an [ANT]",
+  v3: {push: true, musicGain: 1.8, musicFloor: 0.6}};
+const GOAT = make(GOAT_C);
+export const ANT_C: Cfg = {hookText: 'HIS AUTO LOOKS LIKE AN [ANT]', src: 'pod/t1_tiger_auto_pen.mp4', track: T(antT), raw: R(antW), wideX: 760, top: "Grant said his autograph looks like an [ANT]",
   segs: [[15000, 16500], [6200, 8600], [9300, 14800], [15000, 20100]], hookSeat: 'R', music: 'Fluffing_a_Duck.mp3', from: 60000, arrowAt: 14700,
   shots: [[1100, 'L'], [6200, 'M', 1.06], [9300, 'R'], [15000, 'R', 1.1], [16600, 'M'], [18000, 'R']],
   hi: {ant: [RD, '1f41c'], respect: Y, richardson: C, anthony: C, disrespect: RD, big: Y},
   cutout: {src: 15900, file: 'img/jorho/richardson.png', x: 660, y: 780, size: 480, dur: 1600}, sfx: (at) => [sfx('g-sudden-suspense-sound-effect', at(12800), 0.32, 1400), sfx('bass-boosted-vine-boom', at(16200), 0.35, 1200), sfx('g-fahhh-sfx', at(19900), 0.35, 1800)],
   boards: [{a: 17200, b: 20100, render: B_ANT}],
-  v3: {push: true, musicGain: 1.8, musicFloor: 0.6}});
-const MILLS = make({hookText: '[EW]… DAVIS MILLS', src: 'pod/t6_davis_mills_joke.mp4', track: T(millsT), raw: keep(millsW, [[7000, 9200], [11900, 14300]]), wideX: 960, top: "The [longest neck] in the world",
+  v3: {push: true, musicGain: 1.8, musicFloor: 0.6}};
+const ANT = make(ANT_C);
+export const MILLS_C: Cfg = {hookText: '[EW]… DAVIS MILLS', src: 'pod/t6_davis_mills_joke.mp4', track: T(millsT), raw: keep(millsW, [[7000, 9200], [11900, 14300]]), wideX: 960, top: "The [longest neck] in the world",
   segs: [[5700, 7400], [2100, 16700]], hookSeat: 'L', music: 'Curb_Credits.mp3', from: 0, arrowAt: 11300, flash: [6900, 'red'],
   shots: [[2100, 'L'], [6900, 'L', 1.1], [9200, 'L'], [11200, 'M', 1.1], [13300, 'W']],
   hi: {ew: [RD, '1f922'], neck: [Y, '1f992'], glennon: C, mills: C, davis: C, trevor: G},
   sfx: (at) => [sfx('g-riser-sfx', at(5800) - 2000, 0.3, 2100), sfx('g-fahhh-sfx', at(10600), 0.38, 1800), sfx('bruh', at(15000), 0.3, 1200)],
   boards: [{a: 10200, b: 13300, render: B_NECK}],
-  v3: {push: true, musicGain: 1.8, musicFloor: 0.6}});
-const EXMATE = make({hookText: 'THE REAL [JOSH ALLEN]', src: 'pod/t5_ex_teammate.mp4', track: T(exT), raw: R(exW), wideX: 960, top: "He pulled his old teammate in [true gold]",
+  v3: {push: true, musicGain: 1.8, musicFloor: 0.6}};
+const MILLS = make(MILLS_C);
+export const EXMATE_C: Cfg = {hookText: 'THE REAL [JOSH ALLEN]', src: 'pod/t5_ex_teammate.mp4', track: T(exT), raw: R(exW), wideX: 960, top: "He pulled his old teammate in [true gold]",
   segs: [[12600, 14400], [5400, 12500], [15100, 24400]], hookSeat: 'M', music: 'jorho-lullaby.mp3', from: 0, arrowAt: 12700, flash: [12600, 'green'],
   shots: [[1700, 'M'], [6200, 'L'], [8000, 'R'], [11000, 'M'], [12500, 'L', 1.08], [17000, 'M', 1.1], [21000, 'L']],
   hi: {gold: [Y, '1f947'], allen: C, heinz: [G, '1f92f'], rookie: Y, fire: [RD, '1f525'], glove: Y},
   cutout: {src: 22300, file: 'img/jorho/hines_allen.png', x: 660, y: 780, size: 480, dur: 1600}, sfx: (at) => [sfx('g-riser-sound-effect-free', at(12600) - 5300, 0.3, 5400), sfx('g-anime-wow-sound-effect', at(12700), 0.4, 1800), sfx('g-ding-sfx', at(12700), 0.25, 1200), sfx('g-akward-sfx', at(22000), 0.38, 1500)],
   boards: [{a: 19200, b: 22200, render: B_NAME}],
-  v3: {push: true, musicGain: 1.8, musicFloor: 0.6}});
+  v3: {push: true, musicGain: 1.8, musicFloor: 0.6}};
+const EXMATE = make(EXMATE_C);
 
 const C5 = {Packs: PACKS, Goat: GOAT, Ant: ANT, Mills: MILLS, Exmate: EXMATE};
 export const B26Packs = () => <Jorho s={PACKS.spec} />, B26Goat = () => <Jorho s={GOAT.spec} />, B26Ant = () => <Jorho s={ANT.spec} />,

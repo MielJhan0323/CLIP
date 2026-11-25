@@ -28,6 +28,7 @@ import {B19Presnap, B19Coen, B19Gift, B19_PRESNAP_MS, B19_COEN_MS, B19_GIFT_MS} 
 import {B20Playbook, B20Patch, B20Peyton, B20Golf, B20Marino, B20Ticket, B20Ant, B20Whacked, B20Celly, B20Neck, B20_MS} from './jorho/batch20';
 import {B21Rogers, B21Lair, B21Sig, B21_MS} from './jorho/batch21';
 import {B26Packs, B26Goat, B26Ant, B26Mills, B26Exmate, B26_MS} from './jorho/batch26';
+import {B30, B30_MS} from './jorho/batch30';
 import {B29Goat, B29Mills, B29Jesus, B29Whack, B29Lefty, B29Peyton, B29Coen, B29Playbook, B29Presnap, B29Rogers, B29_MS} from './jorho/batch29';
 import {B28Lefty, B28Peyton, B28Rogers, B28Colts, B28Closet, B28Playbook, B28Coen, B28_MS} from './jorho/batch28';
 import {B27Jesus, B27Gift, B27Whack, B27Celly, B27Fields, B27Ew, B27_MS} from './jorho/batch27';
@@ -292,6 +293,14 @@ export const RemotionRoot = () => (
   <Composition id="B21Rogers" component={B21Rogers} fps={30} width={1080} height={1920} durationInFrames={Math.round((B21_MS.Rogers / 1000) * 30)} />
   <Composition id="B21Lair" component={B21Lair} fps={30} width={1080} height={1920} durationInFrames={Math.round((B21_MS.Lair / 1000) * 30)} />
   <Composition id="B21Sig" component={B21Sig} fps={30} width={1080} height={1920} durationInFrames={Math.round((B21_MS.Sig / 1000) * 30)} />
+  <Composition id="B30Fields" component={B30.Fields} fps={30} width={1080} height={1920} durationInFrames={Math.round((B30_MS.Fields / 1000) * 30)} />
+  <Composition id="B30Packs" component={B30.Packs} fps={30} width={1080} height={1920} durationInFrames={Math.round((B30_MS.Packs / 1000) * 30)} />
+  <Composition id="B30Exmate" component={B30.Exmate} fps={30} width={1080} height={1920} durationInFrames={Math.round((B30_MS.Exmate / 1000) * 30)} />
+  <Composition id="B30Ant" component={B30.Ant} fps={30} width={1080} height={1920} durationInFrames={Math.round((B30_MS.Ant / 1000) * 30)} />
+  <Composition id="B30Gift" component={B30.Gift} fps={30} width={1080} height={1920} durationInFrames={Math.round((B30_MS.Gift / 1000) * 30)} />
+  <Composition id="B30Celly" component={B30.Celly} fps={30} width={1080} height={1920} durationInFrames={Math.round((B30_MS.Celly / 1000) * 30)} />
+  <Composition id="B30Ew" component={B30.Ew} fps={30} width={1080} height={1920} durationInFrames={Math.round((B30_MS.Ew / 1000) * 30)} />
+  <Composition id="B30Closet" component={B30.Closet} fps={30} width={1080} height={1920} durationInFrames={Math.round((B30_MS.Closet / 1000) * 30)} />
   <Composition id="B29Goat" component={B29Goat} fps={30} width={1080} height={1920} durationInFrames={Math.round((B29_MS.Goat / 1000) * 30)} />
   <Composition id="B29Mills" component={B29Mills} fps={30} width={1080} height={1920} durationInFrames={Math.round((B29_MS.Mills / 1000) * 30)} />
   <Composition id="B29Jesus" component={B29Jesus} fps={30} width={1080} height={1920} durationInFrames={Math.round((B29_MS.Jesus / 1000) * 30)} />

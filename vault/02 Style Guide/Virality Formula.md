@@ -89,3 +89,10 @@ Sources: user feedback across sessions, reference Shorts the user sent, campaign
 - **Running bits beat one-offs**: his "don't look / I ain't getting banned" moments recur all stream → a series (bath, club, worst day, shoe store). "Gooner" works as a trigger word **because he says it himself**.
 - **Rank moments by chat reaction rate (reaction words per 30 s ÷ local mean)**, not audio loudness (stream audio is normalised, peaks are flat).
 - Nudity the stream showed → blur the gameplay panel (`censor`), never reveal it.
+
+## STANDING RULE (user, 2026-11-25): every video = HOOK → STAY → ENGAGE
+1. **HOOK**: frame 0 = the strongest line / reaction (cold open) + an on-screen top line a scroller gets in 1 s.
+2. **STAY**: hold the payoff until the end; one diagram mid-clip; punch-ins on reactions; a thin progress bar (BYB `cta` adds it).
+3. **ENGAGE**: last ~2.8 s = the clip's own comment question + LIKE / SUBSCRIBE (BYB: `cta: '…'` in batch17 `make`).
+4. **BYB on-screen text voice** (user examples): "Bro could've bought 20 PS5 Pros with this card 💀", "Bro's card value got robbed like GTA 6 💀".
+   Relate money/cards to PS5 / GTA 6, Gen-Z "Bro…" tone, always true numbers (PS5 Pro US $749.99). Jo Koy stays as is (user: "they are fine").
