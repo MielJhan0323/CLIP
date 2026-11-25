@@ -95,4 +95,4 @@ Sources: user feedback across sessions, reference Shorts the user sent, campaign
 2. **STAY**: hold the payoff until the end; one diagram mid-clip; punch-ins on reactions; a thin progress bar (BYB `cta` adds it).
 3. **ENGAGE**: last ~2.8 s = the clip's own comment question + LIKE / SUBSCRIBE (BYB: `cta: '…'` in batch17 `make`).
 4. **BYB on-screen text voice** (user examples): "Bro could've bought 20 PS5 Pros with this card 💀", "Bro's card value got robbed like GTA 6 💀".
-   Relate money/cards to PS5 / GTA 6, Gen-Z "Bro…" tone, always true numbers (PS5 Pro US $749.99). Jo Koy stays as is (user: "they are fine").
+   Use PS5 / GTA 6 ONLY where it fits naturally (user 2026-11-25: "not everything has to be a gta 6 reference … only some that fit"; e.g. card values, prices). Gen-Z "Bro…" tone, always true numbers (PS5 Pro US $749.99). Jo Koy stays as is (user: "they are fine").
