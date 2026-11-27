@@ -90,7 +90,7 @@ export const B_NECK = (o: number, at: (s: number) => number) => <><DT t="NECK LE
   <div style={{position: 'absolute', left: 40, top: 560, transform: 'rotate(-90deg)', transformOrigin: 'left top', fontFamily: MONT, fontWeight: 900, fontSize: 30, color: '#555'}}>NECK LENGTH →</div>
   <NeckCol o={o} at={at(10300)} x={300} h={230} cx={0.48} head="img/jorho/glennon_head.png" name="MIKE GLENNON" />
   <NeckCol o={o} at={at(10700)} x={640} h={540} cx={0.72} head="img/jorho/mills_head.png" name="DAVIS MILLS" /></>;
-const B_NAME = (o: number, at: (s: number) => number) => <><DT t="SAME GUY?" />
+export const B_NAME = (o: number, at: (s: number) => number) => <><DT t="SAME GUY?" />
   <Rw o={o} at={at(19300)} i={0} label="JOSH ALLEN (BILLS QB)" ok={false} /><Rw o={o} at={at(20800)} i={1} label="JOSH HINES-ALLEN (JAGS)" ok hl /></>;
 
 export const PACKS_C: Cfg = {hookText: 'A [T-LAW] PACK?!', src: 'pod3/w2_backyard_packs.mp4', track: T(packsT), raw: R(packsW), wideX: 960, top: "Imagine pulling [YOURSELF] in every pack",

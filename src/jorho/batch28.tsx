@@ -36,7 +36,7 @@ export const B_ROG = (o: number, at: At) => <><DT t="STEELERS GAME" />
   <Rw o={o} at={at(11260)} i={0} label="TRAVELING TREVORS" ok /><Rw o={o} at={at(11640)} i={1} label="vs ROGERS REALM" hl /></>;
 const B_LAIR = (o: number, at: At) => <><DT t="THE INVITE" />
   <Rw o={o} at={at(5020)} i={0} label="ENJOYED IT? HONESTLY DID" ok /><Rw o={o} at={at(5560)} i={1} label="COME BACK TO THE LAIR?" hl /></>;
-const B_ONE = (o: number, at: At) => <><DT t="1-OF-1 VALUE" />
+export const B_ONE = (o: number, at: At) => <><DT t="1-OF-1 VALUE" />
   <Rw o={o} at={at(76240)} i={0} label="CLEMSON: ~$2,000" ok /><Rw o={o} at={at(77640)} i={1} label="NFL: $500K TO $1M" ok hl /></>;
 const B_PB = (o: number, at: At) => <><DT t="THE PLAYBOOK" />
   <Rw o={o} at={at(49580)} i={0} label="INSTALLED: HUNDREDS" ok /><Rw o={o} at={at(51160)} i={1} label="NEW EACH WEEK: 8 TO 10" ok hl /></>;
